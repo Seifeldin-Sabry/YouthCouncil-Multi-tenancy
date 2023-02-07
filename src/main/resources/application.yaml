@@ -1,0 +1,29 @@
+spring:
+  security:
+    oauth2:
+      client:
+        registration:
+          google:
+            clientId: YOUR_GOOGLE_APP_CLIENT_ID
+            clientSecret: YOUR_GOOGLE_APP_SECRET_KEY
+            scope:
+              - email
+              - profile
+              - address
+
+          facebook:
+            clientId: YOUR_FACEBOOK_APP_CLIENT_ID
+            clientSecret: YOUR_FACEBOOK_APP_SECRET_KEY
+            scope:
+              - email
+              - public_profile
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  profiles:
+    active: prod # prod, dev
+  messages:
+    basename: templates/details
+server:
+  port: 8080

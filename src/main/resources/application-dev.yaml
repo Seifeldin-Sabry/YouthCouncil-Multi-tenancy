@@ -1,0 +1,30 @@
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+    database: H2
+    show-sql: true
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: sa
+    password:
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/javah
+      additional-exclude: WEB-INF/**
+  thymeleaf:
+    cache: false
+  sql:
+    init:
+#      schema-locations: classpath:schema.sql
+#      data-locations: classpath:data.sql
+logging:
+  level:
+    #    web: debug
+    be.kdg.finalproject: debug
+
+
