@@ -4,16 +4,16 @@ spring:
       client:
         registration:
           google:
-            clientId: YOUR_GOOGLE_APP_CLIENT_ID
-            clientSecret: YOUR_GOOGLE_APP_SECRET_KEY
+            clientId: ${GOOGLE_CLIENT_ID}
+            clientSecret: ${GOOGLE_CLIENT_SECRET}
             scope:
               - email
               - profile
               - address
 
           facebook:
-            clientId: YOUR_FACEBOOK_APP_CLIENT_ID
-            clientSecret: YOUR_FACEBOOK_APP_SECRET_KEY
+            clientId: ${FACEBOOK_CLIENT_ID}
+            clientSecret: ${FACEBOOK_CLIENT_SECRET}
             scope:
               - email
               - public_profile
