@@ -32,6 +32,8 @@ dependencies {
     implementation 'org.webjars:webjars-locator:0.45'
     implementation 'org.webjars.npm:bootstrap-icons:1.9.1'
     implementation 'com.google.code.gson:gson:2.10'
+    implementation 'com.google.zxing:core:3.4.1'
+    implementation 'org.ocpsoft.prettytime:prettytime:5.0.1.Final'
     implementation('com.github.javafaker:javafaker:1.0.2') {
         exclude group: 'org.yaml', module: 'snakeyaml'
     }
