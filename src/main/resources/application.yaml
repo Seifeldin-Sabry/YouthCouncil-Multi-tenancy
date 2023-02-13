@@ -1,4 +1,6 @@
 spring:
+  jpa:
+    open-in-view: false
   security:
     oauth2:
       client:
@@ -10,7 +12,6 @@ spring:
               - email
               - profile
               - address
-
           facebook:
             clientId: ${FACEBOOK_CLIENT_ID}
             clientSecret: ${FACEBOOK_CLIENT_SECRET}
