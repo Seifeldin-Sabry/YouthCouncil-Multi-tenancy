@@ -1,0 +1,27 @@
+{
+  "name": "youthcouncil",
+  "version": "1.0.0",
+  "description": "Seifeldin Sabry Relja Mitrovic Ruben Vergauwen Max Etman Ransford Addai",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@gitlab.com/kdg-ti/integration-2.2/2022-2023/team-1/integration4.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://gitlab.com/kdg-ti/integration-2.2/2022-2023/team-1/integration4/issues"
+  },
+  "homepage": "https://gitlab.com/kdg-ti/integration-2.2/2022-2023/team-1/integration4#readme",
+  "devDependencies": {
+    "@types/node": "^18.14.0"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.3",
+    "tsc": "^2.0.4"
+  }
+}

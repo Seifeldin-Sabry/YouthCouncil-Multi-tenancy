@@ -1,4 +1,16 @@
 spring:
+  mail:
+    host: smtp.gmail.com
+    port: ${DEV_EMAIL_PORT}
+    username: ${DEV_EMAIL_USERNAME}
+    password: ${DEV_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
   jpa:
     hibernate:
       ddl-auto: create
@@ -20,8 +32,8 @@ spring:
     cache: false
   sql:
     init:
-#      schema-locations: classpath:schema.sql
-#      data-locations: classpath:data.sql
+#      schema-locations: classpath:sql/schema.sql
+#      data-locations: classpath:sql/data.sql
 logging:
   level:
     #    web: debug
