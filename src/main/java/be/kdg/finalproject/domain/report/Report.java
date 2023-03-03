@@ -6,6 +6,9 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDate;
+import java.util.Date;
+
 
 @Entity
 @Table(name = "reports")
@@ -24,4 +27,8 @@ public class Report {
 
 	@Column (name = "report_description")
 	private String reportDescription;
+
+	@Column (name = "report_date", nullable = false)
+	private LocalDate reportDate;
 }
+

@@ -1,4 +1,4 @@
-package be.kdg.finalproject.domain.actionpoint;
+package be.kdg.finalproject.domain.theme;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -14,7 +14,7 @@ public class Theme {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name = "theme_id", nullable = false)
-	private Long theme_id;
+	private Long id;
 
 	@Column (name = "theme_name", nullable = false)
 	private String themeName;
