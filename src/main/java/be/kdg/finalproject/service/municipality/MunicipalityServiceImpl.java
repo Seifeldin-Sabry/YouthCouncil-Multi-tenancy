@@ -1,6 +1,6 @@
 package be.kdg.finalproject.service.municipality;
 
-import be.kdg.finalproject.domain.location.Municipality;
+import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.repository.MunicipalityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

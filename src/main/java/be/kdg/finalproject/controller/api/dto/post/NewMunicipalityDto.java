@@ -7,13 +7,6 @@ import java.util.List;
 public class NewMunicipalityDto {
 	@NotNull
 	private String name;
-
-	@NotNull
-	private int latitude;
-
-	@NotNull
-	private int longitude;
-
 	@NotNull
 	private List<Long> postcodes;
 

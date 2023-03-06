@@ -4,7 +4,7 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
-import be.kdg.finalproject.domain.location.Municipality;
+import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.util.BcryptPasswordUtil;
 import jakarta.persistence.*;
@@ -16,9 +16,7 @@ import lombok.ToString;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table (name = "users")
-@Inheritance (strategy = InheritanceType.SINGLE_TABLE)
+@Entity (name = "APP_USERS")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -30,13 +28,16 @@ public class User {
 	@Column (name = "user_id", nullable = false)
 	private Long id;
 
+	@Column (name = "username", nullable = false)
+	private String username;
+
 	@Column (name = "first_name", nullable = false)
 	private String first_name;
 
 	@Column (name = "last_name", nullable = false)
 	private String last_name;
 
-	@Column (name = "email", nullable = false, length = 50)
+	@Column (name = "email", nullable = false)
 	private String email;
 
 	@Column (name = "password", nullable = false, length = 60)
@@ -50,12 +51,9 @@ public class User {
 	@ToString.Exclude
 	private Set<Idea> ideas = new HashSet<>();
 
-	@ManyToMany (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH}, fetch = FetchType.EAGER)
-	@JoinTable (name = "user_municipality",
-			joinColumns = @JoinColumn (name = "user_id"),
-			inverseJoinColumns = @JoinColumn (name = "municipality_id"))
+	@OneToMany (mappedBy = "user")
 	@ToString.Exclude
-	private Set<Municipality> municipalities = new HashSet<>();
+	private Set<Membership> memberships = new HashSet<>();
 
 	@OneToMany (mappedBy = "follower", cascade = CascadeType.ALL)
 	@ToString.Exclude

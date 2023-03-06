@@ -10,8 +10,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
-@Entity
-@Table (name = "user_action_point_like")
+@Entity (name = "USER_ACTION_POINT_LIKE")
 @NoArgsConstructor
 @Getter
 @Setter

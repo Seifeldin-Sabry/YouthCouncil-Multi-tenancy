@@ -4,10 +4,11 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
-@Entity
-@Table(name = "themes")
+@Entity (name = "THEMES")
 @Getter
 @Setter
 public class Theme {
@@ -18,4 +19,7 @@ public class Theme {
 
 	@Column (name = "theme_name", nullable = false)
 	private String themeName;
+	//	@OneToMany
+	//	@JoinColumn (name = "theme_id")
+	//	private Set<SubTheme> subThemes = new HashSet<>();
 }

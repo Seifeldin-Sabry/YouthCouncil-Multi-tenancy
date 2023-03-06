@@ -1,12 +1,11 @@
-package be.kdg.finalproject.domain.location;
+package be.kdg.finalproject.domain.platform;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "postcodes")
+@Entity (name = "POSTCODES")
 @Getter
 @Setter
 @NoArgsConstructor

@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.api;
 
 import be.kdg.finalproject.controller.api.dto.get.MunicipalityDto;
-import be.kdg.finalproject.domain.location.Municipality;
+import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.PropertyMap;
@@ -28,7 +28,7 @@ public class MunicipalityRestController {
 		           	.addMappings(new PropertyMap<>() {
 			            @Override
 			            protected void configure() {
-				            source.setHasWebsite(destination.getYouthCouncil() != null);
+				            source.setHasWebsite(destination.getMembers() != null);
 			            }
 		            });
 	}

@@ -8,11 +8,11 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncil</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="testdb" uuid="451132ed-5ac0-4c4b-bb46-39b766b18732">
-      <driver-ref>h2.unified</driver-ref>
+    <data-source source="LOCAL" name="db" uuid="de3587a4-921a-4d4f-b82f-56ddbd12d15b">
+      <driver-ref>hsqldb.local</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:mem:testdb</jdbc-url>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:file:./db/youth_council;ifexists=true</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

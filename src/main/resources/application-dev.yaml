@@ -16,13 +16,13 @@ spring:
       ddl-auto: create
     properties:
       hibernate:
-    database: H2
+    database: HSQL
     show-sql: true
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb
-    username: sa
-    password:
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1
+    username: ""
+    password: ""
   devtools:
     restart:
       enabled: true
@@ -30,13 +30,9 @@ spring:
       additional-exclude: WEB-INF/**
   thymeleaf:
     cache: false
-  sql:
-    init:
-#      schema-locations: classpath:sql/schema.sql
-#      data-locations: classpath:sql/data.sql
 logging:
   level:
-    #    web: debug
+    #      web: debug
     be.kdg.finalproject: debug
 
 

@@ -1,19 +1,18 @@
-package be.kdg.finalproject.domain.location;
+package be.kdg.finalproject.domain.platform;
 
+import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
-import be.kdg.finalproject.domain.user.YouthCouncil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Formula;
+import lombok.ToString;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table (name = "municipalities")
+@Entity (name = "MUNICIPALITIES")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -26,12 +25,16 @@ public class Municipality {
 	@Column (name = "name", nullable = false)
 	private String name;
 
-	@OneToOne (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn (name = "youth_council_id")
-	private YouthCouncil youthCouncil;
+	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
+	private Set<User> members = new HashSet<>();
 
-	@ManyToMany (mappedBy = "municipalities", fetch = FetchType.LAZY)
-	private Set<User> users = new HashSet<>();
+	@OneToMany (cascade = CascadeType.ALL)
+	@ToString.Exclude
+	private Set<ActionPoint> actionPoints = new HashSet<>();
+
+	@OneToMany (mappedBy = "municipality")
+	private Set<Membership> memberships = new HashSet<>();
 
 	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<PostCode> postcodes = new HashSet<>();
