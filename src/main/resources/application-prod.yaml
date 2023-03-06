@@ -30,8 +30,3 @@ spring:
     cache: false
   messages:
     basename: templates/messages
-  sql:
-    init:
-      mode: always
-#      data-locations: classpath:sql/data.sql
-#      schema-locations: classpath:schema.sql

@@ -10,8 +10,7 @@ import java.time.LocalDate;
 import java.util.Date;
 
 
-@Entity
-@Table(name = "reports")
+@Entity (name = "REPORTS")
 @Getter
 @Setter
 @ToString

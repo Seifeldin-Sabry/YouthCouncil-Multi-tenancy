@@ -2,7 +2,6 @@ package be.kdg.finalproject.domain.actionpoint;
 
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
-import be.kdg.finalproject.domain.media.Image;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -13,8 +12,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "action_points")
+@Entity (name = "ACTION_POINTS")
 @NoArgsConstructor
 @Getter
 @Setter
@@ -41,9 +39,8 @@ public class ActionPoint {
 	@JoinColumn (name = "sub_theme_id", nullable = false)
 	private SubTheme subTheme;
 
-	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinColumn (name = "image_id")
-	private Set<Image> images = new HashSet<>();
+	@ElementCollection
+	private Set<String> images = new HashSet<>();
 
 	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL)
 	private Set<UserActionPointFollow> followers = new HashSet<>();

@@ -6,8 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.checkerframework.common.aliasing.qual.Unique;
 
-@Entity
-@Table (name = "sub_themes")
+@Entity (name = "SUB_THEMES")
 @Getter
 @Setter
 @NoArgsConstructor

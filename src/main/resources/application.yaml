@@ -23,7 +23,7 @@ spring:
       filter:
         enabled: true
   profiles:
-    active: prod # prod, dev
+    active: dev # prod, dev
   messages:
     basename: templates/details
 server:

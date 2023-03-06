@@ -7,8 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
-@Table(name = "user_action_points_follow")
+@Entity (name = "USER_ACTION_POINT_FOLLOW")
 @Getter
 @Setter
 @NoArgsConstructor

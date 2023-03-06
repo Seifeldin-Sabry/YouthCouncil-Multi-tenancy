@@ -1,7 +1,6 @@
 package be.kdg.finalproject.domain.idea;
 
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
-import be.kdg.finalproject.domain.media.Image;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import jakarta.persistence.*;
@@ -12,8 +11,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "ideas")
+@Entity (name = "IDEAS")
 @Getter
 @Setter
 public class Idea {
@@ -24,9 +22,8 @@ public class Idea {
 	@Column (name = "idea_description", nullable = false)
 	private String ideaDescription;
 
-	@OneToOne (cascade = CascadeType.ALL)
-	@JoinColumn (name = "image_id")
-	private Image image;
+	@Column (name = "image", nullable = false)
+	private String image;
 
 	@Column (name = "is_flagged", nullable = false)
 	private boolean isFlagged;
@@ -45,7 +42,7 @@ public class Idea {
 	@Column (name = "date_created", nullable = false)
 	private LocalDate dateCreated;
 
-	public Idea(String ideaDescription, Image image, Theme theme) {
+	public Idea(String ideaDescription, String image, Theme theme) {
 		this.ideaDescription = ideaDescription;
 		this.image = image;
 		this.theme = theme;
@@ -53,7 +50,7 @@ public class Idea {
 		this.isFlagged = false;
 	}
 
-	public Idea(String ideaDescription, Image image, boolean isFlagged, Theme theme) {
+	public Idea(String ideaDescription, String image, boolean isFlagged, Theme theme) {
 		this(ideaDescription, image, theme);
 		this.isFlagged = isFlagged;
 	}

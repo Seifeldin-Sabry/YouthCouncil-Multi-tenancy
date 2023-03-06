@@ -9,8 +9,7 @@ import lombok.ToString;
 
 import java.time.LocalDate;
 
-@Entity
-@Table (name = "forms")
+@Entity (name = "FORMS")
 @NoArgsConstructor
 @Getter
 @Setter
