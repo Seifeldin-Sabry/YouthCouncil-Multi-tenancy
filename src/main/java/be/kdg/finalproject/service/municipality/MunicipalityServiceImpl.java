@@ -2,6 +2,7 @@ package be.kdg.finalproject.service.municipality;
 
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.repository.MunicipalityRepository;
+import com.google.common.collect.ImmutableList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -19,7 +20,7 @@ public class MunicipalityServiceImpl implements MunicipalityService{
 
 	@Override
 	public List<Municipality> getAllMunicipalities() {
-		return municipalityRepository.findAll();
+		return ImmutableList.copyOf(municipalityRepository.findAll());
 	}
 
 	@Override

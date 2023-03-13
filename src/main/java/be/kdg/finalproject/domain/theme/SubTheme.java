@@ -4,12 +4,14 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.checkerframework.common.aliasing.qual.Unique;
 
 @Entity (name = "SUB_THEMES")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class SubTheme {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -19,4 +21,13 @@ public class SubTheme {
 	@Unique
 	@Column (name = "sub_them_name", nullable = false)
 	private String subThemeName;
+
+	@ManyToOne
+	@JoinColumn (name = "theme_id")
+	@ToString.Exclude
+	private Theme theme;
+
+	public SubTheme(String subThemeName) {
+		this.subThemeName = subThemeName;
+	}
 }

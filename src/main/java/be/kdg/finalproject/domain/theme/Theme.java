@@ -2,15 +2,18 @@ package be.kdg.finalproject.domain.theme;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 @Entity (name = "THEMES")
 @Getter
 @Setter
+@NoArgsConstructor
+@ToString
 public class Theme {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -19,7 +22,16 @@ public class Theme {
 
 	@Column (name = "theme_name", nullable = false)
 	private String themeName;
-	//	@OneToMany
-	//	@JoinColumn (name = "theme_id")
-	//	private Set<SubTheme> subThemes = new HashSet<>();
+	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn (name = "theme_id")
+	private Set<SubTheme> subThemes = new HashSet<>();
+
+	public Theme(String themeName) {
+		this.themeName = themeName;
+	}
+
+	public void addSubTheme(SubTheme subTheme) {
+		subThemes.add(subTheme);
+		subTheme.setTheme(this);
+	}
 }

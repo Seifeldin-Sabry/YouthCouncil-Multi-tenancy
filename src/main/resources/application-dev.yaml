@@ -13,7 +13,7 @@ spring:
             required: true
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     properties:
       hibernate:
     database: HSQL
