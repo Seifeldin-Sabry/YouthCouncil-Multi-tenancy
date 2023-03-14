@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/all.css">
+
+	<title>Manage</title>
+	<link th:href="@{/css/style.css}" rel="stylesheet"/>
+</head>
+
+<div th:insert="~{fragments/fragments::navigationbar(4)}">My navbar</div>
+
+<body class="bodyBackground">
+
+<h2 class="text-center">MANAGE MUNICIPALITIES</h2>
+
+<!--MODAL-->
+<!--&lt;!&ndash; Button trigger modal&ndash;&gt;-->
+<!--<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modalConfirmDelete">Launch-->
+<!--																									modal</button>-->
+
+<!--Modal: modalConfirmDelete-->
+<!--<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"-->
+<!--	 aria-hidden="true">-->
+<!--	<div class="modal-dialog modal-sm modal-notify modal-danger" role="document">-->
+<!--		&lt;!&ndash;Content&ndash;&gt;-->
+<!--		<div class="modal-content text-center">-->
+<!--			&lt;!&ndash;Header&ndash;&gt;-->
+<!--			<div class="modal-header d-flex justify-content-center">-->
+<!--				<p class="heading">Are you sure?</p>-->
+<!--			</div>-->
+
+<!--			&lt;!&ndash;Body&ndash;&gt;-->
+<!--			<div class="modal-body">-->
+
+<!--				<i class="fas fa-times fa-4x animated rotateIn"></i>-->
+
+<!--			</div>-->
+
+<!--			&lt;!&ndash;Footer&ndash;&gt;-->
+<!--			<div class="modal-footer flex-center">-->
+<!--				<a href="" class="btn  btn-outline-danger">Yes</a>-->
+<!--				<a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		&lt;!&ndash;/.Content&ndash;&gt;-->
+<!--	</div>-->
+<!--</div>-->
+<!--Modal: modalConfirmDelete-->
+
+
+<div class="d-flex">
+	<input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" style="max-width: 300px;">
+	<button class="btn btn-outline-primary" type="submit">Search</button>
+</div>
+
+<!--ORIGINAL-->
+<section class="intro">
+	<div class="bg-image h-100" style="background-color: #6095F0;">
+		<div class="mask d-flex align-items-center h-100">
+			<div class="container">
+				<div class="row justify-content-center">
+					<div class="col-12">
+						<div class="card shadow-2-strong" style="background-color: #cecece;">
+							<div class="card-body">
+								<div class="table-responsive">
+									<table class="table table-borderless mb-0">
+										<thead>
+										<tr>
+
+											<th scope="col">NAME</th>
+											<th scope="col">POSTCODES</th>
+											<th scope="col">VIEW</th>
+											<th scope="col">EDIT</th>
+											<th scope="col">DELETE</th>
+											<th scope="col">MANAGE MEMBERS</th>
+										</tr>
+										</thead>
+										<tbody>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>
+												<button type="button" class="btn btn-light btn-sm px-3" >
+													<i class="fas fa-eye"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>
+												<button type="button" class="btn btn-light btn-sm px-3">
+													<i class="fas fa-eye"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>
+												<button type="button" class="btn btn-light btn-sm px-3">
+													<i class="fas fa-eye"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>
+												<button type="button" class="btn btn-light btn-sm px-3">
+													<i class="fas fa-eye"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+										</tr>
+										<tr>
+											<td></td>
+											<td></td>
+											<td>
+												<button type="button" class="btn btn-light btn-sm px-3">
+													<i class="fas fa-eye"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-danger btn-sm px-3" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+													<i class="fas fa-times"></i>
+												</button>
+											</td>
+											<td>
+												<button type="button" class="btn btn-outline-primary btn-sm px-3">
+													<i class="fas fa-edit"></i>
+												</button>
+											</td>
+										</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--END ORIGINAL-->
+
+
+
+<!--<section class="intro">-->
+<!--	<div class="bg-image h-100" style="background-color: #6095F0;">-->
+<!--		<div class="mask d-flex align-items-center h-100">-->
+<!--			<div class="container">-->
+<!--				<div class="row justify-content-center">-->
+<!--					<div class="col-12">-->
+<!--						<div class="card shadow-2-strong" style="background-color: #cecece;">-->
+<!--							<div class="card-body">-->
+<!--								<div class="table-responsive">-->
+<!--									<table class="table table-borderless mb-0">-->
+<!--										<thead>-->
+<!--										<tr>-->
+
+<!--											<th scope="col">NAME</th>-->
+<!--											<th scope="col">POSTCODES</th>-->
+<!--											<th scope="col">VIEW</th>-->
+<!--											<th scope="col">EDIT</th>-->
+<!--											<th scope="col">DELETE</th>-->
+<!--											<th scope="col">MANAGE MEMBERS</th>-->
+<!--										</tr>-->
+<!--										</thead>-->
+<!--										<tbody>-->
+<!--										<tr th:each="municipality:${municipalities}">-->
+<!--											<td th:text="${municipality.getName()}"></td>-->
+<!--											<td th:text="${municipality.getPostcodes()}"></td>-->
+<!--											<td>-->
+<!--											<button type="button" class="btn btn-light btn-sm px-3" >-->
+<!--													<i class="fas fa-eye"></i>-->
+<!--												</button>-->
+<!--											</td>-->
+<!--											<td>-->
+<!--												<button type="button" class="btn btn-outline-primary btn-sm px-3">-->
+<!--													<i class="fas fa-edit"></i>-->
+<!--												</button>-->
+<!--											</td>-->
+<!--											<td>-->
+<!--												<button type="button" class="btn btn-danger btn-sm px-3" data-toggle="modal" data-target="#modalConfirmDelete">-->
+<!--													<i class="fas fa-times"></i>-->
+<!--												</button>-->
+<!--											</td>-->
+<!--											<td>-->
+<!--												<button type="button" class="btn btn-outline-primary btn-sm px-3">-->
+<!--													<i class="fas fa-edit"></i>-->
+<!--												</button>-->
+<!--											</td>-->
+<!--										</tr>-->
+<!--										</tbody>-->
+<!--									</table>-->
+<!--								</div>-->
+<!--							</div>-->
+<!--						</div>-->
+<!--					</div>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</section>-->
+
+<!-- Button trigger modal -->
+<!--<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">-->
+<!--	Launch static backdrop modal-->
+<!--</button>-->
+
+<!-- Modal -->
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title fs-5" id="staticBackdropLabel">DELETE ?</h1>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				ARE YOU SURE YOU WANT TO DELETE THE MUNICIPALITY: NAME ?
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal">YES</button>
+				<button type="button" class="btn btn-outline-danger" data-bs-dismiss="modal">NO</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--MODAL-->
+<div class="modal fade" id="modalConfirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	 aria-hidden="true">
+	<div class="modal-dialog modal-sm modal-notify modal-danger" role="document">
+		<!--Content-->
+		<div class="modal-content text-center">
+			<!--Header-->
+			<div class="modal-header d-flex justify-content-center">
+				<p class="heading">Are you sure?</p>
+			</div>
+
+			<!--Body-->
+			<div class="modal-body">
+
+				<i class="fas fa-times fa-4x animated rotateIn"></i>
+				<p>ARE YOU SURE YOU WANT TO DELETE THIS MUNICIPALITY?</p>
+
+			</div>
+
+			<!--Footer-->
+			<div class="modal-footer flex-center">
+				<a href="" class="btn  btn-outline-danger">Yes</a>
+				<a type="button" class="btn  btn-danger waves-effect" data-dismiss="modal">No</a>
+			</div>
+		</div>
+		<!--/.Content-->
+	</div>
+</div>
+
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

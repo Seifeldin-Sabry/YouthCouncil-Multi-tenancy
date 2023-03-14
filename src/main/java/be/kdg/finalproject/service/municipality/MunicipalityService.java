@@ -12,6 +12,8 @@ public interface MunicipalityService {
 	List<Municipality> getAllMunicipalities();
 	List<Municipality> getAllMunicipalitiesByName(String partialName);
 	List<Municipality> getAllMunicipalitiesByPostalCode(Integer partialPostalCode);
-	Optional<Municipality> getMunicipalityByPostalCode(Integer postalCode);
+
+	Municipality getMunicipalityByPostalCode(Integer postalCode);
+
 	Optional<Municipality> getMunicipalityByName(String name);
 }

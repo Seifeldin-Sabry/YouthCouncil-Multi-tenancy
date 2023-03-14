@@ -1,9 +1,9 @@
 spring:
   mail:
-    host: smtp.gmail.com
-    port: ${DEV_EMAIL_PORT}
-    username: ${DEV_EMAIL_USERNAME}
-    password: ${DEV_EMAIL_PASSWORD}
+#    host: smtp.gmail.com
+#    port: ${DEV_EMAIL_PORT}
+#    username: ${DEV_EMAIL_USERNAME}
+#    password: ${DEV_EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -20,7 +20,7 @@ spring:
     show-sql: true
   datasource:
     driver-class-name: org.hsqldb.jdbc.JDBCDriver
-    url: jdbc:hsqldb:mem:db;DB_CLOSE_DELAY=-1
+    url: jdbc:hsqldb:file:./db/testdb
     username: ""
     password: ""
   devtools:

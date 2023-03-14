@@ -3,9 +3,7 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Themes</title>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer th:src="@{/js/components/ThemeCard.js}" type="module"></script>
 	<script defer th:src="@{/js/components/SubThemeCard.js}" type="module"></script>
 	<script defer th:src="@{/js/theme/theme.js}" type="module"></script>

@@ -16,6 +16,7 @@ import java.util.Set;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Municipality {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -25,7 +26,7 @@ public class Municipality {
 	@Column (name = "name", nullable = false)
 	private String name;
 
-	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
 	@ToString.Exclude
 	private Set<User> members = new HashSet<>();
 
@@ -34,9 +35,11 @@ public class Municipality {
 	private Set<ActionPoint> actionPoints = new HashSet<>();
 
 	@OneToMany (mappedBy = "municipality")
+	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
-	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany
+	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();
 
 	public Municipality(String name) {
@@ -46,5 +49,9 @@ public class Municipality {
 	public Municipality(String name, Set<PostCode> postcodes) {
 		this.name = name;
 		this.postcodes = postcodes;
+	}
+
+	public void addMembership(Membership membership) {
+		getMemberships().add(membership);
 	}
 }
