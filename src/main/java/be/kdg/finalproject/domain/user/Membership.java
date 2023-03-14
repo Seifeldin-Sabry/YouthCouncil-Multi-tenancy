@@ -5,11 +5,13 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity (name = "MEMBERSHIPS")
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString
 public class Membership {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)

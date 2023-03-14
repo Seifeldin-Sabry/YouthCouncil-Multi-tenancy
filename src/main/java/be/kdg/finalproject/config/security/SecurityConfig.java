@@ -16,7 +16,7 @@ public class SecurityConfig {
 				.httpBasic()
 				.and()
 				.csrf()
-				.disable()
+				.and()
 				.authorizeHttpRequests(
 						auths ->
 								auths
@@ -24,6 +24,7 @@ public class SecurityConfig {
 										.permitAll())
 				.formLogin()
 				.loginPage("/login")
+				.loginProcessingUrl("/login")
 				.permitAll()
 				.and()
 				.logout()

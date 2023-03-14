@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Sign Up</title>
+	<script defer th:src="@{/js/signup/signup.js}"></script>
+</head>
+<body class="bodyBackground">
+<th:block th:insert="~{fragments/fragments::navigationbar(2)}">My navbar</th:block>
+
+<!--ORIGINAL-->
+<div id="signup-form" class="container">
+	<div class="offset-md-2 col-lg-5 col-md-7 offset-lg-4 offset-md-3">
+		<div class="panel border bg-white">
+			<div class="panel-body p-3">
+				<form class="my-3 d-flex flex-column align-items-start gap-3" method="post" th:action="@{/register}"
+					  th:object="${user}"
+				>
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('firstName')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="Jeff" th:class="${#fields.hasErrors('firstName')?
+    				   						'form-control form-control-lg is-invalid ':
+    				   						'form-control form-control-lg border-3 '}"
+								   th:field="*{firstName}"
+								   type="text"
+							/>
+							<label class="form-label" th:for="firstName">First Name</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('firstName')}"
+							 th:text="${#fields.errors('firstName').get(0).toString()}"
+						></div>
+					</div>
+
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('surname')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="Bezos" th:class="${#fields.hasErrors('surname')?
+    				   						'form-control form-control-lg is-invalid ':
+    				   						'form-control form-control-lg border-3 '}"
+								   th:field="*{surname}"
+								   type="text"
+							/>
+							<label class="form-label" th:for="surname">Surname</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('surname')}"
+							 th:text="${#fields.errors('surname').get(0).toString()}"
+						></div>
+					</div>
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('username')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="username" th:class="${#fields.hasErrors('username')?
+    				   						'form-control form-control-lg is-invalid ':
+    				   						'form-control form-control-lg border-3 '}"
+								   th:field="*{username}"
+								   type="text"
+							/>
+							<label class="form-label" th:for="username">Username</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('username')}"
+							 th:text="${#fields.errors('username').get(0).toString()}"
+						></div>
+					</div>
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('postcode')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="2000" th:class="${#fields.hasErrors('postcode')?
+    				   						'form-control form-control-lg is-invalid ':
+    				   						'form-control form-control-lg border-3 '}"
+								   th:field="*{postcode}"
+								   type="number"
+							/>
+							<label class="form-label" th:for="postcode">Postcode</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('postcode')}"
+							 th:text="${#fields.errors('postcode').get(0).toString()}"
+						></div>
+					</div>
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('email')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="E-mail" th:class="${#fields.hasErrors('email')?
+    				   'form-control form-control-lg is-invalid ':
+    				   'form-control form-control-lg border-3 '}"
+								   th:field="*{email}"
+							/>
+							<label class="form-label" th:for="name">Email</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('email')}"
+							 th:text="${#fields.errors('email').get(0).toString()}"
+						></div>
+					</div>
+
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('password')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="Password" th:class="${#fields.hasErrors('password')?
+    				   'form-control form-control-lg is-invalid ':
+    				   'form-control form-control-lg border-3 '}"
+								   th:field="*{password}"
+								   type="password"
+							/>
+							<label class="form-label" th:for="password">Password</label>
+						</div>
+						<button class="btn btn-outline-secondary" id="button-show-password" type="button">
+							<i class="bi bi-eye"></i>
+						</button>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('password')}"
+							 th:text="${#fields.errors('password').get(0).toString()}"
+						>
+						</div>
+					</div>
+
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('confirmPassword')?'form-floating is-invalid':'form-floating'}">
+							<input placeholder="Confirm Password" th:class="${#fields.hasErrors('confirmPassword')?
+    				   'form-control form-control-lg is-invalid ':
+    				   'form-control form-control-lg border-3 '}"
+								   th:field="*{confirmPassword}"
+								   type="password"
+							/>
+							<label class="form-label" th:for="confirmPassword">Confirm Password</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('confirmPassword')}"
+							 th:text="${#fields.errors('confirmPassword').get(0).toString()}"
+						></div>
+					</div>
+
+
+					<!--TODO:REDIRECT TO ANOTHER PAGE SAMPLE TEXT IS BELOW-->
+					<div class="input-group has-validation">
+						<div th:class="${#fields.hasErrors('termsAccepted')?'form-check is-invalid checkbox':'form-check checkbox'}">
+							<input class="form-check-input" th:field="*{termsAccepted}" type="checkbox">
+							<label class="form-check-label">
+								I agree to the
+								<a target="_blank">terms and conditions</a>
+							</label>
+						</div>
+						<div class="invalid-feedback"
+							 th:if="${#fields.hasErrors('termsAccepted')}"
+							 th:text="${#fields.errors('termsAccepted').get(0).toString()}"
+						>
+						</div>
+					</div>
+					<button class="btn btn-primary" type="submit">Register</button>
+				</form>
+				<div class="mb-2 text-center text-muted">Already have an account? <a href="login">Log In</a>
+				</div>
+
+				<div class="d-flex justify-content-evenly my-auto">
+					<a href="#" class="btn btn-primary"><i class="fab bi-facebook"></i> Sign up with Facebook</a>
+					<a href="#" class="btn btn-danger"><i class="fab bi-google"></i> Sign up with Google</a>
+				</div>
+
+			</div>
+
+		</div>
+		</div>
+	</div>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

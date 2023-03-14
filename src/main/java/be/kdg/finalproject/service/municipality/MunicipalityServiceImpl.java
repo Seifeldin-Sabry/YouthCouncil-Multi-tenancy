@@ -34,8 +34,8 @@ public class MunicipalityServiceImpl implements MunicipalityService{
 	}
 
 	@Override
-	public Optional<Municipality> getMunicipalityByPostalCode(Integer postalCode) {
-		return municipalityRepository.findByPostcode(postalCode).stream().findFirst();
+	public Municipality getMunicipalityByPostalCode(Integer postalCode) {
+		return municipalityRepository.findByPostcode(postalCode);
 	}
 
 	@Override

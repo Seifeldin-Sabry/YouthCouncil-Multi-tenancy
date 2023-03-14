@@ -14,6 +14,7 @@ public class UniqueSubThemeNameValidator implements ConstraintValidator<UniqueSu
 
 	@Override
 	public boolean isValid(String value, ConstraintValidatorContext context) {
+		if (value.isBlank()) return false;
 		return !themeRepository.existsBySubThemeNameIgnoreCase(value);
 	}
 }

@@ -4,9 +4,7 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.security.Role;
-import be.kdg.finalproject.util.BcryptPasswordUtil;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -34,8 +32,8 @@ public class User {
 	@Column (name = "first_name", nullable = false)
 	private String first_name;
 
-	@Column (name = "last_name", nullable = false)
-	private String last_name;
+	@Column (name = "surname", nullable = false)
+	private String surname;
 
 	@Column (name = "email", nullable = false)
 	private String email;
@@ -51,7 +49,7 @@ public class User {
 	@ToString.Exclude
 	private Set<Idea> ideas = new HashSet<>();
 
-	@OneToMany (mappedBy = "user")
+	@OneToMany (mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
@@ -67,12 +65,17 @@ public class User {
 	@ToString.Exclude
 	private Set<UserIdeaLike> likedIdeas = new HashSet<>();
 
-	public User(String first_name, String last_name, String email, String password, Role role) {
+	public User(String first_name, String surname, String username, String email, String password, Role role) {
 		this.first_name = first_name;
-		this.last_name = last_name;
+		this.surname = surname;
+		this.username = username;
 		this.email = email;
-		this.password = BcryptPasswordUtil.hashPassword(password);
+		this.password = password;
 		this.role = role;
+	}
+
+	public void addMembership(Membership membership) {
+		getMemberships().add(membership);
 	}
 }
 
