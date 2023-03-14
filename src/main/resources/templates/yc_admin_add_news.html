@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add News</title>
+    <thymeleaf th:replace="~{fragments/fragment :: meta_script_link}"></thymeleaf>
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/fragment::yc-admin-nav}"></div>
+</header>
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6 mt-5">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="text-center">Add News</h4>
+                </div>
+                <div class="card-body">
+                    <form>
+                        <div class="mb-3 row">
+                            <label for="heading" class="col-sm-3 col-form-label">Heading</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="heading" required>
+                            </div>
+                        </div>
+                        <div class="mb-3 row">
+                            <label for="date" class="col-sm-3 col-form-label">Date</label>
+                            <div class="col-sm-9">
+                                <input type="date" class="form-control" id="date" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 row">
+                            <label for="news" class="col-sm-3 col-form-label">News</label>
+                            <div class="col-sm-9">
+                                <textarea class="form-control" id="news" rows="5" required></textarea>
+                            </div>
+                        </div>
+                        <div class="text-center  mt-3">
+                            <button type="submit" class="btn btn-primary btn-block">Publish</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

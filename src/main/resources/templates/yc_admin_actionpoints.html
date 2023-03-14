@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Actions</title>
+    <thymeleaf th:replace="~{fragments/fragment :: meta_script_link}"></thymeleaf>
+    <link rel="stylesheet" href="/css/styleForActionPointsPage.css">
+
+</head>
+<body>
+<header>
+    <div th:replace="~{fragments/fragment::yc-admin-nav}"></div>
+</header>
+<div class="container my-5">
+    <div class="row flex-wrap my-3">
+        <div class="col-md-3 offset-md-2">
+            <div class="card">
+                <div class="card-header d-flex align-items-center">
+                    <img src="/images/news-image.jpeg" alt="Profile Picture"
+                         class="profile-picture rounded-circle mr-2">
+                    <a href="#" class="text-dark font-weight-bold">THEME</a>
+                </div>
+                <div class="card-body p-0">
+                    <img src="/images/news-image.jpeg" alt="Post Image" class="img-fluid" width="3800" height="3320">
+                    <div class="p-3">
+                        <div class="description">
+                            <label>description</label>
+                            <p>This is a description</p>
+                        </div>
+                        <div class="actions mt-2">
+                            <a href="#" class="btn btn-primary mr-2">Edit</a>
+                            <a href="#" class="btn btn-primary mr-2">Publish</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
