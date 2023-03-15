@@ -1,6 +1,7 @@
 package be.kdg.finalproject.domain.page;
 
 import be.kdg.finalproject.domain.module.*;
+import be.kdg.finalproject.domain.platform.Municipality;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,6 +16,11 @@ public class Page {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name = "page_id", nullable = false)
 	private Long id;
+
+	@ManyToOne
+	@JoinColumn (name = "municipality_id", nullable = false)
+	private Municipality municipality;
+
 	private String title;
 	private String description;
 	@OneToOne (cascade = CascadeType.ALL, orphanRemoval = true)

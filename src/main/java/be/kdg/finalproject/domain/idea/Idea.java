@@ -37,7 +37,11 @@ public class Idea {
 
 	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn (name = "user_id", nullable = false)
-	private User user;
+	private User creator;
+
+	@ManyToOne
+	@JoinColumn (name = "call_for_idea_id", nullable = false)
+	private CallForIdea callForIdea;
 
 	@Column (name = "date_created", nullable = false)
 	private LocalDate dateCreated;
@@ -53,5 +57,9 @@ public class Idea {
 	public Idea(String ideaDescription, String image, boolean isFlagged, Theme theme) {
 		this(ideaDescription, image, theme);
 		this.isFlagged = isFlagged;
+	}
+
+	public Idea() {
+		this.dateCreated = LocalDate.now();
 	}
 }

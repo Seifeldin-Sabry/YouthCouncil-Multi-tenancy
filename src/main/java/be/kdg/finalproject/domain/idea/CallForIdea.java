@@ -31,7 +31,7 @@ public class CallForIdea {
 	@ManyToOne (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	private Municipality municipality;
 
-	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany (mappedBy = "callForIdea", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Idea> ideas = new HashSet<>();
 
 	@Column (name = "active", columnDefinition = "boolean default true")

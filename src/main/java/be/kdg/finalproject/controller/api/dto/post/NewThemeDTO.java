@@ -1,6 +1,6 @@
 package be.kdg.finalproject.controller.api.dto.post;
 
-import be.kdg.finalproject.controller.constraints.UniqueThemeNameConstraint;
+import be.kdg.finalproject.controller.constraint.UniqueThemeNameConstraint;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

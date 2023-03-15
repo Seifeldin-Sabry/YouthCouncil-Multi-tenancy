@@ -2,16 +2,13 @@
 <html lang="en"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 >
 <head>
 	<th:block th:fragment="meta_script_link" th:remove="tag">
 		<meta charset="UTF-8" />
-		<meta name="_csrf" th:content="${_csrf.token}" />
-		<meta name="_csrf_header" th:content="${_csrf.headerName}" />
 		<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 		<link rel="stylesheet" href="/webjars/bootstrap/5.2.3/css/bootstrap.min.css" />
-		<script defer src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" rel="stylesheet"
-		></script>
 		<link rel="stylesheet" th:href="@{/webjars/bootstrap-icons/font/bootstrap-icons.css} ">
 	</th:block>
 </head>
@@ -26,39 +23,45 @@
 			<span class="navbar-toggler-icon"></span>
 		</button>
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+			<!--			login and signup if not authenticated, logout and welcome if authenticated-->
+			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item">
-					<a th:href="@{/home}" th:class="${index==1}?'nav-item nav-link active':'nav-item nav-link'">
-						Home</a>
-				</li>
-
-				<li class="nav-item">
-					<a th:href="@{/sign-up}" th:class="${index==2}?'nav-item nav-link active':'nav-item nav-link'">
-						Sign Up</a>
-				</li>
-
-				<li class="nav-item">
-					<a th:href="@{/login}" th:class="${index==3}?'nav-item nav-link active':'nav-item nav-link'">
-						Login</a>
-				</li>
-
-				<li class="nav-item">
-					<a th:href="@{/manage}" th:class="${index==4}?'nav-item nav-link active':'nav-item nav-link'">
-						Manage</a>
+					<a class="nav-link" th:classappend="${index == 1} ? 'active' : ''" aria-current="page" href="/"
+					>Home</a>
 				</li>
 				<li class="nav-item">
-					<a th:href="@{/dashboard}" th:class="${index==5}?'nav-item nav-link active':'nav-item nav-link'">
-						Dashboard</a>
+					<a class="nav-link" th:classappend="${index == 2} ? 'active' : ''" href="/about">About</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:classappend="${index == 3} ? 'active' : ''" href="/contact">Contact</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:classappend="${index == 4} ? 'active' : ''" href="/faq">FAQ</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" th:classappend="${index == 5} ? 'active' : ''" href="/admin">Admin</a>
+				</li>
+			</ul>
+			<ul class="navbar-nav mb-2 mb-lg-0">
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link" th:classappend="${index == 6} ? 'active' : ''" href="/login">Login</a>
+				</li>
+				<li sec:authorize="!isAuthenticated()" class="nav-item">
+					<a class="nav-link" th:classappend="${index == 7} ? 'active' : ''" href="/sign-up">Sign Up</a>
+				</li>
+				<li sec:authorize="isAuthenticated()" class="nav-item">
+					<a class="nav-link" th:classappend="${index == 8} ? 'active' : ''" href="/profile">Profile</a>
+				<li sec:authorize="isAuthenticated()" class="nav-item">
+					<form th:action="@{/logout}" method="post">
+						<input type="submit" value="Logout" class="btn btn-outline-success" />
+					</form>
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
-
-
 <div class="footer" th:fragment="footer">
 	<p> &copy; All rights reserved by ACS2 INTEGRATION 4 Team 1 2023</p>
 </div>
-
 </body>
 </html>

@@ -13,13 +13,13 @@ spring:
             required: true
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     database: POSTGRESQL
     show-sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/YouthCouncil
-    username: postgres
+    username: ${POSTGRES_USERNAME}
     password: ${POSTGRES_PASSWORD}
   devtools:
     restart:
