@@ -1,6 +1,7 @@
 package be.kdg.finalproject.domain.platform;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.page.Page;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
 import jakarta.persistence.*;
@@ -9,7 +10,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity (name = "MUNICIPALITIES")
@@ -26,21 +29,30 @@ public class Municipality {
 	@Column (name = "name", nullable = false)
 	private String name;
 
-	@OneToMany
+	private String logo;
+
+	@ElementCollection
+	private List<String> socialMediaLinks = new ArrayList<>();
+
+	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
 	private Set<User> members = new HashSet<>();
 
-	@OneToMany (cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
-	private Set<ActionPoint> actionPoints = new HashSet<>();
+	private List<ActionPoint> actionPoints = new ArrayList<>();
 
 	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
-	@OneToMany
+	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();
+
+	@OneToMany (mappedBy = "municipality")
+	@ToString.Exclude
+	List<Page> infoPages = new ArrayList<>();
 
 	public Municipality(String name) {
 		this.name = name;

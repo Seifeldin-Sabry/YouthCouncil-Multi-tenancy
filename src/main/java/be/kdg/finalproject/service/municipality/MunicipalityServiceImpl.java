@@ -3,6 +3,8 @@ package be.kdg.finalproject.service.municipality;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.repository.MunicipalityRepository;
 import com.google.common.collect.ImmutableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Service
 public class MunicipalityServiceImpl implements MunicipalityService{
 	private final MunicipalityRepository municipalityRepository;
+	private final Logger logger = LoggerFactory.getLogger(MunicipalityServiceImpl.class);
 
 	@Autowired
 	public MunicipalityServiceImpl(MunicipalityRepository municipalityRepository) {

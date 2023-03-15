@@ -12,17 +12,19 @@ spring:
             enable: true
             required: true
   jpa:
+    open-in-view: false
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
     properties:
       hibernate:
-    database: HSQL
+    database: POSTGRESQL
     show-sql: true
   datasource:
-    driver-class-name: org.hsqldb.jdbc.JDBCDriver
-    url: jdbc:hsqldb:file:./db/testdb
-    username: ""
-    password: ""
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/YouthCouncilDev
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   devtools:
     restart:
       enabled: true
@@ -30,9 +32,10 @@ spring:
       additional-exclude: WEB-INF/**
   thymeleaf:
     cache: false
+  sql:
+    init:
+      data-locations: classpath:sql/data.sql
 logging:
   level:
     #      web: debug
     be.kdg.finalproject: debug
-
-

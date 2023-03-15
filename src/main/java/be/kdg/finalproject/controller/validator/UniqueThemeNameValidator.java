@@ -1,6 +1,6 @@
 package be.kdg.finalproject.controller.validator;
 
-import be.kdg.finalproject.controller.constraints.UniqueThemeNameConstraint;
+import be.kdg.finalproject.controller.constraint.UniqueThemeNameConstraint;
 import be.kdg.finalproject.repository.ThemeRepository;
 import jakarta.validation.ConstraintValidator;
 import jakarta.validation.ConstraintValidatorContext;

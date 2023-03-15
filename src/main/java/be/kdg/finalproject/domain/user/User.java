@@ -4,6 +4,8 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
+import be.kdg.finalproject.domain.platform.Municipality;
+import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -26,30 +28,39 @@ public class User {
 	@Column (name = "user_id", nullable = false)
 	private Long id;
 
-	@Column (name = "username", nullable = false)
+	@Column (name = "username")
 	private String username;
 
-	@Column (name = "first_name", nullable = false)
-	private String first_name;
+	@Column (name = "first_name")
+	private String firstName;
 
-	@Column (name = "surname", nullable = false)
+	@Column (name = "surname")
 	private String surname;
 
 	@Column (name = "email", nullable = false)
 	private String email;
 
-	@Column (name = "password", nullable = false, length = 60)
+	@Column (name = "password")
 	private String password;
+
+	@Enumerated (EnumType.STRING)
+	@Column (name = "provider", nullable = false, length = 10)
+	private Provider provider;
 
 	@Column (name = "role", nullable = false)
 	@Enumerated (EnumType.STRING)
 	private Role role;
 
-	@OneToMany
+	// for youth council members
+	@ManyToOne
+	@JoinColumn (name = "municipality_id")
+	private Municipality municipality;
+
+	@OneToMany (mappedBy = "creator")
 	@ToString.Exclude
 	private Set<Idea> ideas = new HashSet<>();
 
-	@OneToMany (mappedBy = "user", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "user", cascade = CascadeType.ALL)
 	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
@@ -65,13 +76,14 @@ public class User {
 	@ToString.Exclude
 	private Set<UserIdeaLike> likedIdeas = new HashSet<>();
 
-	public User(String first_name, String surname, String username, String email, String password, Role role) {
-		this.first_name = first_name;
+	public User(String firstName, String surname, String username, String email, String password, Role role, Provider provider) {
+		this.firstName = firstName;
 		this.surname = surname;
 		this.username = username;
 		this.email = email;
 		this.password = password;
 		this.role = role;
+		this.provider = provider;
 	}
 
 	public void addMembership(Membership membership) {

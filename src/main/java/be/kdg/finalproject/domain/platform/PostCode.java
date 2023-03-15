@@ -18,6 +18,7 @@ public class PostCode {
 	@Column (name = "postcode", nullable = false)
 	private Integer postcode;
 
-	@Column(name = "municipality_id", nullable = false)
-	private Long municipalityId;
+	@ManyToOne
+	@JoinColumn (name = "municipality_id", nullable = false)
+	private Municipality municipality;
 }
