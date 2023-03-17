@@ -15,7 +15,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.HttpStatusEntryPoint;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
@@ -39,14 +38,18 @@ public class SecurityConfig {
 				.authenticationEntryPoint(httpStatusEntryPoint())
 				.and()
 				.csrf()
-				.csrfTokenRepository(new CookieCsrfTokenRepository())
-				.and()
+				//				.csrfTokenRepository(new CookieCsrfTokenRepository())
+				//				.and()
+				.disable()
 				.authorizeHttpRequests(
 						auths ->
 								auths
 										.requestMatchers("/**", "/sign-up", "/login", "/oauth/**", "/error**", "/webjars/**", "/css/**", "/js/**", "/img/**")
 										.permitAll()
 				)
+				.formLogin()
+				.loginPage("/login")
+				.and()
 				.oauth2Login()
 				.loginPage("/login")
 				.userInfoEndpoint()

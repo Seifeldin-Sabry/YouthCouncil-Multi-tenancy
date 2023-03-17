@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.api.dto.post;
 
 import be.kdg.finalproject.controller.constraint.UniqueSubThemeNameConstraint;
-import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,6 +13,6 @@ import lombok.Setter;
 @AllArgsConstructor
 public class NewSubThemeDTO {
 	@UniqueSubThemeNameConstraint
-	@NotEmpty
+	@NotBlank
 	private String subThemeName;
 }
