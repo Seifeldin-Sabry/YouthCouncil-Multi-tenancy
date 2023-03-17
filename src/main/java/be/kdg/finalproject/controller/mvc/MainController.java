@@ -4,7 +4,6 @@ import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -18,24 +17,13 @@ public class MainController {
 
 	@GetMapping ("/home")
 	public ModelAndView showHome() {
-		var mav = new ModelAndView("html/home");
-		mav.addObject("home");
-		return mav;
+		return new ModelAndView("html/home");
 	}
 
 	@GetMapping ("/manage")
 	public ModelAndView showAnalytics() {
-		var mav = new ModelAndView("html/manage");
-		mav.addObject("manage");
-		return mav;
+		return new ModelAndView("html/manage");
 	}
 
-
-	@GetMapping ("/themes")
-	public ModelAndView showThemes() {
-		var mav = new ModelAndView("html/themes");
-		mav.addObject("themes");
-		return mav;
-	}
 
 }

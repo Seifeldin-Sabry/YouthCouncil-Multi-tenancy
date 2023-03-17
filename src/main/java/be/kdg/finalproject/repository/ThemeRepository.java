@@ -17,7 +17,7 @@ public interface ThemeRepository extends CrudRepository<Theme, Long> {
 	int updateThemeNameById(String themeName, Long id);
 
 
-	@Query ("select t from THEMES t join fetch t.subThemes sub order by t.id, sub.id asc")
+	@Query ("select t from THEMES t order by t.id asc")
 	List<Theme> findAllOrderByIdAsc();
 
 }
