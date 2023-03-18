@@ -41,12 +41,13 @@ public class UserAccountController {
 	@PostMapping ("/register")
 	public ModelAndView registerUser(@Valid @ModelAttribute ("user") UserSignUpViewModel userSignUpViewModel, BindingResult errors, HttpServletRequest request) throws ServletException {
 		if (errors.hasErrors()) {
-			if (errors.hasGlobalErrors())
+			if (errors.hasGlobalErrors()) {
+				String defaultMessage = errors.getGlobalError().getDefaultMessage();
 				errors.rejectValue("confirmPassword", "error.passwords.do.not.match",
-						errors.getGlobalError().getDefaultMessage());
-			errors.rejectValue("password", "error.passwords.do.not.match",
-					errors.getGlobalError().getDefaultMessage());
-
+						defaultMessage);
+				errors.rejectValue("password", "error.passwords.do.not.match",
+						defaultMessage);
+			}
 			errors.getAllErrors().forEach(error -> logger.error(error.toString()));
 			return new ModelAndView("html/sign-up", "user", userSignUpViewModel);
 		}

@@ -1,10 +1,13 @@
 package be.kdg.finalproject.database;
 
+import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 @Component
 @Profile ("dev")
@@ -27,5 +30,47 @@ public class EntityFactory {
 
 	private SubTheme createRandomSubTheme() {
 		return new SubTheme(faker.job().position());
+	}
+
+
+	public Form createRandomFormWithQuestions() {
+		Form form = createRandomForm();
+		for (int i = 0; i < 5; i++) {
+			form.addQuestion(createRandomQuestion(i));
+		}
+		return form;
+	}
+
+	private Form createRandomForm() {
+		return new Form(faker.job().title());
+	}
+
+	private Question createRandomQuestion(final Integer order) {
+		final QuestionType questionType = QuestionType.values()[faker.random()
+		                                                             .nextInt(0, QuestionType.values().length - 1)];
+		return switch (questionType) {
+			case MULTIPLE_CHOICE_QUESTION -> randomMultipleChoiceQuestion(order);
+			case RADIO_QUESTION -> randomRadioQuestion(order);
+			case TEXT_QUESTION -> randomTextQuestion(order);
+			case NUMBER_QUESTION -> randomNumericQuestion(order);
+		};
+	}
+
+	private TextInputQuestion randomTextQuestion(Integer order) {
+		return new TextInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
+	}
+
+	private RadioQuestion randomRadioQuestion(final Integer order) {
+		List<String> answers = faker.lorem().words(4);
+		return new RadioQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
+	}
+
+	private MultipleChoiceQuestion randomMultipleChoiceQuestion(final Integer order) {
+		List<String> answers = faker.lorem().words(4);
+		return new MultipleChoiceQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
+	}
+
+	private NumericInputQuestion randomNumericQuestion(Integer order) {
+		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
 	}
 }

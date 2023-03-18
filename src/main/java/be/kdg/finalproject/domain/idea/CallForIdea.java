@@ -1,6 +1,5 @@
 package be.kdg.finalproject.domain.idea;
 
-import be.kdg.finalproject.domain.platform.Municipality;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,8 +27,8 @@ public class CallForIdea {
 	@Column (name = "description")
 	private String description;
 
-	@ManyToOne (fetch = FetchType.LAZY, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
-	private Municipality municipality;
+	@JoinColumn (name = "municipality_id", nullable = false, updatable = false, insertable = false)
+	private Long municipalityId;
 
 	@OneToMany (mappedBy = "callForIdea", cascade = CascadeType.ALL, orphanRemoval = true)
 	private Set<Idea> ideas = new HashSet<>();

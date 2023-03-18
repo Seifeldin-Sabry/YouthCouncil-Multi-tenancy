@@ -15,51 +15,271 @@
 
 <body>
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navigationbar(index)">
+
+<!--<nav th:replace="fragments/navbar :: navbar-general"></nav>-->
+<!--<nav th:replace="fragments/navbar :: navbar-user" sec:authorize="hasRole('ROLE_USER')"></nav>-->
+<!--<nav th:replace="fragments/navbar :: navbar-admin" sec:authorize="hasRole('ROLE_ADMIN')"></nav>-->
+
+<!--ADD IN EVERY PAGE-->
+<!--<header>-->
+<!--    &lt;!&ndash; Include the appropriate navbar fragment based on user role &ndash;&gt;-->
+<!--    <div th:if="${#authorization.expression('hasRole(''ROLE_USER'')')}">-->
+<!--        <div th:replace="fragments/navbar :: navbar-user"></div>-->
+<!--    </div>-->
+<!--    <div th:if="${#authorization.expression('hasRole(''ROLE_ADMIN'')')}">-->
+<!--        <div th:replace="fragments/navbar :: navbar-admin"></div>-->
+<!--    </div>-->
+<!--    <div th:if="${#authorization.expression('!isAuthenticated()')}">-->
+<!--        <div th:replace="fragments/navbar :: navbar-guest"></div>-->
+<!--    </div>-->
+<!--</header>-->
+
+
+<!--LOOKS GOOD ADMIN NAVBAR-->
+<!--<div class="container-fluid" th:fragment="nav_general_admin">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-auto bg-dark sticky-top">-->
+<!--            <div class="d-flex flex-sm-column flex-row flex-nowrap bg-dark align-items-center sticky-top">-->
+<!--                <a href="/" class="d-block p-3 link-light text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">-->
+<!--                    <img src="#" alt="LOGO"></img>-->
+<!--                </a>-->
+<!--                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">-->
+<!--                            <i class="bi-house fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--&lt;!&ndash;                    <li>&ndash;&gt;-->
+<!--&lt;!&ndash;                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Dashboard">&ndash;&gt;-->
+<!--&lt;!&ndash;                            <i class="bi-speedometer2 fs-1"></i>&ndash;&gt;-->
+<!--&lt;!&ndash;                        </a>&ndash;&gt;-->
+<!--&lt;!&ndash;                    </li>&ndash;&gt;-->
+<!--                </ul>-->
+<!--                <div class="dropdown">-->
+<!--                    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-light text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        <i class="bi-person-circle h2"></i>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser3">-->
+<!--                        <li><a class="dropdown-item" href="#">Sign out...</a></li>-->
+<!--&lt;!&ndash;                        <li><a class="dropdown-item" href="#">Settings</a></li>&ndash;&gt;-->
+<!--                        <li><a class="dropdown-item" href="#">Profile</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm p-3 min-vh-100">-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--END OF ADMIN NAVBAR --DONEE-->
+
+
+<!--YOUTH COUNCIL ADMIN NAVBAR-->
+<!--<div class="container-fluid" th:fragment="nav_youth_council_admin">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-auto bg-dark sticky-top">-->
+<!--            <div class="d-flex flex-sm-column flex-row flex-nowrap bg-dark align-items-center sticky-top">-->
+<!--                <a href="/" class="d-block p-3 link-light text-decoration-none" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Icon-only">-->
+<!--                    <img src="#" alt="LOGO"></img>-->
+<!--                </a>-->
+<!--                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Home">-->
+<!--                            <i class="bi-house fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Call for ideas">-->
+<!--                            <i class="bi bi-telephone-outbound-fill h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Action points">-->
+<!--                            <i class="bi bi-lightbulb h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Calendar">-->
+<!--                            <i class="bi-table fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip" data-bs-placement="right" data-bs-original-title="Manage council">-->
+<!--                            <i class="bi bi-pencil-square h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <div class="dropdown">-->
+<!--                    <a href="#" class="d-flex align-items-center justify-content-center p-3 link-light text-decoration-none dropdown-toggle" id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        <i class="bi bi-file-earmark-text h3"></i>-->
+<!--                    </a>-->
+<!--                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser3">-->
+<!--                        <li><a class="dropdown-item" href="#">Elections</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Informative page</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Page 3</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm p-3 min-vh-100">-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+
+<!--END OF YOUTH COUNCIL ADMIN NAVBAR-->
+
+
+<!--USER/MODERATOR NAVBAR-->
+<!--<div class="container-fluid" th:fragment="nav_user_moderator">-->
+<!--    <div class="row">-->
+<!--        <div class="col-sm-auto bg-dark sticky-top">-->
+<!--            <div class="d-flex flex-sm-column flex-row flex-nowrap bg-dark align-items-center sticky-top">-->
+<!--                <a href="/" class="d-block p-3 link-light text-decoration-none" title="" data-bs-toggle="tooltip"-->
+<!--                   data-bs-placement="right" data-bs-original-title="Icon-only">-->
+<!--                    <img src="#" alt="LOGO"></img>-->
+<!--                </a>-->
+<!--                <ul class="nav nav-pills nav-flush flex-sm-column flex-row flex-nowrap mb-auto mx-auto text-center justify-content-between w-100 px-3 align-items-center">-->
+<!--                    <li class="nav-item">-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Home">-->
+<!--                            <i class="bi-house fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Call for ideas">-->
+<!--                            <i class="bi bi-telephone-outbound-fill h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Submit idea">-->
+<!--                            <i class="bi bi-send-plus h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Calendar">-->
+<!--                            <i class="bi-table fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Action points">-->
+<!--                            <i class="bi bi-lightbulb h2"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                    <li>-->
+<!--                        <a href="#" class="nav-link py-3 px-2" title="" data-bs-toggle="tooltip"-->
+<!--                           data-bs-placement="right" data-bs-original-title="Customers">-->
+<!--                            <i class="bi-people fs-1"></i>-->
+<!--                        </a>-->
+<!--                    </li>-->
+<!--                </ul>-->
+<!--                <div class="dropdown">-->
+<!--                    <a href="#"-->
+<!--                       class="d-flex align-items-center justify-content-center p-3 link-light text-decoration-none dropdown-toggle"-->
+<!--                       id="dropdownUser3" data-bs-toggle="dropdown" aria-expanded="false">-->
+<!--                        <i class="bi bi-file-earmark-text h2"></i>-->
+<!--                    </a>-->
+
+<!--                    <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser3">-->
+<!--                        <li><a class="dropdown-item" href="#">Elections</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Informative page</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#">Page 3</a></li>-->
+<!--                    </ul>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="col-sm p-3 min-vh-100">-->
+
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
+<!--&lt;!&ndash;END OF USER/MODERATOR NAVBAR&ndash;&gt;-->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="navbar(user)">
 	<div class="container-fluid">
-		<img src="" class="image-logo" alt="Logo">
-		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
-				aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+		<a class="navbar-brand" href="#">Navbar</a>
+		<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
+				aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
+		>
 			<span class="navbar-toggler-icon"></span>
 		</button>
-		<div class="collapse navbar-collapse" id="navbarSupportedContent">
-			<!--			login and signup if not authenticated, logout and welcome if authenticated-->
-			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
+		<div class="collapse navbar-collapse" id="navbarNavDropdown">
+			<ul class="navbar-nav">
 				<li class="nav-item">
-					<a class="nav-link" th:classappend="${index == 1} ? 'active' : ''" aria-current="page" href="/"
-					>Home</a>
+					<a class="nav-link active" aria-current="page" href="#">Home</a>
 				</li>
-				<li class="nav-item">
-					<a class="nav-link" th:classappend="${index == 2} ? 'active' : ''" href="/about">About</a>
+				<li class="nav-item" sec:authorize="isAuthenticated()">
+					<a class="nav-link" href="#">Action Points</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:classappend="${index == 3} ? 'active' : ''" href="/contact">Contact</a>
+					<a class="nav-link" href="#">Call For Ideas</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:classappend="${index == 4} ? 'active' : ''" href="/faq">FAQ</a>
+					<a class="nav-link" href="#">Reported/Flagged Content</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" th:classappend="${index == 5} ? 'active' : ''" href="/admin">Admin</a>
+					<a class="nav-link" href="#">Calendar Activities</a>
 				</li>
-			</ul>
-			<ul class="navbar-nav mb-2 mb-lg-0">
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" th:classappend="${index == 6} ? 'active' : ''" href="/login">Login</a>
+				<li class="nav-item">
+					<a class="nav-link" href="#">News</a>
 				</li>
-				<li sec:authorize="!isAuthenticated()" class="nav-item">
-					<a class="nav-link" th:classappend="${index == 7} ? 'active' : ''" href="/sign-up">Sign Up</a>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="membershipDropDown" role="button"
+					   data-bs-toggle="dropdown" aria-expanded="false"
+					>
+						Memberships
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="membershipDropDown">
+						<li><a class="dropdown-item" href="#">Action</a></li>
+						<li><a class="dropdown-item" href="#">Another action</a></li>
+						<li><a class="dropdown-item" href="#">Something else here</a></li>
+					</ul>
 				</li>
-				<li sec:authorize="isAuthenticated()" class="nav-item">
-					<a class="nav-link" th:classappend="${index == 8} ? 'active' : ''" href="/profile">Profile</a>
-				<li sec:authorize="isAuthenticated()" class="nav-item">
-					<form th:action="@{/logout}" method="post">
-						<input type="submit" value="Logout" class="btn btn-outline-success" />
-					</form>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="informativePages" role="button"
+					   data-bs-toggle="dropdown" aria-expanded="false"
+					>
+						Informative Pages
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="informativePages">
+						<li><a class="dropdown-item" href="#">About Us</a></li>
+						<li><a class="dropdown-item" href="#">Future Council Members</a></li>
+						<li><a class="dropdown-item" href="#">Elections</a></li>
+					</ul>
+				</li>
+				<li class="nav-item dropdown">
+					<a class="nav-link dropdown-toggle" href="#" id="profileDropDown" role="button"
+					   data-bs-toggle="dropdown" aria-expanded="false"
+					>
+						My Account
+					</a>
+					<ul class="dropdown-menu" aria-labelledby="profileDropDown">
+						<!--						<li><a class="dropdown-item" href="#">My Profile</a></li> NICE TO HAVE -->
+						<li><a class="dropdown-item" href="#">Edit Profile</a></li>
+						<li>
+							<form th:action="@{/logout}" method="post">
+								<input type="submit" class="dropdown-item" value="Logout" />
+							</form>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()">
+					<a class="nav-link" href="#">Log in</a>
+				</li>
+				<li class="nav-item" sec:authorize="!isAuthenticated()">
+					<a class="nav-link" href="#">Sign Up</a>
 				</li>
 			</ul>
 		</div>
 	</div>
 </nav>
+
+
 <div class="footer" th:fragment="footer">
 	<p> &copy; All rights reserved by ACS2 INTEGRATION 4 Team 1 2023</p>
 </div>

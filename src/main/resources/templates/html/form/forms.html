@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script defer src="/js/form/forms.js"></script>
+	<style>
+		.col {
+			border:1px solid gray;
+		}
+	</style>
+</head>
+<body>
+<br>
+<div class="container">
+	<div class="row">
+		<div class="col">
+			form id
+		</div>
+		<div class="col">
+			form title
+		</div>
+	</div>
+	<div class="rows">
+		<div class="row" th:each="form: ${forms}">
+			<a class="col ID" href="form.html" th:href="@{/form(formId=${form.id})}" th:text="${form.id}">
+			</a>
+			<div class="col title" th:text="${form.title}" ></div>
+		</div>
+	</div>
+	<br>
+	<button type="button" class="btn btn-primary numericInputButton create">New</button>
+</div>
+</body>
+</html>

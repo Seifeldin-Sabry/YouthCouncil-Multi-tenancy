@@ -1,5 +1,6 @@
 package be.kdg.finalproject.domain.activities;
 
+import be.kdg.finalproject.domain.platform.Municipality;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,10 @@ public class CalendarActivity {
 	private Long id;
 	private String title;
 	private LocalDate date;
+	private String description;
+
+	@ManyToOne
+	private Municipality municipality;
 
 	public CalendarActivity(String title) {
 		this.title = title;
