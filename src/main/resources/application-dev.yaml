@@ -34,7 +34,8 @@ spring:
     cache: false
   sql:
     init:
-      data-locations: classpath:sql/data.sql
+      mode: always
+      data-locations: classpath:sql/municipalities/*.sql
 logging:
   level:
     #      web: debug

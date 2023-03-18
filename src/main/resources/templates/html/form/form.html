@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script defer src="/js/form/form.js"></script>
+	<style>
+		.col {
+			border:1px solid gray;
+		}
+		.checkbox {
+			height: 45px;
+		}
+	</style>
+</head>
+<body>
+	<br>
+	<div class="container textInput">
+		<comment class="invisible">TEXT_QUESTION</comment>
+		<h6>Text Input Questions</h6>
+		<br>
+		<div class="row">
+			<div class="col">
+				question id
+			</div>
+			<div class="col">
+				question title
+			</div>
+			<div class="col">
+				order
+			</div>
+			<div class="col">
+				Is Required
+			</div>
+			<div class="col invisible">
+			</div>
+		</div>
+		<div class="rows">
+			<div class="row" th:each="textQuestion: ${textQuestions}">
+				<div class="col ID"  th:text="${textQuestion.id}" />
+				<div class="col text" th:text="${textQuestion.questionText}" />
+				<div class="col questionOrder" th:text="${textQuestion.questionOrder}" />
+				<div class="col isRequired" th:text="${textQuestion.required}" />
+				<div class="col invisible">
+				</div>
+			</div>
+		</div>
+		<br>
+		<button type="button" class="btn btn-primary textInputButton create">New</button>
+	</div>
+	<br>
+	<div class="container numericInput">
+		<comment class="invisible">NUMBER_QUESTION</comment>
+		<h6>Numeric Input Questions</h6>
+		<br>
+		<div class="row">
+			<div class="col">
+				question id
+			</div>
+			<div class="col">
+				question title
+			</div>
+			<div class="col">
+				order
+			</div>
+			<div class="col">
+				Is Required
+			</div>
+			<div class="col invisible">
+			</div>
+		</div>
+		<div class="rows">
+			<div class="row" th:each="numericQuestion: ${numericQuestions}">
+				<div class="col ID"  th:text="${numericQuestion.id}" />
+				<div class="col text" th:text="${numericQuestion.questionText}" />
+				<div class="col questionOrder" th:text="${numericQuestion.questionOrder}" />
+				<div class="col isRequired" th:text="${numericQuestion.required}" />
+				<div class="col invisible">
+				</div>
+			</div>
+		</div>
+		<br>
+		<button type="button" class="btn btn-primary numericInputButton create">New</button>
+	</div>
+	<br>
+	<div class="container radio">
+		<comment class="invisible">RADIO_QUESTION</comment>
+		<h6>Radio Questions</h6>
+		<br>
+		<div class="row">
+			<div class="col">
+				question id
+			</div>
+			<div class="col">
+				question title
+			</div>
+			<div class="col">
+				order
+			</div>
+			<div class="col">
+				Is Required
+			</div>
+			<div class="col">
+				choices
+			</div>
+		</div>
+		<div class="rows">
+			<div class="row" th:each="radioQuestion: ${radioQuestions}">
+				<div class="col ID"  th:text="${radioQuestion.id}" />
+				<div class="col text" th:text="${radioQuestion.questionText}" />
+				<div class="col questionOrder" th:text="${radioQuestion.questionOrder}" />
+				<div class="col isRequired" th:text="${radioQuestion.required}" />
+				<div class="col choices" th:text="${radioQuestion.getChoices()}" />
+			</div>
+		</div>
+		<br>
+		<button type="button" class="btn btn-primary radioButton create">New</button>
+	</div>
+	<br>
+
+	<div class="container choice">
+		<comment class="invisible">MULTIPLE_CHOICE_QUESTION</comment>
+		<h6>Multiple Choice Questions</h6>
+		<br>
+		<div class="row">
+			<div class="col">
+				question id
+			</div>
+			<div class="col">
+				question title
+			</div>
+			<div class="col">
+				order
+			</div>
+			<div class="col">
+				Is Required
+			</div>
+			<div class="col">
+				choices
+			</div>
+		</div>
+		<div class="rows">
+			<div class="row" th:each="choiceQuestion: ${choiceQuestions}">
+				<div class="col ID"  th:text="${choiceQuestion.id}" />
+				<div class="col text" th:text="${choiceQuestion.questionText}" />
+				<div class="col questionOrder" th:text="${choiceQuestion.questionOrder}" />
+				<div class="col isRequired" th:text="${choiceQuestion.required}" />
+				<div class="col choices" th:text="${choiceQuestion.getChoices()}" />
+			</div>
+		</div>
+		<br>
+		<button type="button" class="btn btn-primary choiceButton create">New</button>
+		<a th:href="forms">
+			<button type="button" class="btn btn-dark">Go Back</button>
+		</a>
+	</div>
+
+</body>
+</html>

@@ -1,7 +1,9 @@
 package be.kdg.finalproject.domain.platform;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
-import be.kdg.finalproject.domain.page.Page;
+import be.kdg.finalproject.domain.activities.CalendarActivity;
+import be.kdg.finalproject.domain.news.NewsItem;
+import be.kdg.finalproject.domain.page.InformativePage;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
 import jakarta.persistence.*;
@@ -23,7 +25,7 @@ import java.util.Set;
 public class Municipality {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "municipalitiy_id", nullable = false)
+	@Column (name = "municipality_id", nullable = false)
 	private Long id;
 
 	@Column (name = "name", nullable = false)
@@ -46,13 +48,23 @@ public class Municipality {
 	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
-	@OneToMany (mappedBy = "municipality")
+	@OneToMany
+	@JoinColumn (name = "municipality_id")
 	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();
 
+	@OneToMany
+	@ToString.Exclude
+	private List<InformativePage> infoInformativePages = new ArrayList<>();
+
+	@OneToMany
+	@ToString.Exclude
+	private List<NewsItem> newsItems = new ArrayList<>();
+
 	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
-	List<Page> infoPages = new ArrayList<>();
+	private List<CalendarActivity> calendarActivities = new ArrayList<>();
+
 
 	public Municipality(String name) {
 		this.name = name;

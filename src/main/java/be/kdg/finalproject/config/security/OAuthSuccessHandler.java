@@ -1,0 +1,39 @@
+package be.kdg.finalproject.config.security;
+
+import be.kdg.finalproject.domain.security.Provider;
+import be.kdg.finalproject.service.user.UserService;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.stereotype.Service;
+
+import java.io.IOException;
+
+@Service
+public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
+
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final UserService userService;
+
+	public OAuthSuccessHandler(UserService userService) {
+		this.userService = userService;
+	}
+
+	@Override
+	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+		String url = request.getRequestURL().toString();
+		Provider provider = url.contains("google") ? Provider.GOOGLE : Provider.FACEBOOK;
+		CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
+		logger.debug("{}", oauthUser.getAttributes());
+		if (provider == Provider.GOOGLE) {
+			userService.processOAuthPostLoginGoogle(oauthUser.getEmail(), oauthUser.getGivenName(), oauthUser.getFamilyName(), provider);
+		} else {
+			userService.processOAuthPostLoginFaceBook(oauthUser.getEmail(), oauthUser.getName(), provider);
+		}
+		response.sendRedirect("/home");
+	}
+}

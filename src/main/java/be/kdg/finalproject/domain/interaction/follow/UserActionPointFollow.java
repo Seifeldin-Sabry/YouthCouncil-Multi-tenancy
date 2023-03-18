@@ -11,6 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @NoArgsConstructor
+@Table (uniqueConstraints = @UniqueConstraint (columnNames = {"user_id", "action_point_id"}))
 public class UserActionPointFollow {
 
 	@Id

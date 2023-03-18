@@ -1,5 +1,6 @@
 package be.kdg.finalproject.domain.news;
 
+import be.kdg.finalproject.domain.platform.Municipality;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class NewsItem {
 	private String content;
 	@Column (name = "date")
 	private LocalDate date;
+	@ManyToOne
+	@JoinColumn (name = "municipality_id", nullable = false)
+	private Municipality municipality;
 
 	public NewsItem(String title, String content) {
 		this.title = title;

@@ -1,6 +1,5 @@
 package be.kdg.finalproject.domain.interaction.like;
 
-import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.user.User;
 import jakarta.persistence.*;
@@ -14,6 +13,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
+@Table (uniqueConstraints = @UniqueConstraint (columnNames = {"user_id", "idea_id"}))
 public class UserIdeaLike {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)

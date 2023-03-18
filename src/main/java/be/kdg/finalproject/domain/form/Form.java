@@ -5,37 +5,36 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
-import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity (name = "FORMS")
-@NoArgsConstructor
 @Getter
 @Setter
-@ToString
+@NoArgsConstructor
+@Table
 public class Form {
 	@Id
+	@Column (name = "form_id")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "form_id", nullable = false)
 	private Long id;
 
-	@Column (name = "form_name", nullable = false)
-	private String formName;
+	@Column(name = "title")
+	private String title;
 
-	@Column (name = "form_description")
-	private String formDescription;
+	@OneToMany (mappedBy = "form", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+	private List<Question> questions = new ArrayList<>();
 
-	@Column(name = "date_created", nullable = false)
-	private LocalDate dateCreated;
+	@OneToMany (mappedBy = "form")
+	private List<FormSubmission> formSubmissions = new ArrayList<>();
 
-	@Column(name = "form_url", nullable = false)
-	private String formUrl;
+	public Form(String title) {
+		this.title = title;
+	}
 
-	public Form(String formName, String formDescription, String formUrl) {
-		this.formName = formName;
-		this.formDescription = formDescription;
-		this.dateCreated = LocalDate.now();
-		this.formUrl = formUrl;
+	public void addQuestion(Question question) {
+		questions.add(question);
+		question.setForm(this);
 	}
 }

@@ -8,13 +8,12 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
-import java.time.LocalDate;
-
 @Entity (name = "USER_ACTION_POINT_LIKE")
 @NoArgsConstructor
 @Getter
 @Setter
 @ToString
+@Table (uniqueConstraints = @UniqueConstraint (columnNames = {"user_id", "action_point_id"}))
 public class UserActionPointLike {
 
 	@Id

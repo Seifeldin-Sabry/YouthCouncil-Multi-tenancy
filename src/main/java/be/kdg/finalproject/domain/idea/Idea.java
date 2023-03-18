@@ -28,7 +28,7 @@ public class Idea {
 	@Column (name = "is_flagged", nullable = false)
 	private boolean isFlagged;
 
-	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
 	@JoinColumn (name = "theme_id", nullable = false)
 	private Theme theme;
 
