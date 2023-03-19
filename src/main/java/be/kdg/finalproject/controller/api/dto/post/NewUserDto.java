@@ -1,6 +1,7 @@
 package be.kdg.finalproject.controller.api.dto.post;
 
-import jakarta.validation.constraints.NotBlank;
+
+import javax.validation.constraints.NotBlank;
 
 public class NewUserDto {
 

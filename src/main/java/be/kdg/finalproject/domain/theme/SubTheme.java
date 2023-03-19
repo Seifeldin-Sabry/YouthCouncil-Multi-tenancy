@@ -1,11 +1,12 @@
 package be.kdg.finalproject.domain.theme;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.checkerframework.common.aliasing.qual.Unique;
+
+import javax.persistence.*;
 
 @Entity (name = "SUB_THEMES")
 @Getter

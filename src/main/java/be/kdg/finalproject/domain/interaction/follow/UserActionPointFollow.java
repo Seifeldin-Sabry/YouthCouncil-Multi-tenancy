@@ -2,10 +2,11 @@ package be.kdg.finalproject.domain.interaction.follow;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity (name = "USER_ACTION_POINT_FOLLOW")
 @Getter
@@ -15,11 +16,11 @@ import lombok.Setter;
 public class UserActionPointFollow {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn (name = "user_id")
 	private User follower;
 
 	@ManyToOne

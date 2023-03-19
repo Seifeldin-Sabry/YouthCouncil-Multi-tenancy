@@ -31,10 +31,10 @@ public class MunicipalityServiceImpl implements MunicipalityService{
 		return municipalityRepository.findByNamePart(partialName);
 	}
 
-	@Override
-	public List<Municipality> getAllMunicipalitiesByPostalCode(Integer partialPostalCode) {
-		return municipalityRepository.findByPostcodePart(String.valueOf(partialPostalCode));
-	}
+	//	@Override
+	//	public List<Municipality> getAllMunicipalitiesByPostalCode(Integer partialPostalCode) {
+	//		return municipalityRepository.findByPostcodePart(String.valueOf(partialPostalCode));
+	//	}
 
 	@Override
 	public Municipality getMunicipalityByPostalCode(Integer postalCode) {

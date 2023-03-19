@@ -1,13 +1,12 @@
 package be.kdg.finalproject.domain.report;
 
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.Date;
 
 
 @Entity (name = "REPORTS")
@@ -21,7 +20,7 @@ public class Report {
 	private Long report_id;
 
 	@Column (name = "report_reason", nullable = false)
-	@Enumerated(EnumType.STRING)
+	@Enumerated (EnumType.STRING)
 	private ReportReason reportReason;
 
 	@Column (name = "report_description")

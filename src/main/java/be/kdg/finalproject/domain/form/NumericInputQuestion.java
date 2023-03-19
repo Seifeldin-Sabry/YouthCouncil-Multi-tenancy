@@ -4,14 +4,16 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
-@DiscriminatorValue("NUMBER_QUESTION")
-public class NumericInputQuestion extends Question{
+@DiscriminatorValue ("NUMBER_QUESTION")
+public class NumericInputQuestion extends Question {
 	public NumericInputQuestion(String questionText, Integer order) {
 		super(questionText, order);
 		this.setQuestionType(QuestionType.NUMBER_QUESTION);

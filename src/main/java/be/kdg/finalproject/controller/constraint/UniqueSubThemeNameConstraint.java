@@ -1,8 +1,8 @@
 package be.kdg.finalproject.controller.constraint;
 
 import be.kdg.finalproject.controller.validator.UniqueSubThemeNameValidator;
-import jakarta.validation.Constraint;
 
+import javax.validation.Constraint;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

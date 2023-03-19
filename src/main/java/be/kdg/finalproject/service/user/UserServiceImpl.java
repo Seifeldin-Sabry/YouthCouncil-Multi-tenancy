@@ -19,6 +19,7 @@ public class UserServiceImpl implements UserService {
 	private final UserRepository userRepository;
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final MembershipService membershipService;
+	private final Random random = new Random();
 
 	private final Logger logger = LoggerFactory.getLogger(UserServiceImpl.class);
 
@@ -34,7 +35,7 @@ public class UserServiceImpl implements UserService {
 		logger.debug("{}", userSignUpViewModel);
 		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(), userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
 		userRepository.save(user);
-		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode());
+		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.USER);
 		userRepository.save(user);
 		logger.info("User added: " + user.getEmail());
 		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
@@ -50,7 +51,7 @@ public class UserServiceImpl implements UserService {
 			user.setEmail(email);
 			user.setRole(Role.USER);
 			user.setProvider(provider);
-			user.setUsername(email.replaceAll("@.*", generateRandomCharacterSequence()));
+			user.setUsername(email);
 			user.setFirstName(givenName);
 			user.setSurname(familyName);
 			userRepository.save(user);
@@ -76,10 +77,14 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("FormSubmission not found"));
 	}
 
+	@Override
+	public User getUserByUsernameOrEmail(String username) {
+		return userRepository.findByUsernameOrEmail(username).orElse(null);
+	}
+
 	private String generateRandomCharacterSequence() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
 		int length = 10;
 		for (int i = 0; i < length; i++) {
 			int index = random.nextInt(characters.length());

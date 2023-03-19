@@ -9,4 +9,6 @@ public interface UserService {
 	void processOAuthPostLoginGoogle(String email, String givenName, String familyName, Provider provider);
 	void processOAuthPostLoginFaceBook(String email, String name, Provider provider);
 	User getUserByID(long id);
+
+	User getUserByUsernameOrEmail(String username);
 }

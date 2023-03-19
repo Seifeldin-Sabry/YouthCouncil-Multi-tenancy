@@ -2,7 +2,10 @@ package be.kdg.finalproject.domain.form;
 
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @DiscriminatorValue ("MULTIPLE_CHOICE_QUESTION")
 public class MultipleChoiceQuestion extends Question {
-	@ElementCollection(fetch = FetchType.EAGER)
+	@ElementCollection (fetch = FetchType.EAGER)
 	private List<String> choices = new ArrayList<>();
 
 	public MultipleChoiceQuestion(String questionText, Integer order) {

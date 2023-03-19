@@ -2,7 +2,9 @@ package be.kdg.finalproject.domain.form;
 
 import lombok.NoArgsConstructor;
 
-import jakarta.persistence.*;
+import javax.persistence.DiscriminatorValue;
+import javax.persistence.Entity;
+
 
 @Entity
 @NoArgsConstructor

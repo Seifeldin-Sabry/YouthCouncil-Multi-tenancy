@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.api.dto.post;
 
-import jakarta.validation.constraints.NotNull;
 
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 public class NewMunicipalityDto {

@@ -1,11 +1,11 @@
 package be.kdg.finalproject.domain.activities;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity (name = "CALENDAR_ACTIVITIES")

@@ -2,10 +2,10 @@ package be.kdg.finalproject.controller.validator;
 
 import be.kdg.finalproject.controller.constraint.UniqueUsernameConstraint;
 import be.kdg.finalproject.repository.UserRepository;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 import java.util.logging.Logger;
 
 public class UniqueUsernameValidator implements ConstraintValidator<UniqueUsernameConstraint, String> {

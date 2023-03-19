@@ -4,15 +4,14 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,11 +49,6 @@ public class User {
 	@Column (name = "role", nullable = false)
 	@Enumerated (EnumType.STRING)
 	private Role role;
-
-	// for youth council members
-	@ManyToOne
-	@JoinColumn (name = "municipality_id")
-	private Municipality municipality;
 
 	@OneToMany (mappedBy = "creator")
 	@ToString.Exclude

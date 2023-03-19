@@ -3,11 +3,10 @@ package be.kdg.finalproject.controller.mvc;
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.service.user.UserService;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +14,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 @Controller
 public class UserAccountController {
@@ -26,6 +29,11 @@ public class UserAccountController {
 
 	@GetMapping ("/login")
 	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error) {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		logger.debug("Authentication: " + authentication);
+		logger.debug("Role: " + authentication.getAuthorities().toString());
+		logger.debug("Is authenticated: " + authentication.isAuthenticated());
+		logger.debug("Authentication name: " + authentication.getDetails());
 		if (error != null) {
 			return new ModelAndView("html/login")
 					.addObject("errorMessage", "Invalid email/username or password");

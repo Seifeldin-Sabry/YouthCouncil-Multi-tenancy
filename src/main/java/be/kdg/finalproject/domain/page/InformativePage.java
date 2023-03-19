@@ -1,10 +1,11 @@
 package be.kdg.finalproject.domain.page;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity (name = "PAGES")
 @Getter

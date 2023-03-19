@@ -6,12 +6,12 @@ import be.kdg.finalproject.domain.news.NewsItem;
 import be.kdg.finalproject.domain.page.InformativePage;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,10 +33,11 @@ public class Municipality {
 
 	private String logo;
 
-	@ElementCollection
+	@ElementCollection (fetch = FetchType.EAGER)
 	private List<String> socialMediaLinks = new ArrayList<>();
 
-	@OneToMany (mappedBy = "municipality")
+	@OneToMany
+	@JoinColumn (name = "municipality_id")
 	@ToString.Exclude
 	private Set<User> members = new HashSet<>();
 
@@ -48,7 +49,7 @@ public class Municipality {
 	@ToString.Exclude
 	private Set<Membership> memberships = new HashSet<>();
 
-	@OneToMany
+	@OneToMany (cascade = CascadeType.ALL)
 	@JoinColumn (name = "municipality_id")
 	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();

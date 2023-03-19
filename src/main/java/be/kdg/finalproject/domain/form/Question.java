@@ -4,10 +4,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
-@Entity(name = "questions")
-@Table(name = "questions")
+
+@Entity (name = "questions")
+@Table (name = "questions")
 @Inheritance (strategy = InheritanceType.SINGLE_TABLE)
 @NoArgsConstructor
 @Getter
@@ -30,8 +31,8 @@ public abstract class Question {
 	private Form form;
 
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "question_type", insertable = false, updatable = false)
+	@Enumerated (EnumType.STRING)
+	@Column (name = "question_type", insertable = false, updatable = false)
 	private QuestionType questionType;
 
 	@Column(name = "question_order", nullable = false)
