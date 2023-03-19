@@ -2,8 +2,9 @@ package be.kdg.finalproject.controller.validator;
 
 import be.kdg.finalproject.controller.constraint.UniqueSubThemeNameConstraint;
 import be.kdg.finalproject.repository.SubThemeRepository;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 
 public class UniqueSubThemeNameValidator implements ConstraintValidator<UniqueSubThemeNameConstraint, String> {

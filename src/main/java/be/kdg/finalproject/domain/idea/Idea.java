@@ -3,10 +3,10 @@ package be.kdg.finalproject.domain.idea;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;

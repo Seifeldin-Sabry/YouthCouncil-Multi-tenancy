@@ -1,6 +1,6 @@
 package be.kdg.finalproject.controller.api;
 
-import be.kdg.finalproject.controller.api.dto.form.*;
+import be.kdg.finalproject.controller.api.dto.form.QuestionDTO;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.service.form.*;
 import org.springframework.http.HttpStatus;
@@ -10,10 +10,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.validation.Valid;
+import javax.validation.Valid;
+
 
 @RestController
-@RequestMapping("/api/question")
+@RequestMapping ("/api/question")
 public class QuestionRestController {
 
     TextInputQuestionService textInputQuestionService;

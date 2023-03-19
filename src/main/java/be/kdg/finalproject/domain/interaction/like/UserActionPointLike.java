@@ -2,11 +2,12 @@ package be.kdg.finalproject.domain.interaction.like;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.user.User;
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import javax.persistence.*;
 
 @Entity (name = "USER_ACTION_POINT_LIKE")
 @NoArgsConstructor

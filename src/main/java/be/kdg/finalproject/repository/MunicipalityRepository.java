@@ -16,10 +16,10 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	@Query ("SELECT m FROM MUNICIPALITIES m WHERE UPPER(m.name) LIKE CONCAT('%', UPPER(:namePart), '%')")
 	List<Municipality> findByNamePart(@Param ("namePart") String namePart);
 
-	@Query ("SELECT m FROM MUNICIPALITIES m JOIN m.postcodes p WHERE CAST(p.postcode as STRING) LIKE CONCAT('%', :codePart, '%')")
-	List<Municipality> findByPostcodePart(@Param ("codePart") String codePart);
+	//	@Query ("SELECT m FROM MUNICIPALITIES m JOIN m.postcodes p WHERE CAST(p.postcode as varchar(255)) LIKE CONCAT('%', :codePart, '%')")
+	//	List<Municipality> findByPostcodePart(@Param ("codePart") String codePart);
 
 
-	@Query (value = "SELECT * FROM MUNICIPALITIES m JOIN POSTCODES p ON m.municipalitiy_id = p.municipality_id WHERE p.postcode = :code", nativeQuery = true)
+	@Query (value = "SELECT * FROM MUNICIPALITIES m JOIN POSTCODES p ON m.municipality_id = p.municipality_id WHERE p.postcode = :code", nativeQuery = true)
 	Municipality findByPostcode(@Param ("code") int code);
 }

@@ -1,6 +1,5 @@
 package be.kdg.finalproject.config.security;
 
-import jakarta.persistence.Cacheable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -15,7 +14,6 @@ import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 @Configuration
 @EnableWebSecurity
-@Cacheable (false)
 public class SecurityConfig {
 
 	private final CustomOAuth2UserService oauthUserService;
@@ -39,9 +37,11 @@ public class SecurityConfig {
 				.authorizeHttpRequests(
 						auths ->
 								auths
-										.requestMatchers("/api/**")
+										.antMatchers(HttpMethod.POST, "/register")
+										.permitAll()
+										.antMatchers("/api/**")
 										.authenticated()
-										.requestMatchers(HttpMethod.GET, "/**")
+										.antMatchers(HttpMethod.GET, "/**")
 										.permitAll()
 										.anyRequest()
 										.authenticated()
@@ -54,10 +54,7 @@ public class SecurityConfig {
 				.userInfoEndpoint()
 				.userService(oauthUserService)
 				.and()
-				.successHandler(oAuthSuccessHandler)
-				.and()
-				.csrf()
-				.disable();
+				.successHandler(oAuthSuccessHandler);
 
 		return http.build();
 	}

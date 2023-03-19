@@ -3,10 +3,11 @@ package be.kdg.finalproject.controller.validator;
 import be.kdg.finalproject.controller.constraint.ValidPostcodeConstraint;
 import be.kdg.finalproject.repository.PostCodeRepository;
 import com.google.common.collect.ImmutableList;
-import jakarta.validation.ConstraintValidator;
-import jakarta.validation.ConstraintValidatorContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import javax.validation.ConstraintValidator;
+import javax.validation.ConstraintValidatorContext;
 
 
 public class ValidPostcodeValidator implements ConstraintValidator<ValidPostcodeConstraint, Integer> {

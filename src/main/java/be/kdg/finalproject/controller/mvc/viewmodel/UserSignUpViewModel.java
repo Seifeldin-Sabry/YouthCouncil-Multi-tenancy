@@ -5,9 +5,10 @@ import be.kdg.finalproject.controller.constraint.UniqueEmailConstraint;
 import be.kdg.finalproject.controller.constraint.UniqueUsernameConstraint;
 import be.kdg.finalproject.controller.constraint.ValidPostcodeConstraint;
 import be.kdg.finalproject.controller.mvc.viewmodel.password.*;
-import jakarta.validation.GroupSequence;
-import jakarta.validation.constraints.*;
 import lombok.*;
+
+import javax.validation.GroupSequence;
+import javax.validation.constraints.*;
 
 @Getter
 @Setter

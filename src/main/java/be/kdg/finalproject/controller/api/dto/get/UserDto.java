@@ -1,16 +1,7 @@
 package be.kdg.finalproject.controller.api.dto.get;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
-import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotBlank;
 
 public class UserDto {
 	@NotBlank

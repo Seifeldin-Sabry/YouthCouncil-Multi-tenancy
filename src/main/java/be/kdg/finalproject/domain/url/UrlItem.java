@@ -1,12 +1,15 @@
 package be.kdg.finalproject.domain.url;
 
-import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import javax.persistence.*;
 
 @Entity (name = "URL_ITEMS")
 @Getter
 @Setter
+@NoArgsConstructor
 public class UrlItem {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
