@@ -146,3 +146,8 @@ replay_pid*
 
 ./db
 ./db/**
+/db/
+/.idea/modules/FinalProject.iml
+/.idea/modules/FinalProject.main.iml
+/.idea/modules/FinalProject.test.iml
+/.idea/modules.xml
