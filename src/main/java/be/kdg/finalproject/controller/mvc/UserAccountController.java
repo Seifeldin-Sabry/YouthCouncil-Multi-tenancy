@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 @Controller
@@ -85,7 +86,7 @@ public class UserAccountController {
 	}
 
 	@GetMapping ("/login")
-	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error) {
+	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error, HttpSession session) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		logger.debug("Authentication: " + authentication);
 		logger.debug("Role: " + authentication.getAuthorities().toString());

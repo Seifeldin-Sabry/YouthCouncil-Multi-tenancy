@@ -10,6 +10,7 @@
 	<script defer th:src="@{/js/theme/theme.js}" type="module"></script>
 </head>
 <body>
+<th:block th:insert="~{/fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
 <div class="container mt-4">
 	<div class="row">
 		<div class="col-12 text-end mb-3">

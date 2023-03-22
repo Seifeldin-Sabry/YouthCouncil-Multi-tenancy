@@ -13,6 +13,7 @@ import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Profile;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -37,6 +38,7 @@ public class DatabaseSeeder {
 
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
+	@Autowired
 	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory,
 	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository) {
 		this.themeRepository = themeRepository;
