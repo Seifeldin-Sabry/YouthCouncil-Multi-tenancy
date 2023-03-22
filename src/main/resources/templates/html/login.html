@@ -9,9 +9,7 @@
 </head>
 <body>
 
-<!--LOGIN-->
-<!--<div th:insert="~{fragments/fragments::navigationbar(3)}">My navbar</div>-->
-<th:block th:insert="~{fragments/fragments::nav(${authUser})}"></th:block>
+<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -39,6 +37,7 @@
     				   'form-control form-control-lg border-3 '}"
 									   id="password"
 									   type="password"
+									   name="password"
 								/>
 								<label class="form-label" th:for="password">Password</label>
 							</div>

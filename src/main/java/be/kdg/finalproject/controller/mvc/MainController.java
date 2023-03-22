@@ -13,11 +13,8 @@ public class MainController {
 	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 	private final UserService userService;
 
-	public MainController(UserService userService) {this.userService = userService;}
-
-	@GetMapping ("/home")
-	public ModelAndView showHome() {
-		return new ModelAndView("html/home");
+	public MainController(UserService userService) {
+		this.userService = userService;
 	}
 
 	@GetMapping ("/manage")

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Dashboard</title>
+</head>
+<body>
+<div th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}">My navbar</div>
+<!--<div class="container">-->
+<div class="row block">
+	<div>
+		<div class="card text-center">
+			<div class="card-body">
+				<i class="bi bi-people h1"></i>
+				<h5 class="card-title">Users</h5>
+				<p class="card-text">View/Edit User Data, Add New User, Remove User</p>
+				<a class="btn btn-primary" href="#">Go to Users</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row block">
+	<div>
+		<div class="card text-center">
+			<div class="card-body">
+				<i class="bi bi-building h1"></i>
+				<h5 class="card-title">Municipalities</h5>
+				<p class="card-text">View/Edit Municipality Data, Add New Municipality, Remove Municipality</p>
+				<a class="btn btn-primary" href="#">Go to Municipalities</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row block">
+	<div>
+		<div class="card text-center">
+			<div class="card-body">
+				<i class="bi bi-bar-chart h1"></i>
+				<h5 class="card-title">Analytics</h5>
+				<p class="card-text">View Analytics Data, Generate Reports, Manage Data Sources</p>
+				<a class="btn btn-primary" href="#">Go to Analytics</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row block">
+	<div>
+		<div class="card text-center">
+			<div class="card-body">
+				<i class="bi bi-palette h1"></i>
+				<h5 class="card-title">Themes</h5>
+				<p class="card-text">Customize Theme Settings</p>
+				<a class="btn btn-primary" href="/dashboard/themes">Go to Themes</a>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="row block">
+	<div>
+		<div class="card text-center">
+			<div class="card-body">
+				<i class="bi bi-gear h1"></i>
+				<h5 class="card-title">Customize Platform</h5>
+				<p class="card-text">Customize Platform Settings, Manage Integrations, Install Plugins</p>
+				<a class="btn btn-primary" href="#">Go to Platform Settings</a>
+			</div>
+		</div>
+	</div>
+</div>
+<!--</div>-->
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

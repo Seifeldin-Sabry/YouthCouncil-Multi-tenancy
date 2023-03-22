@@ -42,7 +42,7 @@ public class MembershipServiceImpl implements MembershipService {
 	}
 
 	@Override
-	public List<Membership> getAllMembershipsByUser(User user){
-		return (List<Membership>) membershipRespository.findAllMembershipsByUser(user);
+	public List<Membership> getAllMembershipsByUser(User user) {
+		return ImmutableList.copyOf(membershipRespository.findAllMembershipsByUser(user));
 	}
 }

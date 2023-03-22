@@ -2,70 +2,79 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
-	<script defer src="/js/signup.js"></script>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.6.0/font/bootstrap-icons.css" rel="stylesheet">
 	<title>Dashboard</title>
-	<link th:href="@{/css/style.css}" rel="stylesheet" />
+	<style>
+		.container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			height: 100vh;
+			justify-content: center;
+		}
+	</style>
 </head>
 
-<body class="bodyBackground">
+<body>
 
-<div th:insert="~{fragments/fragments::navigationbar(5)}">My navbar</div>
+<div th:insert="~{fragments/fragments::nav(${authUser})}">My navbar</div>
 
-<div class="container-fluid d-flex justify-content-center">
+<div class="container">
 	<div class="row">
-		<div class="col-md-6 col-lg-6 mb-4">
-			<div class="row">
-				<div class="col-md-6 mb-4">
-					<a href="#" class="w-100 h-100">
-						<div class="card text-center shadow h-100 bigger-card">
-							<div class="card-body">
-								<i class="bi bi-person fa-5x mb-3"></i>
-								<h5 class="card-title mb-0">Users</h5>
-							</div>
-						</div>
-					</a>
-				</div>
-				<div class="col-md-6 mb-4">
-					<a href="#" class="w-100 h-100">
-						<div class="card text-center shadow h-100 bigger-card">
-							<div class="card-body">
-								<i class="bi bi-building fa-5x mb-3"></i>
-								<h5 class="card-title mb-0">Municipalities</h5>
-							</div>
-						</div>
-					</a>
+		<div class="col-md-6">
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-people h1"></i>
+					<h5 class="card-title">Users</h5>
+					<p class="card-text">View/Edit User Data, Add New User, Remove User</p>
+					<a href="#" class="btn btn-primary">Go to Users</a>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-6 col-lg-6 mb-4">
-			<div class="row">
-				<div class="col-md-6 mb-4">
-					<a href="#" class="w-100 h-100">
-						<div class="card text-center shadow h-100 bigger-card">
-							<div class="card-body">
-								<i class="bi bi-graph-up fa-5x mb-3"></i>
-								<h5 class="card-title mb-0">Analytics</h5>
-							</div>
-						</div>
-					</a>
+		<div class="col-md-6">
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-building h1"></i>
+					<h5 class="card-title">Municipalities</h5>
+					<p class="card-text">View/Edit Municipality Data, Add New Municipality, Remove Municipality</p>
+					<a href="#" class="btn btn-primary">Go to Municipalities</a>
 				</div>
-				<div class="col-md-6 mb-4">
-					<a href="#" class="w-100 h-100">
-						<div class="card text-center shadow h-100 bigger-card">
-							<div class="card-body">
-								<i class="bi bi-palette fa-5x mb-3"></i>
-								<h5 class="card-title mb-0">Themes</h5>
-							</div>
-						</div>
-					</a>
+			</div>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-6">
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-bar-chart h1"></i>
+					<h5 class="card-title">Analytics</h5>
+					<p class="card-text">View Analytics Data, Generate Reports, Manage Data Sources</p>
+					<a href="#" class="btn btn-primary">Go to Analytics</a>
+				</div>
+			</div>
+		</div>
+
+		<div class="col-md-6">
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-palette h1"></i>
+					<h5 class="card-title">Themes</h5>
+					<p class="card-text">Customize Theme Settings</p>
+					<a href="/themes" class="btn btn-primary">Go to Themes</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 offset-md-4">
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-gear h1"></i>
+					<h5 class="card-title">Customize Platform</h5>
+					<p class="card-text">Customize Platform Settings, Manage Integrations, Install Plugins</p>
+					<a href="#" class="btn btn-primary">Go to Platform Settings</a>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-
-
 <div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

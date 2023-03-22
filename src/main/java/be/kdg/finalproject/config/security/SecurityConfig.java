@@ -32,11 +32,12 @@ public class SecurityConfig {
 				.authenticationEntryPoint(httpStatusEntryPoint())
 				.and()
 				.csrf()
-.and()
+				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+				.and()
 				.authorizeHttpRequests(
 						auths ->
 								auths
-										.antMatchers(HttpMethod.POST, "/register")
+										.antMatchers(HttpMethod.POST, "/register", "/login", "/logout")
 										.permitAll()
 										.antMatchers("/api/**")
 										.authenticated()
@@ -47,6 +48,7 @@ public class SecurityConfig {
 				)
 				.formLogin()
 				.loginPage("/login")
+				.permitAll()
 				.and()
 				.oauth2Login()
 				.loginPage("/login")
@@ -54,7 +56,9 @@ public class SecurityConfig {
 				.userService(oauthUserService)
 				.and()
 				.successHandler(oAuthSuccessHandler)
-			;
+				.and()
+				.exceptionHandling()
+				.accessDeniedPage("/access-denied");
 
 		return http.build();
 	}
