@@ -1,18 +1,21 @@
 package be.kdg.finalproject.controller.mvc;
 
+import be.kdg.finalproject.controller.api.dto.get.UserDto;
+import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
+import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
+import be.kdg.finalproject.service.membership.MembershipService;
 import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -23,9 +26,63 @@ import javax.validation.Valid;
 public class UserAccountController {
 
 	private final UserService userService;
+
+	private final MembershipService membershipService;
 	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	public UserAccountController(UserService userService) {this.userService = userService;}
+	public UserAccountController(UserService userService, MembershipService membershipService) {
+		this.userService = userService;
+		this.membershipService = membershipService;
+	}
+
+	@GetMapping("/users/{userId}")
+	public ModelAndView showUserDetails(@PathVariable long userId){
+		ModelAndView modelAndView = new ModelAndView("html/user-details");
+		User user = userService.getUserByID(userId);
+		modelAndView.addObject("user", user);
+		modelAndView.addObject("memberships", membershipService.getAllMembershipsByUser(user));
+		// Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//		User user = userService.getUserByUsernameOrEmail(authentication.getName());
+		//		if (user == null) {
+		//			logger.debug("User not found");
+		//			return;
+		//		}
+		//		logger.debug("User found: " + user.getUsername());
+		//		modelAndView.addObject("authUser", user);
+		return modelAndView;
+	}
+
+	@GetMapping("/userManagement")
+	public ModelAndView showUserManagement(){
+		ModelAndView modelAndView = new ModelAndView("html/user-management");
+		modelAndView.addObject("users", userService.getAllUsers());
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//		User user = userService.getUserByUsernameOrEmail(authentication.getName());
+//		if (user == null) {
+//			logger.debug("User not found");
+//			return;
+//		}
+//		logger.debug("User found: " + user.getUsername());
+//		modelAndView.addObject("authUser", user);
+		return modelAndView;
+	}
+
+	@GetMapping("/superUserManagement")
+	public ModelAndView showSuperUserManagement(){
+		ModelAndView modelAndView = new ModelAndView("html/super-user-management");
+		modelAndView.addObject("YCAdmins", userService.getUsersByRole(Role.YOUTH_COUNCIL_ADMINISTRATOR));
+		modelAndView.addObject("YCModerators", userService.getUsersByRole(Role.YOUTH_COUNCIL_MODERATOR));
+		modelAndView.addObject("user", new UserSignUpViewModel());
+//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		//		User user = userService.getUserByUsernameOrEmail(authentication.getName());
+		//		if (user == null) {
+		//			logger.debug("User not found");
+		//			return;
+		//		}
+		//		logger.debug("User found: " + user.getUsername());
+		//		modelAndView.addObject("authUser", user);
+		return modelAndView;
+	}
 
 	@GetMapping ("/login")
 	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error) {

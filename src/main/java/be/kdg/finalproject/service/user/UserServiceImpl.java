@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Random;
 
 @Service
@@ -28,12 +29,54 @@ public class UserServiceImpl implements UserService {
 		this.passwordEncoder = passwordEncoder;
 		this.membershipService = municipalityService;
 	}
+	@Override
+	public User addYCAdmin(UserSignUpViewModel userSignUpViewModel){
+		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
+		logger.debug("{}", userSignUpViewModel);
+		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
+				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
+				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.YOUTH_COUNCIL_ADMINISTRATOR, Provider.LOCAL);
+		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
+		logger.info("User added: " + user.getEmail());
+		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
+		logger.debug("{}", user.getMemberships());
+		return userRepository.save(user);
+	}
+	@Override
+	public User addModerator(UserSignUpViewModel userSignUpViewModel){
+		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
+		logger.debug("{}", userSignUpViewModel);
+		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
+				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
+				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.YOUTH_COUNCIL_MODERATOR, Provider.LOCAL);
+		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.YOUTH_COUNCIL_MODERATOR);
+		logger.info("User added: " + user.getEmail());
+		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
+		logger.debug("{}", user.getMemberships());
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User addGA(UserSignUpViewModel userSignUpViewModel){
+		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
+		logger.debug("{}", userSignUpViewModel);
+		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
+				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
+				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.ADMINISTRATOR, Provider.LOCAL);
+		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.ADMINISTRATOR);
+		logger.info("User added: " + user.getEmail());
+		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
+		logger.debug("{}", user.getMemberships());
+		return userRepository.save(user);
+	}
 
 	@Override
 	public User addRegularUser(UserSignUpViewModel userSignUpViewModel) {
 		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
 		logger.debug("{}", userSignUpViewModel);
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(), userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
+		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
+				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), 
+				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
 		userRepository.save(user);
 		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.USER);
 		userRepository.save(user);
@@ -41,6 +84,21 @@ public class UserServiceImpl implements UserService {
 		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
 		logger.debug("{}", user.getMemberships());
 		return user;
+	}
+
+	@Override
+	public List<User> getUsersByRole(Role role){
+		return userRepository.findUsersByRole(role);
+	}
+
+	@Override
+	public List<User> getAllUsers(){
+		return (List<User>) userRepository.findAll();
+	}
+
+	@Override
+	public void deleteUser(User user){
+		userRepository.delete(user);
 	}
 
 	@Override

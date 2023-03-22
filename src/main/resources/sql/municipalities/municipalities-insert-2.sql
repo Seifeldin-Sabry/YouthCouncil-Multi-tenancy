@@ -1,3 +1,22 @@
+INSERT INTO FORMS(TITLE )
+VALUES ('hehe xd' ),
+       ('nice one'),
+       ('this goes in');
+
+INSERT INTO QUESTIONS(is_required, question_text, question_type, question_order, form_id)
+VALUES (true, 'aint no way bar', 'TEXT_QUESTION', 1, 1 ),
+       (false, 'faahhkk', 'RADIO_QUESTION', 2, 1 ),
+       (true, 'amahan', 'MULTIPLE_CHOICE_QUESTION', 3, 1 );
+INSERT INTO RADIO_QUESTION_CHOICES(radio_question_question_id, choices)
+VALUES ( 2, 'hehexd' ),
+       ( 2, 'adasfsda' ),
+       ( 2, 'hehexdddd' );
+
+INSERT INTO MULTIPLE_CHOICE_QUESTION_CHOICES(MULTIPLE_CHOICE_question_question_id, choices)
+VALUES ( 3, 'heddhexd' ),
+       ( 3, 'adasdddfsda' ),
+       ( 3, 'hehadsfsadd' );
+
 INSERT INTO municipalities (name)
 VALUES ('Merelbeke');
 INSERT INTO postcodes (postcode, municipality_id)

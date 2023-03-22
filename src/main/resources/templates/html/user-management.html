@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org">
+
+<head>
+	<meta charset="UTF-8">
+	<title>UserManagement</title>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<script defer src="/js/management/user-management.js"></script>
+</head>
+<body>
+
+<div class="container">
+	<input class="form-check-input filterRole" type="checkbox" value="" id="generalUser" checked>
+	<label class="form-check-label" for="generalUser">
+		General User
+	</label>
+	<br>
+	<input class="form-check-input filterRole" type="checkbox" value="" id="YCAdmin" checked>
+	<label class="form-check-label" for="YCAdmin">
+		Youth Council Administrator
+	</label>
+	<br>
+	<input class="form-check-input filterRole" type="checkbox" value="" id="YCModerator" checked>
+	<label class="form-check-label" for="YCModerator">
+		Youth Council Moderator
+	</label>
+	<br>
+	<input class="form-check-input filterRole" type="checkbox" value="" id="GAdmin" checked>
+	<label class="form-check-label" for="GAdmin">
+		General Administrator
+	</label>
+</div>
+
+<table id="dtVerticalScrollExample" class="table table-striped table-bordered table-sm">
+	<thead>
+	<tr>
+		<th class="th-sm">UserName
+		</th>
+		<th class="th-sm">Email
+		</th>
+		<th class="th-sm">Role
+		</th>
+		<th class="th-sm">Details
+		</th>
+		<th class="th-sm">Delete
+		</th>
+	</tr>
+	</thead>
+	<tbody class="tbodyUsers">
+	<tr th:each="user: ${users}" th:data-user-id="${user.id}">
+		<td class="usernameUser" th:text="${user.username}" />
+		<td class="emailUser" th:text="${user.email}" />
+		<td class="roleUser" th:text="${user.role}" />
+		<td>
+			<a th:href="@{/users/{userId}(userId=${user.id})}">
+				<button type="button" class="btn btn-primary detailsButton">Details</button>
+			</a>
+
+		</td>
+		<td>
+			<button type="button" class="btn btn-danger deleteButton">Delete</button>
+		</td>
+	</tr>
+	</tbody>
+</table>
+</body>
+</html>
