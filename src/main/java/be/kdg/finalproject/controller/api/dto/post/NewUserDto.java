@@ -17,6 +17,8 @@ public class NewUserDto {
 	private String email;
 	@NotBlank
 	private String password;
+	private Role role;
+	private long id;
 
 	public NewUserDto(String first_name, String surname, String username, String postcode, String email, String password) {
 		this.first_name = first_name;
@@ -27,6 +29,21 @@ public class NewUserDto {
 		this.password = password;
 	}
 
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getRole() {
+		return role;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
+	}
 
 	public String getFirst_name() {
 		return first_name;

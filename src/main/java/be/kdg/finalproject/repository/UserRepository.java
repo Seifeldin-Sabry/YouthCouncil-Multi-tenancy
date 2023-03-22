@@ -1,10 +1,12 @@
 package be.kdg.finalproject.repository;
 
+import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface UserRepository extends CrudRepository<User, Long> {
@@ -14,4 +16,5 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	boolean existsByUsernameIgnoreCase(String username);
 
 	boolean existsByEmailIgnoreCase(String email);
+	List<User> findUsersByRole(Role role);
 }

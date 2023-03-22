@@ -12,6 +12,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class MembershipServiceImpl implements MembershipService {
 
@@ -37,5 +39,10 @@ public class MembershipServiceImpl implements MembershipService {
 		//		municipality.getMemberships().add(save);
 		logger.debug("Municipality {}", save);
 		return save;
+	}
+
+	@Override
+	public List<Membership> getAllMembershipsByUser(User user){
+		return (List<Membership>) membershipRespository.findAllMembershipsByUser(user);
 	}
 }

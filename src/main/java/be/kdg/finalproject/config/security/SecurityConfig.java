@@ -32,8 +32,7 @@ public class SecurityConfig {
 				.authenticationEntryPoint(httpStatusEntryPoint())
 				.and()
 				.csrf()
-				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-				.and()
+.and()
 				.authorizeHttpRequests(
 						auths ->
 								auths
@@ -54,7 +53,8 @@ public class SecurityConfig {
 				.userInfoEndpoint()
 				.userService(oauthUserService)
 				.and()
-				.successHandler(oAuthSuccessHandler);
+				.successHandler(oAuthSuccessHandler)
+			;
 
 		return http.build();
 	}
