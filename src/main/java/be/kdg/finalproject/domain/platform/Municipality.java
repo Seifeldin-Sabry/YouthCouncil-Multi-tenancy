@@ -12,10 +12,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity (name = "MUNICIPALITIES")
 @Getter
@@ -28,16 +25,23 @@ public class Municipality {
 	@Column (name = "municipality_id", nullable = false)
 	private Long id;
 
+	@Column (name = "uuid", nullable = false, unique = true)
+	private UUID uuid = UUID.randomUUID();
+
 	@Column (name = "name", nullable = false)
 	private String name;
 
+	@Column (name = "logo")
 	private String logo;
 
-	@ElementCollection (fetch = FetchType.EAGER)
-	private List<String> socialMediaLinks = new ArrayList<>();
+	@Column (name = "has_platform")
+	private boolean hasPlatform;
 
-	@OneToMany
-	@JoinColumn (name = "municipality_id")
+	@OneToMany (cascade = CascadeType.ALL, orphanRemoval = true)
+	@ToString.Exclude
+	private List<SocialMediaLink> socialMediaLinks = new ArrayList<>();
+
+	@OneToMany (cascade = CascadeType.PERSIST)
 	@ToString.Exclude
 	private Set<User> members = new HashSet<>();
 
@@ -54,11 +58,11 @@ public class Municipality {
 	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();
 
-	@OneToMany
+	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
-	private List<InformativePage> infoInformativePages = new ArrayList<>();
+	private List<InformativePage> informativePages = new ArrayList<>();
 
-	@OneToMany
+	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
 	private List<NewsItem> newsItems = new ArrayList<>();
 
@@ -76,7 +80,7 @@ public class Municipality {
 		this.postcodes = postcodes;
 	}
 
-	public void addMembership(Membership membership) {
-		getMemberships().add(membership);
+	public void addMember(User user) {
+		members.add(user);
 	}
 }

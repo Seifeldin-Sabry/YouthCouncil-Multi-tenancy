@@ -1,6 +1,7 @@
 package be.kdg.finalproject.service.municipality;
 
 import be.kdg.finalproject.domain.platform.Municipality;
+import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.MunicipalityRepository;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -10,9 +11,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
-public class MunicipalityServiceImpl implements MunicipalityService{
+public class MunicipalityServiceImpl implements MunicipalityService {
 	private final MunicipalityRepository municipalityRepository;
 	private final Logger logger = LoggerFactory.getLogger(MunicipalityServiceImpl.class);
 
@@ -44,6 +46,17 @@ public class MunicipalityServiceImpl implements MunicipalityService{
 	@Override
 	public Optional<Municipality> getMunicipalityByName(String name) {
 		return Optional.empty();
+	}
+
+	@Override
+	public List<Municipality> getAllMunicipalitiesAndMembers() {
+		return municipalityRepository.findAllMunicipalitiesAndMembers();
+	}
+
+	@Override
+	public Municipality getMunicipalityByUUID(UUID id) throws EntityNotFoundException {
+		return municipalityRepository.findByUuid(id)
+		                             .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
 	}
 
 }
