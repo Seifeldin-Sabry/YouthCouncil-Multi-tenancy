@@ -80,6 +80,15 @@ public class User {
 		this.provider = provider;
 	}
 
+	public User(String firstName, String surname, String email, String password, Role role) {
+		this.firstName = firstName;
+		this.surname = surname;
+		this.email = email;
+		this.password = password;
+		this.role = role;
+		this.provider = Provider.LOCAL;
+	}
+
 	public void addMembership(Membership membership) {
 		getMemberships().add(membership);
 	}

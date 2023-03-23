@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title th:text="${municipality.name}"></title>
+	<script th:src="@{/js/municipality/addMember.js}" type="module"></script>
+</head>
+
+<body>
+<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}" />
+
+<div class="container">
+	<h1 class="my-5">Municipality Details</h1>
+	<div class="row">
+		<div class="col-md-6">
+			<h2>Members of Council</h2>
+			<button class="btn btn-primary" data-bs-target="#addMemberModal" data-bs-toggle="modal" type="button">
+				Add
+				Member
+			</button>
+			<ul class="list-group my-4">
+				<th:block th:each="member: ${municipality.getMembers()}">
+					<li class="list-group-item" th:text="${member.getFirstName()} + ' ' + ${member.getSurname()}"></li>
+				</th:block>
+			</ul>
+		</div>
+		<div class="col-md-6">
+			<h2>Postcodes of Municipality</h2>
+			<ul class="list-group my-4">
+				<th:block th:each="postcode: ${municipality.postcodes}">
+					<li class="list-group-item" th:text="${postcode.postcode}"></li>
+				</th:block>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- Add Member Modal -->
+<div aria-hidden="true" aria-labelledby="addMemberModalLabel" class="modal fade" id="addMemberModal"
+	 tabindex="-1"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addMemberModalLabel">Add Member</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<form class="d-flex flex-column align-items-start gap-3">
+					<div class="input-group has-validation">
+						<div class="form-floating">
+							<input class="form-control" id="firstName" placeholder="Enter First Name" type="text">
+							<label class="form-label" for="firstName">First Name</label>
+						</div>
+						<div class="invalid-feedback" id="firstName-err"></div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="form-floating">
+							<input class="form-control" id="surname" placeholder="Enter Surname" type="text">
+							<label class="form-label" for="surname">Surname</label>
+						</div>
+						<div class="invalid-feedback" id="surname-err"></div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="form-floating">
+							<input class="form-control" id="email" placeholder="Enter Email" type="email">
+							<label class="form-label" for="email">Email</label>
+						</div>
+						<div class="invalid-feedback" id="email-err"></div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="form-floating">
+							<select class="form-control" id="role">
+								<option>YOUTH_COUNCIL_ADMINISTRATOR</option>
+								<option>YOUTH_COUNCIL_MODERATOR</option>
+							</select>
+							<label class="form-label" for="role">Role</label>
+						</div>
+						<div class="invalid-feedback" id="role-err"></div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				<button class="btn btn-primary" id="add-member-btn" type="button">Add Member</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

@@ -1,9 +1,9 @@
 spring:
   mail:
-#    host: smtp.gmail.com
-#    port: ${DEV_EMAIL_PORT}
-#    username: ${DEV_EMAIL_USERNAME}
-#    password: ${DEV_EMAIL_PASSWORD}
+    #    host: smtp.gmail.com
+    #    port: ${DEV_EMAIL_PORT}
+    #    username: ${DEV_EMAIL_USERNAME}
+    #    password: ${DEV_EMAIL_PASSWORD}
     properties:
       mail:
         smtp:
@@ -38,5 +38,8 @@ spring:
 #      data-locations: classpath:sql/municipalities/*.sql
 logging:
   level:
+    #    org:
+    #      springframework:
+    #        security: debug
     #      web: debug
     be.kdg.finalproject: debug

@@ -11,6 +11,7 @@ import be.kdg.finalproject.repository.ThemeRepository;
 import be.kdg.finalproject.repository.UserRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,15 +57,26 @@ public class DatabaseSeeder {
 		//MUNICIPALITIES & POSTCODES
 		Municipality antwerpen = new Municipality("Antwerpen");
 		Set<PostCode> postCodes = new HashSet<>();
+		Set<PostCode> finalPostCodes1 = postCodes;
 		List.of(2000, 2018, 2020, 2030, 2040, 2050, 2060, 2100, 2140, 2170, 2180, 2600, 2610, 2660).forEach((code) -> {
 			PostCode postCode = new PostCode(code);
-			postCodes.add(postCode);
+			finalPostCodes1.add(postCode);
 		});
 		antwerpen.setPostcodes(postCodes);
 		municipalityRepository.save(antwerpen);
 
-		//		logger.debug("Postcodes saved for Antwerpen {} ", ImmutableList.copyOf(postCodeRepository.findAll()));
-		//		logger.debug("Municipalities saved {} ", ImmutableList.copyOf(municipalityRepository.findAll()));
+		Municipality ghent = new Municipality("Ghent");
+		postCodes = new HashSet<>();
+		Set<PostCode> finalPostCodes = postCodes;
+		List.of(1000, 3000).forEach((code) -> {
+			PostCode postCode = new PostCode(code);
+			finalPostCodes.add(postCode);
+		});
+		ghent.setPostcodes(postCodes);
+		municipalityRepository.save(ghent);
+
+		logger.debug("Postcodes saved for Antwerpen {} ", ImmutableList.copyOf(postCodeRepository.findAll()));
+		logger.debug("Municipalities saved {} ", ImmutableList.copyOf(municipalityRepository.findAll()));
 
 		// USERS
 		User admin = new User("admin", "admin", "admin", "admin@admin.co", passwordEncoder.encode("pass"), Role.ADMINISTRATOR, Provider.LOCAL);

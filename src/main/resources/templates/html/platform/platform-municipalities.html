@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Municipalities</title>
+</head>
+<body>
+<div th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></div>
+<h1 class="mb-5">Municipalities</h1>
+<div class="container my-3">
+	<form class="d-flex">
+		<input aria-label="Search" class="form-control me-2" placeholder="Search" type="search">
+		<button class="btn btn-outline-success" type="submit">Search</button>
+	</form>
+</div>
+<div class="container d-flex justify-content-evenly">
+	<div class="card" style="width: 18rem;" th:each="municipality: ${municipalities}">
+		<img th:if="${municipality.logo != null}" th:src="${municipality.logo}">
+		<img th:if="${municipality.logo == null}" th:src="@{/images/municipalities/placeholder.jpeg}">
+		<div class="card-body">
+			<h5 class="card-title" th:text="${municipality.name}"></h5>
+			<th:block class="dropdown-item" th:each="member: ${municipality.members}"
+					  th:if="${municipality.members.size() > 0}"
+			>
+				<li th:text="${member.firstName} + ' ' + ${member.surname}"></li>
+			</th:block>
+		</div>
+		<button class="btn btn-primary" th:if="${municipality.hasPlatform}" type="button"><a
+				th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}"
+		>Setup Council</a></button>
+		<button class="btn btn-info" th:if="${!municipality.hasPlatform}" type="button">Edit Council</button>
+	</div>
+</div>
+</body>
+</html>

@@ -1,5 +1,6 @@
 package be.kdg.finalproject.service.user;
 
+import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -29,8 +31,9 @@ public class UserServiceImpl implements UserService {
 		this.passwordEncoder = passwordEncoder;
 		this.membershipService = municipalityService;
 	}
+
 	@Override
-	public User addYCAdmin(UserSignUpViewModel userSignUpViewModel){
+	public User addYCAdmin(UserSignUpViewModel userSignUpViewModel) {
 		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
 		logger.debug("{}", userSignUpViewModel);
 		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
@@ -42,8 +45,9 @@ public class UserServiceImpl implements UserService {
 		logger.debug("{}", user.getMemberships());
 		return userRepository.save(user);
 	}
+
 	@Override
-	public User addModerator(UserSignUpViewModel userSignUpViewModel){
+	public User addModerator(UserSignUpViewModel userSignUpViewModel) {
 		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
 		logger.debug("{}", userSignUpViewModel);
 		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
@@ -57,7 +61,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public User addGA(UserSignUpViewModel userSignUpViewModel){
+	public User addGA(UserSignUpViewModel userSignUpViewModel) {
 		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
 		logger.debug("{}", userSignUpViewModel);
 		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
@@ -75,7 +79,7 @@ public class UserServiceImpl implements UserService {
 		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
 		logger.debug("{}", userSignUpViewModel);
 		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
-				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), 
+				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
 				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
 		userRepository.save(user);
 		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.USER);
@@ -87,17 +91,24 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public List<User> getUsersByRole(Role role){
+	public List<User> getUsersByRole(Role role) {
 		return userRepository.findUsersByRole(role);
 	}
 
 	@Override
-	public List<User> getAllUsers(){
+	public void addMemberToMunicipality(UUID uuid, NewUserDto user) {
+		//TODO: send email to user with password
+		User newUser = new User(user.getFirstName(), user.getSurname(), user.getEmail(), user.getEmail(), passwordEncoder.encode(generateRandomCharacterSequence()), user.getRole(), Provider.LOCAL);
+		membershipService.addMembershipByUserAndUuid(newUser, uuid, user.getRole());
+	}
+
+	@Override
+	public List<User> getAllUsers() {
 		return (List<User>) userRepository.findAll();
 	}
 
 	@Override
-	public void deleteUser(User user){
+	public void deleteUser(User user) {
 		userRepository.delete(user);
 	}
 

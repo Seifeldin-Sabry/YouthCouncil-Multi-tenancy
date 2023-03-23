@@ -7,9 +7,14 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Repository
 public interface MunicipalityRepository extends CrudRepository<Municipality, Long> {
+	@Query ("SELECT m FROM MUNICIPALITIES m JOIN FETCH m.members JOIN fetch m.postcodes WHERE m.uuid = :uuid")
+	Optional<Municipality> findByUuid(UUID uuid);
+
 	List<Municipality> findByNameContainingIgnoreCase(String name);
 
 
@@ -20,6 +25,14 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	//	List<Municipality> findByPostcodePart(@Param ("codePart") String codePart);
 
 
-	@Query (value = "SELECT * FROM MUNICIPALITIES m JOIN POSTCODES p ON m.municipality_id = p.municipality_id WHERE p.postcode = :code", nativeQuery = true)
+	@Query (value = "SELECT m FROM MUNICIPALITIES m LEFT JOIN FETCH m.members JOIN m.postcodes p WHERE p.postcode = :code")
 	Municipality findByPostcode(@Param ("code") int code);
+
+	@Query ("SELECT distinct m FROM MUNICIPALITIES m LEFT JOIN FETCH m.members")
+	List<Municipality> findAllMunicipalitiesAndMembers();
+
+	@Override
+	Optional<Municipality> findById(Long aLong);
+
+
 }
