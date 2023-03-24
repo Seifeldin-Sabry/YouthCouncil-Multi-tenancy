@@ -4,6 +4,7 @@ import be.kdg.finalproject.controller.api.dto.get.SubThemeDTO;
 import be.kdg.finalproject.controller.api.dto.get.ThemeDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewSubThemeDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewThemeDTO;
+import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.service.theme.ThemeService;
@@ -20,6 +21,7 @@ import java.util.Map;
 import java.util.Optional;
 
 @RestController
+@GeneralAdminOnly
 @RequestMapping ("/api/themes")
 public class ThemeRestController {
 
