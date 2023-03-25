@@ -2,9 +2,11 @@ package be.kdg.finalproject.repository;
 
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -17,4 +19,12 @@ public interface UserRepository extends CrudRepository<User, Long> {
 
 	boolean existsByEmailIgnoreCase(String email);
 	List<User> findUsersByRole(Role role);
+
+	@Transactional
+	@Modifying
+	@Query ("update APP_USERS a set a.username = ?1, a.firstName = ?2, a.surname = ?3, a.email = ?4 where a.id = ?5")
+	void updateUserById(String username, String firstName, String surname, String email, Long id);
+
+
+
 }

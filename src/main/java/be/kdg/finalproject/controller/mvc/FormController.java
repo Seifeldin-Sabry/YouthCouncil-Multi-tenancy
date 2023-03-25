@@ -30,9 +30,9 @@ public class FormController {
 	}
 
 
-	@RequestMapping("/forms")
+	@RequestMapping ("/forms")
 	public ModelAndView getForms() {
-		return new ModelAndView("html/form/forms", "forms", formService.getAllForms());
+		return new ModelAndView("form/forms", "forms", formService.getAllForms());
 	}
 
 	@RequestMapping ("/user-form")
@@ -43,7 +43,7 @@ public class FormController {
 		List<MultipleChoiceQuestion> multipleChoiceQuestions = multipleChoiceQuestionService.getQuestionByForm(form);
 		List<NumericInputQuestion> numericInputQuestions = numericInputQuestionService.getQuestionByForm(form);
 
-		ModelAndView modelAndView = new ModelAndView("html/form/user-form");
+		ModelAndView modelAndView = new ModelAndView("form/user-form");
 
 		modelAndView.addObject("textQuestions", textInputQuestions);
 		modelAndView.addObject("radioQuestions", radioQuestions);
@@ -54,7 +54,7 @@ public class FormController {
 		return modelAndView;
 	}
 
-	@RequestMapping("/form")
+	@RequestMapping ("/form")
 	public ModelAndView getForm(@RequestParam Long formId) {
 		Form form = formService.getFormById(formId);
 		List<TextInputQuestion> textInputQuestions = textInputQuestionService.getQuestionByForm(form);
@@ -62,7 +62,7 @@ public class FormController {
 		List<MultipleChoiceQuestion> multipleChoiceQuestions = multipleChoiceQuestionService.getQuestionByForm(form);
 		List<NumericInputQuestion> numericInputQuestions = numericInputQuestionService.getQuestionByForm(form);
 
-		ModelAndView modelAndView = new ModelAndView("html/form/form");
+		ModelAndView modelAndView = new ModelAndView("form/form");
 
 		modelAndView.addObject("textQuestions", textInputQuestions);
 		modelAndView.addObject("radioQuestions", radioQuestions);

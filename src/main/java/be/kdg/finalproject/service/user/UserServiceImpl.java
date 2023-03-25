@@ -1,5 +1,6 @@
 package be.kdg.finalproject.service.user;
 
+import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.security.Provider;
@@ -8,12 +9,14 @@ import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.UserRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
+import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 import java.util.UUID;
 
@@ -95,6 +98,7 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findUsersByRole(role);
 	}
 
+
 	@Override
 	public void addMemberToMunicipality(UUID uuid, NewUserDto user) {
 		//TODO: send email to user with password
@@ -103,8 +107,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public boolean newEmailIsCurrentEmail(User user, String email) {
+		return Objects.equals(user.getEmail(), email);
+	}
+
+	@Override
+	public boolean newUsernameIsCurrentUsername(User user, String username) {
+		return Objects.equals(user.getUsername(), username);
+	}
+
+	@Override
+	public boolean emailExists(String email) {
+		return userRepository.existsByEmailIgnoreCase(email);
+	}
+
+	@Override
+	public boolean usernameExists(String username) {
+		return userRepository.existsByUsernameIgnoreCase(username);
+	}
+
+	@Override
 	public List<User> getAllUsers() {
-		return (List<User>) userRepository.findAll();
+		return ImmutableList.copyOf(userRepository.findAll());
 	}
 
 	@Override
@@ -143,13 +167,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByID(long id) {
-		return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("FormSubmission not found"));
+		return userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User not found"));
 	}
 
 	@Override
 	public User getUserByUsernameOrEmail(String username) {
 		return userRepository.findByUsernameOrEmail(username).orElse(null);
 	}
+
+	@Override
+	public User updateUser(Long userId, UpdatedUserDTO updatedUserDTO) {
+		User user = userRepository.findById(userId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+		user.setFirstName(updatedUserDTO.getFirstName());
+		user.setSurname(updatedUserDTO.getSurname());
+		user.setEmail(updatedUserDTO.getEmail());
+		user.setUsername(updatedUserDTO.getUsername());
+		return userRepository.save(user);
+	}
+
+	@Override
+	public void deleteAccount(long userId) {
+		userRepository.deleteById(userId);
+	}
+
 
 	private String generateRandomCharacterSequence() {
 		String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";

@@ -19,8 +19,12 @@ public class MainController {
 
 	@GetMapping ("/manage")
 	public ModelAndView showAnalytics() {
-		return new ModelAndView("html/manage");
+		return new ModelAndView("manage");
 	}
 
 
+	@GetMapping ("/user-details")
+	public ModelAndView showUSerDetails() {
+		return new ModelAndView("user-details");
+	}
 }

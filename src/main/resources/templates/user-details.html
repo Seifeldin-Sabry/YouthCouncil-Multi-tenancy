@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Log in</title>
+	<script defer th:src="@{/js/user/updateDetails.js}" type="module"></script>
+	<!--	<script defer th:src="@{/js/user/deleteAccount.js}" type="module"></script>-->
+	<script defer th:src="@{/js/user/changePassword.js}" type="module"></script>
+</head>
+<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
+<body class="text-center">
+<div class="container">
+	<div class="col-lg-8">
+		<div class="card mb-4">
+			<div class="card-body">
+				<div class="input-group has-validation">
+					<div class="form-floating">
+						<input class="form-control" id="firstName" placeholder="Enter First Name"
+							   th:value="${authUser.firstName}" type="text"
+						>
+						<label class="form-label" for="firstName">First Name</label>
+					</div>
+					<div class="invalid-feedback" id="firstName-err"></div>
+				</div>
+				<hr>
+				<div class="input-group has-validation">
+					<div class="form-floating">
+						<input class="form-control" id="surname" placeholder="Enter Surname"
+							   th:value="${authUser.surname}" type="text"
+						>
+						<label class="form-label" for="surname">Surname</label>
+					</div>
+					<div class="invalid-feedback" id="surname-err"></div>
+				</div>
+				<hr>
+				<div>
+					<div class="input-group has-validation">
+						<div class="form-floating">
+							<input class="form-control" id="username" placeholder="Enter Email"
+								   th:value="${authUser.username}" type="email"
+							>
+							<label class="form-label" for="username">Username</label>
+						</div>
+						<div class="invalid-feedback" id="username-err"></div>
+					</div>
+				</div>
+				<hr>
+				<div class="input-group has-validation">
+					<div class="form-floating">
+						<input class="form-control" id="email" placeholder="Enter Email" th:value="${authUser.email}"
+							   type="email"
+						>
+						<label class="form-label" for="email">Email</label>
+					</div>
+					<div class="invalid-feedback" id="email-err"></div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="card mb-4">
+	<div class="card-body text-center">
+		<div class="d-flex justify-content-center mb-4">
+			<button class="btn btn-danger"
+					data-bs-target="#deleteAccount" data-bs-toggle="modal" type="button"
+			>Delete Account
+			</button>
+			<button class="btn btn-outline-primary ms-1" disabled id="save-profile-button" th:data-id="${authUser.id}"
+					type="button"
+			>Save Profile
+			</button>
+			<button class="btn btn-outline-primary ms-1" data-bs-target="#changePassword"
+					data-bs-toggle="modal" type="button"
+			>Change Password
+			</button>
+		</div>
+	</div>
+
+</div>
+
+
+<!--CHANGE PASSWORD MODAL-->
+<div aria-hidden="true" aria-labelledby="change-pass" class="modal fade" id="changePassword" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="change-pass">Change Password?</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				Enter your current password and the new one you want.
+				<hr>
+				<input placeholder="Current Password" type="password">
+				<input placeholder="New Password" type="password">
+
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Exit</button>
+				<button class="btn btn-primary" type="button">Confirm</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--DELETE ACCOUNT MODAL-->
+<div aria-hidden="true" aria-labelledby="delete-acc" class="modal fade" id="deleteAccount" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="delete-acc">DELETE ACCOUNT?</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				Are you sure you want to DELETE your account?
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">No</button>
+				<button class="btn btn-danger" type="button">DELETE</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div aria-atomic="true" aria-live="assertive" class="toast align-items-center text-white bg-success border-0"
+	 role="alert"
+>
+	<div class="d-flex">
+		<div class="toast-body">
+			Information has been updated!
+		</div>
+		<button aria-label="Close" class="btn-close ms-auto me-2" data-bs-dismiss="toast" type="button"></button>
+	</div>
+</div>
+
+</body>
+</html>

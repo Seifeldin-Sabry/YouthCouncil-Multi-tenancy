@@ -26,7 +26,7 @@ public class MunicipalityController {
 	@GeneralAdminOnly
 	public ModelAndView showMunicipalities() {
 		logger.debug("{}", municipalityService.getAllMunicipalitiesAndMembers());
-		return new ModelAndView("html/platform/platform-municipalities")
+		return new ModelAndView("platform/platform-municipalities")
 				.addObject("municipalities", municipalityService.getAllMunicipalitiesAndMembers());
 	}
 
@@ -34,7 +34,7 @@ public class MunicipalityController {
 	@GeneralAdminOnly
 	public ModelAndView showMunicipalityDetails(@PathVariable UUID uuid) throws EntityNotFoundException {
 		Municipality municipality = municipalityService.getMunicipalityByUUID(uuid);
-		return new ModelAndView("html/platform/platform-municipality")
+		return new ModelAndView("platform/platform-municipality")
 				.addObject("municipality", municipality);
 	}
 }

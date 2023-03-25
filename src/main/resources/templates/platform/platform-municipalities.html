@@ -25,10 +25,12 @@
 				<li th:text="${member.firstName} + ' ' + ${member.surname}"></li>
 			</th:block>
 		</div>
-		<button class="btn btn-primary" th:if="${municipality.hasPlatform}" type="button"><a
-				th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}"
-		>Setup Council</a></button>
-		<button class="btn btn-info" th:if="${!municipality.hasPlatform}" type="button">Edit Council</button>
+		<a class="text-white" th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}">
+			<button class="btn btn-primary" th:if="${municipality.hasPlatform}" type="button">
+				Edit Council
+			</button>
+		</a>
+		<button class="btn btn-info" th:if="${!municipality.hasPlatform}" type="button">Setup Council</button>
 	</div>
 </div>
 </body>

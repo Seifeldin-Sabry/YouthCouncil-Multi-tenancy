@@ -58,7 +58,7 @@ public class SecurityConfig {
 				.successHandler(oAuthSuccessHandler)
 				.and()
 				.exceptionHandling()
-				.accessDeniedPage("/access-denied");
+				.accessDeniedPage("/error/access-denied.html");
 
 		return http.build();
 	}

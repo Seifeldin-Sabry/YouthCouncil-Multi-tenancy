@@ -17,19 +17,19 @@ public class PlatformController {
 
 	@GetMapping ({"/", "/home"})
 	public ModelAndView showPlatformHome() {
-		return new ModelAndView("html/platform/platform-home");
+		return new ModelAndView("platform/platform-home");
 	}
 
 	@GeneralAdminOnly
 	@GetMapping ("/dashboard")
 	public ModelAndView showPlatformDashboard() {
-		return new ModelAndView("html/platform/platform-dashboard");
+		return new ModelAndView("platform/platform-dashboard");
 	}
 
 	@GeneralAdminOnly
 	@GetMapping ("/dashboard/themes")
 	public ModelAndView showThemes() {
-		return new ModelAndView("html/themes")
+		return new ModelAndView("themes")
 				.addObject("themes", themeService.getAllThemes());
 	}
 
