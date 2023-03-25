@@ -1,5 +1,6 @@
 package be.kdg.finalproject.service.user;
 
+import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.security.Provider;
@@ -30,7 +31,19 @@ public interface UserService {
 
 	User getUserByUsernameOrEmail(String username);
 
+	User updateUser(Long userId, UpdatedUserDTO updatedUserDTO);
+
+	void deleteAccount(long userId);
+
 	List<User> getUsersByRole(Role role);
 
 	void addMemberToMunicipality(UUID uuid, NewUserDto user);
+
+	boolean newEmailIsCurrentEmail(User user, String email);
+
+	boolean newUsernameIsCurrentUsername(User user, String username);
+
+	boolean emailExists(String email);
+
+	boolean usernameExists(String username);
 }

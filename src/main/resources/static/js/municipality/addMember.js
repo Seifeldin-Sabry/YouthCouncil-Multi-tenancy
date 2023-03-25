@@ -5,7 +5,6 @@ const addMemberBtn = document.querySelector('#add-member-btn');
 const firstNameInput = document.querySelector('#firstName');
 const surname = document.querySelector('#surname');
 const email = document.querySelector('#email');
-const role = document.querySelector('#role');
 
 
 const modal = document.querySelector('#addMemberModal');
@@ -41,18 +40,13 @@ const addMember = async (event) => {
         showErrorMessage('email', 'Email is required');
         error = true;
     }
-    if (role.value === '') {
-        showErrorMessage('role', 'Role is required');
-        error = true;
-    }
     if (error) return;
 
     const cookie = csrfToken();
     const requestBody = {
         firstName: firstNameInput.value,
         surname: surname.value,
-        email: email.value,
-        role: role.value
+        email: email.value
     }
     const options = {
         method: 'POST',

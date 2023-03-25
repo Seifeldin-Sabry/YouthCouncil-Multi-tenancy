@@ -6,15 +6,14 @@
 </head>
 <body>
 <div th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}">My navbar</div>
-<!--<div class="container">-->
 <div class="row block">
 	<div>
 		<div class="card text-center">
 			<div class="card-body">
-				<i class="bi bi-people h1"></i>
-				<h5 class="card-title">Users</h5>
-				<p class="card-text">View/Edit User Data, Add New User, Remove User</p>
-				<a class="btn btn-primary" href="#">Go to Users</a>
+				<i class="bi bi-gear h1"></i>
+				<h5 class="card-title">Customize Platform</h5>
+				<p class="card-text">Customize Platform Settings, Manage Integrations, Install Plugins</p>
+				<a class="btn btn-primary" href="#">Go to Platform Settings</a>
 			</div>
 		</div>
 	</div>
@@ -26,7 +25,7 @@
 				<i class="bi bi-building h1"></i>
 				<h5 class="card-title">Municipalities</h5>
 				<p class="card-text">View/Edit Municipality Data, Add New Municipality, Remove Municipality</p>
-				<a class="btn btn-primary" href="#">Go to Municipalities</a>
+				<a class="btn btn-primary" th:href="@{/dashboard/municipalities}">Go to Municipalities</a>
 			</div>
 		</div>
 	</div>
@@ -55,19 +54,6 @@
 		</div>
 	</div>
 </div>
-<div class="row block">
-	<div>
-		<div class="card text-center">
-			<div class="card-body">
-				<i class="bi bi-gear h1"></i>
-				<h5 class="card-title">Customize Platform</h5>
-				<p class="card-text">Customize Platform Settings, Manage Integrations, Install Plugins</p>
-				<a class="btn btn-primary" href="#">Go to Platform Settings</a>
-			</div>
-		</div>
-	</div>
-</div>
-<!--</div>-->
 <div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

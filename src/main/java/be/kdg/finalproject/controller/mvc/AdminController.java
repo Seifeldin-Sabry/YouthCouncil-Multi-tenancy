@@ -12,12 +12,12 @@ public class AdminController {
 
 	@GetMapping ("/analytics")
 	public ModelAndView showAnalytics() {
-		return new ModelAndView("html/analytics");
+		return new ModelAndView("analytics");
 	}
 
 	@GetMapping ("/manage-users")
 	public ModelAndView manageUsers() {
-		return new ModelAndView("html/users");
+		return new ModelAndView("users");
 	}
 
 
