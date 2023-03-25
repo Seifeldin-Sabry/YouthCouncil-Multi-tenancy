@@ -39,7 +39,7 @@ public class UserAccountController {
 	@PreAuthorize ("isAuthenticated()")
 	@GetMapping ("/my-account")
 	public ModelAndView showUserDetails() {
-		return new ModelAndView("user-details");
+		return new ModelAndView("account-details");
 	}
 
 	@GetMapping ("/userManagement")

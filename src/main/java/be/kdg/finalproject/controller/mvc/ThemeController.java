@@ -20,7 +20,7 @@ public class ThemeController {
 
 	@GetMapping ("/dashboard/themes")
 	public ModelAndView showThemes() {
-		return new ModelAndView("html/themes")
+		return new ModelAndView("themes")
 				.addObject("themes", themeService.getAllThemes());
 	}
 }
