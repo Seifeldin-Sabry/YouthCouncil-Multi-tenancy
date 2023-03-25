@@ -1,10 +1,10 @@
 import {csrfToken} from "../cookie.js";
 
 const saveProfile = document.getElementById('save-profile-button');
-const firstName = document.getElementById('first-name-input');
-const surname = document.getElementById('surname-input');
-const username = document.getElementById('username-input');
-const email = document.getElementById('email-input');
+const firstName = document.getElementById('firstName');
+const surname = document.getElementById('surname');
+const username = document.getElementById('username');
+const email = document.getElementById('email');
 const toastEl = document.querySelector('.toast');
 
 let state = {
@@ -38,19 +38,19 @@ const checkInputChange = () => {
 
 function updateState() {
     state = {
-        'first-name-input': {
+        'firstName': {
             value: firstName.value,
             element: firstName
         },
-        'surname-input': {
+        'surname': {
             value: surname.value,
             element: surname
         },
-        'username-input': {
+        'username': {
             value: username.value,
             element: username
         },
-        'email-input': {
+        'email': {
             value: email.value,
             element: email
         }
