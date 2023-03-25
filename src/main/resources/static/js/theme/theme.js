@@ -1,5 +1,6 @@
 import {ThemeCard} from "../components/themes/ThemeCard.js";
 import {SubThemeCard} from "../components/themes/SubThemeCard.js";
+import {csrfToken} from "../cookie.js";
 
 const saveThemeButton = document.querySelector('.save-theme-btn');
 const saveSubthemeButton = document.querySelector('.save-subtheme-btn');
@@ -22,12 +23,11 @@ const state = {}
 
 
 async function getSubThemes(themeId) {
-    // const {name, token} = csrfToken();
     const options = {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            // [name]: token
+            ...csrfToken()
         }
     }
     const response = await fetch(`/api/themes/${themeId}/subthemes`, options);
@@ -73,7 +73,6 @@ const renderSubtheme = (subtheme) => {
 
 
 saveThemeButton.addEventListener('click', async () => {
-    // const {name, token} = csrfToken();
     // get the value of the input field
     let modalInput = document.getElementById('themeName');
     const themeName = modalInput.value;
@@ -83,7 +82,7 @@ saveThemeButton.addEventListener('click', async () => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // [name]: token
+            ...csrfToken()
         },
         body: JSON.stringify({themeName})
     });
@@ -107,7 +106,6 @@ saveThemeButton.addEventListener('click', async () => {
 });
 
 saveSubthemeButton.addEventListener('click', async () => {
-    // const {name, token} = csrfToken();
     // get the value of the input field
     const subThemeName = document.getElementById('subThemeName').value;
     // send a POST request to the server with the theme name
@@ -116,7 +114,7 @@ saveSubthemeButton.addEventListener('click', async () => {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // [name]: token
+            ...csrfToken()
         },
         body: JSON.stringify({subThemeName})
     });
@@ -141,14 +139,13 @@ function reassignCurrentThemeId(event) {
 }
 
 async function deleteTheme(event) {
-    // const {name, token} = csrfToken();
     const themeId = event.target.getAttribute('data-theme-id');
     const response = await fetch(`/api/themes/${themeId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // [name]: token
+            ...csrfToken()
         }
     });
     let deleteModal = bootstrap.Modal.getInstance(themeAccordion.querySelector(`#deleteThemeModal${themeId}`));
@@ -165,14 +162,13 @@ async function deleteTheme(event) {
 }
 
 async function deleteSubtheme(event) {
-    // const {name, token} = csrfToken();
     const subthemeId = event.target.getAttribute('data-subtheme-id') || event.target.closest('button').getAttribute('data-subtheme-id');
     const response = await fetch(`/api/themes/${currentThemeId}/subthemes/${subthemeId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // [name]: token
+            ...csrfToken()
         },
     });
     if (response.ok) {
@@ -186,7 +182,6 @@ async function deleteSubtheme(event) {
 }
 
 async function editTheme(event) {
-    // const {name, token} = csrfToken();
     const themeId = event.target.getAttribute('data-theme-id') || event.target.closest('button').getAttribute('data-theme-id');
     const themeName = themeAccordion.querySelector(`#edit-ThemeName-${themeId}`).value;
     if (themeName === state[themeId].name) {
@@ -199,7 +194,7 @@ async function editTheme(event) {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
-            // [name]: token
+            ...csrfToken()
         },
         body: JSON.stringify({themeName})
     });
@@ -242,6 +237,7 @@ async function editSubtheme(e) {
         headers: {
             'Content-Type': 'application/json',
             'Accept': 'application/json',
+            ...csrfToken()
         },
         body: JSON.stringify(subthemeData)
     });
