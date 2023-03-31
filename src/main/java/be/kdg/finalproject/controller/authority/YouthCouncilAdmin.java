@@ -9,6 +9,6 @@ import java.lang.annotation.Target;
 
 @Target (ElementType.METHOD)
 @Retention (RetentionPolicy.RUNTIME)
-@PreAuthorize ("hasRole('ROLE_YOUTH_COUNCIL_ADMINISTRATOR')")
+@PreAuthorize ("hasRole('YOUTH_COUNCIL_ADMINISTRATOR')")
 public @interface YouthCouncilAdmin {
 }

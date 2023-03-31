@@ -1,0 +1,33 @@
+.instagram-post {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    max-width: 600px; /* adjust the width as needed */
+    margin: 0 auto; /* center the post horizontally */
+    padding: 20px; /* add some padding to the post */
+    border: 1px solid #ccc; /* add a border */
+    background-color: #fff; /* add a background color */
+}
+
+.instagram-post__image {
+    width: 100%;
+    max-width: 400px; /* limit the width of the images */
+    margin-bottom: 10px; /* add some spacing between the image and content */
+}
+
+.instagram-post__title {
+    margin-top: 20px;
+    font-size: 24px; /* adjust the font size as needed */
+    font-weight: bold; /* add some boldness to the title */
+}
+
+.instagram-post__caption {
+    margin-top: 10px;
+    margin-bottom: 20px;
+    font-size: 18px; /* adjust the font size as needed */
+}
+
+.instagram-post__content {
+    padding: 20px; /* add some padding to the content area */
+}

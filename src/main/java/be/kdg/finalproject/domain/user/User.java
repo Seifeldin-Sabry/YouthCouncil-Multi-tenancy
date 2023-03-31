@@ -40,6 +40,7 @@ public class User {
 	private String email;
 
 	@Column (name = "password")
+	@ToString.Exclude
 	private String password;
 
 	@Enumerated (EnumType.STRING)

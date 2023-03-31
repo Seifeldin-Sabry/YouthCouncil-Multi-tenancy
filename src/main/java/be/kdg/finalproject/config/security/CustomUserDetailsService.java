@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
@@ -26,13 +27,22 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.debug("Loading user: " + username);
-		logger.debug("User found: " + userRepository.findByUsernameOrEmail(username));
-		User user = userRepository.findByUsernameOrEmail(username)
+		User user = userRepository.findByUsernameOrEmailWithMemberShips(username)
 		                          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+		logger.debug("User found: " + user);
 		logger.debug("User found: " + user.getUsername());
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		authorities.add(new SimpleGrantedAuthority(user.getRole().getAuthority()));
 		logger.debug("User authorities: " + authorities);
-		return new CustomUserDetails(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+		List<Long> municipalityIds = user.getMemberships()
+		                                 .stream()
+		                                 .map(membership -> membership.getMunicipality()
+		                                                              .getId())
+		                                 .collect(Collectors.toList());
+		logger.debug("User municipalityIds: " + municipalityIds);
+		if (municipalityIds.isEmpty())
+			return new CustomUserDetails(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
+		else
+			return new CustomUserDetails(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), municipalityIds, authorities);
 	}
 }

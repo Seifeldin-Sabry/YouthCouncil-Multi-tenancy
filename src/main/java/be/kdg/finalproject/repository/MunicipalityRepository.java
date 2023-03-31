@@ -12,6 +12,8 @@ import java.util.UUID;
 
 @Repository
 public interface MunicipalityRepository extends CrudRepository<Municipality, Long> {
+	Optional<Municipality> findByNameIgnoreCase(String name);
+
 	@Query ("SELECT m FROM MUNICIPALITIES m JOIN FETCH m.members JOIN fetch m.postcodes WHERE m.uuid = :uuid")
 	Optional<Municipality> findByUuid(UUID uuid);
 

@@ -13,4 +13,6 @@ public interface MembershipService {
 	List<Membership> getAllMembershipsByUser(User user);
 
 	void addMembershipByUserAndUuid(User newUser, UUID uuid, Role user);
+
+	Membership getMembershipByUserAndMunicipalityName(User user, String municipalityName);
 }

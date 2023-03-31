@@ -18,7 +18,7 @@ public class ThemeController {
 		this.themeService = themeService;
 	}
 
-	@GetMapping ("/dashboard/themes")
+	@GetMapping
 	public ModelAndView showThemes() {
 		return new ModelAndView("themes")
 				.addObject("themes", themeService.getAllThemes());
