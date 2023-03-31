@@ -41,5 +41,5 @@ logging:
     #    org:
     #      springframework:
     #        security: debug
-    #      web: debug
+    #        web: debug
     be.kdg.finalproject: debug

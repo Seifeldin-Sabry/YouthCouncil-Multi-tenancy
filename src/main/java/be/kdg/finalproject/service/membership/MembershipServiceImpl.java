@@ -63,4 +63,13 @@ public class MembershipServiceImpl implements MembershipService {
 		municipality.addMember(newUser);
 		municipalityRepository.save(municipality);
 	}
+
+	@Override
+	public Membership getMembershipByUserAndMunicipalityName(User user, String municipalityName) {
+		logger.debug("User {} and municipality {}", user, municipalityName);
+		return membershipRespository.findByUser_Memberships_UserAndMunicipality_NameIgnoreCase(user, municipalityName)
+		                            .orElse(null);
+	}
+
+
 }

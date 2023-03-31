@@ -21,7 +21,6 @@ public class CalendarActivity {
 	private String title;
 	private LocalDate date;
 	private String description;
-
 	@ManyToOne
 	private Municipality municipality;
 

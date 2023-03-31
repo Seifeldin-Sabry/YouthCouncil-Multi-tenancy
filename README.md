@@ -6,12 +6,23 @@ Ransford Addai
 
 ### Run Instructions
 
+Make sure you have a postgres database called YouthCouncilDev for dev profile and YouthCouncil for prod profile.
+The reason for picking postgres in dev was to easily check the database when things are persisted.
+
 - make sure you are in the root directory of the project
 
-```bash
-- dev: `./gradlew bootRun --args='--spring.profiles.active=dev'`
-- prod: `./gradlew bootRun --args='--spring.profiles.active=prod --POSTGRES_USERNAME=yourusername --POSTGRES_PASSWORD=yourpassword'` (replace `yourpassword` with the password you set for the postgres user and `yourusername` with the username you set for the postgres user)
-```
+
+-
+
+dev: `./gradlew bootRun --args='--spring.profiles.active=dev' --POSTGRES_USERNAME=yourusername --POSTGRES_PASSWORD=yourpassword' (replace `
+yourpassword` with the password you set for the postgres user and `
+yourusername` with the username you set for the postgres user)`
+
+-
+
+prod: `./gradlew bootRun --args='--spring.profiles.active=prod --POSTGRES_USERNAME=yourusername --POSTGRES_PASSWORD=yourpassword'` (
+replace `yourpassword` with the password you set for the postgres user and `yourusername` with the username you set for
+the postgres user)
 
 Users for the dev profile are:
 

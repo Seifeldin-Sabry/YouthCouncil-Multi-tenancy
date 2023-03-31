@@ -15,11 +15,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
@@ -28,7 +23,6 @@ import javax.validation.Valid;
 import java.lang.reflect.Type;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 @RestController
 @RequestMapping ("/api/users")
@@ -41,6 +35,12 @@ public class UserRestController {
 		this.userService = userService;
 	}
 
+	/**
+	 * For updating a user's profile (PUT)
+	 * Can only be done by the user himself
+	 *
+	 * @return 200 OK if successful, 403 FORBIDDEN if not authorized, 400 BAD REQUEST if validation errors
+	 */
 	@PreAuthorize ("isAuthenticated()")
 	@PutMapping ("/{id}")
 	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UpdatedUserDTO updatedUserDTO, BindingResult errors, HttpServletRequest request) {
@@ -49,8 +49,8 @@ public class UserRestController {
 		logger.debug("Auth: {}", auth.getPrincipal());
 		User user;
 		Type type = auth.getPrincipal() instanceof CustomOAuth2User ? CustomOAuth2User.class : CustomUserDetails.class;
-		user = type == CustomOAuth2User.class ? userService.getUserByUsernameOrEmail(((CustomOAuth2User) auth.getPrincipal()).getEmail())
-				: userService.getUserByUsernameOrEmail(((CustomUserDetails) auth.getPrincipal()).getUsername());
+		user = type == CustomOAuth2User.class ? userService.getUserByUsernameOrEmailWithMembership(((CustomOAuth2User) auth.getPrincipal()).getEmail())
+				: userService.getUserByUsernameOrEmailWithMembership(((CustomUserDetails) auth.getPrincipal()).getUsername());
 		if (user == null) {
 			logger.debug("User not found");
 			return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
@@ -73,20 +73,24 @@ public class UserRestController {
 			return ResponseEntity.badRequest().body(validate);
 		}
 		User updateUser = userService.updateUser(id, updatedUserDTO);
-
+		List<Long> municipalityIds = user.getMemberships()
+		                                 .stream()
+		                                 .map(membership -> membership.getMunicipality()
+		                                                              .getId())
+		                                 .toList();
 		// create a new authentication token with the updated user details and the user's authentication token
 		UsernamePasswordAuthenticationToken authenticationToken;
 		if (type == CustomOAuth2User.class) {
 			CustomOAuth2User oauthUser = (CustomOAuth2User) auth.getPrincipal();
 			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomOAuth2User(new DefaultOAuth2User(oauthUser.getAuthorities(), oauthUser.getAttributes(), "email")), auth.getCredentials(), auth.getAuthorities());
 		} else {
-			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomUserDetails(updateUser.getId(), updateUser.getUsername(), updateUser.getEmail(), updateUser.getPassword(), auth.getAuthorities()), auth.getCredentials(), auth.getAuthorities());
+			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomUserDetails(updateUser.getId(), updateUser.getUsername(), updateUser.getEmail(), updateUser.getPassword(), municipalityIds, auth.getAuthorities()), auth.getCredentials(), auth.getAuthorities());
 		}
 
 		// set the authentication token in the SecurityContext
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
 
-		return ResponseEntity.noContent().build();
+		return ResponseEntity.ok().build();
 	}
 
 	//TODO: implement delete user, update password

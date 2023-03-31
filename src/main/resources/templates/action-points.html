@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<meta charset="UTF-8">
+	<title>Action Points</title>
+	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
+<button class="btn btn-primary fixed-top float-end" type="button">Add Action Point</button>
+<div class="instagram-post">
+	<div class="instagram-post__image">
+		<div class="carousel slide" data-bs-ride="carousel" id="carouselExampleControls">
+			<div class="carousel-inner w-100 mx-4">
+				<div class="carousel-item active">
+					<img alt="..." class="d-block w-100" th:src="@{/images/tree.jpeg}">
+				</div>
+				<div class="carousel-item">
+					<img alt="..." class="d-block w-100" th:src="@{/images/tree.jpeg}">
+				</div>
+				<div class="carousel-item">
+					<img alt="..." class="d-block w-100" th:src="@{/images/tree.jpeg}">
+				</div>
+			</div>
+			<button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#carouselExampleControls"
+					type="button"
+			>
+				<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+				<span class="visually-hidden">Previous</span>
+			</button>
+			<button class="carousel-control-next" data-bs-slide="next" data-bs-target="#carouselExampleControls"
+					type="button"
+			>
+				<span aria-hidden="true" class="carousel-control-next-icon"></span>
+				<span class="visually-hidden">Next</span>
+			</button>
+		</div>
+	</div>
+	<div class="instagram-post__content">
+		<h5 class="instagram-post__title">Action Point Title</h5>
+		<p class="instagram-post__description">Action Point Description</p>
+	</div>
+</div>
+</body>
+</html>
