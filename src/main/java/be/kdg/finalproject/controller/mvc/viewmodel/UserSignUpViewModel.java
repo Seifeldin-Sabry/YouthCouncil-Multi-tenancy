@@ -3,7 +3,6 @@ package be.kdg.finalproject.controller.mvc.viewmodel;
 import be.kdg.finalproject.controller.constraint.PasswordMatchConstraint;
 import be.kdg.finalproject.controller.constraint.UniqueEmailConstraint;
 import be.kdg.finalproject.controller.constraint.UniqueUsernameConstraint;
-import be.kdg.finalproject.controller.constraint.ValidPostcodeConstraint;
 import be.kdg.finalproject.controller.mvc.viewmodel.password.*;
 import lombok.*;
 
@@ -29,10 +28,6 @@ public class UserSignUpViewModel implements PasswordMatcher {
 	@UniqueUsernameConstraint
 	@NotBlank (message = "Username is mandatory")
 	private String username;
-
-	@ValidPostcodeConstraint
-	@NotNull (message = "Postcode is mandatory")
-	private Integer postcode;
 
 	@Email (message = "Email must be valid")
 	@NotBlank (message = "Email is mandatory")

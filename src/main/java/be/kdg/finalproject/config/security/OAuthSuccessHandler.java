@@ -1,6 +1,7 @@
 package be.kdg.finalproject.config.security;
 
 import be.kdg.finalproject.domain.security.Provider;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +24,7 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 		this.userService = userService;
 	}
 
+	//TODO: fix this
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
 		String url = request.getRequestURL().toString();
@@ -30,10 +32,11 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 		CustomOAuth2User oauthUser = (CustomOAuth2User) authentication.getPrincipal();
 		logger.debug("{}", oauthUser.getAttributes());
 		if (provider == Provider.GOOGLE) {
-			userService.processOAuthPostLoginGoogle(oauthUser.getEmail(), oauthUser.getGivenName(), oauthUser.getFamilyName(), provider);
+			userService.processOAuthPostLoginGoogle(oauthUser.getEmail(), oauthUser.getGivenName(), oauthUser.getFamilyName(), provider, MunicipalityContext.getCurrentMunicipalityId());
 		} else {
-			userService.processOAuthPostLoginFaceBook(oauthUser.getEmail(), oauthUser.getName(), provider);
+			userService.processOAuthPostLoginFaceBook(oauthUser.getEmail(), oauthUser.getName(), provider, MunicipalityContext.getCurrentMunicipalityId());
 		}
-		response.sendRedirect("/home");
+		String redirectUrl = "/";
+		response.sendRedirect(redirectUrl);
 	}
 }

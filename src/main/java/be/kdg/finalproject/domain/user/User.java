@@ -90,8 +90,8 @@ public class User {
 		this.provider = Provider.LOCAL;
 	}
 
-	public void addMembership(Membership membership) {
-		getMemberships().add(membership);
+	public String getFullName() {
+		return firstName + " " + surname;
 	}
 }
 

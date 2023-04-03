@@ -7,6 +7,7 @@ import be.kdg.finalproject.domain.theme.SubTheme;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -17,6 +18,7 @@ import java.util.Set;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 public class ActionPoint {
 	@Id
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
@@ -40,17 +42,23 @@ public class ActionPoint {
 	@JoinColumn (name = "sub_theme_id", nullable = false)
 	private SubTheme subTheme;
 
-	@ElementCollection
+	@ElementCollection (fetch = FetchType.EAGER)
 	private Set<String> images = new HashSet<>();
 
-	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserActionPointFollow> followers = new HashSet<>();
 
-	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL)
+	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private Set<UserActionPointLike> likers = new HashSet<>();
 
 	@Column (name = "follow_count", nullable = false, columnDefinition = "int default 0")
 	private int followCount;
+
+	@Transient
+	private boolean followed;
+
+	@Transient
+	private boolean liked;
 
 	@Column (name = "like_count", nullable = false, columnDefinition = "int default 0")
 	private int likeCount;
@@ -63,5 +71,21 @@ public class ActionPoint {
 		this.description = description;
 		this.dateCreated = LocalDate.now();
 		this.status = ActionPointStatus.IN_PROGRESS;
+	}
+
+	public void addFollower() {
+		followCount++;
+	}
+
+	public void removeFollower() {
+		followCount--;
+	}
+
+	public void addLiker() {
+		likeCount++;
+	}
+
+	public void removeLiker() {
+		likeCount--;
 	}
 }

@@ -5,7 +5,6 @@ import be.kdg.finalproject.domain.user.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
 
 import javax.persistence.*;
 
@@ -13,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@ToString
 @Table (uniqueConstraints = @UniqueConstraint (columnNames = {"user_id", "action_point_id"}))
 public class UserActionPointLike {
 
@@ -23,20 +21,15 @@ public class UserActionPointLike {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn (name = "user_id")
 	private User liker;
 
 	@ManyToOne
-	@JoinColumn(name = "action_point_id")
+	@JoinColumn (name = "action_point_id")
 	private ActionPoint actionPoint;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "emoji")
-	private Emoji emoji;
-
-	public UserActionPointLike(User liker, ActionPoint actionPoint, Emoji emoji) {
+	public UserActionPointLike(User liker, ActionPoint actionPoint) {
 		this.liker = liker;
 		this.actionPoint = actionPoint;
-		this.emoji = emoji;
 	}
 }

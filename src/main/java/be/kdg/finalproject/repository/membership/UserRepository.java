@@ -1,4 +1,4 @@
-package be.kdg.finalproject.repository;
+package be.kdg.finalproject.repository.membership;
 
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;

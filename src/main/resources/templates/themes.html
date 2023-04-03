@@ -10,41 +10,44 @@
 	<script defer th:src="@{/js/theme/theme.js}" type="module"></script>
 </head>
 <body>
-<th:block th:insert="~{/fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
+<th:block th:insert="~{/fragments/fragments::platformNav}"></th:block>
 <div class="container mt-4">
 	<div class="row">
 		<div class="col-12 text-end mb-3">
-			<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addThemeModal">
+			<button class="btn btn-primary" data-bs-target="#addThemeModal" data-bs-toggle="modal" type="button">
 				<i class="bi bi-plus"></i> Add New Theme
 			</button>
 		</div>
 	</div>
 	<div class="accordion theme-cards" id="themeAccordion">
-		<div th:data-theme-id="${theme.id}" class="card card-theme" th:classappend="'theme-'+${theme.id}"
+		<div class="card card-theme" th:classappend="'theme-'+${theme.id}" th:data-theme-id="${theme.id}"
 			 th:each="theme: ${themes}" th:object="${theme}"
 		>
-			<div th:id="'theme' + ${theme.id} + 'Heading'" class="card-header d-flex justify-content-between">
+			<div class="card-header d-flex justify-content-between" th:id="'theme' + ${theme.id} + 'Heading'">
 				<h2 class="mb-0">
-					<button th:text="${theme.themeName}" class="btn btn-link theme-name" type="button"
-							th:data-bs-toggle="collapse" th:data-bs-target="'#theme' + ${theme.id} + 'Collapse'"
-							aria-expanded="true" th:aria-controls="'theme' + ${theme.id} + 'Collapse'"
+					<button aria-expanded="true" class="btn btn-link theme-name"
+							th:aria-controls="'theme' + ${theme.id} + 'Collapse'"
+							th:data-bs-target="'#theme' + ${theme.id} + 'Collapse'" th:data-bs-toggle="collapse"
+							th:text="${theme.themeName}" type="button"
 					></button>
 				</h2>
 				<div>
-					<button type="button" class="mx-auto btn btn-primary edit-theme-btn" data-bs-toggle="modal"
+					<button class="mx-auto btn btn-primary edit-theme-btn" data-bs-toggle="modal"
 							th:data-bs-target="'#editThemeModal' + ${theme.id}"
+							type="button"
 					>
 						<i class="bi bi-pencil-square"></i> Edit
 					</button>
-					<button type="button" class="btn btn-danger delete-theme-btn" data-bs-toggle="modal"
+					<button class="btn btn-danger delete-theme-btn" data-bs-toggle="modal"
 							th:data-bs-target="'#deleteThemeModal' + ${theme.id}"
+							type="button"
 					>
 						<i class="bi bi-trash"></i> Delete
 					</button>
 				</div>
 			</div>
-			<div th:id="'theme' + ${theme.getId()} + 'Collapse'" class="collapse"
-				 th:aria-labelledby="'theme' + ${theme.getId()} + 'Heading'" th:data-bs-parent="'#themeAccordion'"
+			<div class="collapse" th:aria-labelledby="'theme' + ${theme.getId()} + 'Heading'"
+				 th:data-bs-parent="'#themeAccordion'" th:id="'theme' + ${theme.getId()} + 'Collapse'"
 			>
 				<div class="card-body">
 					<ul class="subtheme-list list-unstyled">
@@ -55,14 +58,16 @@
 								<div class="card-body">
 									<h5 class="card-title" th:text="${subtheme.subThemeName}"></h5>
 									<div class="d-flex justify-content-between">
-										<button type="button" class="btn btn-primary edit-subtheme-btn"
-												th:data-bs-toggle="modal"
+										<button class="btn btn-primary edit-subtheme-btn"
 												th:data-bs-target="'#editSubThemeModal' + ${subtheme.id}"
+												th:data-bs-toggle="modal"
+												type="button"
 										>
 											<i class="bi bi-pencil-square"></i> Edit
 										</button>
-										<button type="button" class="btn btn-danger delete-subtheme-btn"
-												th:data-theme-id="${theme.id}" th:data-subtheme-id="${subtheme.id}"
+										<button class="btn btn-danger delete-subtheme-btn"
+												th:data-subtheme-id="${subtheme.id}"
+												th:data-theme-id="${theme.id}" type="button"
 										>
 											<i class="bi bi-trash"></i> Delete
 										</button>
@@ -71,39 +76,41 @@
 							</div>
 
 
-							<div class="modal subtheme-modal fade" th:id="'editSubThemeModal' + ${subtheme.id}"
+							<div aria-hidden="true" class="modal subtheme-modal fade"
 								 tabindex="-1"
-								 th:aria-labelledby="'editSubThemeModalLabel' + ${subtheme.id}" aria-hidden="true"
+								 th:aria-labelledby="'editSubThemeModalLabel' + ${subtheme.id}"
+								 th:id="'editSubThemeModal' + ${subtheme.id}"
 							>
 								<div class="modal-dialog">
 									<div class="modal-content">
 										<div class="modal-header">
 											<h5 class="modal-title" th:id="'editSubThemeModalLabel' + ${subtheme.id}">
 												Edit Subtheme</h5>
-											<button type="button" class="btn-close" data-bs-dismiss="modal"
-													aria-label="Close"
+											<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+													type="button"
 											></button>
 										</div>
 										<div class="modal-body">
-												<div class="mb-3">
-													<label for="subthemeName" class="form-label">Subtheme Name</label>
-													<input type="text" class="form-control"
-														   th:id="'subthemeName-'+${subtheme.id}"
-														   th:value="${subtheme.subThemeName}"
-													/>
-													<div class="invalid-feedback"
-														 th:id="'edit-subThemeName-'+${subtheme.id}+'-error'"
-													>
+											<div class="mb-3">
+												<label class="form-label" for="subthemeName">Subtheme Name</label>
+												<input class="form-control" th:id="'subthemeName-'+${subtheme.id}"
+													   th:value="${subtheme.subThemeName}"
+													   type="text"
+												/>
+												<div class="invalid-feedback"
+													 th:id="'edit-subThemeName-'+${subtheme.id}+'-error'"
+												>
 
-													</div>
 												</div>
+											</div>
 										</div>
 										<div class="modal-footer">
-											<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+											<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">
 												Cancel
 											</button>
-											<button type="button" class="btn btn-primary save-subtheme-changes-btn"
-													th:data-subtheme-id="${subtheme.id}" th:data-theme-id="${theme.id}"
+											<button class="btn btn-primary save-subtheme-changes-btn"
+													th:data-subtheme-id="${subtheme.id}"
+													th:data-theme-id="${theme.id}" type="button"
 											>
 												Save Changes
 											</button>
@@ -113,8 +120,9 @@
 							</div>
 						</li>
 					</ul>
-					<button th:id="${theme.id}" type="button" class="btn btn-primary add-subtheme-btn"
-							data-bs-toggle="modal" data-bs-target="#addSubThemeModal"
+					<button class="btn btn-primary add-subtheme-btn" data-bs-target="#addSubThemeModal"
+							data-bs-toggle="modal"
+							th:id="${theme.id}" type="button"
 					>
 						<i class="bi bi-plus"></i> Add New Subtheme
 					</button>
@@ -123,23 +131,23 @@
 				</div>
 			</div>
 			<!-- Delete Theme Modal -->
-			<div class="modal theme-modal fade" th:id="'deleteThemeModal' + ${theme.id}" tabindex="-1"
-				 th:aria-labelledby="'deleteThemeModalLabel' + ${theme.id}" aria-hidden="true"
+			<div aria-hidden="true" class="modal theme-modal fade" tabindex="-1"
+				 th:aria-labelledby="'deleteThemeModalLabel' + ${theme.id}" th:id="'deleteThemeModal' + ${theme.id}"
 			>
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" th:id="'deleteThemeModalLabel' + ${theme.id}">Delete Theme</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 						</div>
 						<div class="modal-body">
 							<p>Are you sure you want to delete the theme <strong th:text="${theme.getThemeName()}"
 							></strong> and all its subthemes?</p>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-							<button type="button" class="btn btn-danger delete-theme-confirm-btn"
-									th:data-theme-id="${theme.id}"
+							<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+							<button class="btn btn-danger delete-theme-confirm-btn" th:data-theme-id="${theme.id}"
+									type="button"
 							>Delete
 							</button>
 						</div>
@@ -147,19 +155,20 @@
 				</div>
 			</div>
 			<!--			Edit Theme Modal-->
-			<div class="modal theme-modal fade" th:id="'editThemeModal' + ${theme.id}" tabindex="-1"
-				 th:aria-labelledby="'editThemeModalLabel' + ${theme.id}" aria-hidden="true"
+			<div aria-hidden="true" class="modal theme-modal fade" tabindex="-1"
+				 th:aria-labelledby="'editThemeModalLabel' + ${theme.id}" th:id="'editThemeModal' + ${theme.id}"
 			>
 				<div class="modal-dialog">
 					<div class="modal-content">
 						<div class="modal-header">
 							<h5 class="modal-title" th:id="'editThemeModalLabel' + ${theme.id}">Edit Theme</h5>
-							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+							<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 						</div>
 						<div class="modal-body">
 							<div class="form-floating mb-3">
-								<input type="text" class="form-control" th:id="'edit-ThemeName-' + ${theme.id}"
-									   placeholder="Theme name" th:value="${theme.themeName}"
+								<input class="form-control" placeholder="Theme name"
+									   th:id="'edit-ThemeName-' + ${theme.id}"
+									   th:value="${theme.themeName}" type="text"
 								>
 								<label th:for="'editThemeName'+${theme.id}">Theme name</label>
 								<div class="invalid-feedback" th:id="'edit-themeName-'+${theme.id}+'-error'">
@@ -168,9 +177,9 @@
 							</div>
 						</div>
 						<div class="modal-footer">
-							<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-							<button type="button" class="btn btn-primary edit-theme-confirm-btn"
-									th:data-theme-id="${theme.id}"
+							<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+							<button class="btn btn-primary edit-theme-confirm-btn" th:data-theme-id="${theme.id}"
+									type="button"
 							>Save changes
 							</button>
 						</div>
@@ -181,17 +190,17 @@
 
 	</div>
 	<!-- Add Theme Modal -->
-	<div class="modal fade" id="addThemeModal" tabindex="-1" aria-labelledby="addThemeModalLabel" aria-hidden="true">
+	<div aria-hidden="true" aria-labelledby="addThemeModalLabel" class="modal fade" id="addThemeModal" tabindex="-1">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="addThemeModalLabel">Add New Theme</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label for="themeName" class="form-label">Theme Name</label>
-						<input type="text" class="form-control" id="themeName">
+						<label class="form-label" for="themeName">Theme Name</label>
+						<input class="form-control" id="themeName" type="text">
 						<div class="invalid-feedback" id="themeName-error">
 
 							>
@@ -199,46 +208,47 @@
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary save-theme-btn">Save Changes</button>
+					<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+					<button class="btn btn-primary save-theme-btn" type="button">Save Changes</button>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!-- Add SubTheme Modal -->
-	<div class="modal subtheme-modal fade" id="addSubThemeModal" tabindex="-1" aria-labelledby="addSubThemeModalLabel"
-		 aria-hidden="true"
+	<div aria-hidden="true" aria-labelledby="addSubThemeModalLabel" class="modal subtheme-modal fade"
+		 id="addSubThemeModal"
+		 tabindex="-1"
 	>
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="addSubThemeModalLabel">Add New Subtheme</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 				</div>
 				<div class="modal-body">
 					<div class="mb-3">
-						<label for="subThemeName" class="form-label">Subtheme Name</label>
-						<input type="text" class="form-control" id="subThemeName">
+						<label class="form-label" for="subThemeName">Subtheme Name</label>
+						<input class="form-control" id="subThemeName" type="text">
 						<div class="invalid-feedback" id="subThemeName-error">
 
 						</div>
 					</div>
 				</div>
 				<div class="modal-footer">
-					<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-					<button type="button" class="btn btn-primary save-subtheme-btn">Save Changes</button>
+					<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Cancel</button>
+					<button class="btn btn-primary save-subtheme-btn" type="button">Save Changes</button>
 				</div>
 			</div>
 		</div>
 	</div>
 
 	<!--	Error Modal-->
-	<div class="modal fade" id="errorModal" tabindex="-1" aria-labelledby="errorModalLabel" aria-hidden="true">
+	<div aria-hidden="true" aria-labelledby="errorModalLabel" class="modal fade" id="errorModal" tabindex="-1">
 		<div class="modal-dialog modal-dialog-centered">
 			<div class="modal-content">
 				<div class="modal-header">
 					<h5 class="modal-title" id="errorModalLabel">Error</h5>
-					<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 				</div>
 				<div class="modal-body">
 					<p id="errorMessage"></p>

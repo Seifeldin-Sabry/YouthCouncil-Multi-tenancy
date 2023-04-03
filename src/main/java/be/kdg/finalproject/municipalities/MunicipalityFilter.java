@@ -1,7 +1,9 @@
 package be.kdg.finalproject.municipalities;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.repository.MunicipalityRepository;
+import be.kdg.finalproject.repository.membership.MembershipRespository;
+import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
+import be.kdg.finalproject.service.user.UserService;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -15,34 +17,34 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 	private static final Logger LOGGER = Logger.getLogger(MunicipalityFilter.class.getName());
 
 	private final MunicipalityRepository municipalityRepository;
+	private final MembershipRespository membershipRepository;
+	private final UserService userService;
 
-	public MunicipalityFilter(MunicipalityRepository municipalityRepository) {
+	public MunicipalityFilter(MunicipalityRepository municipalityRepository, MembershipRespository membershipRepository, UserService userService) {
 		this.municipalityRepository = municipalityRepository;
+		this.membershipRepository = membershipRepository;
+		this.userService = userService;
 	}
 
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 	                                FilterChain chain) throws ServletException, IOException {
+
 		var municipality = getMunicipality(request);
-		if (municipality.isEmpty()) {
-			// This is a request to the root URL path, do not set municipality context
+		Municipality municipalityFound = municipalityRepository.findByNameIgnoreCase(municipality).orElse(null);
+		if (municipalityFound == null) {
+			// Attempted access to non-existing tenant
 			MunicipalityContext.clear();
 			chain.doFilter(request, response);
 			return;
 		}
-		Municipality municipalityId = municipalityRepository.findByNameIgnoreCase(municipality).orElse(null);
-		if (municipalityId == null || !municipalityId.isHasPlatform()) {
-			// Attempted access to non-existing tenant
+		if (!municipalityFound.isHasPlatform()) {
 			MunicipalityContext.clear();
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			return;
 		}
-		LOGGER.info("Setting tenant: " + municipality + " (domain " + request.getServerName() + ")");
-		LOGGER.info("Setting tenant ID: " + municipalityId.getId());
 		MunicipalityContext.setCurrentMunicipality(municipality);
-		MunicipalityContext.setCurrentMunicipalityId(municipalityId.getId());
-		LOGGER.info("Current municipality: " + municipality);
-		LOGGER.info("Current municipality ID: " + municipalityId.getId());
+		MunicipalityContext.setCurrentMunicipalityId(municipalityFound.getId());
 		chain.doFilter(request, response);
 	}
 

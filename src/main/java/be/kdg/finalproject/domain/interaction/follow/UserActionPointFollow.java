@@ -23,8 +23,8 @@ public class UserActionPointFollow {
 	@JoinColumn (name = "user_id")
 	private User follower;
 
-	@ManyToOne
-	@JoinColumn(name = "action_point_id")
+	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.DETACH})
+	@JoinColumn (name = "action_point_id")
 	private ActionPoint actionPoint;
 
 	public UserActionPointFollow(User follower, ActionPoint actionPoint) {

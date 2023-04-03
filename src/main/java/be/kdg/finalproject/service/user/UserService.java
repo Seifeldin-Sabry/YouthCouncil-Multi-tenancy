@@ -2,12 +2,11 @@ package be.kdg.finalproject.service.user;
 
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
-import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
-import be.kdg.finalproject.repository.UserRepository;
+import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -35,73 +34,14 @@ public class UserService {
 		this.membershipService = municipalityService;
 	}
 
-
-	public User addYCAdmin(UserSignUpViewModel userSignUpViewModel) {
-		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
-		logger.debug("{}", userSignUpViewModel);
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
-				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
-				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.YOUTH_COUNCIL_ADMINISTRATOR, Provider.LOCAL);
-		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
-		logger.info("User added: " + user.getEmail());
-		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
-		logger.debug("{}", user.getMemberships());
-		return userRepository.save(user);
-	}
-
-
-	public User addModerator(UserSignUpViewModel userSignUpViewModel) {
-		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
-		logger.debug("{}", userSignUpViewModel);
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
-				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
-				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.YOUTH_COUNCIL_MODERATOR, Provider.LOCAL);
-		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.YOUTH_COUNCIL_MODERATOR);
-		logger.info("User added: " + user.getEmail());
-		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
-		logger.debug("{}", user.getMemberships());
-		return userRepository.save(user);
-	}
-
-
-	public User addGA(UserSignUpViewModel userSignUpViewModel) {
-		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
-		logger.debug("{}", userSignUpViewModel);
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
-				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
-				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.ADMINISTRATOR, Provider.LOCAL);
-		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.ADMINISTRATOR);
-		logger.info("User added: " + user.getEmail());
-		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
-		logger.debug("{}", user.getMemberships());
-		return userRepository.save(user);
-	}
-
-
-	public User addRegularUser(UserSignUpViewModel userSignUpViewModel) {
-		logger.debug("Adding user: " + userSignUpViewModel.getEmail());
-		logger.debug("{}", userSignUpViewModel);
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(),
-				userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(),
-				passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
-		userRepository.save(user);
-		membershipService.addMembershipByUserAndPostCode(user, userSignUpViewModel.getPostcode(), Role.USER);
-		userRepository.save(user);
-		logger.info("User added: " + user.getEmail());
-		logger.info("Membership added for user: " + user.getEmail() + " and municipality: " + user.getMemberships());
-		logger.debug("{}", user.getMemberships());
-		return user;
-	}
-
-
 	public List<User> getUsersByRole(Role role) {
 		return userRepository.findUsersByRole(role);
 	}
 
 
 	public void addMemberToMunicipality(UUID uuid, NewUserDto user) {
-		//TODO: send email to user with password
-		User newUser = new User(user.getFirstName(), user.getSurname(), user.getEmail(), user.getEmail(), passwordEncoder.encode(generateRandomCharacterSequence()), user.getRole(), Provider.LOCAL);
+		//TODO: send email to user with password and generate random password
+		User newUser = new User(user.getFirstName(), user.getSurname(), user.getEmail(), user.getEmail(), passwordEncoder.encode("password"), user.getRole(), Provider.LOCAL);
 		membershipService.addMembershipByUserAndUuid(newUser, uuid, user.getRole());
 	}
 
@@ -136,32 +76,44 @@ public class UserService {
 	}
 
 
-	public void processOAuthPostLoginGoogle(String email, String givenName, String familyName, Provider provider) {
-		boolean existUser = userRepository.existsByEmailIgnoreCase(email);
-		if (!existUser) {
-			User user = new User();
-			user.setEmail(email);
-			user.setRole(Role.USER);
-			user.setProvider(provider);
-			user.setUsername(email);
-			user.setFirstName(givenName);
-			user.setSurname(familyName);
-			userRepository.save(user);
+	public void processOAuthPostLoginGoogle(String email, String givenName, String familyName, Provider provider, Long municipalityId) {
+		User existUser = userRepository.findByUsernameOrEmail(email).orElse(null);
+		boolean membershipExist = membershipService.memberExistByUserEmailAndMunicipalityId(email, municipalityId);
+		if (existUser != null && membershipExist) {
+			return;
 		}
+		if (existUser != null) {
+			membershipService.addMembershipByUserEmailAndMunicipalityId(email, municipalityId);
+			return;
+		}
+		User user = new User();
+		user.setEmail(email);
+		user.setRole(Role.USER);
+		user.setProvider(provider);
+		user.setUsername(email);
+		user.setFirstName(givenName);
+		user.setSurname(familyName);
+		membershipService.addMembershipByUserAndMunicipalityId(user, municipalityId, user.getRole());
 	}
 
 
-	public void processOAuthPostLoginFaceBook(String email, String name, Provider provider) {
-		boolean existUser = userRepository.existsByEmailIgnoreCase(email);
-		if (!existUser) {
-			User user = new User();
-			user.setEmail(email);
-			user.setRole(Role.USER);
-			user.setProvider(provider);
-			user.setFirstName(name);
-			user.setUsername(email.replaceAll("@.*", generateRandomCharacterSequence()));
-			userRepository.save(user);
+	public void processOAuthPostLoginFaceBook(String email, String name, Provider provider, Long municipalityId) {
+		User existUser = userRepository.findByUsernameOrEmail(email).orElse(null);
+		boolean membershipExist = membershipService.memberExistByUserEmailAndMunicipalityId(email, municipalityId);
+		if (existUser != null && membershipExist) {
+			return;
 		}
+		if (existUser != null) {
+			membershipService.addMembershipByUserEmailAndMunicipalityId(email, municipalityId);
+			return;
+		}
+		User user = new User();
+		user.setEmail(email);
+		user.setRole(Role.USER);
+		user.setProvider(provider);
+		user.setFirstName(name);
+		user.setUsername(email);
+		membershipService.addMembershipByUserAndMunicipalityId(user, municipalityId, user.getRole());
 	}
 
 	public User getUserByID(long id) {

@@ -1,4 +1,4 @@
-package be.kdg.finalproject.repository;
+package be.kdg.finalproject.repository.theme;
 
 import be.kdg.finalproject.domain.theme.Theme;
 import org.springframework.data.jpa.repository.Modifying;

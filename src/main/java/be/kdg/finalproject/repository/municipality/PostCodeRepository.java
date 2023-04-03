@@ -1,4 +1,4 @@
-package be.kdg.finalproject.repository;
+package be.kdg.finalproject.repository.municipality;
 
 import be.kdg.finalproject.domain.platform.PostCode;
 import org.springframework.data.repository.CrudRepository;

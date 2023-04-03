@@ -75,6 +75,11 @@ public class Municipality {
 		this.name = name;
 	}
 
+	public Municipality(String name, boolean hasPlatform) {
+		this.name = name;
+		this.hasPlatform = hasPlatform;
+	}
+
 	public Municipality(String name, Set<PostCode> postcodes) {
 		this.name = name;
 		this.postcodes = postcodes;

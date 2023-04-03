@@ -4,14 +4,18 @@ package be.kdg.finalproject.controller.mvc;
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -21,6 +25,20 @@ public class MunicipalityController {
 	private final MunicipalityService municipalityService;
 
 	public MunicipalityController(MunicipalityService municipalityService) {this.municipalityService = municipalityService;}
+
+	@GetMapping ({"/", "/home"})
+	public ModelAndView showPlatformHome() {
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
+		String currentMunicipality = MunicipalityContext.getCurrentMunicipality();
+		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
+			return new ModelAndView("municipality/municipality-home");
+		}
+		if (currentMunicipality == null) {
+			return new ModelAndView("/login");
+		}
+		return new ModelAndView("platform/platform-home");
+	}
 
 	@GetMapping ("/dashboard/municipalities")
 	@GeneralAdminOnly

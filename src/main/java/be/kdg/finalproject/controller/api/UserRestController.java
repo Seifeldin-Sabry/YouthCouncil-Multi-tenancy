@@ -4,6 +4,7 @@ import be.kdg.finalproject.config.security.CustomOAuth2User;
 import be.kdg.finalproject.config.security.CustomUserDetails;
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
 import be.kdg.finalproject.domain.user.User;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.user.UserService;
 import be.kdg.finalproject.util.ValidationUtils;
 import org.slf4j.Logger;
@@ -73,18 +74,13 @@ public class UserRestController {
 			return ResponseEntity.badRequest().body(validate);
 		}
 		User updateUser = userService.updateUser(id, updatedUserDTO);
-		List<Long> municipalityIds = user.getMemberships()
-		                                 .stream()
-		                                 .map(membership -> membership.getMunicipality()
-		                                                              .getId())
-		                                 .toList();
 		// create a new authentication token with the updated user details and the user's authentication token
 		UsernamePasswordAuthenticationToken authenticationToken;
 		if (type == CustomOAuth2User.class) {
 			CustomOAuth2User oauthUser = (CustomOAuth2User) auth.getPrincipal();
-			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomOAuth2User(new DefaultOAuth2User(oauthUser.getAuthorities(), oauthUser.getAttributes(), "email")), auth.getCredentials(), auth.getAuthorities());
+			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomOAuth2User(new DefaultOAuth2User(oauthUser.getAuthorities(), oauthUser.getAttributes(), "email"), MunicipalityContext.getCurrentMunicipalityId()), auth.getCredentials(), auth.getAuthorities());
 		} else {
-			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomUserDetails(updateUser.getId(), updateUser.getUsername(), updateUser.getEmail(), updateUser.getPassword(), municipalityIds, auth.getAuthorities()), auth.getCredentials(), auth.getAuthorities());
+			authenticationToken = new UsernamePasswordAuthenticationToken(new CustomUserDetails(updateUser.getId(), updateUser.getUsername(), updateUser.getEmail(), updateUser.getPassword(), MunicipalityContext.getCurrentMunicipalityId(), auth.getAuthorities()), auth.getCredentials(), auth.getAuthorities());
 		}
 
 		// set the authentication token in the SecurityContext

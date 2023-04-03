@@ -1,4 +1,4 @@
-package be.kdg.finalproject.repository;
+package be.kdg.finalproject.repository.idea;
 
 import be.kdg.finalproject.domain.idea.Idea;
 import org.springframework.data.repository.CrudRepository;

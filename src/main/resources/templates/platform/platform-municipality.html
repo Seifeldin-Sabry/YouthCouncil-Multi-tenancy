@@ -1,14 +1,15 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:th="http://www.thymeleaf.org"
 >
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title th:text="${municipality.name}"></title>
-	<script th:src="@{/js/municipality/addMember.js}" type="module"></script>
+	<script sec:authorize="hasRole('ADMINISTRATOR')" th:src="@{/js/municipality/addMember.js}" type="module"></script>
 </head>
 
 <body>
-<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}" />
+<th:block th:insert="~{fragments/fragments::platformNav}" />
 
 <div class="container">
 	<h1 class="my-5">Municipality Details</h1>

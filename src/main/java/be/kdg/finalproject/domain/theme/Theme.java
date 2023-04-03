@@ -6,8 +6,8 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity (name = "THEMES")
 @Getter
@@ -25,7 +25,7 @@ public class Theme {
 	private boolean isActive;
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn (name = "theme_id")
-	private Set<SubTheme> subThemes = new HashSet<>();
+	private List<SubTheme> subThemes = new ArrayList<>();
 
 	public Theme(String themeName) {
 		this.themeName = themeName;
