@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments :: meta_script_link}"></th:block>
+	<title>Municipality Users</title>
+	<script sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')" src="/js/management/user-management-municipality.js"
+			type="module"
+	></script>
+</head>
+<body>
+<th:block th:replace="~{fragments/fragments :: platformNav}"></th:block>
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive" class="toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<h1>Users Overview</h1>
+			<table class="table">
+				<thead>
+				<tr>
+					<th>Name</th>
+					<th>Email</th>
+					<th>User Role</th>
+					<th>Action</th>
+					<th>Ban Action</th>
+				</tr>
+				</thead>
+				<tbody>
+				<th:block th:each="user : ${users}">
+					<tr class="user" th:data-membership-id="${user.id}">
+						<td th:text="${user.user.getFullName()}"></td>
+						<td th:text="${user.user.email}"></td>
+						<td class="user-role" th:text="${user.role.getNiceName()}"></td>
+						<td>
+							<div class="btn-group" role="group">
+								<button class="btn btn-sm promote"
+										th:classappend="${user.role.name() == 'YOUTH_COUNCIL_MODERATOR' ? 'btn-danger' : 'btn-success'}"
+										th:data-is-promoted="${user.role.name() == 'YOUTH_COUNCIL_MODERATOR' ? 'true' : 'false'}"
+										th:data-membership-id="${user.id}"
+										th:text="${user.role.name() == 'YOUTH_COUNCIL_MODERATOR' ? 'Demote Moderator' : 'Promote to Moderator'}"
+										type="button"
+								>
+									Promote
+								</button>
+							</div>
+						</td>
+						<td>
+							<div class="btn-group" role="group">
+								<button class="btn btn-sm ban-btn"
+										th:classappend="${user.isBanned ? 'btn-success' : 'btn-danger'}"
+										th:data-is-banned="${user.isBanned}" th:data-membership-id="${user.id}"
+										th:text="${user.isBanned ? 'Unban' : 'Ban'}"
+										type="button"
+								>
+								</button>
+							</div>
+						</td>
+					</tr>
+				</th:block>
+				</tbody>
+			</table>
+		</div>
+	</div>
+</div>
+</body>
+</html>

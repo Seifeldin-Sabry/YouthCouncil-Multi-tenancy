@@ -1,5 +1,6 @@
 package be.kdg.finalproject.database;
 
+import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
@@ -41,6 +42,13 @@ public class EntityFactory {
 		return form;
 	}
 
+	public ActionPoint createRandomActionPoint() {
+		ActionPoint actionPoint = new ActionPoint(faker.lorem().sentence(), faker.lorem().sentence());
+		actionPoint.getImages()
+		           .addAll(List.of("/images/tree.jpeg", "/images/sky.jpeg", "/images/pexels.jpeg"));
+		return actionPoint;
+	}
+
 	private Form createRandomForm() {
 		return new Form(faker.job().title());
 	}
@@ -73,4 +81,5 @@ public class EntityFactory {
 	private NumericInputQuestion randomNumericQuestion(Integer order) {
 		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
 	}
+
 }

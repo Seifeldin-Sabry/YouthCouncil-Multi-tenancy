@@ -2,7 +2,7 @@ package be.kdg.finalproject.service.municipality;
 
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
-import be.kdg.finalproject.repository.MunicipalityRepository;
+import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -9,7 +9,7 @@
 </head>
 <body>
 
-<th:block th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></th:block>
+<th:block th:insert="~{fragments/fragments::platformNav}"></th:block>
 <div class="container">
 	<div class="row">
 		<div class="col-sm-9 col-md-7 col-lg-5 mx-auto">
@@ -19,11 +19,11 @@
 					<form method="POST" th:action="@{/login}">
 						<div class="input-group has-validation">
 							<div th:class="${errorMessage != null?'form-floating is-invalid':'form-floating'}">
-								<input placeholder="Email or Username" th:class="${errorMessage != null ?
+								<input id="username" name="username"
+									   placeholder="Email or Username"
+									   th:class="${errorMessage != null ?
     				   'form-control form-control-lg is-invalid ':
     				   'form-control form-control-lg border-3 '}"
-									   id="username"
-									   name="username"
 									   type="text"
 								/>
 								<label class="form-label" for="username">Email or Username</label>
@@ -32,12 +32,12 @@
 						</div>
 						<div class="input-group has-validation">
 							<div th:class="${errorMessage != null?'form-floating is-invalid':'form-floating'}">
-								<input placeholder="Password" th:class="${errorMessage != null?
+								<input id="password" name="password"
+									   placeholder="Password"
+									   th:class="${errorMessage != null?
     				   'form-control form-control-lg is-invalid ':
     				   'form-control form-control-lg border-3 '}"
-									   id="password"
 									   type="password"
-									   name="password"
 								/>
 								<label class="form-label" th:for="password">Password</label>
 							</div>
@@ -55,21 +55,26 @@
 																										   in
 							</button>
 						</div>
-						<hr class="my-4">
-						<div class="d-grid mb-2">
-							<a th:href="@{/oauth2/authorization/google}" class="btn btn-danger"><i class="bi-google"
-							></i>
-								Log in with Google</a>
-						</div>
-						<div class="d-grid">
-							<a th:href="@{/oauth2/authorization/facebook}" class="btn btn-primary"><i
-									class="bi-facebook"
-							></i> Log in with Facebook</a>
-						</div>
-						<hr class="my-4">
-						<div class="mb-2 text-center text-muted">Don't have an account? <a th:href="@{/sign-up}">Sign
-																												 up</a>
-						</div>
+						<th:block th:if="${currentMunicipality != null}">
+							<hr class="my-4">
+							<div class="d-grid mb-2">
+								<a class="btn btn-danger" href="http://localhost:8080/oauth2/authorization/google"><i
+										class="bi-google"
+								></i>
+									Log in with Google</a>
+							</div>
+							<div class="d-grid">
+								<a class="btn btn-primary"
+								   th:href="@{${currentMunicipality} +  'localhost:8080/oauth2/authorization/facebook'}"
+								><i
+										class="bi-facebook"
+								></i> Log in with Facebook</a>
+							</div>
+							<hr class="my-4">
+							<div class="mb-2 text-center text-muted">Don't have an account? <a th:href="@{/sign-up}">Sign
+																													 up</a>
+							</div>
+						</th:block>
 					</form>
 				</div>
 			</div>

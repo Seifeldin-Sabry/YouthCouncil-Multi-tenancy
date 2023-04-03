@@ -22,20 +22,16 @@ public class UserIdeaLike {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "user_id")
+	@JoinColumn (name = "user_id")
 	private User liker;
 
 	@ManyToOne
-	@JoinColumn(name = "idea_id")
+	@JoinColumn (name = "idea_id")
 	private Idea idea;
 
-	@Enumerated(EnumType.STRING)
-	@Column(name = "emoji")
-	private Emoji emoji;
 
-	public UserIdeaLike(User liker, Idea idea, Emoji emoji) {
+	public UserIdeaLike(User liker, Idea idea) {
 		this.liker = liker;
 		this.idea = idea;
-		this.emoji = emoji;
 	}
 }

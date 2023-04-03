@@ -1,5 +1,7 @@
 package be.kdg.finalproject.config.security;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 
@@ -10,8 +12,17 @@ public class CustomOAuth2User implements OAuth2User {
 
 	private OAuth2User oAuth2User;
 
+	@Getter
+	@Setter
+	private Long municipalityId;
+
 	public CustomOAuth2User(OAuth2User oAuth2User) {
 		this.oAuth2User = oAuth2User;
+	}
+
+	public CustomOAuth2User(OAuth2User oAuth2User, Long municipalityId) {
+		this.oAuth2User = oAuth2User;
+		this.municipalityId = municipalityId;
 	}
 
 	@Override

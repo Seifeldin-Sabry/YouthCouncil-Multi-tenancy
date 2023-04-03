@@ -32,9 +32,13 @@ public class Membership {
 	@Enumerated (EnumType.STRING)
 	private Role role;
 
+	@Column (name = "is_banned")
+	private boolean isBanned;
+
 	public Membership(User user, Municipality municipality, Role role) {
 		this.user = user;
 		this.municipality = municipality;
 		this.role = role;
+		this.isBanned = false;
 	}
 }

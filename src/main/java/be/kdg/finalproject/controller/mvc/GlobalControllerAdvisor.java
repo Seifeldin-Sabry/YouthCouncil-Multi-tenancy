@@ -5,6 +5,8 @@ import be.kdg.finalproject.config.security.CustomUserDetails;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.exceptions.UserBannedException;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.membership.MembershipService;
 import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
@@ -18,7 +20,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 @ControllerAdvice
 public class GlobalControllerAdvisor {
@@ -33,7 +34,8 @@ public class GlobalControllerAdvisor {
 	}
 
 	@ModelAttribute
-	public void addAttributes(Model model, HttpSession session, Authentication authentication, HttpServletRequest request) {
+	public void addAttributes(Model model, Authentication authentication, HttpServletRequest request) {
+		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
 		if (authentication == null) return;
 		User user;
 		if (authentication.getPrincipal() instanceof CustomOAuth2User) {
@@ -41,18 +43,9 @@ public class GlobalControllerAdvisor {
 		} else {
 			user = userService.getUserByUsernameOrEmail(((CustomUserDetails) authentication.getPrincipal()).getUsername());
 		}
-		if (session.getAttribute("memberships") == null) {
-			session.setAttribute("memberships", membershipService.getAllMembershipsByUser(user));
-		}
-		if (session.getAttribute("userId") == null) {
-			session.setAttribute("userId", user.getId());
-		}
 		logger.debug("User: {}", user);
-		Membership currentMembership = membershipService.getMembershipByUserAndMunicipalityName(user, getMunicipality(request));
-		logger.debug("Current membership: {}", currentMembership);
-		logger.debug("Current municipality ID: {}", getMunicipality(request));
 		model.addAttribute("authUser", user);
-		model.addAttribute("memberships", session.getAttribute("memberships"));
+		Membership currentMembership = membershipService.getMembershipByUserAndMunicipalityName(user, MunicipalityContext.getCurrentMunicipality());
 		model.addAttribute("currentMembership", currentMembership);
 	}
 
@@ -67,14 +60,14 @@ public class GlobalControllerAdvisor {
 		return new ModelAndView("error/404");
 	}
 
-	private String getMunicipality(HttpServletRequest request) {
-		var domain = request.getServerName();
-		var dotIndex = domain.indexOf(".");
-		logger.debug("domain: " + domain);
-		if (dotIndex != -1) {
-			logger.debug("dotIndex: " + domain.substring(0, dotIndex));
-			return domain.substring(0, dotIndex);
-		}
-		return "";
+	@ExceptionHandler (NullPointerException.class)
+	public ModelAndView showLogin() {
+		return new ModelAndView("redirect:/login");
 	}
+
+	@ExceptionHandler (UserBannedException.class)
+	public ModelAndView showUserBanned() {
+		return new ModelAndView("error/user-banned");
+	}
+
 }

@@ -1,33 +1,106 @@
-.instagram-post {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    max-width: 600px; /* adjust the width as needed */
-    margin: 0 auto; /* center the post horizontally */
-    padding: 20px; /* add some padding to the post */
-    border: 1px solid #ccc; /* add a border */
-    background-color: #fff; /* add a background color */
+.carousel {
+    width: 585px;
+    height: 468px;
+    margin: 0 auto;
 }
 
-.instagram-post__image {
-    width: 100%;
-    max-width: 400px; /* limit the width of the images */
-    margin-bottom: 10px; /* add some spacing between the image and content */
+.carousel-inner {
+    width: 585px;
+    height: 468px;
+    margin: 0 auto;
 }
 
-.instagram-post__title {
-    margin-top: 20px;
-    font-size: 24px; /* adjust the font size as needed */
-    font-weight: bold; /* add some boldness to the title */
+.carousel-item img {
+    max-width: 585px;
+    max-height: 468px;
+    margin: 0 auto;
 }
 
-.instagram-post__caption {
-    margin-top: 10px;
-    margin-bottom: 20px;
-    font-size: 18px; /* adjust the font size as needed */
+/*	when screen width is 1000px or lower, lower the max width of the image*/
+@media (max-width: 1000px) {
+    .carousel {
+        width: 400px;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    .carousel-inner {
+        width: 400px;
+        height: 300px;
+        margin: 0 auto;
+    }
+
+    .carousel-item img {
+        max-width: 400px;
+        max-height: 300px;
+        margin: 0 auto;
+    }
 }
 
-.instagram-post__content {
-    padding: 20px; /* add some padding to the content area */
+/*	when screen width is 1000px or lower, lower the max width of the image*/
+@media (max-width: 1410px) {
+    .carousel {
+        width: 500px;
+        height: 400px;
+        margin: 0 auto;
+    }
+
+    .carousel-inner {
+        width: 500px;
+        height: 400px;
+        margin: 0 auto;
+    }
+
+    .carousel-item img {
+        max-width: 500px;
+        max-height: 400px;
+        margin: 0 auto;
+    }
 }
+
+/*	when screen width is 1000px or lower, lower the max width of the image*/
+@media (max-width: 1205px) {
+    .carousel {
+        width: 450px;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    .carousel-inner {
+        width: 450px;
+        height: 350px;
+        margin: 0 auto;
+    }
+
+    .carousel-item img {
+        max-width: 450px;
+        max-height: 350px;
+        margin: 0 auto;
+    }
+}
+
+/* Styling for the like button and emojis */
+
+.like-emojis {
+    display: none;
+    text-align: right;
+}
+
+.emoji {
+    display: inline-block;
+    font-size: 24px;
+    margin: 5px;
+    cursor: pointer;
+}
+
+.emoji:hover {
+    transform: scale(1.2); /* Increase the size of the emoji on hover */
+}
+
+.like-btn:hover {
+    background-color: inherit;
+    color: inherit;
+}
+
+
+

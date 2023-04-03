@@ -1,4 +1,4 @@
-//import { createEventListeners } from 'user-management.js';
+//import { createEventListeners } from 'user-management-max.js';
 
 const adminTable = document.getElementById('dtVerticalScroll1');
 const moderatorTable = document.getElementById('dtVerticalScroll2');
@@ -20,20 +20,19 @@ createAdminButton.addEventListener('click', submitSuperUser);
 
 createModeratorButton.addEventListener('click', submitSuperUser);
 
-function submitSuperUser(event){
+function submitSuperUser(event) {
     const formIsValid = true;
     //    userForm.checkValidity(); not working for some reaosn idk
     let typeOfButton;
-    if(event.target.classList.contains('createAdminButton')){
-        typeOfButton='admin';
-    }
-    else {
-        typeOfButton='moderator';
+    if (event.target.classList.contains('createAdminButton')) {
+        typeOfButton = 'admin';
+    } else {
+        typeOfButton = 'moderator';
     }
     //console.log(typeOfButton)
     userForm.classList.add('was-validated');
     //console.log('is this even working?')
-    if(formIsValid && password.value === confirmpassword.value){
+    if (formIsValid && password.value === confirmpassword.value) {
         fetch(`/api/users/${typeOfButton}`, {
             method: "POST",
             headers: {
@@ -52,20 +51,19 @@ function submitSuperUser(event){
             if (response.status === 201) {
                 userForm.reset();
                 userForm.classList.remove('was-validated');
-                 response.json()
-                     .then(handleAddedUser)
-            }
-            else{
+                response.json()
+                    .then(handleAddedUser)
+            } else {
                 alert("Error in form found client-side")
             }
         });
     }
 }
 
-function handleAddedUser(response){
+function handleAddedUser(response) {
     console.log(response.role);
-    if(response.role === 'YOUTH_COUNCIL_ADMINISTRATOR'){
-        adminTable.innerHTML+=`
+    if (response.role === 'YOUTH_COUNCIL_ADMINISTRATOR') {
+        adminTable.innerHTML += `
         <tr  data-user-id="${response.id}">
             <td class="usernameUser" >${response.username}</td>
             <td class="emailUser" >${response.email}</td>
@@ -79,9 +77,8 @@ function handleAddedUser(response){
             </td>
         </tr>
         `
-    }
-    else {
-        moderatorTable.innerHTML+=`
+    } else {
+        moderatorTable.innerHTML += `
         <tr  data-user-id="${response.id}">
             <td class="usernameUser" >${response.username}</td>
             <td class="emailUser" >${response.email}</td>

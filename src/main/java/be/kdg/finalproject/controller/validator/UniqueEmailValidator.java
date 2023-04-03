@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.validator;
 
 import be.kdg.finalproject.controller.constraint.UniqueEmailConstraint;
-import be.kdg.finalproject.repository.UserRepository;
+import be.kdg.finalproject.repository.membership.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.validation.ConstraintValidator;

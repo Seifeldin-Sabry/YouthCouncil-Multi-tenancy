@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Unauthorized Access</title>
+	<style>
+		body {
+			background-color: #f8f9fa;
+		}
+
+		.container {
+			margin-top: 50px;
+			text-align: center;
+		}
+
+		h1 {
+			margin-bottom: 30px;
+		}
+
+		img {
+			margin-bottom: 20px;
+		}
+
+		p {
+			font-size: 1.2rem;
+		}
+	</style>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::platformNav}"></th:block>
+<div class="container">
+	<img alt="Unauthorized Access" class="img-fluid" th:src="@{/images/lock-icon.png}">
+	<h1>Banned</h1>
+	<p>You Have been banned from this Youth Council. Please contact the administrator if you believe this is a
+	   mistake.</p>
+</div>
+</body>
+</html>

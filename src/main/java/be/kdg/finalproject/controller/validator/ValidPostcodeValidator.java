@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.validator;
 
 import be.kdg.finalproject.controller.constraint.ValidPostcodeConstraint;
-import be.kdg.finalproject.repository.PostCodeRepository;
+import be.kdg.finalproject.repository.municipality.PostCodeRepository;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

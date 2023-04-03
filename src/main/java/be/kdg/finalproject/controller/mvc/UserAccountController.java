@@ -1,15 +1,17 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
+import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.membership.MembershipService;
-import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -26,13 +28,13 @@ import javax.validation.Valid;
 @Controller
 public class UserAccountController {
 
-	private final UserService userService;
 
+	private final BCryptPasswordEncoder passwordEncoder;
 	private final MembershipService membershipService;
 	private final Logger logger = LoggerFactory.getLogger(MainController.class);
 
-	public UserAccountController(UserService userService, MembershipService membershipService) {
-		this.userService = userService;
+	public UserAccountController(BCryptPasswordEncoder passwordEncoder, MembershipService membershipService) {
+		this.passwordEncoder = passwordEncoder;
 		this.membershipService = membershipService;
 	}
 
@@ -40,38 +42,6 @@ public class UserAccountController {
 	@GetMapping ("/my-account")
 	public ModelAndView showUserDetails() {
 		return new ModelAndView("account-details");
-	}
-
-	@GetMapping ("/userManagement")
-	public ModelAndView showUserManagement() {
-		ModelAndView modelAndView = new ModelAndView("user-management");
-		modelAndView.addObject("users", userService.getAllUsers());
-		//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//		User user = userService.getUserByUsernameOrEmail(authentication.getName());
-		//		if (user == null) {
-		//			logger.debug("User not found");
-		//			return;
-		//		}
-		//		logger.debug("User found: " + user.getUsername());
-		//		modelAndView.addObject("authUser", user);
-		return modelAndView;
-	}
-
-	@GetMapping ("/superUserManagement")
-	public ModelAndView showSuperUserManagement() {
-		ModelAndView modelAndView = new ModelAndView("super-user-management");
-		modelAndView.addObject("YCAdmins", userService.getUsersByRole(Role.YOUTH_COUNCIL_ADMINISTRATOR));
-		modelAndView.addObject("YCModerators", userService.getUsersByRole(Role.YOUTH_COUNCIL_MODERATOR));
-		modelAndView.addObject("user", new UserSignUpViewModel());
-		//		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		//		User user = userService.getUserByUsernameOrEmail(authentication.getName());
-		//		if (user == null) {
-		//			logger.debug("User not found");
-		//			return;
-		//		}
-		//		logger.debug("User found: " + user.getUsername());
-		//		modelAndView.addObject("authUser", user);
-		return modelAndView;
 	}
 
 	@GetMapping ("/login")
@@ -90,6 +60,9 @@ public class UserAccountController {
 
 	@GetMapping ("/sign-up")
 	public ModelAndView showSignUp() {
+		if (MunicipalityContext.getCurrentMunicipality() == null) {
+			return new ModelAndView("redirect:/");
+		}
 		return new ModelAndView("sign-up", "user", new UserSignUpViewModel());
 	}
 
@@ -106,7 +79,8 @@ public class UserAccountController {
 			errors.getAllErrors().forEach(error -> logger.error(error.toString()));
 			return new ModelAndView("sign-up", "user", userSignUpViewModel);
 		}
-		User user = userService.addRegularUser(userSignUpViewModel);
+		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(), userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
+		membershipService.addMembershipByUserAndMunicipalityId(user, MunicipalityContext.getCurrentMunicipalityId(), Role.USER);
 		request.login(
 				user.getUsername(),
 				userSignUpViewModel.getPassword()

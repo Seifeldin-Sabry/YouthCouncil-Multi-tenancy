@@ -5,7 +5,7 @@
 	<title>Municipalities</title>
 </head>
 <body>
-<div th:insert="~{fragments/fragments::platformNav(${authUser}, ${memberships})}"></div>
+<div th:insert="~{fragments/fragments::platformNav}"></div>
 <h1 class="mb-5">Municipalities</h1>
 <div class="container my-3">
 	<form class="d-flex">
@@ -25,12 +25,20 @@
 				<li th:text="${member.firstName} + ' ' + ${member.surname}"></li>
 			</th:block>
 		</div>
-		<a class="text-white" th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}">
-			<button class="btn btn-primary" th:if="${municipality.hasPlatform}" type="button">
+		<a class="text-white" th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}"
+		   th:if="${municipality.hasPlatform}"
+		>
+			<button class="btn btn-primary" type="button">
 				Edit Council
 			</button>
 		</a>
-		<button class="btn btn-info" th:if="${!municipality.hasPlatform}" type="button">Setup Council</button>
+		<a class="text-white" th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}"
+		   th:if="${!municipality.hasPlatform}"
+		>
+			<button class="btn btn-primary" type="button">
+				Setup Council
+			</button>
+		</a>
 	</div>
 </div>
 </body>

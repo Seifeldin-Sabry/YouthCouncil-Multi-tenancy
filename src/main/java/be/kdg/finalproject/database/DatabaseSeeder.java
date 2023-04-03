@@ -1,15 +1,20 @@
 package be.kdg.finalproject.database;
 
+import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
+import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.platform.PostCode;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
+import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
-import be.kdg.finalproject.repository.MunicipalityRepository;
-import be.kdg.finalproject.repository.PostCodeRepository;
-import be.kdg.finalproject.repository.ThemeRepository;
-import be.kdg.finalproject.repository.UserRepository;
+import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
+import be.kdg.finalproject.repository.membership.UserRepository;
+import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
+import be.kdg.finalproject.repository.municipality.PostCodeRepository;
+import be.kdg.finalproject.repository.theme.ThemeRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -37,11 +42,13 @@ public class DatabaseSeeder {
 	private final MunicipalityRepository municipalityRepository;
 	private final PostCodeRepository postCodeRepository;
 
+	private final ActionPointRepository actionPointRepository;
+
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
 	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory,
-	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository) {
+	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -50,12 +57,13 @@ public class DatabaseSeeder {
 		this.entityFactory = entityFactory;
 		this.municipalityRepository = municipalityRepository;
 		this.postCodeRepository = postCodeRepository;
+		this.actionPointRepository = actionPointRepository;
 	}
 
 	@PostConstruct
 	public void seed() {
 		//MUNICIPALITIES & POSTCODES
-		Municipality antwerpen = new Municipality("Antwerpen");
+		Municipality antwerpen = new Municipality("Antwerpen", true);
 		Set<PostCode> postCodes = new HashSet<>();
 		Set<PostCode> finalPostCodes1 = postCodes;
 		List.of(2000, 2018, 2020, 2030, 2040, 2050, 2060, 2100, 2140, 2170, 2180, 2600, 2610, 2660).forEach((code) -> {
@@ -75,6 +83,16 @@ public class DatabaseSeeder {
 		ghent.setPostcodes(postCodes);
 		municipalityRepository.save(ghent);
 
+		//		Municipality brussels = new Municipality("Brussels", true);
+		//		postCodes = new HashSet<>();
+		//		Set<PostCode> finalPostCodes2 = postCodes;
+		//		List.of(1000, 3000).forEach((code) -> {
+		//			PostCode postCode = new PostCode(code);
+		//			finalPostCodes2.add(postCode);
+		//		});
+		//		brussels.setPostcodes(postCodes);
+		//		municipalityRepository.save(brussels);
+
 		logger.debug("Postcodes saved for Antwerpen {} ", ImmutableList.copyOf(postCodeRepository.findAll()));
 		logger.debug("Municipalities saved {} ", ImmutableList.copyOf(municipalityRepository.findAll()));
 
@@ -85,17 +103,46 @@ public class DatabaseSeeder {
 		User user = new User("user", "user", "user", "user@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
 
 		//MEMBERSHIPS
-		membershipService.addMembershipByUserAndPostCode(admin, 2000, Role.ADMINISTRATOR);
-		membershipService.addMembershipByUserAndPostCode(youthCouncil, 2000, Role.YOUTH_COUNCIL_ADMINISTRATOR);
-		membershipService.addMembershipByUserAndPostCode(moderator, 2000, Role.YOUTH_COUNCIL_MODERATOR);
-		membershipService.addMembershipByUserAndPostCode(user, 2000, Role.USER);
+		membershipService.addMembershipByUserAndMunicipalityId(youthCouncil, antwerpen.getId(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
+		membershipService.addMembershipByUserAndMunicipalityId(moderator, antwerpen.getId(), Role.YOUTH_COUNCIL_MODERATOR);
+		membershipService.addMembershipByUserAndMunicipalityId(user, antwerpen.getId(), Role.USER);
 		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user));
 
-
 		//THEMES AND SUBTHEMES
+		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
+		themeRepository.save(randomThemeWithSubThemes1);
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
-		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
+
+
+		// ACTION POINTS
+		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
+		randomActionPoint1.setMunicipality(antwerpen);
+		randomActionPoint1.getFollowers().add(new UserActionPointFollow(user, randomActionPoint1));
+		randomActionPoint1.getLikers().add(new UserActionPointLike(moderator, randomActionPoint1));
+		randomActionPoint1.getLikers().add(new UserActionPointLike(user, randomActionPoint1));
+		randomActionPoint1.setLikeCount(2);
+		randomActionPoint1.setFollowCount(1);
+		randomActionPoint1.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+
+		ActionPoint randomActionPoint2 = entityFactory.createRandomActionPoint();
+		randomActionPoint2.getFollowers().add(new UserActionPointFollow(moderator, randomActionPoint2));
+		randomActionPoint2.setFollowCount(1);
+		randomActionPoint2.setMunicipality(antwerpen);
+		randomActionPoint2.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+
+		ActionPoint randomActionPoint3 = entityFactory.createRandomActionPoint();
+		randomActionPoint3.setMunicipality(antwerpen);
+		randomActionPoint3.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+
+		ActionPoint randomActionPoint4 = entityFactory.createRandomActionPoint();
+		randomActionPoint4.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+		randomActionPoint4.setMunicipality(antwerpen);
+
+		actionPointRepository.save(randomActionPoint1);
+		actionPointRepository.save(randomActionPoint2);
+		actionPointRepository.save(randomActionPoint3);
+		actionPointRepository.save(randomActionPoint4);
 
 
 		//FORMS AND QUESTIONS

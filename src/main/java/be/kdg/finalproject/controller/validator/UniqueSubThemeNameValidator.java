@@ -1,7 +1,7 @@
 package be.kdg.finalproject.controller.validator;
 
 import be.kdg.finalproject.controller.constraint.UniqueSubThemeNameConstraint;
-import be.kdg.finalproject.repository.SubThemeRepository;
+import be.kdg.finalproject.repository.theme.SubThemeRepository;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;

@@ -2,7 +2,9 @@ package be.kdg.finalproject.config.security;
 
 import be.kdg.finalproject.municipalities.MunicipalityAuthorizationFilter;
 import be.kdg.finalproject.municipalities.MunicipalityFilter;
-import be.kdg.finalproject.repository.MunicipalityRepository;
+import be.kdg.finalproject.repository.membership.MembershipRespository;
+import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
+import be.kdg.finalproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -23,12 +25,16 @@ public class SecurityConfig {
 	private final CustomOAuth2UserService oauthUserService;
 	private final OAuthSuccessHandler oAuthSuccessHandler;
 	private final MunicipalityRepository municipalityRepository;
+	private final MembershipRespository membershipRepository;
+	private final UserService userService;
 
 	@Autowired
-	public SecurityConfig(CustomOAuth2UserService oauthUserService, OAuthSuccessHandler oAuthSuccessHandler, MunicipalityRepository municipalityRepository) {
+	public SecurityConfig(CustomOAuth2UserService oauthUserService, OAuthSuccessHandler oAuthSuccessHandler, MunicipalityRepository municipalityRepository, MembershipRespository membershipRepository, UserService userService) {
 		this.oauthUserService = oauthUserService;
 		this.oAuthSuccessHandler = oAuthSuccessHandler;
 		this.municipalityRepository = municipalityRepository;
+		this.membershipRepository = membershipRepository;
+		this.userService = userService;
 	}
 
 	@Bean
@@ -40,7 +46,7 @@ public class SecurityConfig {
 				.csrf()
 				.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
 				.and()
-				.addFilterBefore(new MunicipalityFilter(municipalityRepository), UsernamePasswordAuthenticationFilter.class)
+				.addFilterBefore(new MunicipalityFilter(municipalityRepository, membershipRepository, userService), UsernamePasswordAuthenticationFilter.class)
 				.addFilterAfter(new MunicipalityAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class)
 				.authorizeHttpRequests(
 						auths ->
@@ -54,10 +60,6 @@ public class SecurityConfig {
 										.anyRequest()
 										.authenticated()
 				)
-				.sessionManagement() // enable session management
-				.sessionFixation()
-				.migrateSession() // set session fixation strategy
-				.and()
 				.formLogin()
 				.loginPage("/login")
 				.permitAll()
