@@ -20,6 +20,7 @@ public class CalendarActivity {
 	private Long id;
 	private String title;
 	private LocalDate date;
+	//add also time?
 	private String description;
 	@ManyToOne
 	private Municipality municipality;

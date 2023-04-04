@@ -1,6 +1,7 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
@@ -8,7 +9,10 @@ import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @Component
 @Profile ("dev")
@@ -80,6 +84,14 @@ public class EntityFactory {
 
 	private NumericInputQuestion randomNumericQuestion(Integer order) {
 		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
+	}
+
+	public CalendarActivity createRandomCalendarActivity() {
+		CalendarActivity calendarActivity = new CalendarActivity(faker.lorem().sentence());
+		LocalDate date = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+		                      .toLocalDate(); //generate a random future date and convert from Date to LocalDate
+		calendarActivity.setDate(date);
+		return calendarActivity;
 	}
 
 }
