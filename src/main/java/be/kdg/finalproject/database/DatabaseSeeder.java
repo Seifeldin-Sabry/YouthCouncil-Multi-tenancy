@@ -1,6 +1,7 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.platform.Municipality;
@@ -25,6 +26,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -153,5 +155,33 @@ public class DatabaseSeeder {
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
+
+
+		//CALENDAR OF ACTIVITIES
+		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
+		calendarActivity1.setTitle("City cleanup");
+		calendarActivity1.getDate();
+		calendarActivity1.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+//		calendarActivity1.getMunicipality();
+
+		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
+		calendarActivity2.setTitle("City cleanup");
+		calendarActivity2.getDate();
+		calendarActivity2.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		//		calendarActivity2.getMunicipality();
+
+		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
+		calendarActivity3.setTitle("City cleanup");
+		calendarActivity3.getDate();
+		calendarActivity3.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		//		calendarActivity3.getMunicipality();
+
+		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
+		calendarActivity4.setTitle("City cleanup");
+		calendarActivity4.getDate();
+		calendarActivity4.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		//		calendarActivity4.getMunicipality();
+
+
 	}
 }
