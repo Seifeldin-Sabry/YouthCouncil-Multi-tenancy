@@ -22,6 +22,7 @@ public class Theme {
 
 	@Column (name = "theme_name", nullable = false)
 	private String themeName;
+
 	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinColumn (name = "theme_id")
 	private Set<SubTheme> subThemes = new HashSet<>();

@@ -10,67 +10,67 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@Profile ("dev")
+@Profile("dev")
 public class EntityFactory {
 
-	private final Faker faker = new Faker();
+    private final Faker faker = new Faker();
 
 
-	public Theme createRandomThemeWithSubThemes(int amount) {
-		Theme theme = createRandomTheme();
-		for (int i = 0; i < amount; i++) {
-			theme.addSubTheme(createRandomSubTheme());
-		}
-		return theme;
-	}
+    public Theme createRandomThemeWithSubThemes(int amount) {
+        Theme theme = createRandomTheme();
+        for (int i = 0; i < amount; i++) {
+            theme.addSubTheme(createRandomSubTheme());
+        }
+        return theme;
+    }
 
-	private Theme createRandomTheme() {
-		return new Theme(faker.job().field());
-	}
+    private Theme createRandomTheme() {
+        return new Theme(faker.job().field());
+    }
 
-	private SubTheme createRandomSubTheme() {
-		return new SubTheme(faker.job().position());
-	}
+    private SubTheme createRandomSubTheme() {
+        return new SubTheme(faker.job().position());
+    }
 
 
-	public Form createRandomFormWithQuestions() {
-		Form form = createRandomForm();
-		for (int i = 0; i < 5; i++) {
-			form.addQuestion(createRandomQuestion(i));
-		}
-		return form;
-	}
+    public Form createRandomFormWithQuestions() {
+        Form form = createRandomForm();
+        for (int i = 0; i < 5; i++) {
+            form.addQuestion(createRandomQuestion(i));
+        }
+        return form;
+    }
 
-	private Form createRandomForm() {
-		return new Form(faker.job().title());
-	}
+    private Form createRandomForm() {
+        return new Form(faker.job().title());
+    }
 
-	private Question createRandomQuestion(final Integer order) {
-		final QuestionType questionType = QuestionType.values()[faker.random()
-		                                                             .nextInt(0, QuestionType.values().length - 1)];
-		return switch (questionType) {
-			case MULTIPLE_CHOICE_QUESTION -> randomMultipleChoiceQuestion(order);
-			case RADIO_QUESTION -> randomRadioQuestion(order);
-			case TEXT_QUESTION -> randomTextQuestion(order);
-			case NUMBER_QUESTION -> randomNumericQuestion(order);
-		};
-	}
+    private Question createRandomQuestion(final Integer order) {
+        final QuestionType questionType = QuestionType.values()[faker.random()
+                .nextInt(0, QuestionType.values().length - 1)];
+        return switch (questionType) {
+            case MULTIPLE_CHOICE_QUESTION -> randomMultipleChoiceQuestion(order);
+            case RADIO_QUESTION -> randomRadioQuestion(order);
+            case TEXT_QUESTION -> randomTextQuestion(order);
+            case NUMBER_QUESTION -> randomNumericQuestion(order);
+        };
+    }
 
-	private TextInputQuestion randomTextQuestion(Integer order) {
-		return new TextInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
-	}
+    private TextInputQuestion randomTextQuestion(Integer order) {
+        return new TextInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
+    }
 
-	private RadioQuestion randomRadioQuestion(final Integer order) {
-		List<String> answers = faker.lorem().words(4);
-		return new RadioQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
-	}
+    private RadioQuestion randomRadioQuestion(final Integer order) {
+        List<String> answers = faker.lorem().words(4);
+        return new RadioQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
+    }
 
-	private MultipleChoiceQuestion randomMultipleChoiceQuestion(final Integer order) {
-		List<String> answers = faker.lorem().words(4);
-		return new MultipleChoiceQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
-	}
+    private MultipleChoiceQuestion randomMultipleChoiceQuestion(final Integer order) {
+        List<String> answers = faker.lorem().words(4);
+        return new MultipleChoiceQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1, answers);
+    }
 
-	private NumericInputQuestion randomNumericQuestion(Integer order) {
-		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
-	}
+    private NumericInputQuestion randomNumericQuestion(Integer order) {
+        return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
+    }
 }

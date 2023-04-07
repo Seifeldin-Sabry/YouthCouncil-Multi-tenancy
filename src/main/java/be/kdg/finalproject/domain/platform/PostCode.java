@@ -19,6 +19,9 @@ public class PostCode {
 	@Column (name = "postcode", nullable = false)
 	private Integer postcode;
 
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "municipality_id")
+	private Municipality municipality;
 
 	public PostCode(Integer postcode) {
 		this.postcode = postcode;

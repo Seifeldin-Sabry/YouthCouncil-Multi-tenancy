@@ -17,66 +17,73 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@Entity (name = "MUNICIPALITIES")
+@Entity(name = "MUNICIPALITIES")
 @Getter
 @Setter
 @NoArgsConstructor
 @ToString
 public class Municipality {
-	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "municipality_id", nullable = false)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "municipality_id", nullable = false)
+    private Long id;
 
-	@Column (name = "name", nullable = false)
-	private String name;
+    @Column(name = "name", nullable = false)
+    private String name;
 
-	private String logo;
+    private String logo;
 
-	@ElementCollection (fetch = FetchType.EAGER)
-	private List<String> socialMediaLinks = new ArrayList<>();
+    @ElementCollection(fetch = FetchType.EAGER)
+    private List<String> socialMediaLinks = new ArrayList<>();
 
-	@OneToMany
-	@JoinColumn (name = "municipality_id")
-	@ToString.Exclude
-	private Set<User> members = new HashSet<>();
+    @OneToMany
+    @JoinColumn(name = "municipality_id")
+    @ToString.Exclude
+    private Set<User> members = new HashSet<>();
 
-	@OneToMany (mappedBy = "municipality")
-	@ToString.Exclude
-	private List<ActionPoint> actionPoints = new ArrayList<>();
+    @OneToMany(mappedBy = "municipality")
+    @ToString.Exclude
+    private List<ActionPoint> actionPoints = new ArrayList<>();
 
-	@OneToMany (mappedBy = "municipality")
-	@ToString.Exclude
-	private Set<Membership> memberships = new HashSet<>();
+    @OneToMany(mappedBy = "municipality")
+    @ToString.Exclude
+    private Set<Membership> memberships = new HashSet<>();
 
-	@OneToMany (cascade = CascadeType.ALL)
-	@JoinColumn (name = "municipality_id")
-	@ToString.Exclude
-	private Set<PostCode> postcodes = new HashSet<>();
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "municipality_id")
+    @ToString.Exclude
+    private Set<PostCode> postcodes = new HashSet<>();
 
-	@OneToMany
-	@ToString.Exclude
-	private List<InformativePage> infoInformativePages = new ArrayList<>();
+    @OneToMany
+    @ToString.Exclude
+    private List<InformativePage> infoInformativePages = new ArrayList<>();
 
-	@OneToMany
-	@ToString.Exclude
-	private List<NewsItem> newsItems = new ArrayList<>();
+    @OneToMany
+    @ToString.Exclude
+    private List<NewsItem> newsItems = new ArrayList<>();
 
-	@OneToMany (mappedBy = "municipality")
-	@ToString.Exclude
-	private List<CalendarActivity> calendarActivities = new ArrayList<>();
+    @OneToMany(mappedBy = "municipality")
+    @ToString.Exclude
+    private List<CalendarActivity> calendarActivities = new ArrayList<>();
 
 
-	public Municipality(String name) {
-		this.name = name;
-	}
+    public Municipality(String name) {
+        this.name = name;
+    }
 
-	public Municipality(String name, Set<PostCode> postcodes) {
-		this.name = name;
-		this.postcodes = postcodes;
-	}
+    public Municipality(String name, Set<PostCode> postcodes) {
+        this.name = name;
+        this.postcodes = postcodes;
+    }
 
-	public void addMembership(Membership membership) {
-		getMemberships().add(membership);
-	}
+    public void addMembership(Membership membership) {
+        getMemberships().add(membership);
+    }
+
+    public void addPostCode(PostCode postCode) {
+        if (postcodes.isEmpty()) {
+            postcodes = new HashSet<>();
+        }
+        postcodes.add(postCode);
+    }
 }

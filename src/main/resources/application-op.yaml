@@ -1,0 +1,36 @@
+spring:
+  mail:
+    #    host: smtp.gmail.com
+    #    port: ${EMAIL_PORT}
+    #    username: ${EMAIL_USERNAME}
+    #    password: ${EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+        auth: true
+        starttls:
+          enable: true
+          required: true
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    database: POSTGRESQL
+    show-sql: true
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/YouthCouncilOp
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
+  devtools:
+    restart:
+      enabled: true
+      additional-paths: src/main/java
+      additional-exclude: WEB-INF/**
+  thymeleaf:
+    cache: false
+
+  messages:
+    basename: templates/messages
