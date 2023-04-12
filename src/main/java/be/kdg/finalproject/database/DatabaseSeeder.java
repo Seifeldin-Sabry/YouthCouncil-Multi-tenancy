@@ -11,6 +11,7 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.repository.calendaractivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
@@ -45,11 +46,13 @@ public class DatabaseSeeder {
 
 	private final ActionPointRepository actionPointRepository;
 
+	private final CalendarActivityRepository calendarActivityRepository;
+
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
 	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory,
-	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository) {
+	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository, CalendarActivityRepository calendarActivityRepository ) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -59,6 +62,7 @@ public class DatabaseSeeder {
 		this.municipalityRepository = municipalityRepository;
 		this.postCodeRepository = postCodeRepository;
 		this.actionPointRepository = actionPointRepository;
+		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
 	@PostConstruct
@@ -155,27 +159,38 @@ public class DatabaseSeeder {
 		//CALENDAR OF ACTIVITIES
 		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
 		calendarActivity1.setTitle("City cleanup");
-		calendarActivity1.getDate();
-		calendarActivity1.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		calendarActivity1.setDate(calendarActivity1.getDate());
+		calendarActivity1.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy" +
+				" a drink with us after you are done");
 //		calendarActivity1.getMunicipality();
 
 		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
-		calendarActivity2.setTitle("City cleanup");
-		calendarActivity2.getDate();
-		calendarActivity2.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
-		//		calendarActivity2.getMunicipality();
+		calendarActivity2.setTitle("Social Media Campaign for Mental Health Awareness");
+		calendarActivity2.setDate(calendarActivity2.getDate());
+		calendarActivity2.setDescription("The youth council creates a social media campaign to raise awareness about" +
+				" mental health issues among young people by developing a series of posts and graphics to share on" +
+				" social media platforms as well as a hashtag to promote the campaign.");
+//		calendarActivity2.getMunicipality();
 
 		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
-		calendarActivity3.setTitle("City cleanup");
-		calendarActivity3.getDate();
-		calendarActivity3.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		calendarActivity3.setTitle("Volunteer Day at the Local Animal Shelter");
+		calendarActivity3.setDate(calendarActivity3.getDate());
+		calendarActivity3.setDescription("In this activity, members of the youth council spend a day" +
+				" volunteering at the local animal shelter.");
 		//		calendarActivity3.getMunicipality();
 
 		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
-		calendarActivity4.setTitle("City cleanup");
-		calendarActivity4.getDate();
-		calendarActivity4.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		calendarActivity4.setTitle("Youth Leadership Conference");
+		calendarActivity4.setDate(calendarActivity4.getDate());
+		calendarActivity4.setDescription("This is a day-long event for high school students interested" +
+				" in developing their leadership skills. The conference includes workshops on communication, " +
+				"teamwork, and public speaking, as well as a keynote address from a prominent community leader.");
 		//		calendarActivity4.getMunicipality();
+
+		calendarActivityRepository.save(calendarActivity1);
+		calendarActivityRepository.save(calendarActivity2);
+		calendarActivityRepository.save(calendarActivity3);
+		calendarActivityRepository.save(calendarActivity4);
 
 
 	}
