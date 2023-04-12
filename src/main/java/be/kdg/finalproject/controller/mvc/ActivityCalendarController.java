@@ -31,8 +31,6 @@ public class ActivityCalendarController {
 //				.addObject("activities", activities);
 //	}
 
-
-	//FOR TESTING
 	@GetMapping ("/calendar-activities")
 	public ModelAndView showActivitiesCalendar() {
 		List<CalendarActivity> activities = calendarActivitiesService.getAllCalendarActivities();
