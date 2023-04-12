@@ -1,6 +1,6 @@
 package be.kdg.finalproject.service.CalendarActivities;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
-import be.kdg.finalproject.repository.calendaractivities.CalendarActivityRepository;
+import be.kdg.finalproject.repository.calendaractivity.CalendarActivityRepository;
 import be.kdg.finalproject.service.municipality.MunicipalityServiceImpl;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
