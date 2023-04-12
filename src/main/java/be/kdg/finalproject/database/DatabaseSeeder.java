@@ -11,7 +11,7 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
-import be.kdg.finalproject.repository.calendaractivities.CalendarActivityRepository;
+import be.kdg.finalproject.repository.calendaractivity.CalendarActivityRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
