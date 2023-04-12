@@ -20,7 +20,9 @@ public class CalendarActivity {
 	private Long id;
 	private String title;
 	private LocalDate date;
-	//add also time?
+	//add also time? if needed then use localDateTime like below
+	// @Column(nullable = false)
+	// private LocalDateTime dateTime;
 	private String description;
 	@ManyToOne
 	private Municipality municipality;
