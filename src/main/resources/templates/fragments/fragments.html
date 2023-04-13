@@ -53,6 +53,10 @@
 				<li class="nav-item" th:if="${currentMunicipality != null}">
 					<a aria-current="page" class="nav-link active" href="/action-points">Action Points</a>
 				</li>
+				<li class="nav-item">
+					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of
+																							   Activities</a>
+				</li>
 				<li class="nav-item"
 					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_MODERATOR}"
 				>
