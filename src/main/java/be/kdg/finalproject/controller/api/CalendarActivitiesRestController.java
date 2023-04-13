@@ -1,24 +1,24 @@
 package be.kdg.finalproject.controller.api;
-
+import be.kdg.finalproject.controller.api.dto.get.CalendarActivityDTO;
+import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
+import be.kdg.finalproject.controller.api.dto.post.NewCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.service.calendaractivities.CalendarActivitiesService;
-import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
+
 @RestController
 @RequestMapping ("/api/calendar-activities")
 public class CalendarActivitiesRestController {
 
 	private final CalendarActivitiesService calendarActivitiesService;
-	private final MunicipalityService municipalityService;
 
-	public CalendarActivitiesRestController(CalendarActivitiesService calendarActivitiesService, MunicipalityService municipalityService) {
+	public CalendarActivitiesRestController(CalendarActivitiesService calendarActivitiesService) {
 		this.calendarActivitiesService = calendarActivitiesService;
-		this.municipalityService = municipalityService;
 	}
 
 
@@ -26,7 +26,7 @@ public class CalendarActivitiesRestController {
 //	@PatchMapping("/{id}")
 //	public ResponseEntity<Void> editActivity(@PathVariable int id,
 //	                                         @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivity) {
-//		if (calendarActivitiesService.changeActivity(id, updatedActivity.getTitle(),updatedActivity.getDate(),
+//		if (calendarActivitiesService.updateActivity(id, updatedActivity.getTitle(),updatedActivity.getStartTime().toLocalDate(),
 //				updatedActivity.getStartTime(),updatedActivity.getEndTime(),updatedActivity.getDescription(),
 //				updatedActivity.getMunicipality())) {
 //			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -38,21 +38,24 @@ public class CalendarActivitiesRestController {
 
 	//ADD ACTIVITY
 //	@PostMapping
-//	public ResponseEntity<ActivityDto> addActivity(
+//	public ResponseEntity<CalendarActivityDTO> addActivity(
 //			@RequestBody @Valid NewCalendarActivityDTO newActivityDto) {
 //
-//		CalendarActivity createdActivity = calendarActivitiesService.addActivity(
-//				NewActivityDto.getGameDate(),
-//				NewActivityDto.getWinner(),
-//				NewActivityDto.getStage()
+//		CalendarActivity createdActivity = calendarActivitiesService.addCalendarActivity(
+//				newActivityDto.getTitle(),
+//				newActivityDto.getDate,
+//				newActivityDto.getStartTime(),
+//				newActivityDto.getEndTime(),
+//				newActivityDto.getDescription()
 //		);
 //		return new ResponseEntity<>(
-//				new CalendarActivityDto(
+//				new CalendarActivityDTO(
 //						createdActivity.getId(),
-//						createdActivity.getGameDate(),
-//						createdActivity.getWinner(),
-//						createdActivity.getStage(),
-//						createdActivity.getTournament()),
+//						createdActivity.getTitle(),
+//						createdActivity.getDate(),
+//						createdActivity.getStartTime(),
+//						createdActivity.getEndTime(),
+//						createdActivity.getDescription()),
 //				HttpStatus.CREATED);
 //	}
 

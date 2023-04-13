@@ -56,9 +56,8 @@
 					<li class="event" th:each="activity : ${activities}">
 						<h4 class="mb-3" th:text="${activity.title}">Event Title</h4>
 						<p class="time">
-										<span th:text="${#temporals.format(activity.startTime, 'dd/MM/yyyy')}"
-											  th:remove="tag"
-										></span>
+							<span th:text="${#temporals.format(activity.date, 'dd/MM/yyyy')}"></span>
+
 							<br />
 							<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" th:remove="tag"></span> -
 							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" th:remove="tag"></span>
