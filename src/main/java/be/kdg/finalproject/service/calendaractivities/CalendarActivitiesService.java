@@ -1,7 +1,6 @@
-package be.kdg.finalproject.service.CalendarActivities;
+package be.kdg.finalproject.service.calendaractivities;
 
 import be.kdg.finalproject.domain.activities.CalendarActivity;
-import be.kdg.finalproject.domain.platform.Municipality;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

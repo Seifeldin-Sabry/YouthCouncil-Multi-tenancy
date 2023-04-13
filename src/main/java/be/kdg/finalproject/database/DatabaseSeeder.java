@@ -11,7 +11,8 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
-import be.kdg.finalproject.repository.calendaractivity.CalendarActivityRepository;
+
+import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
@@ -27,6 +28,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -161,41 +164,30 @@ public class DatabaseSeeder {
 
 
 		//CALENDAR OF ACTIVITIES
-		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
-		calendarActivity1.setTitle("City cleanup");
-		calendarActivity1.setDate(calendarActivity1.getDate());
-		calendarActivity1.setDescription("City park cleanup! We invite you all to make the environment cleaner and enjoy" +
-				" a drink with us after you are done");
-//		calendarActivity1.getMunicipality();
 
-		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
-		calendarActivity2.setTitle("Social Media Campaign for Mental Health Awareness");
-		calendarActivity2.setDate(calendarActivity2.getDate());
-		calendarActivity2.setDescription("The youth council creates a social media campaign to raise awareness about" +
-				" mental health issues among young people by developing a series of posts and graphics to share on" +
-				" social media platforms as well as a hashtag to promote the campaign.");
-//		calendarActivity2.getMunicipality();
+		ZonedDateTime now = ZonedDateTime.now();
+		ZonedDateTime startTime1 = 	now.plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime1 = now.plusDays(1).withHour(13).withMinute(0).withSecond(0).withNano(0);
+		CalendarActivity calendarActivity1 = new CalendarActivity("Social Media Campaign for Mental Health Awareness", startTime1.toLocalDateTime(), endTime1.toLocalDateTime(), "The youth council creates a social media campaign to raise awareness about mental health issues among young people. by developing a series of posts and graphics to share on social media platforms as well as a hashtag to promote the campaign.");
+				calendarActivity1.setMunicipality(antwerpen);
 
-		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
-		calendarActivity3.setTitle("Volunteer Day at the Local Animal Shelter");
-		calendarActivity3.setDate(calendarActivity3.getDate());
-		calendarActivity3.setDescription("In this activity, members of the youth council spend a day" +
-				" volunteering at the local animal shelter.");
-		//		calendarActivity3.getMunicipality();
+		ZonedDateTime startTime2 =  now.plusDays(2).withHour(12).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime2 = now.plusDays(2).withHour(14).withMinute(0).withSecond(0).withNano(0);
+		CalendarActivity calendarActivity2 = new CalendarActivity("City cleanup", startTime2.toLocalDateTime(), endTime2.toLocalDateTime(), "City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+				calendarActivity2.setMunicipality(ghent);
 
-		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
-		calendarActivity4.setTitle("Youth Leadership Conference");
-		calendarActivity4.setDate(calendarActivity4.getDate());
-		calendarActivity4.setDescription("This is a day-long event for high school students interested" +
-				" in developing their leadership skills. The conference includes workshops on communication, " +
-				"teamwork, and public speaking, as well as a keynote address from a prominent community leader.");
-		//		calendarActivity4.getMunicipality();
+		ZonedDateTime startTime3 = now.plusDays(3).withHour(9).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime3 = now.plusDays(3).withHour(16).withMinute(0).withSecond(0).withNano(0);
+		CalendarActivity calendarActivity3 = new CalendarActivity("Volunteer Day at the Local Animal Shelter", startTime3.toLocalDateTime(), endTime3.toLocalDateTime(), "In this activity, members of the youth council spend a day volunteering at the local animal shelter.");
+				calendarActivity3.setMunicipality(antwerpen);
 
-		calendarActivityRepository.save(calendarActivity1);
-		calendarActivityRepository.save(calendarActivity2);
-		calendarActivityRepository.save(calendarActivity3);
-		calendarActivityRepository.save(calendarActivity4);
+		ZonedDateTime startTime4 = now.plusDays(4).withHour(8).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime4 = now.plusDays(4).withHour(17).withMinute(0).withSecond(0).withNano(0);
+		CalendarActivity calendarActivity4 = new CalendarActivity("Youth Leadership Conference", startTime4.toLocalDateTime(),
+				endTime4.toLocalDateTime(),"This is a day-long event for high school students interested in developing their leadership skills.");
+		calendarActivity4.setMunicipality(ghent);
 
+		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 
 	}
 }
