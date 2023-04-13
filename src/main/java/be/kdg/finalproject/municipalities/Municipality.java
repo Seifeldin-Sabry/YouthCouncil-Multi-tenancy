@@ -1,6 +1,5 @@
 package be.kdg.finalproject.municipalities;
 
-
 import java.lang.annotation.*;
 
 @Target (ElementType.PARAMETER)
@@ -8,4 +7,3 @@ import java.lang.annotation.*;
 @Documented
 public @interface Municipality {
 }
-

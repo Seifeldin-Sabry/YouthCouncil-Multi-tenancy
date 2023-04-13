@@ -9,19 +9,24 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 public class MunicipalityResolver implements HandlerMethodArgumentResolver {
 	@Override
 	public boolean supportsParameter(MethodParameter parameter) {
-		return (parameter.getParameterAnnotation(Municipality.class) != null &&
+		return (parameter.getParameterAnnotation(MunicipalityName.class) != null &&
 				parameter.getParameterType() == String.class) ||
 				(parameter.getParameterAnnotation(MunicipalityId.class) != null &&
-						parameter.getParameterType() == Long.class);
+						parameter.getParameterType() == Long.class)
+				|| (parameter.getParameterAnnotation(Municipality.class) != null &&
+				parameter.getParameterType() == Municipality.class);
 	}
 
 	@Override
 	public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
 	                              NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-		if (parameter.getParameterAnnotation(Municipality.class) != null) {
-			return MunicipalityContext.getCurrentMunicipality();
+		if (parameter.getParameterAnnotation(MunicipalityName.class) != null) {
+			return MunicipalityContext.getCurrentMunicipalityName();
 		}
-		return MunicipalityContext.getCurrentMunicipalityId();
+		if (parameter.getParameterAnnotation(MunicipalityId.class) != null) {
+			return MunicipalityContext.getCurrentMunicipalityId();
+		}
+		return MunicipalityContext.getCurrentMunicipality();
 	}
 }
 

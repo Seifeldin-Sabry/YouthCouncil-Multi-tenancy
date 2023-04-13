@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.api;
 
 import be.kdg.finalproject.controller.api.dto.get.SubThemeDTO;
 import be.kdg.finalproject.controller.api.dto.get.ThemeDTO;
+import be.kdg.finalproject.controller.api.dto.patch.ActivateDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewSubThemeDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewThemeDTO;
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
@@ -16,7 +17,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -36,7 +36,7 @@ public class ThemeRestController {
 	@PostMapping
 	public ResponseEntity<?> addTheme(@Valid @RequestBody NewThemeDTO themeDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
@@ -46,20 +46,20 @@ public class ThemeRestController {
 		return ResponseEntity.created(null).body(dto);
 	}
 
-	@DeleteMapping ("/{themeId}")
-	public ResponseEntity<?> deleteTheme(@PathVariable Long themeId) {
+	@PatchMapping ("/{themeId}/deactivate")
+	public ResponseEntity<?> deactivateOrReactivateTheme(@PathVariable Long themeId, @RequestBody ActivateDTO activateDTO) {
 		Optional<Theme> theme = themeService.getThemeById(themeId);
 		if (theme.isEmpty()) {
 			return ResponseEntity.notFound().build();
 		}
-		themeService.deleteThemeById(themeId);
+		themeService.deactivateOrReactivateTheme(theme.get(), activateDTO);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PostMapping ("/{themeId}/subthemes")
 	public ResponseEntity<?> addSubTheme(@PathVariable Long themeId, @Valid @RequestBody NewSubThemeDTO subThemeDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
@@ -71,7 +71,7 @@ public class ThemeRestController {
 	@PatchMapping ("{themeId}")
 	public ResponseEntity<?> updateTheme(@PathVariable Long themeId, @Valid @RequestBody NewThemeDTO themeDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
@@ -92,19 +92,16 @@ public class ThemeRestController {
 		return ResponseEntity.ok(modelMapper.map(theme.get().getSubThemes(), SubThemeDTO[].class));
 	}
 
-	@DeleteMapping ("/{themeId}/subthemes/{subThemeId}")
-	public ResponseEntity<?> deleteSubTheme(@PathVariable Long themeId, @PathVariable Long subThemeId) {
-		boolean isDeleted = themeService.deleteSubThemeById(subThemeId, themeId);
-		if (!isDeleted) {
-			return ResponseEntity.notFound().build();
-		}
+	@PatchMapping ("/{themeId}/subthemes/{subThemeId}/deactivate")
+	public ResponseEntity<?> deleteSubTheme(@PathVariable Long themeId, @PathVariable Long subThemeId, @RequestBody ActivateDTO activateDTO) {
+		themeService.deactivateOrReactivateSubthemeByIdAndThemeId(subThemeId, themeId, activateDTO);
 		return ResponseEntity.noContent().build();
 	}
 
 	@PatchMapping ("/{themeId}/subthemes/{subThemeId}")
 	public ResponseEntity<?> updateSubTheme(@PathVariable Long themeId, @PathVariable Long subThemeId, @Valid @RequestBody NewSubThemeDTO subThemeDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Action Points</title>
+	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
+	<script defer th:src="@{js/action-points/actionPoint.js}" type="module"></script>
+	<script defer th:src="@{/js/action-points/addActionPoint.js}" type="module"></script>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<!--error toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast error-toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<!--success toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast success-toast align-items-center text-white bg-success border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				Your request was processed successfully.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<!--search bar aligned in the middle not too wide, with a placeholder of "search for title" and an add Action Point Button-->
+<div class="container my-5"
+	 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
+>
+	<div class="row">
+		<div class="col-md-8 col-lg-6 mx-auto">
+			<div class="input-group">
+				<input class="form-control" id="search" placeholder="Search for title" type="text" />
+				<button class="btn btn-outline-primary" id="search-btn" type="button">Search</button>
+			</div>
+		</div>
+	</div>
+	<div class="row mt-1">
+		<div class="col-md-8 col-lg-6 mx-auto">
+			<div class="d-flex justify-content-end">
+				<button class="btn btn-primary" data-bs-target="#addActionPointModal" data-bs-toggle="modal"
+						id="add-action-point-btn"
+						type="button"
+				>
+					Add Action Point
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div class="container my-5 action-points">
+	<th:block th:each="actionPoint, iter : ${actionPoints}">
+		<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">
+			<div class="col-md-8 col-lg-6 mx-auto">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<p class="card-text" th:text="${actionPoint.dateCreated}">Date</p>
+						<div class="d-flex justify-content-between">
+							<div class="bg-info rounded-3 p-1">
+								<i class="bi bi-tag"></i>
+								<span th:text="${actionPoint.subTheme.subThemeName}"></span>
+							</div>
+							<div>
+								<i class="bi bi-people-fill"></i>
+								<span class="follow-count" th:text="${actionPoint.followCount}">0</span>
+							</div>
+						</div>
+
+						<h3 class="card-title mb-0" th:text="${actionPoint.title}">Action Point Title</h3>
+					</div>
+					<div class="card-body">
+						<div class="carousel" data-interval="false" th:id="'carouselIndicator'+${iter.index}">
+							<div class="carousel-inner">
+								<th:block th:each="image,iter : ${actionPoint.images}">
+									<div class="carousel-item" th:classappend="${iter.index == 0} ? 'active'">
+										<img class="d-block w-100" th:alt="'Picture ' + ${iter.index + 1}"
+											 th:src="${image}"
+										/>
+									</div>
+								</th:block>
+							</div>
+							<a class="carousel-control-prev" data-bs-slide="prev"
+							   role="button"
+							   th:href="'#carouselIndicator'+${iter.index}"
+							>
+								<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+								<span class="visually-hidden">Previous</span>
+							</a>
+							<a class="carousel-control-next" data-bs-slide="next"
+							   role="button"
+							   th:href="'#carouselIndicator'+${iter.index}"
+							>
+								<span aria-hidden="true" class="carousel-control-next-icon"></span>
+								<span class="visually-hidden">Next</span>
+							</a>
+						</div>
+						<hr>
+						<div class="d-flex justify-content-between">
+							<div>
+								<button class="btn follow-btn"
+										th:classappend="${actionPoint.followed ? 'btn-danger' : 'btn-outline-primary'}"
+										th:data-action-point-id="${actionPoint.id}"
+										th:data-followed="${actionPoint.followed}"
+										th:text="${!actionPoint.followed ? 'Follow' : 'Unfollow'}"
+								>Follow
+								</button>
+							</div>
+							<div>
+								<button class="btn btn-outline-secondary text-danger like-btn"
+										th:classappend="${actionPoint.liked ? 'btn-primary' : ''}"
+										th:data-action-point-id="${actionPoint.id}"
+										th:data-liked="${actionPoint.liked}"
+								>👍 <span class="like-count" th:text="${actionPoint.likeCount}"></span></button>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer">
+						<p class="card-text" th:text="${actionPoint.description}"></p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</div>
+
+<div aria-hidden="true" aria-labelledby="addActionPointModalLabel" class="modal fade" id="addActionPointModal"
+	 tabindex="-1"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="addActionPointModalLabel">Add Action Point</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<form class="p-3">
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating title-err">
+							<input class="validation form-control form-control-lg title-field-err" id="title"
+								   name="title"
+							/>
+							<label class="form-label" for="title">Title</label>
+						</div>
+						<div class="title-invalid-feedback invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container description-err form-floating">
+							<textarea class="validation form-control form-control-lg description-field-err"
+									  id="description"
+									  name="description"
+							></textarea>
+							<label class="form-label" for="description">Description (Optional)</label>
+						</div>
+						<div class="description-feedback invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating images-err">
+							<input accept="image/*" class="validation form-control form-control-lg images-field-err"
+								   id="images"
+								   multiple name="images" type="file"
+							>
+							<label class="form-label" for="images">Images</label>
+						</div>
+						<div class="invalid-feedback images-invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating subTheme-err">
+							<select class="validation form-select form-select-lg subTheme-field-err" id="subTheme"
+									name="subTheme"
+							>
+								<option th:value="${null}">Choose a subtheme...</option>
+								<option th:each="subtheme : ${subThemes}" th:text="${subtheme.subThemeName}"
+										th:value="${subtheme.id}"
+								></option>
+							</select>
+							<label class="form-label" for="subTheme">Subtheme</label>
+						</div>
+						<div class="invalid-feedback subTheme-invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-11">
+							<table class="table">
+								<thead>
+								<tr>
+									<th>Proposals</th>
+								</tr>
+								</thead>
+								<tbody class="proposal-list">
+								</tbody>
+							</table>
+
+						</div>
+						<div class="col-md-1">
+							<button class="btn btn-success" id="add-proposal" type="button"><i class="bi bi-plus"></i>
+							</button>
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating actionPointProposals-err">
+
+						</div>
+						<div class="invalid-feedback actionPointProposals-invalid-feedback">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				<button class="btn btn-primary submit-btn" id="add-member-btn" type="button">Add Action Point</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

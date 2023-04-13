@@ -1,7 +1,7 @@
 package be.kdg.finalproject.service.user;
 
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
-import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
+import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Objects;
 import java.util.Random;
-import java.util.UUID;
 
 @Service
 public class UserService {
@@ -38,14 +37,6 @@ public class UserService {
 		return userRepository.findUsersByRole(role);
 	}
 
-
-	public void addMemberToMunicipality(UUID uuid, NewUserDto user) {
-		//TODO: send email to user with password and generate random password
-		User newUser = new User(user.getFirstName(), user.getSurname(), user.getEmail(), user.getEmail(), passwordEncoder.encode("password"), user.getRole(), Provider.LOCAL);
-		membershipService.addMembershipByUserAndUuid(newUser, uuid, user.getRole());
-	}
-
-
 	public boolean newEmailIsCurrentEmail(User user, String email) {
 		return Objects.equals(user.getEmail(), email);
 	}
@@ -65,6 +56,10 @@ public class UserService {
 		return userRepository.existsByUsernameIgnoreCase(username);
 	}
 
+	public User addUser(UserSignUpViewModel user) {
+		User newUser = new User(user.getFirstName(), user.getSurname(), user.getUsername(), user.getEmail(), passwordEncoder.encode(user.getPassword()), Role.USER, Provider.LOCAL);
+		return userRepository.save(newUser);
+	}
 
 	public List<User> getAllUsers() {
 		return ImmutableList.copyOf(userRepository.findAll());
@@ -93,7 +88,7 @@ public class UserService {
 		user.setUsername(email);
 		user.setFirstName(givenName);
 		user.setSurname(familyName);
-		membershipService.addMembershipByUserAndMunicipalityId(user, municipalityId, user.getRole());
+		membershipService.addMembershipByUserAndMunicipalityId(userRepository.save(user), municipalityId, user.getRole());
 	}
 
 
@@ -113,7 +108,7 @@ public class UserService {
 		user.setProvider(provider);
 		user.setFirstName(name);
 		user.setUsername(email);
-		membershipService.addMembershipByUserAndMunicipalityId(user, municipalityId, user.getRole());
+		membershipService.addMembershipByUserAndMunicipalityId(userRepository.save(user), municipalityId, user.getRole());
 	}
 
 	public User getUserByID(long id) {

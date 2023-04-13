@@ -2,6 +2,11 @@ package be.kdg.finalproject.service.municipality;
 
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
+import com.google.common.collect.ImmutableList;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -9,18 +14,54 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
-public interface MunicipalityService {
+public class MunicipalityService {
+	private final MunicipalityRepository municipalityRepository;
+	private final Logger logger = LoggerFactory.getLogger(MunicipalityService.class);
 
-	List<Municipality> getAllMunicipalities();
+	@Autowired
+	public MunicipalityService(MunicipalityRepository municipalityRepository) {
+		this.municipalityRepository = municipalityRepository;
+	}
 
-	List<Municipality> getAllMunicipalitiesByName(String partialName);
-	//	List<Municipality> getAllMunicipalitiesByPostalCode(Integer partialPostalCode);
 
-	Municipality getMunicipalityByPostalCode(Integer postalCode);
+	public List<Municipality> getAllMunicipalities() {
+		return ImmutableList.copyOf(municipalityRepository.findAll());
+	}
 
-	Optional<Municipality> getMunicipalityByName(String name);
 
-	List<Municipality> getAllMunicipalitiesAndMembers();
+	public List<Municipality> getAllMunicipalitiesByName(String partialName) {
+		return municipalityRepository.findByNamePart(partialName);
+	}
 
-	Municipality getMunicipalityByUUID(UUID id) throws EntityNotFoundException;
+	//
+	//	public List<Municipality> getAllMunicipalitiesByPostalCode(Integer partialPostalCode) {
+	//		return municipalityRepository.findByPostcodePart(String.valueOf(partialPostalCode));
+	//	}
+
+
+	public Municipality getMunicipalityByPostalCode(Integer postalCode) {
+		return municipalityRepository.findByPostcode(postalCode);
+	}
+
+
+	public Optional<Municipality> getMunicipalityByName(String name) {
+		return Optional.empty();
+	}
+
+
+	public List<Municipality> getAllMunicipalitiesAndMembers() {
+		return municipalityRepository.findAllMunicipalitiesAndMembers();
+	}
+
+
+	public Municipality getMunicipalityByUUID(UUID id) throws EntityNotFoundException {
+		return municipalityRepository.findByUuidWithMembers(id)
+		                             .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
+	}
+
+
+	public Municipality getMunicipalityByIdWithSocialMediaLinks(Long municipalityId) {
+		return municipalityRepository.findMunicipalityById(municipalityId);
+	}
+
 }

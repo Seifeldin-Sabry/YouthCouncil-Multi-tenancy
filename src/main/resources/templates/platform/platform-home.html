@@ -6,9 +6,9 @@
 	<title>Home</title>
 </head>
 <body>
-<th:block th:insert="~{/fragments/fragments::platformNav}"></th:block>
+<th:block th:insert="~{/fragments/fragments::nav}"></th:block>
 <div class="container-fluid">
-	<div class="row">
+	<div class="row" style="margin-left: 30px">
 		<div class="col-md-6">
 			<h1 class="mt-5">Join a Youth Council Today</h1>
 			<p class="lead">Be up to date with your municipality's latest installments</p>
@@ -17,7 +17,7 @@
 			<a class="btn btn-primary mt-3" href="/sign-up">Join Now</a>
 		</div>
 		<div class="col-md-6">
-			<img alt="Youth Council" class="img-fluid" src="https://via.placeholder.com/600x400">
+			<img alt="Youth Council" class="img-fluid" th:src="@{/images/platform/debattle.webp}">
 		</div>
 	</div>
 </div>
@@ -57,36 +57,5 @@
 		</div>
 	</div>
 </div>
-
-<footer class="bg-light text-center text-lg-start mt-5">
-	<div class="container p-4">
-		<div class="row">
-			<div class="col-lg-6 col-md-12 mb-4 mb-md-0">
-				<h5 class="text-uppercase">Youth Council Platform</h5>
-				<p>Join a council today and make a difference in your community.</p>
-			</div>
-			<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-				<h5 class="text-uppercase">Links</h5>
-				<ul class="list-unstyled mb-0">
-					<li><a class="text-dark" href="#">Home</a></li>
-					<li><a class="text-dark" href="#">About</a></li>
-					<li><a class="text-dark" href="#">Join a Council</a></li>
-					<li><a class="text-dark" href="#">Contact</a></li>
-				</ul>
-			</div>
-			<div class="col-lg-3 col-md-6 mb-4 mb-md-0">
-				<h5 class="text-uppercase">Social Media</h5>
-				<ul class="list-unstyled mb-0">
-					<li><a class="text-dark" href="#"><i class="bi bi-facebook"></i> Facebook</a></li>
-					<li><a class="text-dark" href="#"><i class="bi bi-twitter"></i> Twitter</a></li>
-					<li><a class="text-dark" href="#"><i class="bi bi-instagram"></i> Instagram</a></li>
-				</ul>
-			</div>
-		</div>
-	</div>
-	<div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-		&copy; 2023 Youth Council Platform
-	</div>
-</footer>
 </body>
 </html>

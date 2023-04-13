@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
+	<title>Customise Municipality</title>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<div class="container">
+	<div class="row">
+		<div class="col-md-6">
+			<div class="mb-3">
+				<label class="form-label" for="municipality-name">Municipality/Council Name (Municipality name by
+																  default)</label>
+				<input class="form-control" id="municipality-name" th:value="${currentMunicipality.councilName}"
+					   type="text"
+				>
+			</div>
+			<div class="mb-3">
+				<label class="form-label" for="logo-upload">Logo</label>
+				<input class="form-control" id="logo-upload" type="file">
+			</div>
+			<div class="mb-3">
+				<label class="form-label">Display Calendar of Activities</label>
+				<div class="form-check form-switch">
+					<input class="form-check-input" id="calendar-switch" type="checkbox">
+					<label class="form-check-label" for="calendar-switch">Toggle switch to display/hide calendar of
+																		  activities</label>
+				</div>
+			</div>
+
+			<div class="mb-3">
+				<label class="form-label">Display News</label>
+				<div class="form-check form-switch">
+					<input class="form-check-input" id="news-switch" type="checkbox">
+					<label class="form-check-label" for="news-switch">Toggle switch to display/hide news</label>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6">
+			<div class="d-flex align-items-center justify-content-center" id="preview"
+				 style="height: 200px; max-height: 200px;"
+			>
+				<img alt="Preview Image" class="img-fluid" id="preview-image" src="https://via.placeholder.com/200x200">
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

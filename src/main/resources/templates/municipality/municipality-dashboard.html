@@ -5,51 +5,67 @@
 	<title>Dashboard</title>
 </head>
 <body>
-<div th:insert="~{fragments/fragments::platformNav}">My navbar</div>
-<div class="row block">
-	<div>
-		<div class="card text-center">
-			<div class="card-body">
-				<i class="bi bi-gear h1"></i>
-				<h5 class="card-title">Customize Settings</h5>
-				<p class="card-text">Customize Municipality Settings (logo, pages, etc..)</p>
-				<a class="btn btn-primary" href="#">Go to Municipality Settings</a>
+<div th:insert="~{fragments/fragments::nav}">My navbar</div>
+<div class="row p-2 p-2">
+	<div class="col">
+		<div>
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-gear h1"></i>
+					<h5 class="card-title">Customize Settings</h5>
+					<p class="card-text">Customize Municipality Settings</p>
+					<a class="btn btn-primary" href="/youth-council-dashboard/settings">Go to Municipality Settings</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div>
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-bar-chart h1"></i>
+					<h5 class="card-title">Analytics</h5>
+					<p class="card-text">View Traction Statistics</p>
+					<a class="btn btn-primary" href="#">Go to Analytics</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col">
+		<div>
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-person-rolodex h1"></i>
+					<h5 class="card-title">Manage Users</h5>
+					<p class="card-text">Promote or demote users or ban them</p>
+					<a class="btn btn-primary" href="/youth-council-dashboard/users">Go to Users</a>
+				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="row block">
-	<div>
-		<div class="card text-center">
-			<div class="card-body">
-				<i class="bi bi-palette h1"></i>
-				<h5 class="card-title">Manage Users</h5>
-				<p class="card-text">Promote, demote to Moderator or Youth Council Admin</p>
-				<a class="btn btn-primary" href="/dashboard/themes">Go to Users</a>
+<div class="row p-2">
+	<div class="col">
+		<div>
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-collection h1"></i>
+					<h5 class="card-title">Pages</h5>
+					<p class="card-text">Create Pages for users to visit</p>
+					<a class="btn btn-primary" href="#">Go to Pages</a>
+				</div>
 			</div>
 		</div>
 	</div>
-</div>
-<div class="row block">
-	<div>
-		<div class="card text-center">
-			<div class="card-body">
-				<i class="bi bi-bar-chart h1"></i>
-				<h5 class="card-title">Pages</h5>
-				<p class="card-text">Create Pages for users to visit</p>
-				<a class="btn btn-primary" href="#">Go to Pages</a>
-			</div>
-		</div>
-	</div>
-</div>
-<div class="row block">
-	<div>
-		<div class="card text-center">
-			<div class="card-body">
-				<i class="bi bi-bar-chart h1"></i>
-				<h5 class="card-title">Analytics</h5>
-				<p class="card-text">View Analytics Data, Generate Reports, Manage Data Sources</p>
-				<a class="btn btn-primary" href="#">Go to Analytics</a>
+	<div class="col">
+		<div>
+			<div class="card text-center">
+				<div class="card-body">
+					<i class="bi bi-envelope-paper h1"></i>
+					<h5 class="card-title">Forms</h5>
+					<p class="card-text">Create Surveys and observe responses</p>
+					<a class="btn btn-primary" href="#">Go to Forms</a>
+				</div>
 			</div>
 		</div>
 	</div>

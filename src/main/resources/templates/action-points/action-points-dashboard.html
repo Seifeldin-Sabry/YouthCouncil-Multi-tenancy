@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
+	<title>Action Points Overview</title>
+</head>
+<body>
+<th:block th:include="fragments/fragments :: nav"></th:block>
+<div class="container">
+	<h1>Action Points Admin Dashboard</h1>
+	<div class="row">
+		<div class="col-md-4 mb-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						<label for="title1">Title:</label>
+						<input class="form-control" id="title1" type="text" value="Action Point 1">
+					</div>
+					<div class="form-group">
+						<label for="description1">Description:</label>
+						<textarea class="form-control" id="description1">This is the first action point.</textarea>
+					</div>
+					<div class="form-group">
+						<label for="video1">Video Link:</label>
+						<input class="form-control" id="video1" type="text"
+							   value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+						>
+					</div>
+					<div class="form-group">
+						<label for="subtheme1">Subtheme:</label>
+						<select class="form-control" id="subtheme1">
+							<option value="subtheme1">Subtheme 1</option>
+							<option value="subtheme2">Subtheme 2</option>
+							<option value="subtheme3">Subtheme 3</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" id="edit1">Edit</button>
+						<button class="btn btn-success" id="save1" style="display:none;">Save</button>
+						<button class="btn btn-danger" id="delete1">Delete</button>
+					</div>
+					<div class="form-group">
+						<button aria-controls="dropdown1" aria-expanded="false" class="btn btn-primary"
+								data-target="#dropdown1"
+								data-toggle="collapse" type="button"
+						>
+							Custom Dropdown
+						</button>
+						<div class="collapse" id="dropdown1">
+							<div class="card card-body">
+								<p>Custom dropdown content for Action Point 1.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 mb-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						<label for="title2">Title:</label>
+						<input class="form-control" id="title2" type="text" value="Action Point 2">
+					</div>
+					<div class="form-group">
+						<label for="description2">Description:</label>
+						<textarea class="form-control" id="description2">This is the second action point.</textarea>
+					</div>
+					<div class="form-group">
+						<label for="video2">Video Link:</label>
+						<input class="form-control" id="video2" type="text" value="https" />
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" id="edit2">Edit</button>
+						<button class="btn btn-success" id="save2" style="display:none;">Save</button>
+						<button class="btn btn-danger" id="delete2">Delete</button>
+					</div>
+					<div class="form-group">
+						<button aria-controls="dropdown2" aria-expanded="false" class="btn btn-primary"
+								data-target="#dropdown2"
+								data-toggle="collapse" type="button"
+						>
+							Custom Dropdown
+						</button>
+						<div class="collapse" id="dropdown2">
+							<div class="card card-body">
+								<p>Custom dropdown content for Action Point 2.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-4 mb-4">
+			<div class="card">
+				<div class="card-body">
+					<div class="form-group">
+						<label for="title3">Title:</label>
+						<input class="form-control" id="title3" type="text" value="Action Point 3">
+					</div>
+					<div class="form-group">
+						<label for="description3">Description:</label>
+						<textarea class="form-control" id="description3">This is the third action point.</textarea>
+					</div>
+					<div class="form-group">
+						<label for="video3">Video Link:</label>
+						<input class="form-control" id="video3" type="text"
+							   value="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+						>
+					</div>
+					<div class="form-group">
+						<label for="subtheme3">Subtheme:</label>
+						<select class="form-control" id="subtheme3">
+							<option value="subtheme1">Subtheme 1</option>
+							<option value="subtheme2">Subtheme 2</option>
+							<option value="subtheme3">Subtheme 3</option>
+						</select>
+					</div>
+					<div class="form-group">
+						<button class="btn btn-primary" id="edit3">Edit</button>
+						<button class="btn btn-success" id="save3" style="display:none;">Save</button>
+						<button class="btn btn-danger" id="delete3">Delete</button>
+					</div>
+					<div class="form-group">
+						<button aria-controls="dropdown3" aria-expanded="false" class="btn btn-primary"
+								data-target="#dropdown3"
+								data-toggle="collapse" type="button"
+						>
+							Custom Dropdown
+						</button>
+						<div class="collapse" id="dropdown3">
+							<div class="card card-body">
+								<p>Custom dropdown content for Action Point 3.</p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

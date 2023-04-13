@@ -3,10 +3,10 @@
 	  xmlns:th="http://www.thymeleaf.org"
 >
 <head>
-	<th:block th:include="fragments/fragments :: meta_script_link"></th:block>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
 	<title>Municipality Stats</title>
 </head>
 <body>
-<th:block th:include="fragments/fragments :: platformNav"></th:block>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
 </body>
 </html>

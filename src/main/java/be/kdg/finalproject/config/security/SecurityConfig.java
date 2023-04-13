@@ -4,6 +4,7 @@ import be.kdg.finalproject.municipalities.MunicipalityAuthorizationFilter;
 import be.kdg.finalproject.municipalities.MunicipalityFilter;
 import be.kdg.finalproject.repository.membership.MembershipRespository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
+import be.kdg.finalproject.service.SessionService;
 import be.kdg.finalproject.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,14 +26,16 @@ public class SecurityConfig {
 	private final CustomOAuth2UserService oauthUserService;
 	private final OAuthSuccessHandler oAuthSuccessHandler;
 	private final MunicipalityRepository municipalityRepository;
+	private final SessionService sessionService;
 	private final MembershipRespository membershipRepository;
 	private final UserService userService;
 
 	@Autowired
-	public SecurityConfig(CustomOAuth2UserService oauthUserService, OAuthSuccessHandler oAuthSuccessHandler, MunicipalityRepository municipalityRepository, MembershipRespository membershipRepository, UserService userService) {
+	public SecurityConfig(CustomOAuth2UserService oauthUserService, OAuthSuccessHandler oAuthSuccessHandler, MunicipalityRepository municipalityRepository, SessionService sessionService, MembershipRespository membershipRepository, UserService userService) {
 		this.oauthUserService = oauthUserService;
 		this.oAuthSuccessHandler = oAuthSuccessHandler;
 		this.municipalityRepository = municipalityRepository;
+		this.sessionService = sessionService;
 		this.membershipRepository = membershipRepository;
 		this.userService = userService;
 	}

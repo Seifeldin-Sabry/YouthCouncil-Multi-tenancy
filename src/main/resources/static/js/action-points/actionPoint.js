@@ -1,11 +1,15 @@
 import {csrfToken} from "../cookie.js";
+import {ActionPoint} from "../components/action-points/ActionPoint.js";
 
-const errorToast = document.querySelector('.toast');
+const errorToast = document.querySelector('.error-toast');
 
 const followBtns = document.querySelectorAll('.follow-btn');
 const likeBtns = document.querySelectorAll('.like-btn');
 
 const actionPoints = document.querySelectorAll('.action-point');
+const actionPointList = document.querySelector('.action-points');
+let currentActionPointLength = actionPoints.length;
+
 const state = {}
 
 actionPoints.forEach(actionPoint => {
@@ -27,6 +31,21 @@ actionPoints.forEach(actionPoint => {
     };
 })
 
+export function insertActionPoint(actionPoint) {
+    const element = new ActionPoint(actionPoint, currentActionPointLength).element;
+    state[actionPoint.id] = {
+        followCountEl: element.querySelector('.follow-count'),
+        likeCountEl: element.querySelector('.like-count'),
+        isFollowed: false,
+        isLiked: false,
+        likeBtn: element.querySelector('.like-btn'),
+        followBtn: element.querySelector('.follow-btn')
+    }
+    state[actionPoint.id].likeBtn.addEventListener('click', likeOrUnlike);
+    state[actionPoint.id].followBtn.addEventListener('click', followOrUnfollow);
+    actionPointList.prepend(element);
+    currentActionPointLength += 1;
+}
 
 followBtns.forEach(btn => {
     btn.addEventListener('click', followOrUnfollow);
@@ -74,7 +93,7 @@ async function followOrUnfollow(event) {
 }
 
 async function likeOrUnlike(event) {
-    const actionPointId = event.target.dataset.actionPointId;
+    const actionPointId = event.target.dataset.actionPointId || event.target.parentElement.dataset.actionPointId;
     const actionPoint = state[actionPointId];
     const {likeCountEl, isLiked, likeBtn} = actionPoint;
 

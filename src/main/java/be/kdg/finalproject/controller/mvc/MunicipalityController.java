@@ -5,6 +5,7 @@ import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
+import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,11 +31,13 @@ public class MunicipalityController {
 	public ModelAndView showPlatformHome() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
-		String currentMunicipality = MunicipalityContext.getCurrentMunicipality();
+		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
 		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
 			return new ModelAndView("municipality/municipality-home");
 		}
-		if (currentMunicipality == null) {
+		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
+			return new ModelAndView("/platform/platform-dashboard");
+		} else if (currentMunicipality == null) {
 			return new ModelAndView("/login");
 		}
 		return new ModelAndView("platform/platform-home");
@@ -54,5 +57,11 @@ public class MunicipalityController {
 		Municipality municipality = municipalityService.getMunicipalityByUUID(uuid);
 		return new ModelAndView("platform/platform-municipality")
 				.addObject("municipality", municipality);
+	}
+
+	@GetMapping ("/youth-council-dashboard/settings")
+	public ModelAndView showMunicipalitySettings(@MunicipalityId Long municipalityId) {
+		return new ModelAndView("municipality/municipality-settings")
+				.addObject("municipality", municipalityService.getMunicipalityByIdWithSocialMediaLinks(municipalityId));
 	}
 }

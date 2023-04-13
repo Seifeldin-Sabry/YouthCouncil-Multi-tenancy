@@ -1,16 +1,14 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
-import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.membership.MembershipService;
+import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -31,11 +29,13 @@ public class UserAccountController {
 
 	private final BCryptPasswordEncoder passwordEncoder;
 	private final MembershipService membershipService;
-	private final Logger logger = LoggerFactory.getLogger(MainController.class);
+	private final UserService userService;
+	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public UserAccountController(BCryptPasswordEncoder passwordEncoder, MembershipService membershipService) {
+	public UserAccountController(BCryptPasswordEncoder passwordEncoder, MembershipService membershipService, UserService userService) {
 		this.passwordEncoder = passwordEncoder;
 		this.membershipService = membershipService;
+		this.userService = userService;
 	}
 
 	@PreAuthorize ("isAuthenticated()")
@@ -46,11 +46,6 @@ public class UserAccountController {
 
 	@GetMapping ("/login")
 	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error, HttpSession session) {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-		logger.debug("Authentication: " + authentication);
-		logger.debug("Role: " + authentication.getAuthorities().toString());
-		logger.debug("Is authenticated: " + authentication.isAuthenticated());
-		logger.debug("Authentication name: " + authentication.getDetails());
 		if (error != null) {
 			return new ModelAndView("login")
 					.addObject("errorMessage", "Invalid email/username or password");
@@ -60,7 +55,7 @@ public class UserAccountController {
 
 	@GetMapping ("/sign-up")
 	public ModelAndView showSignUp() {
-		if (MunicipalityContext.getCurrentMunicipality() == null) {
+		if (MunicipalityContext.getCurrentMunicipalityName() == null) {
 			return new ModelAndView("redirect:/");
 		}
 		return new ModelAndView("sign-up", "user", new UserSignUpViewModel());
@@ -79,10 +74,10 @@ public class UserAccountController {
 			errors.getAllErrors().forEach(error -> logger.error(error.toString()));
 			return new ModelAndView("sign-up", "user", userSignUpViewModel);
 		}
-		User user = new User(userSignUpViewModel.getFirstName(), userSignUpViewModel.getSurname(), userSignUpViewModel.getUsername(), userSignUpViewModel.getEmail(), passwordEncoder.encode(userSignUpViewModel.getPassword()), Role.USER, Provider.LOCAL);
-		membershipService.addMembershipByUserAndMunicipalityId(user, MunicipalityContext.getCurrentMunicipalityId(), Role.USER);
+		User persistedUser = userService.addUser(userSignUpViewModel);
+		membershipService.addMembershipByUserAndMunicipalityId(persistedUser, MunicipalityContext.getCurrentMunicipalityId(), Role.USER);
 		request.login(
-				user.getUsername(),
+				persistedUser.getUsername(),
 				userSignUpViewModel.getPassword()
 		);
 		return new ModelAndView("redirect:/home");

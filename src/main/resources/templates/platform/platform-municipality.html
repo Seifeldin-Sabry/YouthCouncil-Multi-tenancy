@@ -9,8 +9,20 @@
 </head>
 
 <body>
-<th:block th:insert="~{fragments/fragments::platformNav}" />
-
+<p class="visually-hidden mu-id" th:data-municipality-id="${municipality.id}"></p>
+<th:block th:insert="~{fragments/fragments::nav}" />
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive" class="toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
 <div class="container">
 	<h1 class="my-5">Municipality Details</h1>
 	<div class="row">
@@ -20,7 +32,7 @@
 				Add
 				Member
 			</button>
-			<ul class="list-group my-4">
+			<ul class="user-list list-group my-4">
 				<th:block th:each="member: ${municipality.getMembers()}">
 					<li class="list-group-item" th:text="${member.getFirstName()} + ' ' + ${member.getSurname()}"></li>
 				</th:block>

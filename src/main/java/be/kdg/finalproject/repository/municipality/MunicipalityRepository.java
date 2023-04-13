@@ -22,6 +22,9 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	Optional<Municipality> findByNameIgnoreCase(String name);
 
 	@Query ("SELECT m FROM MUNICIPALITIES m LEFT JOIN FETCH m.members JOIN fetch m.postcodes WHERE m.uuid = :uuid")
+	Optional<Municipality> findByUuidWithMembers(UUID uuid);
+
+	@Query ("SELECT m FROM MUNICIPALITIES m WHERE m.uuid = :uuid")
 	Optional<Municipality> findByUuid(UUID uuid);
 
 	List<Municipality> findByNameContainingIgnoreCase(String name);
@@ -47,4 +50,6 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	Optional<Municipality> findById(Long aLong);
 
 
+	@Query ("SELECT m FROM MUNICIPALITIES m left join fetch m.socialMediaLinks WHERE m.id = :id")
+	Municipality findMunicipalityById(Long id);
 }

@@ -23,6 +23,8 @@ public class SubTheme {
 	@Column (name = "sub_them_name", nullable = false)
 	private String subThemeName;
 
+	private boolean isActive;
+
 	@ManyToOne
 	@JoinColumn (name = "theme_id")
 	@ToString.Exclude
@@ -30,5 +32,10 @@ public class SubTheme {
 
 	public SubTheme(String subThemeName) {
 		this.subThemeName = subThemeName;
+		this.isActive = true;
+	}
+
+	public void setActive(boolean isActive) {
+		this.isActive = isActive;
 	}
 }

@@ -1,12 +1,9 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
-import be.kdg.finalproject.controller.mvc.viewmodel.UserSignUpViewModel;
-import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.membership.MembershipService;
-import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -20,12 +17,10 @@ import java.util.List;
 @RequestMapping ("/youth-council-dashboard/users")
 public class UserController {
 
-	private final UserService userService;
 	private final MembershipService membershipService;
 	private final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-	public UserController(UserService userService, MembershipService membershipService) {
-		this.userService = userService;
+	public UserController(MembershipService membershipService) {
 		this.membershipService = membershipService;
 	}
 
@@ -35,14 +30,5 @@ public class UserController {
 		List<Membership> membershipMembers = membershipService.getMembershipsByMunicipalityIdWhereNotAdmin(municipalityId);
 		return new ModelAndView("municipality/municipality-users")
 				.addObject("users", membershipMembers);
-	}
-
-	@GetMapping ("/superUserManagement")
-	public ModelAndView showSuperUserManagement() {
-		ModelAndView modelAndView = new ModelAndView("super-user-management");
-		modelAndView.addObject("YCAdmins", userService.getUsersByRole(Role.YOUTH_COUNCIL_ADMINISTRATOR));
-		modelAndView.addObject("YCModerators", userService.getUsersByRole(Role.YOUTH_COUNCIL_MODERATOR));
-		modelAndView.addObject("user", new UserSignUpViewModel());
-		return modelAndView;
 	}
 }

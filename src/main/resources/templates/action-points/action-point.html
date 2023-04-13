@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+>
+<head>
+	<th:block th:replace="~{fragments/fragments :: meta_script_link}"></th:block>
+	<title>Action Point</title>
+</head>
+<body>
+<header th:replace="~{fragments/fragments :: nav}"></header>
+<div class="container my-4">
+	<h1 class="mb-4">Action Point Name</h1>
+	<div class="carousel slide" data-bs-ride="carousel" id="action-point-carousel">
+		<div class="carousel-inner">
+			<div class="carousel-item active">
+				<img alt="Action Point Image 1" class="d-block w-100" src="https://via.placeholder.com/800x500" />
+			</div>
+			<div class="carousel-item">
+				<img alt="Action Point Image 2" class="d-block w-100" src="https://via.placeholder.com/800x500" />
+			</div>
+			<div class="carousel-item">
+				<img alt="Action Point Image 3" class="d-block w-100" src="https://via.placeholder.com/800x500" />
+			</div>
+		</div>
+		<button class="carousel-control-prev" data-bs-slide="prev" data-bs-target="#action-point-carousel"
+				type="button"
+		>
+			<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+			<span class="visually-hidden">Previous</span>
+		</button>
+		<button class="carousel-control-next" data-bs-slide="next" data-bs-target="#action-point-carousel"
+				type="button"
+		>
+			<span aria-hidden="true" class="carousel-control-next-icon"></span>
+			<span class="visually-hidden">Next</span>
+		</button>
+	</div>
+	<div class="my-4">
+		<h2 class="mb-3">Action Point Proposal</h2>
+		<p>
+			Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis faucibus leo nec neque vestibulum hendrerit.
+			Etiam non magna non turpis maximus facilisis id vitae nibh. Nunc euismod est in dapibus lobortis. Fusce
+			vitae felis non libero egestas interdum
+			id ut ipsum. Duis ut leo dui.
+		</p>
+	</div>
+</div>
+</body>
+</html>

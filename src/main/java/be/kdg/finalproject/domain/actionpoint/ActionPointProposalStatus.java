@@ -1,6 +1,6 @@
 package be.kdg.finalproject.domain.actionpoint;
 
-public enum ActionPointStatus {
+public enum ActionPointProposalStatus {
 	NOT_INCLUDED,
 	INCLUDED,
 	IN_PROGRESS,

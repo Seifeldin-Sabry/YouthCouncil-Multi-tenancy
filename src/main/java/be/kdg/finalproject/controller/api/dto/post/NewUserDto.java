@@ -1,8 +1,6 @@
 package be.kdg.finalproject.controller.api.dto.post;
 
 
-import be.kdg.finalproject.controller.constraint.UniqueEmailConstraint;
-import be.kdg.finalproject.controller.constraint.UniqueUsernameConstraint;
 import be.kdg.finalproject.domain.security.Role;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -22,8 +20,6 @@ public class NewUserDto {
 	@NotBlank
 	private String surname;
 
-	@UniqueUsernameConstraint
-	@UniqueEmailConstraint
 	@NotBlank
 	private String email;
 	private Role role;
