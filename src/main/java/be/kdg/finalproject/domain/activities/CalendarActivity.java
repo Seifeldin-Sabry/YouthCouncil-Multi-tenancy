@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity (name = "CALENDAR_ACTIVITIES")
 @Getter
@@ -15,20 +15,26 @@ import java.time.LocalDate;
 public class CalendarActivity {
 
 	@Id
-	@GeneratedValue (strategy = GenerationType.IDENTITY)
-	@Column (name = "calendar_activity_id", nullable = false)
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name = "calendar_activity_id", nullable = false)
 	private Long id;
+
 	private String title;
-	private LocalDate date;
-	//add also time? if needed then use localDateTime like below
-	// @Column(nullable = false)
-	// private LocalDateTime dateTime;
+
+	private LocalDateTime startTime;
+
+	private LocalDateTime endTime;
+
 	private String description;
+
 	@ManyToOne
 	private Municipality municipality;
 
-	public CalendarActivity(String title) {
+	public CalendarActivity(String title, LocalDateTime startTime, LocalDateTime endTime, String description) {
 		this.title = title;
-		this.date = LocalDate.now();
+		this.startTime = startTime;
+		this.endTime = endTime;
+		this.description = description;
 	}
+
 }

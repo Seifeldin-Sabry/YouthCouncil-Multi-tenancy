@@ -10,6 +10,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -87,10 +89,15 @@ public class EntityFactory {
 	}
 
 	public CalendarActivity createRandomCalendarActivity() {
-		CalendarActivity calendarActivity = new CalendarActivity(faker.lorem().sentence());
-		LocalDate date = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
-		                      .toLocalDate(); //generate a random future date and convert from Date to LocalDate
-		calendarActivity.setDate(date);
+		CalendarActivity calendarActivity = new CalendarActivity(
+				faker.lorem().sentence(), // title
+				LocalDateTime.of(faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), // start time
+						LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59))), // random time between 00:00 and 23:59
+				LocalDateTime.of(faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), // end time
+						LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)).plusHours(faker.number().numberBetween(1, 4))), // add a random duration of 1 to 4 hours
+				faker.lorem().paragraph() // description
+				//add municipality?
+		);
 		return calendarActivity;
 	}
 
