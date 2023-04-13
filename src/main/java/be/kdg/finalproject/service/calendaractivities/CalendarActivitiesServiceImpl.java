@@ -1,6 +1,6 @@
-package be.kdg.finalproject.service.CalendarActivities;
+package be.kdg.finalproject.service.calendaractivities;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
-import be.kdg.finalproject.repository.calendaractivity.CalendarActivityRepository;
+import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.service.municipality.MunicipalityServiceImpl;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class CalendarActivitiesServiceImpl implements CalendarActivitiesService{
+public class CalendarActivitiesServiceImpl implements CalendarActivitiesService {
 
 	private final CalendarActivityRepository calendarActivityRepository;
 	private final Logger logger = LoggerFactory.getLogger(MunicipalityServiceImpl.class);
