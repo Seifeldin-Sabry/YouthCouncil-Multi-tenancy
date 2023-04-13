@@ -45,15 +45,6 @@ public class ActivityCalendarController {
 //		return mav;
 //	}
 
-	//FOR TESTING
-//		@GetMapping ("/calendar-activities")
-//		public ModelAndView showActivitiesCalendar() {
-//			List<CalendarActivity> activities = calendarActivitiesService.getAllCalendarActivities();
-//			logger.debug("Calendar activities found: {}", activities);
-//			return new ModelAndView("calendar-activities")
-//					.addObject("activities", activities);
-//		}
-
 	@GetMapping("/calendar-activities")
 	public ModelAndView showActivitiesCalendar(Model model) {
 		List<CalendarActivity> activities = calendarActivitiesService.getAllCalendarActivities();
