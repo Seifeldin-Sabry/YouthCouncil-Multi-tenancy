@@ -162,24 +162,24 @@ public class DatabaseSeeder {
 		//CALENDAR OF ACTIVITIES
 
 		ZonedDateTime now = ZonedDateTime.now();
-		ZonedDateTime startTime1 = 	now.plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime startTime1 = now.plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
 		ZonedDateTime endTime1 = now.plusDays(1).withHour(13).withMinute(0).withSecond(0).withNano(0);
-		CalendarActivity calendarActivity1 = new CalendarActivity("Social Media Campaign for Mental Health Awareness", startTime1.toLocalDateTime(), endTime1.toLocalDateTime(), "The youth council creates a social media campaign to raise awareness about mental health issues among young people. by developing a series of posts and graphics to share on social media platforms as well as a hashtag to promote the campaign.");
-				calendarActivity1.setMunicipality(antwerpen);
+		CalendarActivity calendarActivity1 = new CalendarActivity("Social Media Campaign for Mental Health Awareness", startTime1.toLocalDate(), startTime1.toLocalDateTime(), endTime1.toLocalDateTime(), "The youth council creates a social media campaign to raise awareness about mental health issues among young people. by developing a series of posts and graphics to share on social media platforms as well as a hashtag to promote the campaign.");
+		calendarActivity1.setMunicipality(antwerpen);
 
-		ZonedDateTime startTime2 =  now.plusDays(2).withHour(12).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime startTime2 = now.plusDays(2).withHour(12).withMinute(0).withSecond(0).withNano(0);
 		ZonedDateTime endTime2 = now.plusDays(2).withHour(14).withMinute(0).withSecond(0).withNano(0);
-		CalendarActivity calendarActivity2 = new CalendarActivity("City cleanup", startTime2.toLocalDateTime(), endTime2.toLocalDateTime(), "City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
-				calendarActivity2.setMunicipality(ghent);
+		CalendarActivity calendarActivity2 = new CalendarActivity("City cleanup", startTime2.toLocalDate(), startTime2.toLocalDateTime(), endTime2.toLocalDateTime(), "City park cleanup! We invite you all to make the environment cleaner and enjoy a drink with us after you are done");
+		calendarActivity2.setMunicipality(ghent);
 
 		ZonedDateTime startTime3 = now.plusDays(3).withHour(9).withMinute(0).withSecond(0).withNano(0);
 		ZonedDateTime endTime3 = now.plusDays(3).withHour(16).withMinute(0).withSecond(0).withNano(0);
-		CalendarActivity calendarActivity3 = new CalendarActivity("Volunteer Day at the Local Animal Shelter", startTime3.toLocalDateTime(), endTime3.toLocalDateTime(), "In this activity, members of the youth council spend a day volunteering at the local animal shelter.");
-				calendarActivity3.setMunicipality(antwerpen);
+		CalendarActivity calendarActivity3 = new CalendarActivity("Volunteer Day at the Local Animal Shelter", startTime3.toLocalDate(), startTime3.toLocalDateTime(), endTime3.toLocalDateTime(), "In this activity, members of the youth council spend a day volunteering at the local animal shelter.");
+		calendarActivity3.setMunicipality(antwerpen);
 
 		ZonedDateTime startTime4 = now.plusDays(4).withHour(8).withMinute(0).withSecond(0).withNano(0);
 		ZonedDateTime endTime4 = now.plusDays(4).withHour(17).withMinute(0).withSecond(0).withNano(0);
-		CalendarActivity calendarActivity4 = new CalendarActivity("Youth Leadership Conference", startTime4.toLocalDateTime(),
+		CalendarActivity calendarActivity4 = new CalendarActivity("Youth Leadership Conference", startTime4.toLocalDate(), startTime4.toLocalDateTime(),
 				endTime4.toLocalDateTime(),"This is a day-long event for high school students interested in developing their leadership skills.");
 		calendarActivity4.setMunicipality(ghent);
 
