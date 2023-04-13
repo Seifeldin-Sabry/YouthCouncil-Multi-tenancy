@@ -1,15 +1,18 @@
 package be.kdg.finalproject.municipalities;
 
-public class MunicipalityContext {
-	private static final ThreadLocal<String> currentMunicipality = new ThreadLocal<>();
-	private static final ThreadLocal<Long> currentMunicipalityId = new ThreadLocal<>();
+import be.kdg.finalproject.domain.platform.Municipality;
 
-	public static String getCurrentMunicipality() {
-		return currentMunicipality.get();
+public class MunicipalityContext {
+	private static final ThreadLocal<String> currentMunicipalityName = new ThreadLocal<>();
+	private static final ThreadLocal<Long> currentMunicipalityId = new ThreadLocal<>();
+	private static final ThreadLocal<Municipality> currentMunicipality = new ThreadLocal<>();
+
+	public static String getCurrentMunicipalityName() {
+		return currentMunicipalityName.get();
 	}
 
-	public static void setCurrentMunicipality(String tenant) {
-		currentMunicipality.set(tenant);
+	public static void setCurrentMunicipalityName(String tenant) {
+		currentMunicipalityName.set(tenant);
 	}
 
 	public static Long getCurrentMunicipalityId() {
@@ -22,7 +25,16 @@ public class MunicipalityContext {
 
 	public static void clear() {
 		currentMunicipalityId.set(null);
+		currentMunicipalityName.set(null);
 		currentMunicipality.set(null);
+	}
+
+	public static Municipality getCurrentMunicipality() {
+		return currentMunicipality.get();
+	}
+
+	public static void setCurrentMunicipality(Municipality municipality) {
+		currentMunicipality.set(municipality);
 	}
 }
 

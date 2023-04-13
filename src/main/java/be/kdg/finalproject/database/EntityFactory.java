@@ -8,6 +8,7 @@ import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.ZoneId;
 import java.util.List;
 
 @Component
@@ -45,7 +46,14 @@ public class EntityFactory {
 	public ActionPoint createRandomActionPoint() {
 		ActionPoint actionPoint = new ActionPoint(faker.lorem().sentence(), faker.lorem().sentence());
 		actionPoint.getImages()
-		           .addAll(List.of("/images/tree.jpeg", "/images/sky.jpeg", "/images/pexels.jpeg"));
+		           .addAll(List.of(String.format("https://loremflickr.com/320/240?random=%s", faker.random()
+		                                                                                           .nextInt(1, 100)),
+				           String.format("https://loremflickr.com/320/240?random=%s", faker.random().nextInt(1, 100)),
+				           String.format("https://loremflickr.com/320/240?random=%s", faker.random().nextInt(1, 100)),
+				           String.format("https://loremflickr.com/320/240?random=%s", faker.random().nextInt(1, 100)),
+				           String.format("https://loremflickr.com/320/240?random=%s", faker.random().nextInt(1, 100))));
+		var date = faker.date().past(100, java.util.concurrent.TimeUnit.DAYS);
+		actionPoint.setDateCreated(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
 		return actionPoint;
 	}
 

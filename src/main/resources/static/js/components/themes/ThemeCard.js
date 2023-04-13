@@ -8,6 +8,7 @@ export class ThemeCard {
         const card = document.createElement('div');
         card.classList.add('card', `theme-${this.theme.id}`, 'card-theme');
         card.setAttribute('data-theme-id', this.theme.id)
+        card.setAttribute('data-is-active', this.theme.active)
         card.innerHTML = `
         <div id="theme${this.theme.id}Heading" class="card-header d-flex justify-content-between">
             <h2 class="mb-0">
@@ -19,8 +20,8 @@ export class ThemeCard {
                 <button type="button" class="mx-auto btn btn-primary edit-theme-btn" data-bs-toggle="modal" data-bs-target="#editThemeModal${this.theme.id}">
                     <i class="bi bi-pencil-square"></i> Edit
                 </button>
-                <button type="button" class="btn btn-danger delete-theme-btn" data-bs-toggle="modal" data-bs-target="#deleteThemeModal${this.theme.id}">
-                    <i class="bi bi-trash"></i> Delete
+                <button type="button"  class="btn btn-danger delete-theme-btn ${this.theme.active ? 'btn-danger' : 'btn-success'}" data-theme-id="${this.theme.id}">
+                    ${this.theme.active ? 'Deactivate' : 'Activate'}
                 </button>
             </div>
         </div>
@@ -34,24 +35,6 @@ export class ThemeCard {
                 </button>
             </div>
         </div>
-        <!-- Delete Theme Modal -->
-        <div class="modal theme-modal fade" id="deleteThemeModal${this.theme.id}" tabindex="-1" aria-labelledby="deleteThemeModalLabel${this.theme.id}" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="deleteThemeModalLabel${this.theme.id}">Delete Theme</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p>Are you sure you want to delete the theme <strong>${this.theme.themeName}</strong> and all its subthemes?</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                        <button type="button" class="btn btn-danger delete-theme-confirm-btn" data-theme-id="${this.theme.id}">Delete</button>
-                    </div>
-                </div>
-            </div>
-		</div>
 		<!--			Edit Theme Modal-->
 			<div class="modal theme-modal fade" id="editThemeModal${this.theme.id}" tabindex="-1" aria-labelledby="editThemeModalLabel${this.theme.id}" aria-hidden="true">
 				<div class="modal-dialog">

@@ -3,7 +3,6 @@ package be.kdg.finalproject.config.security;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
-import be.kdg.finalproject.exceptions.MembershipNotFoundException;
 import be.kdg.finalproject.exceptions.UserBannedException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.repository.membership.MembershipRespository;
@@ -35,7 +34,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		logger.debug("Loading user: " + username);
-		User user = userRepository.findByUsernameOrEmailWithMemberShips(username)
+		User user = userRepository.findByUsernameOrEmail(username)
 		                          .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
 		logger.debug("User found: " + user);
@@ -49,7 +48,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 			return new CustomUserDetails(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), authorities);
 		} else {
 			Membership membership = membershipRepository.findByUser_IdAndMunicipality_Id(user.getId(), MunicipalityContext.getCurrentMunicipalityId())
-			                                            .orElseThrow(() -> new MembershipNotFoundException("User not found"));
+			                                            .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 			if (membership.isBanned()) {
 				throw new UserBannedException("User is banned");
 			}

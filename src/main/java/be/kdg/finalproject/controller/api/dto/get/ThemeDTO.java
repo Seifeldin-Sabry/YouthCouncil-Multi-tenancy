@@ -12,5 +12,6 @@ import java.util.List;
 public class ThemeDTO {
 	private Long id;
 	private String themeName;
+	private boolean isActive;
 	private List<SubThemeDTO> subThemes;
 }

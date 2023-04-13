@@ -83,15 +83,15 @@ public class DatabaseSeeder {
 		ghent.setPostcodes(postCodes);
 		municipalityRepository.save(ghent);
 
-		//		Municipality brussels = new Municipality("Brussels", true);
-		//		postCodes = new HashSet<>();
-		//		Set<PostCode> finalPostCodes2 = postCodes;
-		//		List.of(1000, 3000).forEach((code) -> {
-		//			PostCode postCode = new PostCode(code);
-		//			finalPostCodes2.add(postCode);
-		//		});
-		//		brussels.setPostcodes(postCodes);
-		//		municipalityRepository.save(brussels);
+		Municipality brussels = new Municipality("Brussels", true);
+		postCodes = new HashSet<>();
+		Set<PostCode> finalPostCodes2 = postCodes;
+		List.of(1000, 3000).forEach((code) -> {
+			PostCode postCode = new PostCode(code);
+			finalPostCodes2.add(postCode);
+		});
+		brussels.setPostcodes(postCodes);
+		municipalityRepository.save(brussels);
 
 		logger.debug("Postcodes saved for Antwerpen {} ", ImmutableList.copyOf(postCodeRepository.findAll()));
 		logger.debug("Municipalities saved {} ", ImmutableList.copyOf(municipalityRepository.findAll()));
@@ -101,12 +101,16 @@ public class DatabaseSeeder {
 		User youthCouncil = new User("ycadmin", "ycadmin", "ycadmin", "ycadmin@admin.co", passwordEncoder.encode("pass"), Role.YOUTH_COUNCIL_ADMINISTRATOR, Provider.LOCAL);
 		User moderator = new User("mod", "mod", "mod", "mod@user.co", passwordEncoder.encode("pass"), Role.YOUTH_COUNCIL_MODERATOR, Provider.LOCAL);
 		User user = new User("user", "user", "user", "user@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
+		User user2 = new User("user2", "user2", "user2", "user2@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
+
+		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user, user2));
 
 		//MEMBERSHIPS
 		membershipService.addMembershipByUserAndMunicipalityId(youthCouncil, antwerpen.getId(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
 		membershipService.addMembershipByUserAndMunicipalityId(moderator, antwerpen.getId(), Role.YOUTH_COUNCIL_MODERATOR);
 		membershipService.addMembershipByUserAndMunicipalityId(user, antwerpen.getId(), Role.USER);
-		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user));
+		membershipService.addMembershipByUserAndMunicipalityId(user, brussels.getId(), Role.USER);
+
 
 		//THEMES AND SUBTHEMES
 		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
@@ -117,7 +121,7 @@ public class DatabaseSeeder {
 
 		// ACTION POINTS
 		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
-		randomActionPoint1.setMunicipality(antwerpen);
+		randomActionPoint1.setMunicipalityId(antwerpen.getId());
 		randomActionPoint1.getFollowers().add(new UserActionPointFollow(user, randomActionPoint1));
 		randomActionPoint1.getLikers().add(new UserActionPointLike(moderator, randomActionPoint1));
 		randomActionPoint1.getLikers().add(new UserActionPointLike(user, randomActionPoint1));
@@ -128,16 +132,16 @@ public class DatabaseSeeder {
 		ActionPoint randomActionPoint2 = entityFactory.createRandomActionPoint();
 		randomActionPoint2.getFollowers().add(new UserActionPointFollow(moderator, randomActionPoint2));
 		randomActionPoint2.setFollowCount(1);
-		randomActionPoint2.setMunicipality(antwerpen);
+		randomActionPoint2.setMunicipalityId(antwerpen.getId());
 		randomActionPoint2.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
 
 		ActionPoint randomActionPoint3 = entityFactory.createRandomActionPoint();
-		randomActionPoint3.setMunicipality(antwerpen);
-		randomActionPoint3.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+		randomActionPoint3.setMunicipalityId(antwerpen.getId());
+		randomActionPoint3.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(1));
 
 		ActionPoint randomActionPoint4 = entityFactory.createRandomActionPoint();
-		randomActionPoint4.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
-		randomActionPoint4.setMunicipality(antwerpen);
+		randomActionPoint4.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(2));
+		randomActionPoint4.setMunicipalityId(antwerpen.getId());
 
 		actionPointRepository.save(randomActionPoint1);
 		actionPointRepository.save(randomActionPoint2);

@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Optional;
 
 public interface MembershipRespository extends CrudRepository<Membership, Long> {
+	@Query ("SELECT m FROM MEMBERSHIPS m left join fetch m.user left join fetch m.municipality m2 left join fetch m2.members WHERE m.user.id = ?1 AND m.municipality.id = ?2")
+	Optional<Membership> findByUserAndMunicipality(Long userId, Long municipalityId);
+
 	@Query ("select (count(m) > 0) from MEMBERSHIPS m where m.user.email = ?1 and m.municipality.id = ?2")
 	boolean existsByUserEmailAndMunicipalityId(String email, Long id);
 

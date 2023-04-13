@@ -1,4 +1,10 @@
 spring:
+  servlet:
+    multipart:
+      enabled: true
+      max-file-size: 2MB
+      max-request-size: 10MB
+      location: ${java.io.tmpdir}
   mail:
     #    host: smtp.gmail.com
     #    port: ${DEV_EMAIL_PORT}

@@ -1,14 +1,16 @@
 export class SubThemeCard {
     #element;
+
     constructor(subtheme, currentThemeId) {
         this.subtheme = subtheme;
         this.currentThemeId = currentThemeId;
         const listItem = document.createElement('li');
-        listItem.classList.add(`subtheme-list-item`, `subtheme-item-${this.subtheme.id}`);
+        listItem.classList.add(`subtheme-list-item`, `subtheme-item-${this.subtheme.id}`, `sub${this.currentThemeId}`);
+        listItem.dataset.subthemeId = this.subtheme.id;
         listItem.innerHTML = `
                 <div class="card subtheme-card">
                     <div class="card-body">
-                        <h5 class="card-title">${subtheme.subThemeName}</h5>
+                        <h5 class="card-title card-subtheme-name">${subtheme.subThemeName}</h5>
                         <div class="d-flex justify-content-between">
                             <button type="button" class="btn btn-primary edit-subtheme-btn"
                                     data-bs-toggle="modal"
@@ -16,10 +18,10 @@ export class SubThemeCard {
                             >
                                 <i class="bi bi-pencil-square"></i> Edit
                             </button>
-                            <button type="button" class="btn btn-danger delete-subtheme-btn"
+                            <button type="button" class="btn delete-subtheme-btn ${this.subtheme.active ? 'btn-danger' : 'btn-success'}"
                                     data-theme-id="${currentThemeId}" data-subtheme-id="${subtheme.id}"
                             >
-                                <i class="bi bi-trash"></i> Delete
+                                ${this.subtheme.active ? 'Deactivate' : 'Activate'}
                             </button>
                         </div>
                     </div>
@@ -67,7 +69,6 @@ export class SubThemeCard {
         `
         this.#element = listItem
     }
-
 
 
     get element() {

@@ -10,4 +10,5 @@ import lombok.*;
 public class SubThemeDTO {
 	private Long id;
 	private String subThemeName;
+	private boolean isActive;
 }

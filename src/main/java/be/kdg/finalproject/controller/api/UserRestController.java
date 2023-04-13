@@ -5,6 +5,7 @@ import be.kdg.finalproject.config.security.CustomUserDetails;
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedUserDTO;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
+import be.kdg.finalproject.service.SessionService;
 import be.kdg.finalproject.service.user.UserService;
 import be.kdg.finalproject.util.ValidationUtils;
 import org.slf4j.Logger;
@@ -20,9 +21,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 import java.lang.reflect.Type;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -30,10 +31,12 @@ import java.util.Map;
 public class UserRestController {
 
 	private final UserService userService;
+	private final SessionService sessionService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
-	public UserRestController(UserService userService) {
+	public UserRestController(UserService userService, SessionService sessionService) {
 		this.userService = userService;
+		this.sessionService = sessionService;
 	}
 
 	/**
@@ -44,7 +47,7 @@ public class UserRestController {
 	 */
 	@PreAuthorize ("isAuthenticated()")
 	@PutMapping ("/{id}")
-	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UpdatedUserDTO updatedUserDTO, BindingResult errors, HttpServletRequest request) {
+	public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UpdatedUserDTO updatedUserDTO, BindingResult errors, HttpServletRequest request, HttpSession session) {
 		//		get user by authentication and check if his ID is the same as the ID in the path, otherwise return 403
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		logger.debug("Auth: {}", auth.getPrincipal());
@@ -69,7 +72,7 @@ public class UserRestController {
 			errors.rejectValue("username", "username.taken");
 		}
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
@@ -85,7 +88,7 @@ public class UserRestController {
 
 		// set the authentication token in the SecurityContext
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-
+		sessionService.setCredentialsChanged(true, session);
 		return ResponseEntity.ok().build();
 	}
 

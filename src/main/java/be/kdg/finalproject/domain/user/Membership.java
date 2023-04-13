@@ -21,7 +21,7 @@ public class Membership {
 	@Column (name = "membership_id", nullable = false)
 	private Long id;
 
-	@ManyToOne (cascade = CascadeType.PERSIST)
+	@ManyToOne (cascade = {CascadeType.MERGE})
 	@JoinColumn (name = "user_id")
 	private User user;
 

@@ -146,3 +146,5 @@ replay_pid*
 
 ./db
 ./db/**
+/src/main/resources/static/images/image_db/
+/static/images/image_db/**

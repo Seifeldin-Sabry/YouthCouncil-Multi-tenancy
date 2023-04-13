@@ -1,13 +1,16 @@
 package be.kdg.finalproject.controller.api;
 
+import be.kdg.finalproject.controller.api.dto.get.MunicipalityMemberDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.security.Role;
-import be.kdg.finalproject.service.user.UserService;
+import be.kdg.finalproject.domain.user.Membership;
+import be.kdg.finalproject.domain.user.User;
+import be.kdg.finalproject.service.membership.MembershipService;
 import be.kdg.finalproject.util.ValidationUtils;
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -19,15 +22,13 @@ import java.util.UUID;
 @RequestMapping ("/api/municipalities/{uuid}/members")
 public class MunicipalityMembersRestController {
 
-	private final UserService userService;
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
+	private final MembershipService membershipService;
+	private final ModelMapper modelMapper = new ModelMapper();
 
-
-	@Autowired
-	public MunicipalityMembersRestController(UserService userService) {
-		this.userService = userService;
+	public MunicipalityMembersRestController(MembershipService membershipService) {
+		this.membershipService = membershipService;
 	}
-
 
 	@GeneralAdminOnly
 	@PostMapping
@@ -37,7 +38,18 @@ public class MunicipalityMembersRestController {
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.badRequest().body(ValidationUtils.getErrorsMap(bindingResult));
 		}
-		userService.addMemberToMunicipality(uuid, user);
-		return ResponseEntity.created(null).build();
+		Membership membership = membershipService.getMembershipByUuidAndEmail(uuid, user.getEmail());
+		if (membership != null) {
+			membership.setRole(user.getRole());
+			membership.setBanned(false);
+			membership.getMunicipality().addMember(membership.getUser());
+			membershipService.update(membership);
+			logger.debug("User {}", membership.getUser());
+			return ResponseEntity.created(null)
+			                     .body(modelMapper.map(membership.getUser(), MunicipalityMemberDTO.class));
+		}
+		User member = membershipService.addMembershipByUserAndUuid(user, uuid, user.getRole());
+		return ResponseEntity.created(null)
+		                     .body(modelMapper.map(member, MunicipalityMemberDTO.class));
 	}
 }

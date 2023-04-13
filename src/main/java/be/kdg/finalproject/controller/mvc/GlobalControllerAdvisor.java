@@ -2,12 +2,13 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.config.security.CustomOAuth2User;
 import be.kdg.finalproject.config.security.CustomUserDetails;
-import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.exceptions.UserBannedException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
+import be.kdg.finalproject.service.SessionService;
 import be.kdg.finalproject.service.membership.MembershipService;
+import be.kdg.finalproject.service.municipality.MunicipalityService;
 import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,7 +20,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 @ControllerAdvice
 public class GlobalControllerAdvisor {
@@ -27,26 +28,48 @@ public class GlobalControllerAdvisor {
 	private final Logger logger = LoggerFactory.getLogger(GlobalControllerAdvisor.class);
 	private final UserService userService;
 	private final MembershipService membershipService;
+	private final MunicipalityService municipalityService;
+	private final SessionService sessionService;
+	private boolean isFirstTimeMembershipFlag = true;
+	private boolean isFirstTimeMunicipalityFlag = true;
+	private Object currentPrincipal;
 
-	public GlobalControllerAdvisor(UserService userService, MembershipService membershipService) {
+	public GlobalControllerAdvisor(UserService userService, MembershipService membershipService, MunicipalityService municipalityService, SessionService sessionService) {
 		this.userService = userService;
 		this.membershipService = membershipService;
+		this.municipalityService = municipalityService;
+		this.sessionService = sessionService;
 	}
 
 	@ModelAttribute
-	public void addAttributes(Model model, Authentication authentication, HttpServletRequest request) {
+	public void addAttributes(Model model, Authentication authentication, HttpSession session) {
+		Long currentMunicipalityId = MunicipalityContext.getCurrentMunicipalityId();
+		boolean isMunicipalityChanged = sessionService.isMunicipalityChanged(session, currentMunicipalityId);
 		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
 		if (authentication == null) return;
+		boolean isInSession = sessionService.isUserInSession(session);
 		User user;
-		if (authentication.getPrincipal() instanceof CustomOAuth2User) {
-			user = userService.getUserByUsernameOrEmail(((CustomOAuth2User) authentication.getPrincipal()).getEmail());
-		} else {
-			user = userService.getUserByUsernameOrEmail(((CustomUserDetails) authentication.getPrincipal()).getUsername());
+		boolean credentialsChanged = sessionService.isCredentialsChanged(session) || currentPrincipal == null || !currentPrincipal.equals(authentication.getPrincipal());
+		if (!isInSession || credentialsChanged) {
+			currentPrincipal = authentication.getPrincipal();
+			if (authentication.getPrincipal() instanceof CustomOAuth2User) {
+				user = userService.getUserByUsernameOrEmail(((CustomOAuth2User) authentication.getPrincipal()).getEmail());
+			} else {
+				user = userService.getUserByUsernameOrEmail(((CustomUserDetails) authentication.getPrincipal()).getUsername());
+			}
+			session.setAttribute("user", user);
 		}
-		logger.debug("User: {}", user);
+		user = sessionService.getUser(session);
 		model.addAttribute("authUser", user);
-		Membership currentMembership = membershipService.getMembershipByUserAndMunicipalityName(user, MunicipalityContext.getCurrentMunicipality());
-		model.addAttribute("currentMembership", currentMembership);
+		if (isMunicipalityChanged || isFirstTimeMembershipFlag || credentialsChanged) {
+			sessionService.setCurrentMunicipalityId(session, currentMunicipalityId);
+			sessionService.setCurrentMembership(session, membershipService.getMembershipByUserAndMunicipalityName(user, MunicipalityContext.getCurrentMunicipalityName()));
+			isFirstTimeMembershipFlag = false;
+		}
+		model.addAttribute("currentMembership", sessionService.getCurrentMembership(session));
+		logger.debug("Current membership: " + sessionService.getCurrentMembership(session));
+		logger.debug("Current municipality: " + MunicipalityContext.getCurrentMunicipality());
+		logger.debug("Current municipality id: " + MunicipalityContext.getCurrentMunicipalityId());
 	}
 
 	@ExceptionHandler (AccessDeniedException.class)

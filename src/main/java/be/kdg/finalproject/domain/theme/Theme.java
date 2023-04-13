@@ -29,6 +29,7 @@ public class Theme {
 
 	public Theme(String themeName) {
 		this.themeName = themeName;
+		this.isActive = true;
 	}
 
 	public void addSubTheme(SubTheme subTheme) {

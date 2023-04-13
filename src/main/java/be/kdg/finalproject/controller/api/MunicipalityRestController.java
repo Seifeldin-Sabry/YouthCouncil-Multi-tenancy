@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 @RestController
-@RequestMapping("/api/municipalities")
+@RequestMapping ("/api/municipalities")
 public class MunicipalityRestController {
 	private final MunicipalityService municipalityService;
 	private final ModelMapper modelMapper = new ModelMapper();
@@ -25,12 +25,12 @@ public class MunicipalityRestController {
 	public MunicipalityRestController(MunicipalityService municipalityService) {
 		this.municipalityService = municipalityService;
 		modelMapper.createTypeMap(MunicipalityDto.class, Municipality.class)
-		           	.addMappings(new PropertyMap<>() {
-			            @Override
-			            protected void configure() {
-				            source.setHasWebsite(destination.getMembers() != null);
-			            }
-		            });
+		           .addMappings(new PropertyMap<>() {
+			           @Override
+			           protected void configure() {
+				           source.setHasWebsite(destination.getMembers() != null);
+			           }
+		           });
 	}
 
 	@GetMapping

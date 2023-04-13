@@ -2,10 +2,8 @@ package be.kdg.finalproject.domain.actionpoint;
 
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -13,9 +11,9 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity (name = "ACTION_POINTS")
-@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -24,6 +22,8 @@ public class ActionPoint {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name = "action_point_id", nullable = false)
 	private Long id;
+
+	private UUID uuid = UUID.randomUUID();
 
 	@Column (name = "title", nullable = false)
 	private String title;
@@ -34,9 +34,11 @@ public class ActionPoint {
 	@Column (name = "date_created", nullable = false)
 	private LocalDate dateCreated;
 
-	@Column (name = "status", nullable = false)
-	@Enumerated (EnumType.STRING)
-	private ActionPointStatus status;
+	@OneToMany (cascade = CascadeType.PERSIST)
+	@JoinColumn (name = "action_point_id")
+	@ToString.Exclude
+	private Set<ActionPointProposal> actionPointProposals = new HashSet<>();
+
 
 	@ManyToOne (fetch = FetchType.EAGER)
 	@JoinColumn (name = "sub_theme_id", nullable = false)
@@ -62,15 +64,18 @@ public class ActionPoint {
 
 	@Column (name = "like_count", nullable = false, columnDefinition = "int default 0")
 	private int likeCount;
-	@ManyToOne
-	@JoinColumn (name = "municipalitiy_id")
-	private Municipality municipality;
+
+	@JoinColumn (name = "municipalitiy_id", nullable = false, updatable = false, insertable = false)
+	private Long municipalityId;
 
 	public ActionPoint(String title, String description) {
 		this.title = title;
 		this.description = description;
 		this.dateCreated = LocalDate.now();
-		this.status = ActionPointStatus.IN_PROGRESS;
+	}
+
+	public ActionPoint() {
+		this.dateCreated = LocalDate.now();
 	}
 
 	public void addFollower() {
@@ -87,5 +92,9 @@ public class ActionPoint {
 
 	public void removeLiker() {
 		likeCount--;
+	}
+
+	public void addProposal(String actionPointProposal) {
+		this.actionPointProposals.add(new ActionPointProposal(actionPointProposal));
 	}
 }

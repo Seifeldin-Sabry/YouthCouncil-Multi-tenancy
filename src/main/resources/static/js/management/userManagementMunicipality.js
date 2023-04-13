@@ -114,5 +114,3 @@ async function banOrUnban(event) {
         delete banned[membershipId];
     }
 }
-
-
