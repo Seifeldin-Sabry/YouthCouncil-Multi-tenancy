@@ -25,17 +25,18 @@ public class ActivityCalendarController {
 		this.municipalityService = municipalityService;
 	}
 
-		@GetMapping ("/calendar-activities")
-		public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId, Model model) {
-//			if (municipalityId == null) {
-//				logger.debug("No municipality ID found");
-//				throw new EntityNotFoundException("Not found");
-//			}
-			List<CalendarActivity> activities = calendarActivitiesService.getAllCalendarActivities();
-			List<Municipality> municipalities = municipalityService.getAllMunicipalities();
-			logger.debug("Calendar activities found: {}", activities);
-			model.addAttribute("activities", activities);
-			model.addAttribute("municipalities", municipalities);
-			return new ModelAndView("calendar-activities");
+	@GetMapping("/calendar-activities")
+	public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId, Model model) {
+		List<CalendarActivity> activities;
+		if (municipalityId != null) {
+			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
+		} else {
+			activities = calendarActivitiesService.getAllCalendarActivities();
 		}
+		List<Municipality> municipalities = municipalityService.getAllMunicipalities();
+		logger.debug("Calendar activities found: {}", activities);
+		model.addAttribute("activities", activities);
+		model.addAttribute("municipalities", municipalities);
+		return new ModelAndView("calendar-activities");
+	}
 }
