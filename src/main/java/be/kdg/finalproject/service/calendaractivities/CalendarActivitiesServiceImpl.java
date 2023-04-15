@@ -1,6 +1,7 @@
 package be.kdg.finalproject.service.calendaractivities;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.platform.Municipality;
+import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.service.municipality.MunicipalityServiceImpl;
 import com.google.common.collect.ImmutableList;
@@ -59,6 +60,16 @@ public class CalendarActivitiesServiceImpl implements CalendarActivitiesService 
 	@Override
 	public boolean calendarActivityExists(Long id) {
 		return calendarActivityRepository.existsById(id);
+	}
+
+//	@Override
+//	public List<CalendarActivity> getActivitiesByUser(User user) {
+//			return calendarActivityRepository.findAllByUser(user);
+//	}
+
+	@Override
+	public List<CalendarActivity> getActivitiesByMunicipality(Long municipalityId) {
+			return calendarActivityRepository.findByMunicipalityId(municipalityId);
 	}
 
 
