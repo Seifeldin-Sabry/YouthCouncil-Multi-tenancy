@@ -74,6 +74,7 @@ public class SecurityConfig {
 				.and()
 				.successHandler(oAuthSuccessHandler)
 				.and()
+				.logout((logoutConfigurer) -> sessionService.setUserInSession(false))
 				.exceptionHandling()
 				.accessDeniedPage("/error/access-denied.html")
 				.and();

@@ -72,7 +72,11 @@ async function followOrUnfollow(event) {
         })
     }
     const response = await fetch(`/api/action-points/${actionPointId}/follow`, options);
-    if (!response.ok) {
+    if (response.status === 403) {
+        window.location.href = '/login';
+        return;
+    }
+    if (response.status === 500 || !response.ok) {
         const bootStrapToast = bootstrap.Toast.getOrCreateInstance(errorToast);
         bootStrapToast.show();
         return;
@@ -108,7 +112,11 @@ async function likeOrUnlike(event) {
         })
     }
     const response = await fetch(`/api/action-points/${actionPointId}/like`, options);
-    if (!response.ok) {
+    if (response.status === 403) {
+        window.location.href = '/login';
+        return;
+    }
+    if (response.status === 500 || !response.ok) {
         const bootStrapToast = bootstrap.Toast.getOrCreateInstance(errorToast);
         bootStrapToast.show();
         return;

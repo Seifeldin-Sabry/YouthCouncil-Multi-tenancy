@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.api;
 
 import be.kdg.finalproject.controller.api.dto.patch.FollowDTO;
 import be.kdg.finalproject.controller.api.dto.patch.LikeDTO;
+import be.kdg.finalproject.controller.authority.LoggedIn;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.service.actionpoints.ActionPointFollowService;
 import be.kdg.finalproject.service.actionpoints.ActionPointLikeService;
@@ -22,12 +23,14 @@ public class UserActionPointRestController {
 		this.likeService = likeService;
 	}
 
+	@LoggedIn
 	@PatchMapping ("/{actionPointId}/follow")
 	public ResponseEntity<?> followOrUnfollowActionPoint(@PathVariable Long actionPointId, @RequestBody FollowDTO dto, @ModelAttribute ("authUser") User user) {
 		followService.followOrUnfollowActionPoint(actionPointId, user, dto.isFollow());
 		return ResponseEntity.noContent().build();
 	}
 
+	@LoggedIn
 	@PatchMapping ("/{actionPointId}/like")
 	public ResponseEntity<?> likeOrUnlikeActionPoint(@PathVariable Long actionPointId, @RequestBody LikeDTO dto, @ModelAttribute ("authUser") User user) {
 		likeService.likeOrUnlike(actionPointId, user, dto.isLike());

@@ -41,8 +41,16 @@ export class ActionPoint {
 								<span class="follow-count">${actionPoint.followCount}</span>
 							</div>
 						</div>
-
 						<h3 class="card-title mb-0">${actionPoint.title}</h3>
+						<div class="d-flex justify-content-end">
+							<a href="/action-points/${actionPoint.uuid}">
+								<button class="btn btn-primary"
+										type="button"
+								>
+									Details
+								</button>
+							</a>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="carousel" data-interval="false" id="carouselIndicator${iter}">

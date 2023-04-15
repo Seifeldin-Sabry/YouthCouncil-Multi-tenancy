@@ -6,9 +6,22 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
 
 public interface ActionPointRepository extends CrudRepository<ActionPoint, Long> {
-	List<ActionPoint> findByMunicipalityId(Long municipalityId);
+
+	@Query ("""
+			SELECT ap
+			FROM ACTION_POINTS ap
+			left JOIN fetch ap.actionPointProposals
+			WHERE ap.uuid = :uuid
+			AND ap.municipalityId = :municipalityId
+			""")
+	Optional<ActionPoint> findByMunicipalityIdAndUuidWithProposals(Long municipalityId, UUID uuid);
+
+	Set<ActionPoint> findByMunicipalityId(Long municipalityId);
 
 	@Query ("""
 			SELECT ap, CASE WHEN (SELECT COUNT(*)
@@ -20,6 +33,8 @@ public interface ActionPointRepository extends CrudRepository<ActionPoint, Long>
 			                        WHERE uapl.actionPoint = ap AND uapl.liker.id = :userId) > 0
 			                        THEN true ELSE false END as liked
 			FROM ACTION_POINTS ap
+			left JOIN fetch ap.followers
+			left JOIN fetch ap.likers
 			WHERE ap.municipalityId = :municipalityId
 			ORDER BY ap.dateCreated DESC
 			""")

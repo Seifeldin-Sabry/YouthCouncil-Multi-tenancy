@@ -1,6 +1,5 @@
 package be.kdg.finalproject.service;
 
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.user.Membership;
 import be.kdg.finalproject.domain.user.User;
 import org.springframework.stereotype.Service;
@@ -11,14 +10,18 @@ import java.util.concurrent.atomic.AtomicBoolean;
 @Service
 public class SessionService {
 
-	private final String IS_CREDENTIALS_CHANGED = "isCredentialsChanged";
 	private final String CURRENT_MUNICIPALITY_ID = "currentMunicipalityId";
-	private final String CURRENT_MUNICIPALITY = "currentMunicipality";
 	private final String CURRENT_MEMBERSHIP = "currentMembership";
 	private final String USER = "user";
+	private boolean isUserInSession = false;
+	private boolean isCredentialsChanged = false;
 
-	public boolean isCredentialsChanged(HttpSession session) {
-		return session.getAttribute(IS_CREDENTIALS_CHANGED) != null;
+	public boolean isCredentialsChanged() {
+		return isCredentialsChanged;
+	}
+
+	public void setCredentialsChanged(boolean credentialsChanged) {
+		this.isCredentialsChanged = credentialsChanged;
 	}
 
 	public boolean isMunicipalityChanged(HttpSession session, Long municipalityId) {
@@ -29,12 +32,17 @@ public class SessionService {
 		return (session.getAttribute(CURRENT_MUNICIPALITY_ID) == null && attributeExists.get()) || (attributeExists.get() && (long) session.getAttribute(CURRENT_MUNICIPALITY_ID) != municipalityId);
 	}
 
-	public boolean isUserInSession(HttpSession session) {
-		return session.getAttribute(USER) != null;
+	public boolean isUserInSession() {
+		return isUserInSession;
 	}
 
-	public void setCredentialsChanged(boolean credentialsChanged, HttpSession session) {
-		session.setAttribute(IS_CREDENTIALS_CHANGED, credentialsChanged);
+	public void setUserInSession(boolean isUserInSession) {
+		this.isUserInSession = isUserInSession;
+		this.isCredentialsChanged = true;
+	}
+
+	public void setUserInSession(HttpSession session, User user) {
+		session.setAttribute(USER, user);
 	}
 
 	public void setCurrentMunicipalityId(HttpSession session, Long currentMunicipalityId) {
@@ -51,13 +59,5 @@ public class SessionService {
 
 	public Membership getCurrentMembership(HttpSession session) {
 		return (Membership) session.getAttribute(CURRENT_MEMBERSHIP);
-	}
-
-	public void setCurrentMunicipality(HttpSession session, Municipality municipality) {
-		session.setAttribute(CURRENT_MUNICIPALITY, municipality);
-	}
-
-	public Municipality getCurrentMunicipality(HttpSession session) {
-		return (Municipality) session.getAttribute(CURRENT_MUNICIPALITY);
 	}
 }

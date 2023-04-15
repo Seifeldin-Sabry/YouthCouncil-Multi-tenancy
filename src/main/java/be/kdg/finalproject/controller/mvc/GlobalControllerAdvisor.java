@@ -47,9 +47,9 @@ public class GlobalControllerAdvisor {
 		boolean isMunicipalityChanged = sessionService.isMunicipalityChanged(session, currentMunicipalityId);
 		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
 		if (authentication == null) return;
-		boolean isInSession = sessionService.isUserInSession(session);
+		boolean isInSession = sessionService.isUserInSession();
 		User user;
-		boolean credentialsChanged = sessionService.isCredentialsChanged(session) || currentPrincipal == null || !currentPrincipal.equals(authentication.getPrincipal());
+		boolean credentialsChanged = sessionService.isCredentialsChanged() || currentPrincipal == null || !currentPrincipal.equals(authentication.getPrincipal());
 		if (!isInSession || credentialsChanged) {
 			currentPrincipal = authentication.getPrincipal();
 			if (authentication.getPrincipal() instanceof CustomOAuth2User) {
@@ -57,7 +57,7 @@ public class GlobalControllerAdvisor {
 			} else {
 				user = userService.getUserByUsernameOrEmail(((CustomUserDetails) authentication.getPrincipal()).getUsername());
 			}
-			session.setAttribute("user", user);
+			sessionService.setUserInSession(session, user);
 		}
 		user = sessionService.getUser(session);
 		model.addAttribute("authUser", user);
@@ -78,14 +78,11 @@ public class GlobalControllerAdvisor {
 		return new ModelAndView("error/access-denied");
 	}
 
+	//TODO: ask lars about this :)
 	@ExceptionHandler (EntityNotFoundException.class)
 	public ModelAndView showEntityNotFound() {
+		logger.debug("Entity not found");
 		return new ModelAndView("error/404");
-	}
-
-	@ExceptionHandler (NullPointerException.class)
-	public ModelAndView showLogin() {
-		return new ModelAndView("redirect:/login");
 	}
 
 	@ExceptionHandler (UserBannedException.class)

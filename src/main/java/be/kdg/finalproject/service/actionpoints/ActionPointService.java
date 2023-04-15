@@ -4,26 +4,23 @@ import be.kdg.finalproject.controller.api.dto.post.NewActionPointDTO;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
-import be.kdg.finalproject.repository.actionpoint.UserActionPointFollowRepository;
-import be.kdg.finalproject.repository.actionpoint.UserActionPointLikeRepository;
+import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 @Service
 public class ActionPointService {
 
 	private final ActionPointRepository actionPointRepository;
-	private final UserActionPointFollowRepository userActionPointFollowRepository;
-	private final UserActionPointLikeRepository userActionPointLikeRepository;
+	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointService.class);
 
-	public ActionPointService(ActionPointRepository actionPointRepository, UserActionPointFollowRepository userActionPointFollowRepository, UserActionPointLikeRepository userActionPointLikeRepository) {
+	public ActionPointService(ActionPointRepository actionPointRepository) {
 		this.actionPointRepository = actionPointRepository;
-		this.userActionPointFollowRepository = userActionPointFollowRepository;
-		this.userActionPointLikeRepository = userActionPointLikeRepository;
 	}
 
 	public Set<ActionPoint> getActionPointsByMunicipalityIdAndUserIdWithImages(long municipalityId, long userId) {
@@ -40,7 +37,7 @@ public class ActionPointService {
 		return actionPoints;
 	}
 
-	public List<ActionPoint> getActionPointsByMunicipalityId(long municipalityId) {
+	public Set<ActionPoint> getActionPointsByMunicipalityId(long municipalityId) {
 		return actionPointRepository.findByMunicipalityId(municipalityId);
 	}
 
@@ -58,5 +55,12 @@ public class ActionPointService {
 		actionPoint.setImages(new HashSet<>(actionPointViewModel.getImageSources()));
 		actionPointViewModel.getActionPointProposals().forEach(actionPoint::addProposal);
 		return actionPointRepository.save(actionPoint);
+	}
+
+	public ActionPoint getActionPointByUUID(Long municipalityId, UUID uuid) {
+		logger.debug("Getting action point with uuid: " + uuid);
+		logger.debug("Getting action point with municipalityId: " + municipalityId);
+		return actionPointRepository.findByMunicipalityIdAndUuidWithProposals(municipalityId, uuid)
+		                            .orElseThrow(() -> new EntityNotFoundException("ActionPoint not found"));
 	}
 }

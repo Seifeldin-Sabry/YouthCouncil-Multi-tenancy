@@ -23,7 +23,7 @@ public class ActionPointProposal {
 	@Enumerated (EnumType.STRING)
 	private ActionPointProposalStatus status;
 
-	@Column (name = "proposal", nullable = false)
+	@Column (name = "proposal", nullable = false, columnDefinition = "TEXT")
 	private String proposal;
 
 	public ActionPointProposal(String description) {
