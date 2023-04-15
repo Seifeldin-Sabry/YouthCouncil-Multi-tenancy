@@ -38,16 +38,4 @@ public class ActivityCalendarController {
 			model.addAttribute("municipalities", municipalities);
 			return new ModelAndView("calendar-activities");
 		}
-
-
-//	@GetMapping("/calendar-activities")
-//	public ModelAndView showActivitiesCalendar(Model model) {
-//		List<CalendarActivity> activities = calendarActivitiesService.getAllCalendarActivities();
-//		List<Municipality> municipalities = municipalityService.getAllMunicipalities();
-//		logger.debug("Calendar activities found: {}", activities);
-//		model.addAttribute("activities", activities);
-//		model.addAttribute("municipalities", municipalities);
-//		return new ModelAndView("calendar-activities");
-//	}
-
 }
