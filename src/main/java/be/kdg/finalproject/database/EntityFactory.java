@@ -89,19 +89,22 @@ public class EntityFactory {
 		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
 	}
 
-	public CalendarActivity createRandomCalendarActivity(Municipality municipality) {
-		CalendarActivity calendarActivity = new CalendarActivity(
-				faker.lorem().sentence(), // title
-				faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), // date
-				LocalDateTime.of(faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), // start time
-						LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59))), // random time between 00:00 and 23:59
-				LocalDateTime.of(faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate(), // end time
-						LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)).plusHours(faker.number().numberBetween(1, 4))), // add a random duration of 1 to 4 hours
-				faker.lorem().paragraph() // description
-		);
+
+	//Checks if any of the parameters (title, date, startTime, endTime, description) are null,
+	// and generates random values for them if they are null. Otherwise, it uses the provided values.
+	public CalendarActivity createRandomCalendarActivity(String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description, Municipality municipality) {
+		LocalDate activityDate = date == null ? faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : date;
+		LocalDateTime activityStartTime = startTime == null ? LocalDateTime.of(activityDate, LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59))) : startTime;
+		LocalDateTime activityEndTime = endTime == null ? activityStartTime.plusHours(faker.number().numberBetween(1, 4)) : endTime;
+		String activityTitle = title == null ? faker.lorem().sentence() : title;
+		String activityDescription = description == null ? faker.lorem().paragraph() : description;
+
+		CalendarActivity calendarActivity = new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 		calendarActivity.setMunicipality(municipality);
+
 		return calendarActivity;
 	}
+
 
 
 
