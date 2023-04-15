@@ -47,10 +47,10 @@
 				<li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
 					<a aria-current="page" class="nav-link active" href="/dashboard">Dashboard</a>
 				</li>
-				<li class="nav-item" th:if="${currentMembership != null}">
+				<li class="nav-item" th:if="${currentMunicipality != null}">
 					<a aria-current="page" class="nav-link active" href="/home">Call for Ideas</a>
 				</li>
-				<li class="nav-item" th:if="${currentMembership != null}">
+				<li class="nav-item" th:if="${currentMunicipality != null}">
 					<a aria-current="page" class="nav-link active" href="/action-points">Action Points</a>
 				</li>
 				<li class="nav-item"

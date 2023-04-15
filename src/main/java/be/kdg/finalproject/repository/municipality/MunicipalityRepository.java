@@ -24,6 +24,9 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	@Query ("SELECT m FROM MUNICIPALITIES m LEFT JOIN FETCH m.members JOIN fetch m.postcodes WHERE m.uuid = :uuid")
 	Optional<Municipality> findByUuidWithMembers(UUID uuid);
 
+	@Query ("SELECT m FROM MUNICIPALITIES m LEFT JOIN FETCH m.members JOIN fetch m.postcodes WHERE m.id = :id")
+	Optional<Municipality> findByIdWithMembers(Long id);
+
 	@Query ("SELECT m FROM MUNICIPALITIES m WHERE m.uuid = :uuid")
 	Optional<Municipality> findByUuid(UUID uuid);
 
@@ -51,5 +54,5 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 
 
 	@Query ("SELECT m FROM MUNICIPALITIES m left join fetch m.socialMediaLinks WHERE m.id = :id")
-	Municipality findMunicipalityById(Long id);
+	Optional<Municipality> findMunicipalityByIdWithSocials(Long id);
 }

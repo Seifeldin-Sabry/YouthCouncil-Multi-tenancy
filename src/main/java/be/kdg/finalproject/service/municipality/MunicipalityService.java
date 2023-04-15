@@ -61,7 +61,8 @@ public class MunicipalityService {
 
 
 	public Municipality getMunicipalityByIdWithSocialMediaLinks(Long municipalityId) {
-		return municipalityRepository.findMunicipalityById(municipalityId);
+		return municipalityRepository.findMunicipalityByIdWithSocials(municipalityId)
+		                             .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
 	}
 
 }

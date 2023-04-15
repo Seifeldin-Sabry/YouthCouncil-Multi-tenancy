@@ -11,15 +11,15 @@ import be.kdg.finalproject.util.ValidationUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.UUID;
 
 @RestController
-@RequestMapping ("/api/municipalities/{uuid}/members")
+@RequestMapping ("/api/municipalities/{munId}/members")
 public class MunicipalityMembersRestController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -32,13 +32,13 @@ public class MunicipalityMembersRestController {
 
 	@GeneralAdminOnly
 	@PostMapping
-	public ResponseEntity<?> addYouthCouncilMember(@PathVariable UUID uuid, @Valid @RequestBody NewUserDto user, BindingResult bindingResult) {
+	public ResponseEntity<?> addYouthCouncilMember(@PathVariable Long munId, @Valid @RequestBody NewUserDto user, BindingResult bindingResult) {
 		if (user.getRole() == null) user.setRole(Role.YOUTH_COUNCIL_ADMINISTRATOR);
 		logger.debug("Adding user: " + user.getEmail());
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.badRequest().body(ValidationUtils.getErrorsMap(bindingResult));
 		}
-		Membership membership = membershipService.getMembershipByUuidAndEmail(uuid, user.getEmail());
+		Membership membership = membershipService.getMembershipByIdAndEmail(munId, user.getEmail());
 		if (membership != null) {
 			membership.setRole(user.getRole());
 			membership.setBanned(false);
@@ -48,8 +48,7 @@ public class MunicipalityMembersRestController {
 			return ResponseEntity.created(null)
 			                     .body(modelMapper.map(membership.getUser(), MunicipalityMemberDTO.class));
 		}
-		User member = membershipService.addMembershipByUserAndUuid(user, uuid, user.getRole());
-		return ResponseEntity.created(null)
-		                     .body(modelMapper.map(member, MunicipalityMemberDTO.class));
+		User member = membershipService.addNewMembershipByUserAndId(user, munId, user.getRole());
+		return new ResponseEntity<>(modelMapper.map(member, MunicipalityMemberDTO.class), HttpStatus.CREATED);
 	}
 }

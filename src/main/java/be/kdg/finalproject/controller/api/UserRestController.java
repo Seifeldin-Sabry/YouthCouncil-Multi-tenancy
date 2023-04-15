@@ -88,7 +88,7 @@ public class UserRestController {
 
 		// set the authentication token in the SecurityContext
 		SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-		sessionService.setCredentialsChanged(true, session);
+		sessionService.setCredentialsChanged(true);
 		return ResponseEntity.ok().build();
 	}
 

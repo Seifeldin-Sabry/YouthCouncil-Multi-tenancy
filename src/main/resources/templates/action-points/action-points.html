@@ -7,7 +7,7 @@
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Action Points</title>
 	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
-	<script defer th:src="@{js/action-points/actionPoint.js}" type="module"></script>
+	<script defer th:src="@{js/action-points/actionPoints.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/addActionPoint.js}" type="module"></script>
 </head>
 <body>
@@ -82,8 +82,16 @@
 								<span class="follow-count" th:text="${actionPoint.followCount}">0</span>
 							</div>
 						</div>
-
 						<h3 class="card-title mb-0" th:text="${actionPoint.title}">Action Point Title</h3>
+						<div class="d-flex justify-content-end">
+							<a th:href="@{/action-points/{uuid}(uuid = ${actionPoint.uuid})}">
+								<button class="btn btn-primary"
+										type="button"
+								>
+									Details
+								</button>
+							</a>
+						</div>
 					</div>
 					<div class="card-body">
 						<div class="carousel" data-interval="false" th:id="'carouselIndicator'+${iter.index}">
@@ -131,8 +139,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-footer">
-						<p class="card-text" th:text="${actionPoint.description}"></p>
+					<div class="card-footer" th:with="maxLength=100">
+						<p class="card-text"
+						   th:text="${#strings.length(actionPoint.description) > maxLength ? #strings.substring(actionPoint.description, 0, maxLength) + '...' : actionPoint.description}"
+						></p>
 					</div>
 				</div>
 			</div>
@@ -150,7 +160,7 @@
 				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 			</div>
 			<div class="modal-body">
-				<form class="p-3">
+				<form class="p-3 add-action-point-form">
 					<div class="input-group has-validation">
 						<div class="validation-container form-floating title-err">
 							<input class="validation form-control form-control-lg title-field-err" id="title"

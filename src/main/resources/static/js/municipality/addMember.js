@@ -1,6 +1,7 @@
 import {csrfToken} from "../cookie.js";
 
-const municipalityId = document.querySelector('.mu-id').dataset.munipalityId;
+const municipalityId = document.querySelector('.mu-id').dataset.municipalityId;
+console.log(municipalityId)
 
 const addMemberBtn = document.querySelector('#add-member-btn');
 const firstNameInput = document.querySelector('#firstName');

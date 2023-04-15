@@ -1,7 +1,7 @@
 import {csrfToken} from "../cookie.js";
-import {insertActionPoint} from "./actionPoint.js";
+import {insertActionPoint} from "./actionPoints.js";
 
-const form = document.querySelector('form');
+const form = document.querySelector('.add-action-point-form');
 const submitBtn = document.querySelector('.submit-btn');
 
 const actionPointModal = document.querySelector('#addActionPointModal');

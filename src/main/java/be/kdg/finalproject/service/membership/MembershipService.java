@@ -17,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.UUID;
 
 @Service
 public class MembershipService {
@@ -59,12 +58,13 @@ public class MembershipService {
 	}
 
 
-	public User addMembershipByUserAndUuid(NewUserDto user, UUID uuid, Role userRole) {
+	public User addNewMembershipByUserAndId(NewUserDto user, Long id, Role userRole) {
 		//TODO: email password to user
 		User newUser = new User(user.getFirstName(), user.getSurname(), user.getEmail(), user.getEmail(), passwordEncoder.encode("password"), user.getRole(), Provider.LOCAL);
-		Municipality municipality = municipalityRepository.findByUuidWithMembers(uuid)
+		Municipality municipality = municipalityRepository.findByIdWithMembers(id)
 		                                                  .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
-		Membership membership = membershipRepository.save(new Membership(newUser, municipality, userRole));
+		User savedUser = userRepository.save(newUser);
+		Membership membership = membershipRepository.save(new Membership(savedUser, municipality, userRole));
 		if (userRole == Role.YOUTH_COUNCIL_ADMINISTRATOR) {
 			municipality.setHasPlatform(true);
 		}
@@ -118,8 +118,8 @@ public class MembershipService {
 		membershipRepository.save(membership);
 	}
 
-	public Membership getMembershipByUuidAndEmail(UUID uuid, String email) {
-		Municipality municipality = municipalityRepository.findByUuid(uuid)
+	public Membership getMembershipByIdAndEmail(Long id, String email) {
+		Municipality municipality = municipalityRepository.findByIdWithMembers(id)
 		                                                  .orElse(null);
 		User user = userRepository.findByUsernameOrEmail(email)
 		                          .orElse(null);

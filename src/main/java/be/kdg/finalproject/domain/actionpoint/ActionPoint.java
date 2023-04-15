@@ -47,10 +47,12 @@ public class ActionPoint {
 	@ElementCollection (fetch = FetchType.EAGER)
 	private Set<String> images = new HashSet<>();
 
-	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private Set<UserActionPointFollow> followers = new HashSet<>();
 
-	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany (mappedBy = "actionPoint", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ToString.Exclude
 	private Set<UserActionPointLike> likers = new HashSet<>();
 
 	@Column (name = "follow_count", nullable = false, columnDefinition = "int default 0")
@@ -96,5 +98,9 @@ public class ActionPoint {
 
 	public void addProposal(String actionPointProposal) {
 		this.actionPointProposals.add(new ActionPointProposal(actionPointProposal));
+	}
+
+	public void addProposal(ActionPointProposal actionPointProposal) {
+		this.actionPointProposals.add(actionPointProposal);
 	}
 }

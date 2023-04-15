@@ -15,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @ToString
 public class NewActionPointDTO {
+	@Size (min = 1, max = 255, message = "Title must be between 1 and 255 characters")
 	@NotBlank (message = "Please enter a title")
 	private String title;
 

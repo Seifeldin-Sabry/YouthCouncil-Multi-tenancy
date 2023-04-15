@@ -1,6 +1,8 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
+import be.kdg.finalproject.domain.actionpoint.ActionPointProposalStatus;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
@@ -54,7 +56,16 @@ public class EntityFactory {
 				           String.format("https://loremflickr.com/320/240?random=%s", faker.random().nextInt(1, 100))));
 		var date = faker.date().past(100, java.util.concurrent.TimeUnit.DAYS);
 		actionPoint.setDateCreated(date.toInstant().atZone(ZoneId.systemDefault()).toLocalDate());
+		for (int i = 0; i < 3; i++) {
+			actionPoint.addProposal(createRandomActionPointProposal());
+		}
 		return actionPoint;
+	}
+
+	private ActionPointProposal createRandomActionPointProposal() {
+		return new ActionPointProposal(faker.options().option(ActionPointProposalStatus.class), faker.lorem()
+		                                                                                             .sentence(faker.random()
+		                                                                                                            .nextInt(1, 200)));
 	}
 
 	private Form createRandomForm() {
