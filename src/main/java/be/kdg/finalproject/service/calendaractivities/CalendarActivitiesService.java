@@ -2,6 +2,7 @@ package be.kdg.finalproject.service.calendaractivities;
 
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.platform.Municipality;
+import be.kdg.finalproject.domain.user.User;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -15,4 +16,8 @@ public interface CalendarActivitiesService {
 	void deleteCalendarActivity(Long id);
 	boolean updateCalendarActivity(Long id, String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description, Municipality municipality);
 	boolean calendarActivityExists(Long id);
+
+//	public List<CalendarActivity> getActivitiesByUser(User user);
+
+	public List<CalendarActivity> getActivitiesByMunicipality(Long municipalityId);
 }
