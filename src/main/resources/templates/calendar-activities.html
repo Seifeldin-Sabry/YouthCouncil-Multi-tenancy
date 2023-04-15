@@ -27,20 +27,6 @@
 						<ul class="dropdown-menu">
 							<li><a class="dropdown-item" id="sort-by-start-date" href="#">Start date</a></li>
 							<li><a class="dropdown-item" id="sort-by-title" href="#">Title</a></li>
-							<li><a class="dropdown-item" id="sort-by-municipality" href="#">Municipality</a></li>
-						</ul>
-					</div>
-
-					<div class="btn-group" id="filter-by-municipality">
-						<button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-							Filter by municipality
-						</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#" data-municipality="all">All</a></li>
-							<li th:each="municipality : ${municipalities}">
-								<a class="dropdown-item" href="#" th:text="${municipality.name}" data-municipality="${municipality.name}"></a>
-							</li>
-
 						</ul>
 					</div>
 				</div>
