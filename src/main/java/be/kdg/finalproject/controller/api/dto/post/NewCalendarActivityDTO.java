@@ -4,6 +4,7 @@ import be.kdg.finalproject.domain.platform.Municipality;
 import lombok.*;
 
 import javax.persistence.ManyToOne;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Getter
@@ -13,9 +14,9 @@ import java.time.LocalDateTime;
 @ToString
 public class NewCalendarActivityDTO {
 
-	private Long id;
-
 	private String title;
+
+	private LocalDate date;
 
 	private LocalDateTime startTime;
 
