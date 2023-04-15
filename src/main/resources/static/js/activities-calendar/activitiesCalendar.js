@@ -1,4 +1,5 @@
-// ////SORTING
+//////ACTIONS FOR ALL USERS
+//SORTING  (not working but still needs implementation)
 // function sortByStartDate() {
 //     const activities = document.querySelectorAll(".event");
 //     const sortedActivities = Array.from(activities).sort((a, b) => {
@@ -47,9 +48,59 @@
 // const sortMunicipalityItem = document.querySelector("#sort-by-municipality");
 // sortMunicipalityItem.addEventListener("click", sortByMunicipality);
 //
-// ////FILTERING
-//
 
+////FILTERING (NOT WORKING)
+// const filterByMunicipality = (event) => {
+//     console.log("filter municipalities function called!")
+//     const selectedMunicipality = event.target.getAttribute('data-municipality');
+//
+//     // Get all activities and filter by selected municipality
+//     const activities = document.querySelectorAll('.event');
+//     activities.forEach((activity) => {
+//         const municipality = activity.querySelector('span').innerText.trim();
+//         if (selectedMunicipality === 'all' || municipality === selectedMunicipality) {
+//             activity.style.display = 'block';
+//         } else {
+//             activity.style.display = 'none';
+//         }
+//     });
+// };
+//
+// // Add event listener to the filter by municipality dropdown
+// const filterByMunicipalityDropdown = document.querySelector('#filter-by-municipality ul.dropdown-menu');
+// const filterByMunicipalityLinks = filterByMunicipalityDropdown.querySelectorAll('a');
+// filterByMunicipalityLinks.forEach((link) => {
+//     link.addEventListener('click', filterByMunicipality);
+// });
+
+// const filterByMunicipality = (event) => {
+//     console.log("filter municipalities function called!")
+//     const selectedMunicipality = event.target.getAttribute('data-municipality');
+//
+//     // Get all activities and filter by selected municipality
+//     // const activities = document.querySelectorAll('.event');
+//     const activities = document.querySelectorAll('li.event');
+//
+//     activities.forEach((activity) => {
+//         const municipality = activity.querySelector('a').getAttribute('data-municipality');
+//         if (selectedMunicipality === 'all' || municipality === selectedMunicipality) {
+//             activity.style.display = 'block';
+//         } else {
+//             activity.style.display = 'none';
+//         }
+//     });
+// };
+//
+// // Add event listener to the filter by municipality dropdown
+// const filterByMunicipalityDropdown = document.querySelector('#filter-by-municipality ul.dropdown-menu');
+// const filterByMunicipalityLinks = filterByMunicipalityDropdown.querySelectorAll('a');
+// filterByMunicipalityLinks.forEach((link) => {
+//     link.addEventListener('click', filterByMunicipality);
+// });
+
+
+
+////ACTIONS FOR YOUTH COUNCIL ADMIN
 
 //EDIT
 

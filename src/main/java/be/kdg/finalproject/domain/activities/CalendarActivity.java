@@ -20,14 +20,19 @@ public class CalendarActivity {
 	@Column(name = "calendar_activity_id", nullable = false)
 	private Long id;
 
+	@Column (name = "title", nullable = false)
 	private String title;
 
+	@Column (name = "date", nullable = false)
 	private LocalDate date;
 
+	@Column (name = "startTime", nullable = false)
 	private LocalDateTime startTime;
 
+	@Column (name = "endTime", nullable = false)
 	private LocalDateTime endTime;
 
+	@Column (name = "description", nullable = false)
 	private String description;
 
 	@ManyToOne
