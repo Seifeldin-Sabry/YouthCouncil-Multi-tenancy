@@ -162,12 +162,12 @@ public class DatabaseSeeder {
 		//CALENDAR OF ACTIVITIES
 
 		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity("Social Media Campaign for Mental Health Awareness", null, null, null, "The youth council creates a social media campaign" +
-				" to raise awareness about mental health issues among young people. by developing a " +
+				" to raise awareness about mental health issues among young people by developing a " +
 				"series of posts and graphics to share on social media platforms as well as a hashtag " +
 				"to promote the campaign.", antwerpen);
 		ZonedDateTime now = ZonedDateTime.now();
-		ZonedDateTime startTime1 = now.plusDays(1).withHour(10).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime1 = now.plusDays(1).withHour(13).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime startTime1 = now.plusDays(0).withHour(10).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime1 = now.plusDays(0).withHour(13).withMinute(0).withSecond(0).withNano(0);
 		calendarActivity1.setDate(startTime1.toLocalDate());
 		calendarActivity1.setStartTime(startTime1.toLocalDateTime());
 		calendarActivity1.setEndTime(endTime1.toLocalDateTime());
@@ -189,8 +189,8 @@ public class DatabaseSeeder {
 		calendarActivity3.setEndTime(endTime3.toLocalDateTime());
 
 		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity("Youth Leadership Conference", null, null, null, "This is a day-long event for high school students interested in developing their leadership skills.", ghent);
-		ZonedDateTime startTime4 = now.plusDays(4).withHour(8).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime4 = now.plusDays(4).withHour(17).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime startTime4 = now.plusDays(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
+		ZonedDateTime endTime4 = now.plusDays(8).withHour(17).withMinute(0).withSecond(0).withNano(0);
 		calendarActivity4.setDate(startTime4.toLocalDate());
 		calendarActivity4.setStartTime(startTime4.toLocalDateTime());
 		calendarActivity4.setEndTime(endTime4.toLocalDateTime());
