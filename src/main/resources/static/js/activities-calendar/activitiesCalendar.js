@@ -1,53 +1,94 @@
 //////ACTIONS FOR ALL USERS
-//SORTING  (not working but still needs implementation)
-// function sortByStartDate() {
-//     const activities = document.querySelectorAll(".event");
-//     const sortedActivities = Array.from(activities).sort((a, b) => {
-//         const aStartDate = new Date(a.querySelector(".start-date").getAttribute("data-start-date"));
-//         const bStartDate = new Date(b.querySelector(".start-date").getAttribute("data-start-date"));
-//         return aStartDate - bStartDate;
+
+//SORTING
+
+// Get the list of activities
+const activitiesList = document.querySelectorAll('.event');
+
+
+// Sort activities by duration (DOES NOT WORK)
+// function filterActivitiesByDuration() {
+//     activitiesList.forEach((activity) => {
+//         const durationEl = activity.querySelector(".duration");
+//         if (durationEl) {
+//             const duration = parseInt(durationEl.getAttribute("data-duration"));
+//             if (duration <= 1) {
+//                 activity.style.display = "none";
+//             } else {
+//                 activity.style.display = "block";
+//             }
+//         }
 //     });
-//     const content = document.querySelector("#content");
-//     content.innerHTML = "";
-//     sortedActivities.forEach(activity => content.appendChild(activity));
 // }
-//
-// // Function to sort activities by title
-// function sortByTitle() {
-//     const activities = document.querySelectorAll(".event");
-//     const sortedActivities = Array.from(activities).sort((a, b) => {
-//         const aTitle = a.querySelector(".title").textContent.toLowerCase();
-//         const bTitle = b.querySelector(".title").textContent.toLowerCase();
-//         return aTitle.localeCompare(bTitle);
-//     });
-//     const content = document.querySelector("#content");
-//     content.innerHTML = "";
-//     sortedActivities.forEach(activity => content.appendChild(activity));
-// }
-//
-// // Function to sort activities by municipality
-// function sortByMunicipality() {
-//     const activities = document.querySelectorAll(".event");
-//     const sortedActivities = Array.from(activities).sort((a, b) => {
-//         const aMunicipality = a.querySelector(".municipality").textContent.toLowerCase();
-//         const bMunicipality = b.querySelector(".municipality").textContent.toLowerCase();
-//         return aMunicipality.localeCompare(bMunicipality);
-//     });
-//     const content = document.querySelector("#content");
-//     content.innerHTML = "";
-//     sortedActivities.forEach(activity => content.appendChild(activity));
-// }
-//
-// // Add event listeners to the sorting dropdown items
-// const sortStartDateItem = document.querySelector("#sort-by-start-date");
-// sortStartDateItem.addEventListener("click", sortByStartDate);
-//
-// const sortTitleItem = document.querySelector("#sort-by-title");
-// sortTitleItem.addEventListener("click", sortByTitle);
-//
-// const sortMunicipalityItem = document.querySelector("#sort-by-municipality");
-// sortMunicipalityItem.addEventListener("click", sortByMunicipality);
-//
+function filterActivitiesByDuration() {
+    // Convert activitiesList to an array
+    const activitiesArray = Array.from(activitiesList);
+
+    // Sort the array by duration
+    activitiesArray.sort((a, b) => {
+        const durationA = parseInt(a.getAttribute("data-duration"));
+        const durationB = parseInt(b.getAttribute("data-duration"));
+        return durationA - durationB;
+    });
+
+    // Loop through the sorted array and update the display
+    activitiesArray.forEach((activity) => {
+        const durationEl = activity.querySelector(".duration");
+        if (durationEl) {
+            const duration = parseInt(durationEl.getAttribute("data-duration"));
+            if (duration <= 1) {
+                activity.style.display = "none";
+            } else {
+                activity.style.display = "block";
+            }
+        }
+    });
+}
+
+
+
+
+// Sort activities by today (DOES NOT WORK)
+function sortByToday() {
+    const events = document.querySelectorAll('.event');
+    const today = new Date();
+
+    events.forEach(event => {
+        const activityDate = new Date(event.querySelector('span').textContent);
+
+        if (activityDate.getFullYear() === today.getFullYear() &&
+            activityDate.getMonth() === today.getMonth() &&
+            activityDate.getDate() === today.getDate()) {
+            event.style.display = 'block';
+        } else {
+            event.style.display = 'none';
+        }
+    });
+}
+
+
+// Sort activities by week (DOES NOT WORK)
+function sortByWeek() {
+    const today = new Date();
+    const nextWeek = new Date(today.getTime() + 7 * 24 * 60 * 60 * 1000);
+
+    activitiesList.forEach(activity => {
+        const date = activity.querySelector('.date');
+        const activityDate = new Date(date.innerHTML);
+
+        if (activityDate >= today && activityDate < nextWeek) {
+            activity.style.order = 0;
+        } else {
+            activity.style.order = 1;
+        }
+    });
+}
+
+
+document.getElementById("sort-by-duration").addEventListener("click", filterActivitiesByDuration);
+document.getElementById('sort-by-today').addEventListener('click', sortByToday);
+document.getElementById('sort-by-week').addEventListener('click', sortByWeek);
+
 
 
 ////ACTIONS FOR YOUTH COUNCIL ADMIN
