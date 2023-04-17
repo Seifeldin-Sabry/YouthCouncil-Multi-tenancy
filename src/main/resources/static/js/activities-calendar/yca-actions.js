@@ -27,24 +27,49 @@ async function deleteActivity(activityId) {
 function activateModal(event) {
     modalDeleteButton = document.getElementById('confirmDeleteButton');
     const activityId = event.target.getAttribute('data-activity-id') || event.target.closest('button').getAttribute('data-activity-id');
-    modalDeleteButton.addEventListener('click', () =>{deleteActivity(activityId)});
+    modalDeleteButton.addEventListener('click', () => {
+        deleteActivity(activityId)
+    });
 }
+
 deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
 
 
-//UPDATE ACTIVITY
+//UPDATE ACTIVITY  (WORKING ON IT)
 async function updateActivity(event) {
-
+    const activityId = event.target.getAttribute('data-activity-id') || event.target.closest('button').getAttribute('data-activity-id');
+    console.log(activityId);
+    const response = await fetch(`/api/calendar-activities/${activityId}/update`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json',
+            ...csrfToken()
+        },
+        body: JSON.stringify(    // Pass the updated activity data here
+            // Make sure the property names match the UpdatedCalendarActivityDTO fields
+            {
+                "title": document.getElementById("title").value,
+                "date": document.getElementById("date").value,
+                "startTime": document.getElementById("start-time").value,
+                "endTime": document.getElementById("end-time").value,
+                "description": document.getElementById("description").value,
+            })
+    });
+    if (response.ok) {
+        //set current content to updated content
+        //EXAMPLE FROM THEMES:  themeAccordion.querySelector(`.theme-${themeId} .theme-name`).textContent = themeName;
+    }
 }
 
 editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
 // ADD NEW ACTIVITY
-async function addNewActivity(event) {
-
-}
-
-addActivityButton.addEventListener('click', addNewActivity);
+// async function addNewActivity(event) {
+//
+// }
+//
+// addActivityButton.addEventListener('click', addNewActivity);
 
 
