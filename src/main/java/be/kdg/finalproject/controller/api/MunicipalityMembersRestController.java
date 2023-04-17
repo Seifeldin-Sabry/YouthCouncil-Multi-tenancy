@@ -3,6 +3,7 @@ package be.kdg.finalproject.controller.api;
 import be.kdg.finalproject.controller.api.dto.post.NewUserDto;
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.security.Role;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.user.UserService;
 import be.kdg.finalproject.util.ValidationUtils;
 import org.slf4j.Logger;

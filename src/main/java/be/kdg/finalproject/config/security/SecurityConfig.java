@@ -55,8 +55,6 @@ public class SecurityConfig {
 										.permitAll()
 										.antMatchers("/api/**")
 										.authenticated()
-//										.antMatchers("/calendar-activities").permitAll() // allow unauthenticated access to the calendar activities page
-//										.anyRequest().authenticated() // require authentication for all other requests
 										.antMatchers(HttpMethod.GET, "/**")
 										.permitAll()
 										.anyRequest()
