@@ -76,7 +76,7 @@
 	<script defer th:src="@{/js/activities-calendar/yca-actions.js}" type="text/javascript"></script>
 </head>
 
-<div th:insert="~{fragments/fragments::platformNav}">My navbar</div>
+<div th:insert="~{fragments/fragments::nav}">My navbar</div>
 
 <body class="gradient-custom-5">
 <h2 class="text-center">Calendar of Activities</h2>
@@ -84,14 +84,14 @@
 	<div class="row">
 		<div class="col-md-12">
 			<div class="d-flex justify-content-between mb-3">
-				<div class="d-flex gap-3">
+				<div class="d-flex gap-3" th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
 					<button type="button" class="btn btn-outline-primary" id="add-activity-button" >Add</button>
 				</div>
 			</div>
 			<div id="content">
 				<ul class="timeline-1 text-black">
 					<li class="event activity-item-${activityId}"  th:each="activity : ${activities}">
-						<div class="d-flex gap-3">
+						<div class="d-flex gap-3" th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
 							<button type="button" class="btn btn-outline-primary" th:data-activity-id="${activity.id}" th:id="'edit-activity-'+${activity.id}">Edit</button>
 							<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#deleteModal" th:data-activity-id="${activity.id}" th:id="'delete-activity-'+${activity.id}">Delete</button>
 						</div>

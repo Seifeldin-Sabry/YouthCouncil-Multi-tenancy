@@ -16,7 +16,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -39,7 +38,7 @@ public class CalendarActivitiesRestController {
 	public ResponseEntity<?> updateActivity(@PathVariable Long id,
 	                                        @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
@@ -58,7 +57,7 @@ public class CalendarActivitiesRestController {
 	@PostMapping
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
-			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
+			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			return ResponseEntity.badRequest().body(validate);
 		}
 		CalendarActivity createdActivity = calendarActivitiesService.addCalendarActivity(

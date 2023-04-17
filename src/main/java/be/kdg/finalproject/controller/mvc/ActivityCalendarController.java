@@ -1,4 +1,5 @@
 package be.kdg.finalproject.controller.mvc;
+
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
@@ -24,16 +25,15 @@ public class ActivityCalendarController {
 		this.municipalityService = municipalityService;
 	}
 
-	@GetMapping("/calendar-activities")
+	@GetMapping ("/calendar-activities")
 	public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId) {
 		List<CalendarActivity> activities;
-//		if (municipalityId == null) {
-//			logger.debug("No municipality ID found");
-//			throw new EntityNotFoundException("Not found");
-//		} else {
-//			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
-//		}
-		activities = calendarActivitiesService.getAllCalendarActivities();
+		if (municipalityId == null) {
+			logger.debug("No municipality ID found");
+			throw new EntityNotFoundException("Not found");
+		} else {
+			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
+		}
 		List<Municipality> municipalities = municipalityService.getAllMunicipalities();
 		logger.debug("Calendar activities found: {}", activities);
 		ModelAndView modelAndView = new ModelAndView("calendar-activities");
