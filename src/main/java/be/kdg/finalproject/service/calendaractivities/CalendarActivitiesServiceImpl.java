@@ -1,7 +1,8 @@
 package be.kdg.finalproject.service.calendaractivities;
+import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
-import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.domain.user.User;
+
+import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.service.municipality.MunicipalityServiceImpl;
 import com.google.common.collect.ImmutableList;
@@ -42,30 +43,21 @@ public class CalendarActivitiesServiceImpl implements CalendarActivitiesService 
 	}
 
 	@Override
-	public boolean updateCalendarActivity(Long id, String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description, Municipality municipality) {
-		CalendarActivity calendarActivity = calendarActivityRepository.findById(id).orElse(null);
-		if (calendarActivity == null) {
-			return false;
-		}
-		calendarActivity.setTitle(title);
-		calendarActivity.setDate(date);
-		calendarActivity.setStartTime(startTime);
-		calendarActivity.setEndTime(endTime);
-		calendarActivity.setDescription(description);
-		calendarActivity.setMunicipality(municipality);
-		calendarActivityRepository.save(calendarActivity);
-		return true;
+	public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
+		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+		calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
+		calendarActivity.setDate(updatedCalendarActivityDTO.getDate());
+		calendarActivity.setStartTime(updatedCalendarActivityDTO.getStartTime());
+		calendarActivity.setEndTime(updatedCalendarActivityDTO.getEndTime());
+		calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
+		calendarActivity.setMunicipality(updatedCalendarActivityDTO.getMunicipality());
+		return calendarActivityRepository.save(calendarActivity);
 	}
 
 	@Override
 	public boolean calendarActivityExists(Long id) {
 		return calendarActivityRepository.existsById(id);
 	}
-
-//	@Override
-//	public List<CalendarActivity> getActivitiesByUser(User user) {
-//			return calendarActivityRepository.findAllByUser(user);
-//	}
 
 	@Override
 	public List<CalendarActivity> getActivitiesByMunicipality(Long municipalityId) {

@@ -109,20 +109,19 @@ public class EntityFactory {
 	}
 
 
-	//Checks if any of the parameters (title, date, startTime, endTime, description) are null,
-	// and generates random values for them if they are null. Otherwise, it uses the provided values.
-	public CalendarActivity createRandomCalendarActivity(String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description, Municipality municipality) {
-		LocalDate activityDate = date == null ? faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate() : date;
-		LocalDateTime activityStartTime = startTime == null ? LocalDateTime.of(activityDate, LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59))) : startTime;
-		LocalDateTime activityEndTime = endTime == null ? activityStartTime.plusHours(faker.number().numberBetween(1, 4)) : endTime;
-		String activityTitle = title == null ? faker.lorem().sentence() : title;
-		String activityDescription = description == null ? faker.lorem().paragraph() : description;
+	public CalendarActivity createRandomCalendarActivity(Municipality municipality) {
+		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
+		LocalDateTime activityStartTime = LocalDateTime.of(activityDate, LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)));
+		LocalDateTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
+		String activityTitle = faker.lorem().sentence();
+		String activityDescription = faker.lorem().paragraph();
 
 		CalendarActivity calendarActivity = new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 		calendarActivity.setMunicipality(municipality);
 
 		return calendarActivity;
 	}
+
 
 
 

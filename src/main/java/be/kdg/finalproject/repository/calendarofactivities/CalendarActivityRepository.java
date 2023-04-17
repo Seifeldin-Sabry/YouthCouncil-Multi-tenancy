@@ -8,6 +8,5 @@ import java.util.List;
 
 @Repository
 public interface CalendarActivityRepository extends CrudRepository<CalendarActivity, Long> {
-//	List<CalendarActivity> findAllByUser(User user);
 	List<CalendarActivity> findByMunicipalityId(Long municipalityId);
 }

@@ -165,39 +165,10 @@ public class DatabaseSeeder {
 
 		//CALENDAR OF ACTIVITIES
 
-		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity("Social Media Campaign for Mental Health Awareness", null, null, null, "The youth council creates a social media campaign" +
-				" to raise awareness about mental health issues among young people by developing a " +
-				"series of posts and graphics to share on social media platforms as well as a hashtag " +
-				"to promote the campaign.", antwerpen);
-		ZonedDateTime now = ZonedDateTime.now();
-		ZonedDateTime startTime1 = now.plusDays(0).withHour(10).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime1 = now.plusDays(0).withHour(13).withMinute(0).withSecond(0).withNano(0);
-		calendarActivity1.setDate(startTime1.toLocalDate());
-		calendarActivity1.setStartTime(startTime1.toLocalDateTime());
-		calendarActivity1.setEndTime(endTime1.toLocalDateTime());
-
-		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity("City cleanup", null, null, null, "City park cleanup! We invite you all to make the environment" +
-				" cleaner and enjoy a drink with us after you are done.", ghent);
-		ZonedDateTime startTime2 = now.plusDays(2).withHour(12).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime2 = now.plusDays(2).withHour(14).withMinute(0).withSecond(0).withNano(0);
-		calendarActivity2.setDate(startTime2.toLocalDate());
-		calendarActivity2.setStartTime(startTime2.toLocalDateTime());
-		calendarActivity2.setEndTime(endTime2.toLocalDateTime());
-
-		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity("Volunteer Day at the Local Animal Shelter", null, null, null, "In this activity, members of the youth council spend a" +
-				" day volunteering at the local animal shelter.", antwerpen);
-		ZonedDateTime startTime3 = now.plusDays(3).withHour(9).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime3 = now.plusDays(3).withHour(16).withMinute(0).withSecond(0).withNano(0);
-		calendarActivity3.setDate(startTime3.toLocalDate());
-		calendarActivity3.setStartTime(startTime3.toLocalDateTime());
-		calendarActivity3.setEndTime(endTime3.toLocalDateTime());
-
-		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity("Youth Leadership Conference", null, null, null, "This is a day-long event for high school students interested in developing their leadership skills.", ghent);
-		ZonedDateTime startTime4 = now.plusDays(8).withHour(8).withMinute(0).withSecond(0).withNano(0);
-		ZonedDateTime endTime4 = now.plusDays(8).withHour(17).withMinute(0).withSecond(0).withNano(0);
-		calendarActivity4.setDate(startTime4.toLocalDate());
-		calendarActivity4.setStartTime(startTime4.toLocalDateTime());
-		calendarActivity4.setEndTime(endTime4.toLocalDateTime());
+		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity(antwerpen);
+		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity(ghent);
+		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity(antwerpen);
+		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity(ghent);
 
 		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 

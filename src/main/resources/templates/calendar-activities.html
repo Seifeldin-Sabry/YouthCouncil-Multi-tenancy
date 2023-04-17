@@ -73,7 +73,6 @@
 	<title>Calendar of Activities</title>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<link rel="stylesheet" th:href="@{/css/activities-calendar/calendar.css}">
-	<script defer th:src="@{/js/activities-calendar/activitiesCalendar.js}" type="text/javascript"></script>
 	<script defer th:src="@{/js/activities-calendar/yca-actions.js}" type="text/javascript"></script>
 </head>
 
@@ -86,16 +85,6 @@
 		<div class="col-md-12">
 			<div class="d-flex justify-content-between mb-3">
 				<div class="d-flex gap-3">
-					<div class="btn-group">
-						<button type="button" class="btn btn-outline-primary dropdown-toggle" data-bs-toggle="dropdown">
-							Sort by
-						</button>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" id="sort-by-today" href="#">Today</a></li>
-							<li><a class="dropdown-item" id="sort-by-week" href="#">This week</a></li>
-							<li><a class="dropdown-item" id="sort-by-duration" href="#">Duration</a></li>
-						</ul>
-					</div>
 					<button type="button" class="btn btn-outline-primary" id="add-activity-button" >Add</button>
 				</div>
 			</div>

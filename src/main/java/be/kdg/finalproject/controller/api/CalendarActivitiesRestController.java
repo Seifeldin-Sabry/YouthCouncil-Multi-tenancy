@@ -1,5 +1,7 @@
 package be.kdg.finalproject.controller.api;
+
 import be.kdg.finalproject.controller.api.dto.get.CalendarActivityDTO;
+import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.service.calendaractivities.CalendarActivitiesService;
@@ -12,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
@@ -32,30 +35,27 @@ public class CalendarActivitiesRestController {
 
 
 	// UPDATE ACTIVITY
-	@PatchMapping("/{id}")
+	@PutMapping ("/{id}")
 	public ResponseEntity<?> updateActivity(@PathVariable Long id,
-	                                      @Valid @RequestBody NewCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
+	                                        @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
 			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
 		}
-		if (calendarActivitiesService.updateCalendarActivity(
-				id,
-				updatedActivityDTO.getTitle(),
-				updatedActivityDTO.getDate(),
-				updatedActivityDTO.getStartTime(),
-				updatedActivityDTO.getEndTime(),
-				updatedActivityDTO.getDescription(),
-				updatedActivityDTO.getMunicipality())) {
-			return ResponseEntity.noContent().build();
-		} else {
+
+		CalendarActivity result = calendarActivitiesService.updateCalendarActivity(id, updatedActivityDTO);
+
+		if (result == null) {
 			return ResponseEntity.notFound().build();
+		} else {
+			return ResponseEntity.ok().build();
 		}
 	}
 
+
 	// ADD ACTIVITY
-	 @PostMapping
+	@PostMapping
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
 			Map<String, List<String>> validate = ValidationUtils.getErrorsMap(errors);
