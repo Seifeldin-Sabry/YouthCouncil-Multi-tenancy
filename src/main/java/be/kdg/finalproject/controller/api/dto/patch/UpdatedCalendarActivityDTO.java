@@ -26,6 +26,5 @@ public class UpdatedCalendarActivityDTO {
 
 	private String description;
 
-	private Municipality municipality;
 
 }

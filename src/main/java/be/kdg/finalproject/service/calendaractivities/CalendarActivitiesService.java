@@ -1,8 +1,10 @@
 package be.kdg.finalproject.service.calendaractivities;
+
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 
 import com.google.common.collect.ImmutableList;
@@ -39,13 +41,14 @@ public class CalendarActivitiesService {
 
 
 	public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
-		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId).orElseThrow(() -> new EntityNotFoundException("User not found"));
+		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
+		                                                              .orElseThrow(() -> new EntityNotFoundException("User not found"));
 		calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
 		calendarActivity.setDate(updatedCalendarActivityDTO.getDate());
 		calendarActivity.setStartTime(updatedCalendarActivityDTO.getStartTime());
 		calendarActivity.setEndTime(updatedCalendarActivityDTO.getEndTime());
 		calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
-		calendarActivity.setMunicipality(updatedCalendarActivityDTO.getMunicipality());
+		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
 		return calendarActivityRepository.save(calendarActivity);
 	}
 
@@ -56,7 +59,7 @@ public class CalendarActivitiesService {
 
 
 	public List<CalendarActivity> getActivitiesByMunicipality(Long municipalityId) {
-			return calendarActivityRepository.findByMunicipalityId(municipalityId);
+		return calendarActivityRepository.findByMunicipalityId(municipalityId);
 	}
 
 

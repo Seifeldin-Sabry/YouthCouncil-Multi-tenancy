@@ -33,7 +33,4 @@ public class NewCalendarActivityDTO {
 	@NotBlank
 	private String description;
 
-	@NotNull()
-	private Municipality municipality;
-
 }
