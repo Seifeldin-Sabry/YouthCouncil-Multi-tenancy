@@ -74,7 +74,7 @@ public class CalendarActivitiesRestController {
 
 
 	// DELETE ACTIVITY
-	@DeleteMapping ("/{id}")
+	@DeleteMapping ("/{id}/delete")
 	public ResponseEntity<Void> deleteCalendarActivity(@PathVariable Long id) {
 		if (calendarActivitiesService.calendarActivityExists(id)) {
 			calendarActivitiesService.deleteCalendarActivity(id);
