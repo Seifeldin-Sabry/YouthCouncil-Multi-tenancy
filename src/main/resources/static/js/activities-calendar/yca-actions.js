@@ -2,6 +2,7 @@
 
 const deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
 const editActivityButtons = document.querySelectorAll('.btn-outline-primary');
+const addActivityButton = document.getElementById('add-activity-button');
 
 //DELETE ACTIVITY
 async function deleteActivity(event) {
@@ -16,19 +17,27 @@ async function deleteActivity(event) {
     });
     if (response.ok) {
         document.querySelector(`.activity-item-${activityId}`).remove();
-        return;
     }
 }
 
 deleteActivityButtons.forEach(el => el.addEventListener('click', deleteActivity));
 
 
-//UPDATE ACTIVITY
 
+//UPDATE ACTIVITY
 async function updateActivity(event) {
 
 }
 
-deleteActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
+editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
+
 
 // ADD NEW ACTIVITY
+
+async function addNewActivity(event) {
+
+}
+
+addActivityButton.addEventListener('click', addNewActivity);
+
+

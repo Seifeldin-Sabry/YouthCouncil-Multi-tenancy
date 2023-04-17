@@ -7,7 +7,6 @@ import be.kdg.finalproject.service.calendaractivities.CalendarActivitiesService;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -15,7 +14,7 @@ import java.util.List;
 
 @Controller
 public class ActivityCalendarController {
-	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointController.class);
+	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActivityCalendarController.class);
 	private final CalendarActivitiesService calendarActivitiesService;
 	private final MunicipalityService municipalityService;
 
@@ -26,17 +25,21 @@ public class ActivityCalendarController {
 	}
 
 	@GetMapping("/calendar-activities")
-	public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId, Model model) {
+	public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId) {
 		List<CalendarActivity> activities;
-		if (municipalityId != null) {
-			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
-		} else {
-			activities = calendarActivitiesService.getAllCalendarActivities();
-		}
+//		if (municipalityId == null) {
+//			logger.debug("No municipality ID found");
+//			throw new EntityNotFoundException("Not found");
+//		} else {
+//			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
+//		}
+		activities = calendarActivitiesService.getAllCalendarActivities();
 		List<Municipality> municipalities = municipalityService.getAllMunicipalities();
 		logger.debug("Calendar activities found: {}", activities);
-		model.addAttribute("activities", activities);
-		model.addAttribute("municipalities", municipalities);
-		return new ModelAndView("calendar-activities");
+		ModelAndView modelAndView = new ModelAndView("calendar-activities");
+		modelAndView.addObject("activities", activities);
+		modelAndView.addObject("municipalities", municipalities);
+		return modelAndView;
 	}
+
 }
