@@ -25,7 +25,7 @@ public class ActivityCalendarController {
 		this.municipalityService = municipalityService;
 	}
 
-	@GetMapping ("/calendar-activities")
+	@GetMapping ("/calendar-activities") //
 	public ModelAndView showActivitiesCalendar(@MunicipalityId Long municipalityId) {
 		List<CalendarActivity> activities;
 		if (municipalityId == null) {
