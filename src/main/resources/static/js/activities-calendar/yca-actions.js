@@ -51,16 +51,27 @@ async function updateActivity(event) {
     const activityId =
         event.target.getAttribute('data-activity-id') ||
         event.target.closest('button').getAttribute('data-activity-id');
-
+    console.log(`Activity id = ${activityId}`);
     // Get the elements to modify
-    const titleEl = document.getElementById(`title-${activityId}`);
-    const dateEl = document.getElementById(`date-${activityId}`);
-    const startTimeEl = document.getElementById(`start-time-${activityId}`);
-    const endTimeEl = document.getElementById(`end-time-${activityId}`);
-    const descriptionEl = document.getElementById(`description-${activityId}`);
+    const activityBody = document.getElementById(`${activityId}`);
+    const titleEl = activityBody.querySelector('#title');
+    const dateEl = activityBody.querySelector('#date');
+    const startTimeEl = activityBody.querySelector('.start-time');
+    const endTimeEl = activityBody.querySelector('.end-time');
+    const descriptionEl = activityBody.querySelector('#description');
+
+    console.log(activityBody)
+    console.log(titleEl)
+    console.log(dateEl)
+    console.log(startTimeEl)
+    console.log(endTimeEl)
+    console.log(descriptionEl)
+    console.log(event.target.textContent)
 
     // If the edit button was clicked, turn fields into inputs
-    if (event.target.textContent === 'Edit') {
+    if (String(event.target.textContent) === 'Edit') {
+        console.log("Entered if statement")
+
         // Change button text to "Save"
         event.target.textContent = 'Save';
 
@@ -78,6 +89,13 @@ async function updateActivity(event) {
         document.getElementById(`end-time-input-${activityId}`).readOnly = false;
         document.getElementById(`description-input-${activityId}`).readOnly = false;
     } else if (event.target.textContent === 'Save') {
+
+        console.log(document.getElementById(`title-input-${activityId}`).value)
+        console.log(document.getElementById(`date-input-${activityId}`).value)
+        console.log(document.getElementById(`start-time-input-${activityId}`).value)
+        console.log(document.getElementById(`end-time-input-${activityId}`).value)
+        console.log(document.getElementById(`description-input-${activityId}`).value)
+
         // Get the updated activity data
         const updatedActivityData = {
             title: document.getElementById(`title-input-${activityId}`).value,
@@ -88,14 +106,15 @@ async function updateActivity(event) {
         };
 
         // Send PUT request to update the activity
+        console.log(updatedActivityData)
         const response = await fetch(`/api/calendar-activities/${activityId}/update`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
-                Accept: 'application/json',
-                ...csrfToken(),
+                'Accept': 'application/json',
+                ...csrfToken()
             },
-            body: JSON.stringify(updatedActivityData),
+            body: JSON.stringify(updatedActivityData)
         });
 
         if (response.ok) {
@@ -115,17 +134,11 @@ async function updateActivity(event) {
 
             // Change button text back to "Edit"
             event.target.textContent = 'Edit';
-
-            // Disable inputs
-            document.getElementById(`title-input-${activityId}`).readOnly = true;
-            document.getElementById(`date-input-${activityId}`).readOnly = true;
-            document.getElementById(`start-time-input--${activityId}`).readOnly = true;
-            document.getElementById(`end-time-input-${activityId}`).readOnly = true;
-            document.getElementById(`description-input-${activityId}`).readOnly = true;
         }
 
     }
 }
+
 editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
@@ -139,45 +152,45 @@ editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
 // Add an event listener to the add activity button
-        addActivityButton.addEventListener('click', (event) => {
-            event.preventDefault();
-
-            // Get the form data
-            const formData = new FormData(addActivityForm);
-
-            // Convert the date and time fields to a single date object
-            const date = formData.get('date');
-            const startTime = formData.get('start-time');
-            const endTime = formData.get('end-time');
-            const dateTime = new Date(`${date} ${startTime}`);
-            dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0, 0);
-
-            // Create the activity object
-            const activity = {
-                title: formData.get('title'),
-                description: formData.get('description'),
-                date: dateTime.toISOString(), // error invalid date
-                startTime: startTime,
-                endTime: endTime
-            };
-
-            // Make a POST request to add the activity to the server
-            fetch('/api/calendar-activities/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    ...csrfToken()
-                },
-                body: JSON.stringify(activity)
-            })
-                .then(response => response.json())
-                .then(data => {
-                    // Reload the page to display the new activity
-                    window.location.reload();
-                })
-                .catch(error => {
-                    console.error('Error:', error);
-                });
-        });
+//         addActivityButton.addEventListener('click', (event) => {
+//             event.preventDefault();
+//
+//             // Get the form data
+//             const formData = new FormData(addActivityForm);
+//
+//             // Convert the date and time fields to a single date object
+//             const date = formData.get('date');
+//             const startTime = formData.get('start-time');
+//             const endTime = formData.get('end-time');
+//             const dateTime = new Date(`${date} ${startTime}`);
+//             dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0, 0);
+//
+//             // Create the activity object
+//             const activity = {
+//                 title: formData.get('title'),
+//                 description: formData.get('description'),
+//                 date: dateTime.toISOString(), // error invalid date
+//                 startTime: startTime,
+//                 endTime: endTime
+//             };
+//
+//             // Make a POST request to add the activity to the server
+//             fetch('/api/calendar-activities/add', {
+//                 method: 'POST',
+//                 headers: {
+//                     'Content-Type': 'application/json',
+//                     ...csrfToken()
+//                 },
+//                 body: JSON.stringify(activity)
+//             })
+//                 .then(response => response.json())
+//                 .then(data => {
+//                     // Reload the page to display the new activity
+//                     window.location.reload();
+//                 })
+//                 .catch(error => {
+//                     console.error('Error:', error);
+//                 });
+//         });
 
 

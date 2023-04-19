@@ -18,11 +18,11 @@ public class UpdatedCalendarActivityDTO {
 
 	private String title;
 
-	private LocalDate date;
+	private String date;
 
-	private LocalDateTime startTime;
+	private String startTime;
 
-	private LocalDateTime endTime;
+	private String endTime;
 
 	private String description;
 

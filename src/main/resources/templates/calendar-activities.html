@@ -31,16 +31,12 @@
 				<ul class="timeline-1 text-black">
 					<li class="event" th:id="${activity.id}" th:each="activity : ${activities}">
 						<div class="d-flex gap-3"
-							 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
-						>
+							 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
 							<button type="button" class="btn btn-outline-primary" th:data-activity-id="${activity.id}"
-									th:id="'edit-activity-'+${activity.id}"
-							>Edit
-							</button>
+									th:id="'edit-activity-'+${activity.id}">Edit</button>
 							<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
 									data-bs-target="#deleteModal" th:data-activity-id="${activity.id}"
-									th:id="'delete-activity-'+${activity.id}"
-							>Delete
+									th:id="'delete-activity-'+${activity.id}">Delete
 							</button>
 						</div>
 						<div class="d-flex justify-content-between mb-3">
@@ -55,17 +51,15 @@
 <!--							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" id="end-time"-->
 <!--								  th:remove="tag"></span>-->
 
-						<div class="form-group">
+						<div class="form-group start-time">
 							<label for="start-time">From:</label>
 <!--							<input type="time" class="form-control" id="start-time" th:value="${#temporals.format(activity.startTime, 'HH:mm')}" readonly/>-->
-						<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" id="start-time"-->
-								  th:remove="tag"></span>
+						<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" id="start-time" th:remove="tag"></span>
 					</div>
-						<div class="form-group">
+						<div class="form-group end-time">
 							<label for="end-time">Till:</label>
 <!--							<input type="time" class="form-control" id="end-time" th:value="${#temporals.format(activity.endTime, 'HH:mm')}" readonly/>-->
-							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" id="end-time"
-								  th:remove="tag"></span>
+							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" id="end-time" th:remove="tag"></span>
 						</div>
 						</p>
 						<p th:text="${activity.description}" id="description">Event Description</p>
