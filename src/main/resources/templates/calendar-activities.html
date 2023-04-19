@@ -20,11 +20,8 @@
 		<div class="col-md-12">
 			<div class="d-flex justify-content-between mb-3">
 				<div class="d-flex gap-3"
-					 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
-				>
-					<button type="button" class="btn btn-outline-primary" id="add-activity-button" data-bs-toggle="modal"
-							data-bs-target="#addModal">Add</button>
-
+					 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
+					<button type="button" class="btn btn-outline-primary" id="add-activity-button" data-bs-toggle="modal" data-bs-target="#addModal">Add</button>
 				</div>
 			</div>
 			<div id="content">
@@ -32,8 +29,7 @@
 					<li class="event" th:id="${activity.id}" th:each="activity : ${activities}">
 						<div class="d-flex gap-3"
 							 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
-							<button type="button" class="btn btn-outline-primary" th:data-activity-id="${activity.id}"
-									th:id="'edit-activity-'+${activity.id}">Edit</button>
+							<button type="button" class="btn btn-outline-primary" th:data-activity-id="${activity.id}" th:id="'edit-activity-'+${activity.id}">Edit</button>
 							<button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
 									data-bs-target="#deleteModal" th:data-activity-id="${activity.id}"
 									th:id="'delete-activity-'+${activity.id}">Delete
@@ -43,22 +39,14 @@
 							<h4 class="mb-3" id="title" th:text="${activity.title}">Event Title</h4>
 						</div>
 						<p class="time">
-							<span class="date" id="date" th:text="${#temporals.format(activity.date, 'dd/MM/yyyy')}"
-							></span>
+							<span class="date" id="date" th:text="${#temporals.format(activity.date, 'yyyy-MM-dd')}"></span>
 							<br />
-<!--							<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" id="start-time"-->
-<!--								  th:remove="tag"></span> - -->
-<!--							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" id="end-time"-->
-<!--								  th:remove="tag"></span>-->
-
 						<div class="form-group start-time">
 							<label for="start-time">From:</label>
-<!--							<input type="time" class="form-control" id="start-time" th:value="${#temporals.format(activity.startTime, 'HH:mm')}" readonly/>-->
-						<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" id="start-time" th:remove="tag"></span>
-					</div>
+							<span th:text="${#temporals.format(activity.startTime, 'HH:mm')}" id="start-time" th:remove="tag"></span>
+						</div>
 						<div class="form-group end-time">
 							<label for="end-time">Till:</label>
-<!--							<input type="time" class="form-control" id="end-time" th:value="${#temporals.format(activity.endTime, 'HH:mm')}" readonly/>-->
 							<span th:text="${#temporals.format(activity.endTime, 'HH:mm')}" id="end-time" th:remove="tag"></span>
 						</div>
 						</p>
@@ -117,7 +105,9 @@
 					</div>
 					<div class="form-group">
 						<label for="description">Description:</label>
-						<textarea class="form-control" id="add-description" name="add-activity-description" rows="3" required></textarea>
+						<textarea class="form-control" id="add-description" name="add-activity-description" rows="3"
+								  required
+						></textarea>
 					</div>
 				</form>
 			</div>
@@ -128,7 +118,6 @@
 		</div>
 	</div>
 </div>
-
 
 <div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>

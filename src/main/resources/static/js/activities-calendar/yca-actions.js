@@ -6,7 +6,7 @@ let modalDeleteButton = document.getElementById('confirmDeleteButton');
 const editActivityButtons = document.querySelectorAll('.btn-outline-primary');
 
 const addActivityButton = document.getElementById('add-activity-button');
-// Add activity form
+
 const addActivityForm = document.querySelector('#add-activity-form');
 const titleInput = document.querySelector('#add-activity-title');
 const dateInput = document.querySelector('#add-activity-date');
@@ -15,7 +15,7 @@ const endTimeInput = document.querySelector('#add-activity-end-time');
 const descriptionInput = document.querySelector('#add-activity-description');
 
 
-//DELETE ACTIVITY
+// DELETE ACTIVITY
 async function deleteActivity(activityId) {
     // const activityId = id.target.getAttribute('data-activity-id') || id.target.closest('button').getAttribute('data-activity-id');
     console.log(activityId);
@@ -45,7 +45,7 @@ function activateModal(event) {
 deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
 
 
-//UPDATE ACTIVITY  (WORKING ON IT) change edit button to save and make all fields input then make them back to normal
+// UPDATE ACTIVITY
 async function updateActivity(event) {
     console.log("EDIT BUTTON CLICKED!")
     const activityId =
@@ -82,12 +82,7 @@ async function updateActivity(event) {
         endTimeEl.innerHTML = `<input type="time" class="form-control" value="${endTimeEl.textContent}" id="end-time-input-${activityId}">`;
         descriptionEl.innerHTML = `<textarea class="form-control" id="description-input-${activityId}" rows="3">${descriptionEl.textContent}</textarea>`;
 
-        // Enable inputs
-        document.getElementById(`title-input-${activityId}`).readOnly = false;
-        document.getElementById(`date-input-${activityId}`).readOnly = false;
-        document.getElementById(`start-time-input-${activityId}`).readOnly = false;
-        document.getElementById(`end-time-input-${activityId}`).readOnly = false;
-        document.getElementById(`description-input-${activityId}`).readOnly = false;
+
     } else if (event.target.textContent === 'Save') {
 
         console.log(document.getElementById(`title-input-${activityId}`).value)
@@ -119,78 +114,79 @@ async function updateActivity(event) {
 
         if (response.ok) {
             // Update the activity with the new data
-            titleEl.textContent = updatedActivityData.title;
-            dateEl.textContent = updatedActivityData.date;
-            startTimeEl.textContent = updatedActivityData.startTime;
-            endTimeEl.textContent = updatedActivityData.endTime;
-            descriptionEl.textContent = updatedActivityData.description;
-
-            // Turn inputs back into fields
-            titleEl.innerHTML = updatedActivityData.title;
-            dateEl.innerHTML = updatedActivityData.date;
-            startTimeEl.innerHTML = updatedActivityData.startTime;
-            endTimeEl.innerHTML = updatedActivityData.endTime;
-            descriptionEl.innerHTML = updatedActivityData.description;
-
-            // Change button text back to "Edit"
-            event.target.textContent = 'Edit';
+           activityBody.innerHTML = ` <div class="d-flex gap-3">
+                <button type="button" class="btn btn-outline-primary" data-activity-id="${activityId}"
+                        id="'edit-activity-'+${activityId}">Edit
+                </button>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                        data-bs-target="#deleteModal" data-activity-id="${activityId}"
+                        id="'delete-activity-'+${activityId}">Delete</button>
+            </div>
+            <div class="d-flex justify-coclassName-between mb-3">
+                <h4 class="mb-3" id="title">${updatedActivityData.title}</h4>
+            </div>
+            <p class="time">
+                <spclassNameass="date" id="date">${updatedActivityData.date}</span>
+                <br />
+                <div class="form-group start-className>
+							<label for=" start-time">From:</htmlForel>
+							<span id="start-time">${updatedActivityData.startTime}</span>
+						</div>
+						<div class=" form-group end-ticlassName
+						<label for="end-time">Till:</lahtmlFor>
+                <span id="end-time">${updatedActivityData.endTime}</span>
+            </div>
+        </p>
+         <p id="description">${updatedActivityData.description}</p>
+            `
         }
-
     }
 }
-
 editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
-// ADD NEW ACTIVITY  (NOT WORKING SOME ERRORS)
-//Make an add modal activity which adds the fields
-// async function addNewActivity(event) {
-//
-// }
-//
-// addActivityButton.addEventListener('click', addNewActivity);
+// ADD NEW ACTIVITY  (WORKING ON IT)
+addActivityButton.addEventListener('click', (event) => {
+    console.log("Add button clicked!")
+    event.preventDefault();
 
+    // Get the form data
+    const formData = new FormData(addActivityForm);
 
-// Add an event listener to the add activity button
-//         addActivityButton.addEventListener('click', (event) => {
-//             event.preventDefault();
-//
-//             // Get the form data
-//             const formData = new FormData(addActivityForm);
-//
-//             // Convert the date and time fields to a single date object
-//             const date = formData.get('date');
-//             const startTime = formData.get('start-time');
-//             const endTime = formData.get('end-time');
-//             const dateTime = new Date(`${date} ${startTime}`);
-//             dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0, 0);
-//
-//             // Create the activity object
-//             const activity = {
-//                 title: formData.get('title'),
-//                 description: formData.get('description'),
-//                 date: dateTime.toISOString(), // error invalid date
-//                 startTime: startTime,
-//                 endTime: endTime
-//             };
-//
-//             // Make a POST request to add the activity to the server
-//             fetch('/api/calendar-activities/add', {
-//                 method: 'POST',
-//                 headers: {
-//                     'Content-Type': 'application/json',
-//                     ...csrfToken()
-//                 },
-//                 body: JSON.stringify(activity)
-//             })
-//                 .then(response => response.json())
-//                 .then(data => {
-//                     // Reload the page to display the new activity
-//                     window.location.reload();
-//                 })
-//                 .catch(error => {
-//                     console.error('Error:', error);
-//                 });
-//         });
+    // Convert the date and time fields to a single date object
+    const date = formData.get('date');
+    const startTime = formData.get('start-time');
+    const dateTime = new Date(`${date} ${startTime}`);
+    const endTime = formData.get('end-time');
+    dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0, 0);
+
+    // Create the activity object
+    const activity = {
+        title: formData.get('title'),
+        description: formData.get('description'),
+        date: dateTime.toISOString(), // error invalid date
+        startTime: startTime,
+        endTime: endTime
+    };
+
+    // Make a POST request to add the activity to the server
+    fetch('/api/calendar-activities/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            ...csrfToken()
+        },
+        body: JSON.stringify(activity)
+    })
+        .then(response => response.json())
+        .then(data => {
+            // Reload the page to display the new activity
+            window.location.reload();
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+});
+
 
 
