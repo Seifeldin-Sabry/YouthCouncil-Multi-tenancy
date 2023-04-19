@@ -7,11 +7,12 @@ import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 
-import com.google.common.collect.ImmutableList;
+import jdk.swing.interop.SwingInterOpUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -30,88 +31,45 @@ public class CalendarActivitiesService {
 		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
-
 	public CalendarActivity addCalendarActivity(String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description) {
 		CalendarActivity calendarActivity = new CalendarActivity(title, date, startTime, endTime, description);
 		return calendarActivityRepository.save(calendarActivity);
 	}
 
-
 	public void deleteCalendarActivity(Long id) {
 		calendarActivityRepository.deleteById(id);
 	}
 
-
 		public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
 			CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
-			                                                              .orElseThrow(() -> new EntityNotFoundException("User not found"));
+			                                                              .orElseThrow(() -> new EntityNotFoundException("activityId not found"));
+
 			calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
-	//		calendarActivity.setDate(updatedCalendarActivityDTO.getDate());
-	//		calendarActivity.setStartTime(updatedCalendarActivityDTO.getStartTime());
-	//		calendarActivity.setEndTime(updatedCalendarActivityDTO.getEndTime());
 			calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
 			calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
+
+			// Update date field
+			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDate date = LocalDate.parse(updatedCalendarActivityDTO.getDate(), dateFormatter);
+			calendarActivity.setDate(date);
+
+			// Update start time field
+			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
+			LocalDateTime startDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getStartTime(), timeFormatter));
+			calendarActivity.setStartTime(startDateTime);
+
+			// Update end time field
+			LocalDateTime endDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getEndTime(), timeFormatter));
+			calendarActivity.setEndTime(endDateTime);
+
 			return calendarActivityRepository.save(calendarActivity);
 		}
-
-
-	//////////
-
-//	public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
-//		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
-//		                                                              .orElseThrow(() -> new EntityNotFoundException("Activity Id not found"));
-//
-//		LocalDate date = parseDateString(updatedCalendarActivityDTO.getDate());
-//		LocalDateTime startTime = parseDateTimeString(updatedCalendarActivityDTO.getStartTime(), date.atStartOfDay());
-//		LocalDateTime endTime = parseDateTimeString(updatedCalendarActivityDTO.getEndTime(), date.atStartOfDay());
-//
-//		calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
-//		calendarActivity.setDate(date);
-//		calendarActivity.setStartTime(startTime);
-//		calendarActivity.setEndTime(endTime);
-//		calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
-//		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
-//
-//		return calendarActivityRepository.save(calendarActivity);
-//	}
-//
-//	private static DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//	private static DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-//
-//	private static LocalDate parseDateString(String dateString) {
-//		if (dateString == null) {
-//			return null;
-//		}
-//		return LocalDate.parse(dateString, dateFormatter);
-//	}
-//
-//	private static LocalDateTime parseDateTimeString(String dateTimeString, LocalDateTime defaultDateTime) {
-//		if (dateTimeString == null) {
-//			return null;
-//		}
-//		LocalTime time = LocalTime.parse(dateTimeString, timeFormatter);
-//		return LocalDateTime.of(defaultDateTime.toLocalDate(), time);
-//	}
-//
-//	private static LocalDateTime parseDateTimeString(String dateTimeString, LocalDate defaultDate) {
-//		if (dateTimeString == null) {
-//			return null;
-//		}
-//		LocalTime time = LocalTime.parse(dateTimeString, timeFormatter);
-//		return LocalDateTime.of(defaultDate, time);
-//	}
-
-
-	////////
 
 	public boolean calendarActivityExists(Long id) {
 		return calendarActivityRepository.existsById(id);
 	}
 
-
 	public List<CalendarActivity> getActivitiesByMunicipality(Long municipalityId) {
 		return calendarActivityRepository.findByMunicipalityId(municipalityId);
 	}
-
-
 }

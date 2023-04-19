@@ -34,7 +34,6 @@ public class CalendarActivitiesRestController {
 
 
 	// UPDATE ACTIVITY
-
 	@PutMapping ("/{id}/update")
 	public ResponseEntity<?> updateActivity(@PathVariable Long id,
 	                                        @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
