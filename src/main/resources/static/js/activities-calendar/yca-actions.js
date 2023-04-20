@@ -10,7 +10,7 @@ const editActivityButtons = document.querySelectorAll('.btn-outline-primary');
 async function deleteActivity(activityId) {
     // const activityId = id.target.getAttribute('data-activity-id') || id.target.closest('button').getAttribute('data-activity-id');
     console.log(activityId);
-    const response = await fetch(`/api/calendar-activities/${activityId}/delete`, {
+    const response = await fetch(`/api/calendar-activities/${activityId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -93,7 +93,7 @@ async function updateActivity(event) {
 
         // Send PUT request to update the activity
         console.log(updatedActivityData)
-        const response = await fetch(`/api/calendar-activities/${activityId}/update`, {
+        const response = await fetch(`/api/calendar-activities/${activityId}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',

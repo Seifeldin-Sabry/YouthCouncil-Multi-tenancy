@@ -1,13 +1,16 @@
 package be.kdg.finalproject.service.calendaractivities;
 
+import be.kdg.finalproject.controller.api.dto.get.CalendarActivityDTO;
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
+import be.kdg.finalproject.controller.api.dto.post.NewCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 
-import jdk.swing.interop.SwingInterOpUtils;
+
+import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,16 +34,20 @@ public class CalendarActivitiesService {
 		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
-	public CalendarActivity addCalendarActivity(String title, LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description) {
-		CalendarActivity calendarActivity = new CalendarActivity(title, date, startTime, endTime, description);
-		return calendarActivityRepository.save(calendarActivity);
+	public CalendarActivityDTO addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
+		ModelMapper modelMapper = new ModelMapper();
+		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
+		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
+		return modelMapper.map(createdActivity, CalendarActivityDTO.class);
 	}
 
 	public void deleteCalendarActivity(Long id) {
+		logger.debug("Deleting calendar activity with id: " + id);
 		calendarActivityRepository.deleteById(id);
 	}
 
 		public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
+			logger.debug("Updating calendar activity with id: " + activityId);
 			CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
 			                                                              .orElseThrow(() -> new EntityNotFoundException("activityId not found"));
 

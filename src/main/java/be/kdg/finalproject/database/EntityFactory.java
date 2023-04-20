@@ -5,7 +5,6 @@ import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposalStatus;
 import be.kdg.finalproject.domain.form.*;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
@@ -15,7 +14,6 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.time.ZoneId;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -110,14 +108,16 @@ public class EntityFactory {
 
 
 	public CalendarActivity createRandomCalendarActivity() {
-		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
-		LocalDateTime activityStartTime = LocalDateTime.of(activityDate, LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)));
+		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+		                              .toLocalDate();
+		LocalDateTime activityStartTime = LocalDateTime.of(activityDate, LocalTime.of(faker.number()
+		                                                                                   .numberBetween(0, 23), faker.number()
+		                                                                                                               .numberBetween(0, 59)));
 		LocalDateTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
 		String activityTitle = faker.lorem().sentence();
 		String activityDescription = faker.lorem().paragraph();
 
-		CalendarActivity calendarActivity = new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
-		return calendarActivity;
+		return new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 	}
 
 }
