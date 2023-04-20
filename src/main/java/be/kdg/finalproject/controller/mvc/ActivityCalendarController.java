@@ -34,11 +34,9 @@ public class ActivityCalendarController {
 		} else {
 			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
 		}
-		List<Municipality> municipalities = municipalityService.getAllMunicipalities();
 		logger.debug("Calendar activities found: {}", activities);
 		ModelAndView modelAndView = new ModelAndView("calendar-activities");
 		modelAndView.addObject("activities", activities);
-		modelAndView.addObject("municipalities", municipalities);
 		return modelAndView;
 	}
 
