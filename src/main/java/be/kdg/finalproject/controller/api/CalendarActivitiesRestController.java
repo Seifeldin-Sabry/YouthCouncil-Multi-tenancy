@@ -24,17 +24,16 @@ public class CalendarActivitiesRestController {
 	private final CalendarActivitiesService calendarActivitiesService;
 	private final Logger logger = LoggerFactory.getLogger(CalendarActivitiesRestController.class);
 
-	private final ModelMapper modelMapper = new ModelMapper();
-
 	@Autowired
 	public CalendarActivitiesRestController(CalendarActivitiesService calendarActivitiesService) {
 		this.calendarActivitiesService = calendarActivitiesService;
+		ModelMapper modelMapper = new ModelMapper();
 		modelMapper.createTypeMap(CalendarActivityDTO.class, CalendarActivity.class);
 	}
 
 
 	// UPDATE ACTIVITY
-	@PutMapping ("/{id}/update")
+	@PutMapping ("/{id}")
 	public ResponseEntity<?> updateActivity(@PathVariable Long id,
 	                                        @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
 		if (errors.hasErrors()) {
@@ -54,25 +53,18 @@ public class CalendarActivitiesRestController {
 
 
 	// ADD ACTIVITY
-	@PostMapping("/add")
+	@PostMapping
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
 			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			return ResponseEntity.badRequest().body(validate);
 		}
-		CalendarActivity createdActivity = calendarActivitiesService.addCalendarActivity(
-				newActivityDto.getTitle(),
-				newActivityDto.getDate(),
-				newActivityDto.getStartTime(),
-				newActivityDto.getEndTime(),
-				newActivityDto.getDescription()
-		);
-		ModelMapper modelMapper = new ModelMapper();
-		CalendarActivityDTO createdActivityDto = modelMapper.map(createdActivity, CalendarActivityDTO.class);
+		CalendarActivityDTO createdActivityDto = calendarActivitiesService.addCalendarActivity(newActivityDto);
 		return new ResponseEntity<>(createdActivityDto, HttpStatus.CREATED);
 	}
 
-	@DeleteMapping("/{id}/delete")
+
+	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deleteCalendarActivity(@PathVariable Long id) {
 		if (!calendarActivitiesService.calendarActivityExists(id)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

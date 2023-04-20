@@ -1,7 +1,6 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.domain.activities.CalendarActivity;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.calendaractivities.CalendarActivitiesService;
@@ -35,7 +34,7 @@ public class ActivityCalendarController {
 			activities = calendarActivitiesService.getActivitiesByMunicipality(municipalityId);
 		}
 		logger.debug("Calendar activities found: {}", activities);
-		ModelAndView modelAndView = new ModelAndView("calendar-activities");
+		ModelAndView modelAndView = new ModelAndView("municipality/municipality-activities");
 		modelAndView.addObject("activities", activities);
 		return modelAndView;
 	}
