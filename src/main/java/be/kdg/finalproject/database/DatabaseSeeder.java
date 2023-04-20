@@ -165,10 +165,17 @@ public class DatabaseSeeder {
 
 		//CALENDAR OF ACTIVITIES
 
-		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity(antwerpen);
-		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity(ghent);
-		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity(antwerpen);
-		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity(ghent);
+		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
+		calendarActivity1.setMunicipality(antwerpen);
+
+		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
+		calendarActivity2.setMunicipality(ghent);
+
+		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
+		calendarActivity3.setMunicipality(antwerpen);
+
+		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
+		calendarActivity4.setMunicipality(ghent);
 
 		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 

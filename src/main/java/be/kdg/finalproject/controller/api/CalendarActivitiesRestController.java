@@ -72,17 +72,14 @@ public class CalendarActivitiesRestController {
 		return new ResponseEntity<>(createdActivityDto, HttpStatus.CREATED);
 	}
 
-
-	// DELETE ACTIVITY
-	@DeleteMapping ("/{id}/delete")
+	@DeleteMapping("/{id}/delete")
 	public ResponseEntity<Void> deleteCalendarActivity(@PathVariable Long id) {
-		if (calendarActivitiesService.calendarActivityExists(id)) {
-			calendarActivitiesService.deleteCalendarActivity(id);
-			return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-		} else {
+		if (!calendarActivitiesService.calendarActivityExists(id)) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
-	}
 
+		calendarActivitiesService.deleteCalendarActivity(id);
+		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+	}
 
 }

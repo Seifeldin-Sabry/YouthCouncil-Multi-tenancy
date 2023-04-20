@@ -109,7 +109,7 @@ public class EntityFactory {
 	}
 
 
-	public CalendarActivity createRandomCalendarActivity(Municipality municipality) {
+	public CalendarActivity createRandomCalendarActivity() {
 		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 		LocalDateTime activityStartTime = LocalDateTime.of(activityDate, LocalTime.of(faker.number().numberBetween(0, 23), faker.number().numberBetween(0, 59)));
 		LocalDateTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
@@ -117,13 +117,7 @@ public class EntityFactory {
 		String activityDescription = faker.lorem().paragraph();
 
 		CalendarActivity calendarActivity = new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
-		calendarActivity.setMunicipality(municipality);
-
 		return calendarActivity;
 	}
-
-
-
-
 
 }
