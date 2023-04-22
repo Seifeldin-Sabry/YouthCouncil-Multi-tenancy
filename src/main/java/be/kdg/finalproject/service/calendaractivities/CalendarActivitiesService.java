@@ -37,6 +37,7 @@ public class CalendarActivitiesService {
 	public CalendarActivityDTO addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
 		ModelMapper modelMapper = new ModelMapper();
 		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
+		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
 		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
 		return modelMapper.map(createdActivity, CalendarActivityDTO.class);
 	}
@@ -63,11 +64,11 @@ public class CalendarActivitiesService {
 			// Update start time field
 			DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
 			LocalDateTime startDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getStartTime(), timeFormatter));
-			calendarActivity.setStartTime(startDateTime);
+			calendarActivity.setStartTime(LocalTime.from(startDateTime));
 
 			// Update end time field
 			LocalDateTime endDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getEndTime(), timeFormatter));
-			calendarActivity.setEndTime(endDateTime);
+			calendarActivity.setEndTime(LocalTime.from(endDateTime));
 
 			return calendarActivityRepository.save(calendarActivity);
 		}

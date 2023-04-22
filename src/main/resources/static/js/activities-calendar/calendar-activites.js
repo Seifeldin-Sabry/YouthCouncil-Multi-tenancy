@@ -105,7 +105,7 @@ async function updateActivity(event) {
 
         if (response.ok) {
             // Update the activity with the new data
-           activityBody.innerHTML = ` <div class="d-flex gap-3">
+            activityBody.innerHTML = ` <div class="d-flex gap-3">
                 <button type="button" class="btn btn-outline-primary" data-activity-id="${activityId}"
                         id="'edit-activity-'+${activityId}">Edit
                 </button>
@@ -133,53 +133,11 @@ async function updateActivity(event) {
         }
     }
 }
+
 editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
-// ADD NEW ACTIVITY  (WORKING ON IT)
-// addActivityButton.addEventListener('click', (event) => {
-//     console.log("Add button clicked!")
-//     event.preventDefault();
-//
-//     // Get the form data
-//     const formData = new FormData(addActivityForm);
-//
-//     // Convert the date and time fields to a single date object
-//     const date = formData.get('date');
-//     const startTime = formData.get('start-time');
-//     const dateTime = new Date(`${date} ${startTime}`);
-//     const endTime = formData.get('end-time');
-//     dateTime.setHours(dateTime.getHours(), dateTime.getMinutes(), 0, 0);
-//
-//     // Create the activity object
-//     const activity = {
-//         title: formData.get('title'),
-//         description: formData.get('description'),
-//         date: dateTime.toISOString(), // error invalid date
-//         startTime: startTime,
-//         endTime: endTime
-//     };
-//
-//     // Make a POST request to add the activity to the server
-//     fetch('/api/calendar-activities/add', {
-//         method: 'POST',
-//         headers: {
-//             'Content-Type': 'application/json',
-//             ...csrfToken()
-//         },
-//         body: JSON.stringify(activity)
-//     })
-//         .then(response => response.json())
-//         .then(data => {
-//             // Reload the page to display the new activity
-//             window.location.reload();
-//         })
-//         .catch(error => {
-//             console.error('Error:', error);
-//         });
-// });
-
-
+// ADD ACTIVITY
 const addActivityButton = document.getElementById('add-activity-button');
 const addActivityForm = document.getElementById('add-activity-form');
 const addActivityTitleInput = document.getElementById('add-activity-title');
@@ -187,7 +145,7 @@ const addActivityDateInput = document.getElementById('add-activity-date');
 const addActivityStartTimeInput = document.getElementById('add-activity-start-time');
 const addActivityEndTimeInput = document.getElementById('add-activity-end-time');
 const addActivityDescriptionInput = document.getElementById('add-activity-description');
-const confirmAddActivityButton = document.getElementById('confirm-add-activity-button');
+const confirmAddActivityButton = document.getElementById('modal-add-activity-button');
 
 console.log(addActivityButton)
 console.log(addActivityForm)
@@ -198,51 +156,77 @@ console.log(addActivityEndTimeInput)
 console.log(addActivityDescriptionInput)
 console.log(confirmAddActivityButton)
 
-// Add a listener to the add activity button
-addActivityButton.addEventListener('click', () => {
-    // Reset the form when the modal is opened
-    addActivityForm.reset();
-});
-
-// Add a listener to the confirm add activity button
-confirmAddActivityButton.addEventListener('click', () => {
+async function addActivity() {
     // Get the values from the form
-    const title = addActivityTitleInput.value;
-    const date = addActivityDateInput.value;
-    const startTime = addActivityStartTimeInput.value;
-    const endTime = addActivityEndTimeInput.value;
-    const description = addActivityDescriptionInput.value;
+    const title1 = addActivityTitleInput.value;
+    const date1 = addActivityDateInput.value;
+    const startTime1 = addActivityStartTimeInput.value;
+    const endTime1 = addActivityEndTimeInput.value;
+    const description1 = addActivityDescriptionInput.value;
 
-    console.log(title)
-    console.log(date)
-    console.log(startTime)
-    console.log(endTime)
-    console.log(description)
-
+    console.log(title1)
+    console.log(date1)
+    console.log(startTime1)
+    console.log(endTime1)
+    console.log(description1)
 
     // Make a POST request to the server to add the activity
-    fetch('/api/calendar-activities/add', {
+    const response = await fetch('/api/calendar-activities/add', {
         method: 'POST',
         body: JSON.stringify({
-            title: title,
-            date: date,
-            startTime: startTime,
-            endTime: endTime,
-            description: description
+            title: title1,
+            date: date1,
+            startTime: startTime1,
+            endTime: endTime1,
+            description: description1
         }),
         headers: {
             'Content-Type': 'application/json',
             ...csrfToken()
         }
     })
-        .then(response => {
-            if (response.ok) {
-                // Reload the page to see the new activity
-                location.reload();
-                console.log("ACTIVITY ADDED!")
-            } else {
-                // Display an error message
-                console.error('Failed to add activity');
-            }
-        });
-});
+
+    if (response.ok) {
+        console.log("ACTIVITY ADDED!")
+        // Update the activity with the new data
+        // Get the reference to the ul element
+        const activityList = document.querySelector('.timeline-1');
+
+        // Create a new li element for the activity
+        const newActivity = document.createElement('li');
+        newActivity.classList.add('event');
+
+        // Set the innerHTML of the new activity
+        newActivity.innerHTML = `
+    <div class="d-flex gap-3">
+        <button type="button" class="btn btn-outline-primary" data-activity-id="new-activity-id">Edit</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+          data-bs-target="#deleteModal" data-activity-id="new-activity-id">Delete
+        </button>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+        <h4 class="mb-3" id="title">${title1}</h4>
+    </div>
+    <p class="time">
+        <span class="date" id="date">${date1}</span>
+        <br />
+        <div class="form-group start-time">
+            <label for="start-time">From:</label>
+            <span id="start-time">${startTime1}</span>
+        </div>
+        <div class="form-group end-time">
+            <label for="end-time">Till:</label>
+            <span id="end-time">${endTime1}</span>
+        </div>
+    </p>
+    <p id="description">${description1}</p>
+`;
+
+        // Append the new activity to the timeline list
+        activityList.appendChild(newActivity);
+        const addModal = document.getElementById('addModal');
+        bootstrap.Modal.getOrCreateInstance(addModal).hide();
+    }
+}
+
+confirmAddActivityButton.addEventListener('click', addActivity);

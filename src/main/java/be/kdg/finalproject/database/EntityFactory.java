@@ -110,10 +110,10 @@ public class EntityFactory {
 	public CalendarActivity createRandomCalendarActivity() {
 		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
 		                              .toLocalDate();
-		LocalDateTime activityStartTime = LocalDateTime.of(activityDate, LocalTime.of(faker.number()
-		                                                                                   .numberBetween(0, 23), faker.number()
-		                                                                                                               .numberBetween(0, 59)));
-		LocalDateTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
+		LocalTime activityStartTime = LocalTime.from(LocalDateTime.of(activityDate, LocalTime.of(faker.number()
+		                                                                                              .numberBetween(0, 23), faker.number()
+		                                                                                                               .numberBetween(0, 59))));
+		LocalTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
 		String activityTitle = faker.lorem().sentence();
 		String activityDescription = faker.lorem().paragraph();
 

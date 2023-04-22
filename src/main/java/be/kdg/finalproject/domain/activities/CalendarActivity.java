@@ -8,6 +8,7 @@ import lombok.Setter;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Entity (name = "CALENDAR_ACTIVITIES")
 @Getter
@@ -27,10 +28,10 @@ public class CalendarActivity {
 	private LocalDate date;
 
 	@Column (name = "startTime", nullable = false)
-	private LocalDateTime startTime;
+	private LocalTime startTime;
 
 	@Column (name = "endTime", nullable = false)
-	private LocalDateTime endTime;
+	private LocalTime endTime;
 
 	@Column (name = "description", nullable = false)
 	private String description;
@@ -38,7 +39,7 @@ public class CalendarActivity {
 	@ManyToOne
 	private Municipality municipality;
 
-	public CalendarActivity(String title,LocalDate date, LocalDateTime startTime, LocalDateTime endTime, String description) {
+	public CalendarActivity(String title,LocalDate date, LocalTime startTime, LocalTime endTime, String description) {
 		this.title = title;
 		this.date = date;
 		this.startTime = startTime;
