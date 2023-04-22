@@ -6,6 +6,7 @@ import lombok.*;
 import javax.persistence.ManyToOne;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -20,9 +21,9 @@ public class CalendarActivityDTO {
 
 	private LocalDate date;
 
-	private LocalDateTime startTime;
+	private LocalTime startTime;
 
-	private LocalDateTime endTime;
+	private LocalTime endTime;
 
 	private String description;
 
