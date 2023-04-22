@@ -1,9 +1,8 @@
 import {csrfToken} from "../cookie.js";
 
-const deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
+let deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
 let modalDeleteButton = document.getElementById('confirmDeleteButton');
-
-const editActivityButtons = document.querySelectorAll('.btn-outline-primary');
+let editActivityButtons = document.querySelectorAll('.btn-outline-primary');
 
 
 // DELETE ACTIVITY
@@ -29,11 +28,12 @@ function activateModal(event) {
     modalDeleteButton = document.getElementById('confirmDeleteButton');
     const activityId = event.target.getAttribute('data-activity-id') || event.target.closest('button').getAttribute('data-activity-id');
     modalDeleteButton.addEventListener('click', () => {
+        console.log(activityId)
         deleteActivity(activityId)
     });
 }
 
-deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
+// deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
 
 
 // UPDATE ACTIVITY
@@ -130,6 +130,7 @@ async function updateActivity(event) {
         </p>
          <p id="description">${updatedActivityData.description}</p>
             `
+            addEventListeners()
         }
     }
 }
@@ -187,46 +188,59 @@ async function addActivity() {
     })
 
     if (response.ok) {
-        console.log("ACTIVITY ADDED!")
-        // Update the activity with the new data
-        // Get the reference to the ul element
-        const activityList = document.querySelector('.timeline-1');
+        response.json().then(handleAddedActivity)
 
-        // Create a new li element for the activity
-        const newActivity = document.createElement('li');
-        newActivity.classList.add('event');
-
-        // Set the innerHTML of the new activity
-        newActivity.innerHTML = `
-    <div class="d-flex gap-3">
-        <button type="button" class="btn btn-outline-primary" data-activity-id="new-activity-id">Edit</button>
-        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
-          data-bs-target="#deleteModal" data-activity-id="new-activity-id">Delete
-        </button>
-    </div>
-    <div class="d-flex justify-content-between mb-3">
-        <h4 class="mb-3" id="title">${title1}</h4>
-    </div>
-    <p class="time">
-        <span class="date" id="date">${date1}</span>
-        <br />
-        <div class="form-group start-time">
-            <label for="start-time">From:</label>
-            <span id="start-time">${startTime1}</span>
-        </div>
-        <div class="form-group end-time">
-            <label for="end-time">Till:</label>
-            <span id="end-time">${endTime1}</span>
-        </div>
-    </p>
-    <p id="description">${description1}</p>
-`;
-
-        // Append the new activity to the timeline list
-        activityList.appendChild(newActivity);
         const addModal = document.getElementById('addModal');
         bootstrap.Modal.getOrCreateInstance(addModal).hide();
+        addEventListeners()
     }
 }
 
+function handleAddedActivity(activity){
+    console.log("ACTIVITY ADDED!")
+    // Update the activity with the new data
+    // Get the reference to the ul element
+    const activityList = document.querySelector('.timeline-1');
+
+    // Create a new li element for the activity
+    const newActivity = document.createElement('li');
+    newActivity.classList.add('event');
+
+    // Set the innerHTML of the new activity
+    newActivity.innerHTML = `
+    <div class="d-flex gap-3">
+        <button type="button" class="btn btn-outline-primary" id="edit-activity-${activity.id}" data-activity-id="${activity.id}">Edit</button>
+        <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+          data-bs-target="#deleteModal" id="delete-activity-${activity.id}" data-activity-id="${activity.id}">Delete
+        </button>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+        <h4 class="mb-3" id="title">${activity.title}</h4>
+    </div>
+    <p class="time">
+        <span class="date" id="date">${activity.date}</span>
+        <br />
+        <div class="form-group start-time">
+            <label for="start-time">From:</label>
+            <span id="start-time">${activity.startTime}</span>
+        </div>
+        <div class="form-group end-time">
+            <label for="end-time">Till:</label>
+            <span id="end-time">${activity.endTime}</span>
+        </div>
+    </p>
+    <p id="description">${activity.description}</p>
+`;
+    activityList.appendChild(newActivity);
+}
+
 confirmAddActivityButton.addEventListener('click', addActivity);
+
+function addEventListeners(){
+    deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
+    editActivityButtons = document.querySelectorAll('.btn-outline-primary');
+    deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
+    editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
+}
+
+addEventListeners()
