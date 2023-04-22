@@ -11,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 
 @Getter
 @Setter
@@ -28,12 +29,10 @@ public class NewCalendarActivityDTO {
 	private LocalDate date;
 
 	@NotNull
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private LocalDateTime startTime;
+	private LocalTime startTime;
 
 	@NotNull
-	@DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
-	private LocalDateTime endTime;
+	private LocalTime endTime;
 
 	@NotBlank
 	@Size (max = 150)
