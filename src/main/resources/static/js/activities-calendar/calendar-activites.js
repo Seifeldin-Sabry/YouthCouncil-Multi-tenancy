@@ -194,6 +194,7 @@ async function addActivity() {
         bootstrap.Modal.getOrCreateInstance(addModal).hide();
         addEventListeners()
     }
+
 }
 
 function handleAddedActivity(activity){
@@ -237,8 +238,6 @@ function handleAddedActivity(activity){
 confirmAddActivityButton.addEventListener('click', addActivity);
 
 function addEventListeners(){
-    deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
-    editActivityButtons = document.querySelectorAll('.btn-outline-primary');
     deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
     editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 }
