@@ -1,6 +1,6 @@
 import {csrfToken} from "../cookie.js";
 
-let deleteActivityButtons = document.querySelectorAll('.btn-outline-danger');
+
 let modalDeleteButton = document.getElementById('confirmDeleteButton');
 let editActivityButtons = document.querySelectorAll('.btn-outline-primary');
 // ADD ACTIVITY
@@ -24,7 +24,6 @@ console.log(confirmAddActivityButton)
 
 // DELETE ACTIVITY
 async function deleteActivity(activityId) {
-    // const activityId = id.target.getAttribute('data-activity-id') || id.target.closest('button').getAttribute('data-activity-id');
     console.log(activityId);
     const response = await fetch(`/api/calendar-activities/${activityId}`, {
         method: 'DELETE',
@@ -50,8 +49,6 @@ function activateModal(event) {
     });
 }
 
-// deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
-
 
 // UPDATE ACTIVITY
 async function updateActivity(event) {
@@ -71,8 +68,8 @@ async function updateActivity(event) {
     console.log(activityBody)
     console.log(titleEl)
     console.log(dateEl)
-    console.log(startTimeEl) //null
-    console.log(endTimeEl) //null
+    console.log(startTimeEl)
+    console.log(endTimeEl)
     console.log(descriptionEl)
     console.log(event.target.textContent)
 
@@ -90,14 +87,7 @@ async function updateActivity(event) {
         endTimeEl.innerHTML = `<input type="time" class="form-control" value="${endTimeEl.textContent}" id="end-time-input-${activityId}">`;
         descriptionEl.innerHTML = `<textarea class="form-control" id="description-input-${activityId}" rows="4">${descriptionEl.textContent}</textarea>`;
 
-
     } else if (event.target.textContent === 'Save') {
-
-        // console.log(document.getElementById(`title-input-${activityId}`).value)
-        // console.log(document.getElementById(`date-input-${activityId}`).value)
-        // console.log(document.getElementById(`start-time-input-${activityId}`).value)
-        // console.log(document.getElementById(`end-time-input-${activityId}`).value)
-        // console.log(document.getElementById(`description-input-${activityId}`).value)
 
         // Get the updated activity data
         const updatedActivityData = {
@@ -161,12 +151,6 @@ async function addActivity() {
     const endTime1 = addActivityEndTimeInput.value;
     const description1 = addActivityDescriptionInput.value;
 
-    console.log(title1)
-    console.log(date1)
-    console.log(startTime1)
-    console.log(endTime1)
-    console.log(description1)
-
     // Make a POST request to the server to add the activity
     const response = await fetch('/api/calendar-activities/add', {
         method: 'POST',
@@ -197,7 +181,6 @@ function handleAddedActivity(activity){
     // Update the activity with the new data
     // Get the reference to the ul element
     const activityList = document.querySelector('.timeline-1');
-
 
     // Set the innerHTML of the new activity
     activityList.innerHTML += `
@@ -240,6 +223,3 @@ function addEventListeners(){
 }
 
 addEventListeners()
-
-
-//EDITING A NEW ACTIVITY NOT WORKING UPDATED_ACTIVITY_DTO ID IS NULL

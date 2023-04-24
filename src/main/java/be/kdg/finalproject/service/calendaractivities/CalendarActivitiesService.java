@@ -33,20 +33,11 @@ public class CalendarActivitiesService {
 		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
-//	public CalendarActivityDTO addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
-//		ModelMapper modelMapper = new ModelMapper();
-//		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
-//		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
-//		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
-//		return modelMapper.map(createdActivity, CalendarActivityDTO.class);
-//	}
-
 	public CalendarActivity addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
 		ModelMapper modelMapper = new ModelMapper();
 		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
 		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
-		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
-		return createdActivity;
+		return calendarActivityRepository.save(calendarActivity);
 	}
 
 
