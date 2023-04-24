@@ -15,8 +15,6 @@ public class UpdatedCalendarActivityDTO {
 
 	private Long id;
 
-	@NotBlank
-	@Size (max = 30)
 	private String title;
 
 	private String date;
@@ -25,8 +23,6 @@ public class UpdatedCalendarActivityDTO {
 
 	private String endTime;
 
-	@NotBlank
-	@Size (max = 150)
 	private String description;
 
 	public boolean isValid() {
