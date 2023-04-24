@@ -51,18 +51,6 @@ public class CalendarActivitiesRestController {
 		}
 	}
 
-
-	// ADD ACTIVITY
-//	@PostMapping("/add")
-//	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
-//		if (errors.hasErrors()) {
-//			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
-//			return ResponseEntity.badRequest().body(validate);
-//		}
-//		CalendarActivityDTO createdActivityDto = calendarActivitiesService.addCalendarActivity(newActivityDto);
-//		return new ResponseEntity<>(createdActivityDto, HttpStatus.CREATED);
-//	}
-
 	@PostMapping("/add")
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
