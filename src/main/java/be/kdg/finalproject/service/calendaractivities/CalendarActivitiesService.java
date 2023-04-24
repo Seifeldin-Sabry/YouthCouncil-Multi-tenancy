@@ -1,6 +1,5 @@
 package be.kdg.finalproject.service.calendaractivities;
 
-import be.kdg.finalproject.controller.api.dto.get.CalendarActivityDTO;
 import be.kdg.finalproject.controller.api.dto.patch.UpdatedCalendarActivityDTO;
 import be.kdg.finalproject.controller.api.dto.post.NewCalendarActivityDTO;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
@@ -34,13 +33,22 @@ public class CalendarActivitiesService {
 		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
-	public CalendarActivityDTO addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
+//	public CalendarActivityDTO addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
+//		ModelMapper modelMapper = new ModelMapper();
+//		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
+//		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
+//		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
+//		return modelMapper.map(createdActivity, CalendarActivityDTO.class);
+//	}
+
+	public CalendarActivity addCalendarActivity(NewCalendarActivityDTO newActivityDto) {
 		ModelMapper modelMapper = new ModelMapper();
 		CalendarActivity calendarActivity = modelMapper.map(newActivityDto, CalendarActivity.class);
 		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
 		CalendarActivity createdActivity = calendarActivityRepository.save(calendarActivity);
-		return modelMapper.map(createdActivity, CalendarActivityDTO.class);
+		return createdActivity;
 	}
+
 
 	public void deleteCalendarActivity(Long id) {
 		logger.debug("Deleting calendar activity with id: " + id);
@@ -53,8 +61,6 @@ public class CalendarActivitiesService {
 			                                                              .orElseThrow(() -> new EntityNotFoundException("activityId not found"));
 
 			calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
-			calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
-			calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
 
 			// Update date field
 			DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -70,6 +76,8 @@ public class CalendarActivitiesService {
 			LocalDateTime endDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getEndTime(), timeFormatter));
 			calendarActivity.setEndTime(LocalTime.from(endDateTime));
 
+			calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
+			calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
 			return calendarActivityRepository.save(calendarActivity);
 		}
 
