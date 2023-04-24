@@ -1,7 +1,6 @@
 import {csrfToken} from "../cookie.js";
 
 
-let modalDeleteButton = document.getElementById('confirmDeleteButton');
 let editActivityButtons = document.querySelectorAll('.btn-outline-primary');
 // ADD ACTIVITY
 const addActivityButton = document.getElementById('add-activity-button');
@@ -12,6 +11,8 @@ const addActivityStartTimeInput = document.getElementById('add-activity-start-ti
 const addActivityEndTimeInput = document.getElementById('add-activity-end-time');
 const addActivityDescriptionInput = document.getElementById('add-activity-description');
 const confirmAddActivityButton = document.getElementById('modal-add-activity-button');
+const modalDeleteButton = document.getElementById('confirmDeleteButton');
+let currentActivityId;
 
 console.log(addActivityButton)
 console.log(addActivityForm)
@@ -23,9 +24,11 @@ console.log(addActivityDescriptionInput)
 console.log(confirmAddActivityButton)
 
 // DELETE ACTIVITY
-async function deleteActivity(activityId) {
-    console.log(activityId);
-    const response = await fetch(`/api/calendar-activities/${activityId}`, {
+async function deleteActivity(event) {
+    console.log("DELETE ACTIVITY FUNCTION ENTERED:")
+    console.log(event);// pointer event
+    console.log(currentActivityId)
+    const response = await fetch(`/api/calendar-activities/${currentActivityId}`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json',
@@ -33,22 +36,17 @@ async function deleteActivity(activityId) {
         },
     });
     if (response.ok) {
-        document.getElementById(`${activityId}`).remove();
+        document.getElementById(`${currentActivityId}`).remove();
         const deleteModal = document.getElementById('deleteModal');
         bootstrap.Modal.getOrCreateInstance(deleteModal).hide();
     }
 }
 
-
-function activateModal(event) {
-    modalDeleteButton = document.getElementById('confirmDeleteButton');
-    const activityId = event.target.getAttribute('data-activity-id') || event.target.closest('button').getAttribute('data-activity-id');
-    modalDeleteButton.addEventListener('click', () => {
-        console.log(activityId)
-        deleteActivity(activityId)
-    });
+function reassignCurrentActivityId(event) {
+    currentActivityId = event.target.closest('button').getAttribute('data-activity-id') || event.target.getAttribute('id') || event.target.closest('button').getAttribute('id')
+    console.log("ReassignCurrentActivityIdFunction:")
+    console.log(currentActivityId)
 }
-
 
 // UPDATE ACTIVITY
 async function updateActivity(event) {
@@ -140,6 +138,7 @@ async function updateActivity(event) {
         }
     }
 }
+
 editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 
 
@@ -176,7 +175,7 @@ async function addActivity() {
 
 }
 
-function handleAddedActivity(activity){
+function handleAddedActivity(activity) {
     console.log("ACTIVITY ADDED!")
     // Update the activity with the new data
     // Get the reference to the ul element
@@ -214,11 +213,12 @@ function handleAddedActivity(activity){
 
 confirmAddActivityButton.addEventListener('click', addActivity);
 
-function addEventListeners(){
+function addEventListeners() {
     console.log("event listeners entered!")
     let deleteActivityButtons = document.querySelectorAll('.deleteButtonModal');
     let editActivityButtons = document.querySelectorAll('.editButton');
-    deleteActivityButtons.forEach(el => el.addEventListener('click', activateModal));
+    deleteActivityButtons.forEach(el => el.addEventListener('click', reassignCurrentActivityId));
+    modalDeleteButton.addEventListener('click', deleteActivity);
     editActivityButtons.forEach(el => el.addEventListener('click', updateActivity));
 }
 

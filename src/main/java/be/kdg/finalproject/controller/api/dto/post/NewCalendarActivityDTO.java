@@ -34,4 +34,10 @@ public class NewCalendarActivityDTO {
 	@Size (max = 150)
 	private String description;
 
+	public boolean isValid() {
+		LocalDate today = LocalDate.now();
+		LocalTime now = LocalTime.now();
+		return date.isEqual(today) ? startTime.isAfter(now) && endTime.isAfter(startTime) : date.isAfter(today);
+	}
+
 }
