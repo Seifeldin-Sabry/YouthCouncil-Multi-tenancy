@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.HashMap;
 import java.util.Map;
 
 @RestController
@@ -31,8 +32,6 @@ public class CalendarActivitiesRestController {
 		modelMapper.createTypeMap(CalendarActivityDTO.class, CalendarActivity.class);
 	}
 
-
-	// UPDATE ACTIVITY
 	@PutMapping ("/{id}")
 	public ResponseEntity<?> updateActivity(@PathVariable Long id,
 	                                        @Valid @RequestBody UpdatedCalendarActivityDTO updatedActivityDTO, BindingResult errors) {
@@ -40,6 +39,12 @@ public class CalendarActivitiesRestController {
 			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
 			logger.debug("Validation errors: {}", validate);
 			return ResponseEntity.badRequest().body(validate);
+		}
+
+		if (!updatedActivityDTO.isValid()) {
+			Map<String, String> errorMap = new HashMap<>();
+			errorMap.put("error", "Invalid activity data");
+			return ResponseEntity.badRequest().body(errorMap);
 		}
 
 		CalendarActivity result = calendarActivitiesService.updateCalendarActivity(id, updatedActivityDTO);
@@ -51,10 +56,16 @@ public class CalendarActivitiesRestController {
 		}
 	}
 
+
 	@PostMapping("/add")
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
 			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
+			return ResponseEntity.badRequest().body(validate);
+		}
+		if (!newActivityDto.isValid()) {
+			Map<String, String> validate = new HashMap<>();
+			validate.put("error", "Invalid input data for calendar activity.");
 			return ResponseEntity.badRequest().body(validate);
 		}
 		CalendarActivity createdActivity = calendarActivitiesService.addCalendarActivity(newActivityDto);
