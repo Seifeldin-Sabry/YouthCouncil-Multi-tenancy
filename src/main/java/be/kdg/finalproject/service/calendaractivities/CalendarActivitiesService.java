@@ -51,33 +51,6 @@ public class CalendarActivitiesService {
 		calendarActivityRepository.deleteById(id);
 	}
 
-//	public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
-//		logger.debug("Updating calendar activity with id: " + activityId);
-//		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
-//		                                                              .orElseThrow(() -> new EntityNotFoundException("activityId not found"));
-//
-//
-//		calendarActivity.setTitle(updatedCalendarActivityDTO.getTitle());
-//
-//		// Update date field
-//		DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-//		LocalDate date = LocalDate.parse(updatedCalendarActivityDTO.getDate(), dateFormatter);
-//		calendarActivity.setDate(date);
-//
-//		// Update start time field
-//		DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm");
-//		LocalDateTime startDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getStartTime(), timeFormatter));
-//		calendarActivity.setStartTime(LocalTime.from(startDateTime));
-//
-//		// Update end time field
-//		LocalDateTime endDateTime = LocalDateTime.of(date, LocalTime.parse(updatedCalendarActivityDTO.getEndTime(), timeFormatter));
-//		calendarActivity.setEndTime(LocalTime.from(endDateTime));
-//
-//		calendarActivity.setDescription(updatedCalendarActivityDTO.getDescription());
-//		calendarActivity.setMunicipality(MunicipalityContext.getCurrentMunicipality());
-//		return calendarActivityRepository.save(calendarActivity);
-//	}
-
 	public CalendarActivity updateCalendarActivity(Long activityId, UpdatedCalendarActivityDTO updatedCalendarActivityDTO) {
 		logger.debug("Updating calendar activity with id: " + activityId);
 		CalendarActivity calendarActivity = calendarActivityRepository.findById(activityId)
