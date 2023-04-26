@@ -151,7 +151,7 @@ async function addActivity() {
     const description1 = addActivityDescriptionInput.value;
 
     // Make a POST request to the server to add the activity
-    const response = await fetch('/api/calendar-activities/add', {
+    const response = await fetch('/api/calendar-activities', {
         method: 'POST',
         body: JSON.stringify({
             title: title1,

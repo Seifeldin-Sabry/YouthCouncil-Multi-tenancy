@@ -57,7 +57,7 @@ public class CalendarActivitiesRestController {
 	}
 
 
-	@PostMapping("/add")
+	@PostMapping
 	public ResponseEntity<?> addActivity(@RequestBody @Valid NewCalendarActivityDTO newActivityDto, BindingResult errors) {
 		if (errors.hasErrors()) {
 			Map<String, String> validate = ValidationUtils.getErrorsMap(errors);
