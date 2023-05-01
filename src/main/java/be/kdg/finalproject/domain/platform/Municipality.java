@@ -10,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
 import java.util.*;
@@ -29,6 +30,7 @@ public class Municipality {
 	private UUID uuid = UUID.randomUUID();
 
 	@Column (name = "name", nullable = false)
+	@Unique
 	private String name;
 
 	@Column (name = "logo")

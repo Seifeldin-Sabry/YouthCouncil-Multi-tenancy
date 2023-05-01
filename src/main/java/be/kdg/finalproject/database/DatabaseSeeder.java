@@ -1,6 +1,7 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.page.PageTemplate;
@@ -11,6 +12,7 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
@@ -27,6 +29,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -45,12 +48,12 @@ public class DatabaseSeeder {
 	private final PostCodeRepository postCodeRepository;
 	private final ActionPointRepository actionPointRepository;
 	private final PageTemplateRepository pageTemplateRepository;
+	private final CalendarActivityRepository calendarActivityRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
-	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory,
-	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository, PageTemplateRepository pageTemplateRepository) {
+	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -61,6 +64,7 @@ public class DatabaseSeeder {
 		this.postCodeRepository = postCodeRepository;
 		this.actionPointRepository = actionPointRepository;
 		this.pageTemplateRepository = pageTemplateRepository;
+		this.calendarActivityRepository = calendarActivityRepository;
 	}
 
 	@PostConstruct
@@ -163,5 +167,25 @@ public class DatabaseSeeder {
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
+
+
+		//CALENDAR OF ACTIVITIES
+
+		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
+		calendarActivity1.setMunicipality(antwerpen);
+
+		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
+		calendarActivity2.setMunicipality(ghent);
+
+		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
+		calendarActivity3.setMunicipality(antwerpen);
+
+		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
+		calendarActivity4.setMunicipality(ghent);
+
+		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
+
+
+
 	}
 }
