@@ -1,20 +1,40 @@
+import {csrfToken} from "../cookie.js";
+
 let createButton = document.querySelector('.create');
 let submitButton = document.querySelector('.submit');
 const container =document.querySelector('.container');
 const rows = container.querySelector('.rows')
 
-addEventListeners();
+createButton.addEventListener('click', addFormInput)
 
 
-function addEventListeners(){
-    submitButton = document.querySelector('.submit');
-    createButton.addEventListener('click', addFormInput)
-    submitButton.addEventListener('click', addForm)
+const addForm = async (event) =>{
+    const tableRow = event.target.parentNode;
+    const title = tableRow.querySelector('.questionText').value;
+    const formData = new FormData();
+    formData.append('title', title);
 
+
+    const options = {
+        method: 'POST',
+        headers: {
+            ...csrfToken()
+        },
+        body: formData
+    }
+    const response = await fetch(`/api/form`, options);
+
+    if (response.status === 201) {
+        tableRow.remove();
+        response.json()
+            .then(handleAddedForm);
+    } else {
+        alert("Error in form found client-side");
+    }
 }
 
 function addFormInput(event) {
-        rows.innerHTML += `
+    rows.innerHTML += `
     <div class="row">
         <button type="button" class="btn btn-success submit col">submit</button>
         <input name="title" type="text" id="title" class="form-control col questionText">
@@ -26,27 +46,11 @@ function addFormInput(event) {
     addEventListeners()
 }
 
-function addForm(event) {
-    const tableRow = event.target.parentNode;
-    const title = tableRow.querySelector('.questionText');
-    fetch('/api/form', {
-        method: "POST",
-        headers: {
-            'Accept': 'application/json',
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({
-            "title": title.value
-        })
-    }).then(response => {
-        if (response.status === 201) {
-            tableRow.remove();
-            response.json()
-                .then(handleAddedForm);
-        } else {
-            alert("Error in form found client-side");
-        }
-    });
+function addEventListeners(){
+    submitButton = document.querySelector('.submit');
+    createButton.addEventListener('click', addFormInput)
+    submitButton.addEventListener('click', addForm)
+
 }
 
 function handleAddedForm(form) {

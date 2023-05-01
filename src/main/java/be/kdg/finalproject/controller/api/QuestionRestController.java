@@ -5,10 +5,7 @@ import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.service.form.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -33,7 +30,7 @@ public class QuestionRestController {
     }
 
     @PostMapping
-    public ResponseEntity<QuestionDTO> addQuestion(@RequestBody @Valid QuestionDTO questionDTO){
+    public ResponseEntity<QuestionDTO> addQuestion(@ModelAttribute @Valid QuestionDTO questionDTO){
         Form form = formService.getFormById(questionDTO.getFormId());
         if(questionDTO.getQuestionType()== QuestionType.TEXT_QUESTION){
             questionDTO.setQuestionId(textInputQuestionService.insertQuestion(

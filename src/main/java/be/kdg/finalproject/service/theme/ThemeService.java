@@ -76,4 +76,8 @@ public class ThemeService {
 	public void updateSubTheme(NewSubThemeDTO subTheme, Long subThemeId, Long themeId) {
 		subThemeRepository.updateSubThemeNameById(subTheme.getSubThemeName(), subThemeId, themeId);
 	}
+
+	public List<Theme> getActiveThemes(){
+		return themeRepository.findActiveThemes();
+	}
 }

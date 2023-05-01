@@ -2,6 +2,7 @@ package be.kdg.finalproject.domain.platform;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
+import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.news.NewsItem;
 import be.kdg.finalproject.domain.page.InformativePage;
 import be.kdg.finalproject.domain.user.Membership;
@@ -72,6 +73,10 @@ public class Municipality {
 	@OneToMany (mappedBy = "municipality")
 	@ToString.Exclude
 	private List<CalendarActivity> calendarActivities = new ArrayList<>();
+
+	@OneToMany (mappedBy = "municipality")
+	@ToString.Exclude
+	private List<CallForIdeas> callForIdeas = new ArrayList<>();
 
 
 	public Municipality(String name) {

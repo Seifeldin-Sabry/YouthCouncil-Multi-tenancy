@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Call for ideas</title>
+	<style>
+		td{
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<div class="container my-5">
+	<th:block th:if="${call.isActive()}" th:each="call, iter : ${calls}">
+		<div class="row mb-4">
+			<div class="col-md-8 col-lg-6 mx-auto">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<div class="d-flex justify-content-start">
+							<h3 class="card-title mb-0" th:text="${call.title}">Call For Idea Title</h3>
+						</div>
+						<br>
+						<div class="d-flex justify-content-between">
+							<p class="card-text text-muted" th:text="${#dates.format(call.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							<div class="bg-info rounded-3 p-1">
+								<i class="bi bi-tag"></i>
+								<span th:text="${call.theme.themeName}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer" th:with="maxLength=100">
+						<p class="card-text"
+						   th:text="${#strings.length(call.description) > maxLength ? #strings.substring(call.description, 0, maxLength) + '...' : call.description}"
+						></p>
+						<div class="d-flex justify-content-end">
+							<a th:href="@{'/call-for-ideas/'+${call.uuid}+'/details'}">
+								<button class="btn btn-primary"
+										type="button"
+								>
+									Ideas
+								</button>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</div>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

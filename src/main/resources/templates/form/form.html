@@ -5,7 +5,7 @@
 	<title></title>
 	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
-	<script defer src="/js/form/form.js"></script>
+	<script defer src="/js/form/form.js" type="module"></script>
 	<style>
 		.col {
 			border:1px solid gray;
@@ -16,6 +16,7 @@
 	</style>
 </head>
 <body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
 	<br>
 	<div class="container textInput">
 		<comment class="invisible">TEXT_QUESTION</comment>

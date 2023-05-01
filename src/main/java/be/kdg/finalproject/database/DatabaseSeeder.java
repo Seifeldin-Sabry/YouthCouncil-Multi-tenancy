@@ -1,9 +1,12 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.form.*;
+import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
+import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.platform.PostCode;
@@ -12,6 +15,9 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.repository.callforidea.CallForIdeasRepository;
+import be.kdg.finalproject.repository.form.*;
+import be.kdg.finalproject.repository.callforidea.IdeaRepository;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
@@ -33,6 +39,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.*;
 
 @Component
 @Profile ({"dev", "prod"})
@@ -46,14 +53,29 @@ public class DatabaseSeeder {
 	private final EntityFactory entityFactory;
 	private final MunicipalityRepository municipalityRepository;
 	private final PostCodeRepository postCodeRepository;
+	private final CallForIdeasRepository callForIdeasRepository;
+	private final IdeaRepository ideaRepository;
+
 	private final ActionPointRepository actionPointRepository;
+	private final TextInputQuestionRepository textInputQuestionRepository;
+	private final RadioQuestionRepository radioQuestionRepository;
+	private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
+	private final NumericInputQuestionRepository numericInputQuestionRepository;
 	private final PageTemplateRepository pageTemplateRepository;
 	private final CalendarActivityRepository calendarActivityRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
-	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository) {
+	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository,
+	                      MembershipService membershipService, BCryptPasswordEncoder passwordEncoder,
+	                      EntityFactory entityFactory, MunicipalityRepository municipalityRepository,
+	                      PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository,
+	                      IdeaRepository ideaRepository, ActionPointRepository actionPointRepository,
+	                      TextInputQuestionRepository textInputQuestionRepository,
+	                      RadioQuestionRepository radioQuestionRepository,
+	                      MultipleChoiceQuestionRepository multipleChoiceQuestionRepository,
+	                      NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -62,9 +84,15 @@ public class DatabaseSeeder {
 		this.entityFactory = entityFactory;
 		this.municipalityRepository = municipalityRepository;
 		this.postCodeRepository = postCodeRepository;
+		this.callForIdeasRepository = callForIdeasRepository;
+		this.ideaRepository = ideaRepository;
 		this.actionPointRepository = actionPointRepository;
 		this.pageTemplateRepository = pageTemplateRepository;
 		this.calendarActivityRepository = calendarActivityRepository;
+		this.textInputQuestionRepository = textInputQuestionRepository;
+		this.radioQuestionRepository = radioQuestionRepository;
+		this.multipleChoiceQuestionRepository = multipleChoiceQuestionRepository;
+		this.numericInputQuestionRepository = numericInputQuestionRepository;
 	}
 
 	@PostConstruct
@@ -185,6 +213,52 @@ public class DatabaseSeeder {
 
 		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 
+
+
+		// CALL FOR IDEAS AND IDEAS
+		CallForIdeas callForIdeas1 = entityFactory.createRandomCallForIdeas();
+		CallForIdeas callForIdeas2 = entityFactory.createRandomCallForIdeas();
+
+		callForIdeas1.setActive(true);
+
+		callForIdeas1.setMunicipality(antwerpen);
+		callForIdeas2.setMunicipality(ghent);
+
+		callForIdeas1.setTheme(randomThemeWithSubThemes1);
+		callForIdeas2.setTheme(randomThemeWithSubThemes1);
+
+		Idea idea1 = entityFactory.createRandomIdea();
+		Idea idea2 = entityFactory.createRandomIdea();
+		Idea idea3 = entityFactory.createRandomIdea();
+		idea1.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+		idea2.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(1));
+		idea3.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(2));
+
+		user.setIdeas(Set.of(idea1, idea2, idea3));
+		userRepository.save(user);
+		idea1.setCreator(user);
+		idea2.setCreator(user);
+		idea3.setCreator(user);
+
+		callForIdeasRepository.save(callForIdeas1);
+		callForIdeasRepository.save(callForIdeas2);
+
+		idea1.setCallForIdeasId(callForIdeas1.getId());
+		idea2.setCallForIdeasId(callForIdeas1.getId());
+		idea3.setCallForIdeasId(callForIdeas1.getId());
+
+		ideaRepository.save(idea1);
+		ideaRepository.save(idea2);
+		ideaRepository.save(idea3);
+
+		Set<Idea> ideas = new HashSet<>();
+		ideas.add(idea1);
+		ideas.add(idea2);
+		ideas.add(idea3);
+
+		callForIdeas1.setIdeas(ideas);
+
+		callForIdeasRepository.save(callForIdeas1);
 
 
 	}

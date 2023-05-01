@@ -34,4 +34,20 @@ public class UserIdeaLike {
 		this.liker = liker;
 		this.idea = idea;
 	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof UserIdeaLike that)) return false;
+
+		if (!liker.equals(that.liker)) return false;
+		return idea.equals(that.idea);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = liker.hashCode();
+		result = 31 * result + idea.hashCode();
+		return result;
+	}
 }

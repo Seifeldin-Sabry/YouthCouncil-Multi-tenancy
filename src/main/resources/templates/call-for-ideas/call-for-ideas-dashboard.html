@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<script defer src="/js/call-for-ideas/call-for-idea.js" type="module"></script>
+	<title>Call for ideas dashboard</title>
+	<style>
+		td{
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+
+
+<h1>Call For Ideas</h1>
+
+<!--error toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast error-toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<!--success toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast success-toast align-items-center text-white bg-success border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				Your request was processed successfully.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+
+<table id="dtVerticalScroll1" class="table table-striped table-bordered table-sm" style="table-layout: fixed;
+    width: 100%;">
+	<thead>
+	<tr>
+		<th class="th-sm">title
+		</th>
+		<th class="th-sm">description
+		</th>
+		<th class="th-sm">theme
+		</th>
+		<th class="th-sm">buttons
+		</th>
+	</tr>
+	</thead>
+	<tbody class="tbodyCalls">
+		<tr th:each="call: ${calls}" th:id="${call.id}">
+			<td class="title" >
+				<a th:href="@{'/call-for-ideas/'+${call.uuid}+'/ideas'}" th:text="${call.title}">
+				</a>
+			</td>
+			<td class="description" th:text="${call.description}" />
+			<td class="theme" th:text="${call.theme.themeName}"/>
+			<td th:if="${call.isActive()}">
+				<button type="button" class="btn btn-primary changeActive deActivate">
+					De-activate
+				</button>
+			</td>
+			<td th:if="${!call.isActive()}">
+				<button type="button" class="btn btn-primary changeActive">
+					Activate
+				</button>
+			</td>
+
+		</tr>
+	</tbody>
+</table>
+
+
+<!-- Button trigger modal -->
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#callForIdeaModal" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')">
+	Create new Call
+</button>
+
+<!-- Modal -->
+<div class="modal fade" id="callForIdeaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Create a Call For Ideas</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<form class="p-3" enctype="multipart/form-data">
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating title-err">
+							<input class="validation form-control form-control-lg title-field-err" id="title"
+								   name="title"
+							/>
+							<label class="form-label" for="title">Title</label>
+						</div>
+						<div class="title-invalid-feedback invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container description-err form-floating">
+							<textarea class="validation form-control form-control-lg description-field-err"
+									  id="description"
+									  name="description"
+							></textarea>
+							<label class="form-label" for="description">Description</label>
+						</div>
+						<div class="invalid-feedback description-invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation my-3">
+						<div class="validation-container form-floating subTheme-err">
+							<select name="theme" id="theme"  class="validation form-select form-select-lg subTheme-field-err" style="font-size: small">
+								<option th:each="theme : ${themes}" th:text="${theme.themeName}" th:value="${theme.id}">
+								</option>
+							</select>
+							<label class="form-label" for="theme">Theme</label>
+						</div>
+						<div class="invalid-feedback theme-invalid-feedback"
+						>
+						</div>
+					</div>
+				</form>
+
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" id="submitCall">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

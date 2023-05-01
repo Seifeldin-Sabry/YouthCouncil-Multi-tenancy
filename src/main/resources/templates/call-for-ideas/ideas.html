@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Ideas</title>
+</head>
+<body class="bodyBackground">
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+
+<div class="container">
+	<table id="dtVerticalScroll1" class="table table-striped table-bordered table-sm">
+		<thead>
+		<tr>
+			<th class="th-sm">description</th>
+			<th class="th-sm">theme</th>
+		</tr>
+		</thead>
+		<tbody class="tbodyIdeas">
+		<tr th:each="idea: ${ideas}" >
+			<td class="title" th:text="${idea.content}" />
+			<td class="description" th:text="${idea.theme.themeName}" />
+		</tr>
+		</tbody>
+	</table>
+	<br>
+	<a th:href="@{/call-for-ideas-dashboard}">
+		<button class="btn btn-primary" id="goBack"> go back</button>
+	</a>
+
+
+
+</div>
+
+
+
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>
