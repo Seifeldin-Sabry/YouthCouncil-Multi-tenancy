@@ -34,10 +34,55 @@ function hideErrorMessages() {
 
 function createNewMember(memberData) {
     const memberEl = document.createElement('li');
-    memberEl.classList.add('list-group-item');
-    memberEl.textContent = `${memberData.firstName} ${memberData.surname}`;
+    memberEl.classList.add('list-group-item', 'd-flex', 'justify-content-between', 'align-items-center');
+    const memberNameSpan = document.createElement('span');
+    memberNameSpan.textContent = `${memberData.firstName} ${memberData.surname}`;
+    const memberBtn = document.createElement('a');
+    memberBtn.classList.add('btn', 'btn-primary', 'btn-sm');
+    memberBtn.setAttribute('data-bs-target', `#userDetailsModal-${memberData.id}`);
+    memberBtn.setAttribute('data-bs-toggle', 'modal');
+    memberBtn.textContent = 'View Details';
+    memberEl.appendChild(memberNameSpan);
+    memberEl.appendChild(memberBtn);
+
+memberEl.innerHTML += `
+<div class="modal fade" id="userDetailsModal-${memberData.id}" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        <div class="modal-body">
+            <div class="mb-3">
+                <label for="name" class="form-label">First Name</label>
+                <input type="text" class="form-control" id="name" value="${memberData.firstName}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="surname-detail" class="form-label">Surname</label>
+                <input type="text" class="form-control" id="surname-detail" value="${memberData.surname}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="username-detail" class="form-label">Username</label>
+                <input type="text" class="form-control" id="username-detail" value="${memberData.email}" disabled>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-control" id="email-detail" value="${memberData.email}" disabled>
+            </div>
+            <div class="mb-3">
+                    <label for="role" class="form-label">Role</label>
+                    <input type="text" class="form-control" id="role" value="${memberData.role}" disabled>
+            </div>
+        </div>
+     </div>
+  </div>  
+</div>
+`
     return memberEl;
 }
+
 
 function clearInputFields() {
     firstNameInput.value = '';
@@ -94,3 +139,4 @@ const addMember = async () => {
 
 
 addMemberBtn.addEventListener('click', addMember);
+

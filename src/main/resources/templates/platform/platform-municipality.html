@@ -32,9 +32,12 @@
 				Add
 				Member
 			</button>
-			<ul class="user-list list-group my-4">
+			<ul id="member-list" class="user-list list-group my-4">
 				<th:block th:each="member: ${municipality.getMembers()}">
-					<li class="list-group-item" th:text="${member.getFirstName()} + ' ' + ${member.getSurname()}"></li>
+					<li class="list-group-item d-flex justify-content-between align-items-center">
+						<span th:text="${member.getFirstName()} + ' ' + ${member.getSurname()}"></span>
+						<a class="btn btn-primary btn-sm" id="view-details" th:data-bs-target="'#userDetailsModal-' + ${member.getId()}" data-bs-toggle="modal">View Details</a>
+					</li>
 				</th:block>
 			</ul>
 		</div>
@@ -48,6 +51,7 @@
 		</div>
 	</div>
 </div>
+
 <!-- Add Member Modal -->
 <div aria-hidden="true" aria-labelledby="addMemberModalLabel" class="modal fade" id="addMemberModal"
 	 tabindex="-1"
@@ -90,5 +94,46 @@
 		</div>
 	</div>
 </div>
+
+
+<!--USER DETAILS MODAL-->
+<th:block th:each="member: ${municipality.getMembers()}">
+	<div class="modal fade" th:id="'userDetailsModal-' + ${member.getId()}" tabindex="-1" role="dialog" aria-labelledby="userDetailsModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-dialog-centered" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<button type="button" class="close ms-auto" data-bs-dismiss="modal" aria-label="Close">
+						<span aria-hidden="true">&times;</span>
+					</button>
+				</div>
+
+				<div class="modal-body">
+					<div class="mb-3">
+						<label for="name" class="form-label">First Name</label>
+						<input type="text" class="form-control" id="name" th:value="${member.getFirstName()}" disabled>
+					</div>
+					<div class="mb-3">
+						<label for="surname-detail" class="form-label">Surname</label>
+						<input type="text" class="form-control" id="surname-detail" th:value="${member.getSurname()}" disabled>
+					</div>
+					<div class="mb-3">
+						<label for="username-detail" class="form-label">Username</label>
+						<input type="text" class="form-control" id="username-detail" th:value="${member.getUsername()}" disabled>
+					</div>
+					<div class="mb-3">
+						<label for="email" class="form-label">Email</label>
+						<input type="email" class="form-control" id="email-detail" th:value="${member.getEmail()}" disabled>
+					</div>
+					<div class="mb-3">
+						<label for="role" class="form-label">Role</label>
+						<input type="text" class="form-control" id="role" th:value="${member.getRole()}" disabled>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</th:block>
+
+
 </body>
 </html>
