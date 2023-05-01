@@ -3,10 +3,12 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.platform.Municipality;
+import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
+import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -25,7 +27,11 @@ public class MunicipalityController {
 	private final Logger logger = LoggerFactory.getLogger(MunicipalityController.class);
 	private final MunicipalityService municipalityService;
 
-	public MunicipalityController(MunicipalityService municipalityService) {this.municipalityService = municipalityService;}
+	private final UserService userService;
+
+	public MunicipalityController(MunicipalityService municipalityService, UserService userService) {this.municipalityService = municipalityService;
+		this.userService = userService;
+	}
 
 	@GetMapping ({"/", "/home"})
 	public ModelAndView showPlatformHome() {
