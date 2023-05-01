@@ -3,6 +3,7 @@ package be.kdg.finalproject.database;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposalStatus;
+import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.page.template.TemplateElement;
@@ -12,8 +13,12 @@ import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Component
@@ -117,6 +122,20 @@ public class EntityFactory {
 	private NumericInputQuestion randomNumericQuestion(Integer order) {
 		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
 	}
+
+	public CalendarActivity createRandomCalendarActivity() {
+		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
+		                              .toLocalDate();
+		LocalTime activityStartTime = LocalTime.from(LocalDateTime.of(activityDate, LocalTime.of(faker.number()
+		                                                                                              .numberBetween(0, 23), faker.number()
+		                                                                                                                          .numberBetween(0, 59))));
+		LocalTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
+		String activityTitle = faker.lorem().sentence();
+		String activityDescription = faker.lorem().paragraph();
+
+		return new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
+	}
+
 
 
 }
