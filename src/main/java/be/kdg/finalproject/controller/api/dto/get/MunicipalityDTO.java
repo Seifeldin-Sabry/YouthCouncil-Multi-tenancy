@@ -9,7 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MunicipalityDto {
+public class MunicipalityDTO {
 
 	private String name;
 	private boolean hasWebsite;

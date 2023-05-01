@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping ("/api/municipalities/{munId}/members")
+@RequestMapping ("/api/municipalities/{id}/members")
 public class MunicipalityMembersRestController {
 
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
@@ -32,23 +32,22 @@ public class MunicipalityMembersRestController {
 
 	@GeneralAdminOnly
 	@PostMapping
-	public ResponseEntity<?> addYouthCouncilMember(@PathVariable Long munId, @Valid @RequestBody NewUserDto user, BindingResult bindingResult) {
+	public ResponseEntity<?> addYouthCouncilMember(@PathVariable Long id, @Valid @RequestBody NewUserDto user, BindingResult bindingResult) {
 		if (user.getRole() == null) user.setRole(Role.YOUTH_COUNCIL_ADMINISTRATOR);
 		logger.debug("Adding user: " + user.getEmail());
 		if (bindingResult.hasErrors()) {
 			return ResponseEntity.badRequest().body(ValidationUtils.getErrorsMap(bindingResult));
 		}
-		Membership membership = membershipService.getMembershipByIdAndEmail(munId, user.getEmail());
+		Membership membership = membershipService.getMembershipByIdAndEmail(id, user.getEmail());
 		if (membership != null) {
 			membership.setRole(user.getRole());
 			membership.setBanned(false);
 			membership.getMunicipality().addMember(membership.getUser());
 			membershipService.update(membership);
 			logger.debug("User {}", membership.getUser());
-			return ResponseEntity.created(null)
-			                     .body(modelMapper.map(membership.getUser(), MunicipalityMemberDTO.class));
+			return new ResponseEntity<>(modelMapper.map(membership.getUser(), MunicipalityMemberDTO.class), HttpStatus.CREATED);
 		}
-		User member = membershipService.addNewMembershipByUserAndId(user, munId, user.getRole());
+		User member = membershipService.addNewMembershipByUserAndId(user, id, user.getRole());
 		return new ResponseEntity<>(modelMapper.map(member, MunicipalityMemberDTO.class), HttpStatus.CREATED);
 	}
 }

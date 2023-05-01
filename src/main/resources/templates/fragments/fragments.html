@@ -17,14 +17,14 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="nav">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/home" th:if="${currentMunicipality != null}">
+		<a class="navbar-brand" href="/home" th:if="${currentMunicipality != null && currentMunicipality.logo != null}">
 			<img alt="Youth Council Logo" style="
 			display: inline-block;
   			max-width:230px;
   			max-height:95px;
   			width: auto;
  			height: auto;"
-				 th:src="@{${currentMunicipality.logo == null ? '/images/municipalities/PlaceholderLogo.webp' : currentMunicipality.logo}}"
+				 th:src="@{${currentMunicipality.logo}}"
 			/>
 		</a>
 		<button aria-controls="generalNavbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation"
@@ -35,7 +35,7 @@
 		</button>
 		<div class="collapse navbar-collapse" id="generalNavbarNavDropdown">
 			<ul class="navbar-nav">
-				<li class="nav-item" th:if="${currentMunicipality != null}">
+				<li class="nav-item" th:if="${currentMunicipality != null && currentMunicipality.logo == null}">
 					<a aria-current="page" class="nav-link active" href="/home">Home</a>
 				</li>
 				<li class="nav-item"

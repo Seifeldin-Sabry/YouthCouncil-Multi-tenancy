@@ -3,7 +3,7 @@ const state = {}
 
 
     //     TODO: finish implementation
-    (function () {
+    (() => {
         if (!role || role !== 'YOUTH_COUNCIL_ADMINISTRATOR') {
             console.log("ur are nothing")
             return;

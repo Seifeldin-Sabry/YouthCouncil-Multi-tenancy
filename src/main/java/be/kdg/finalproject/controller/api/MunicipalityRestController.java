@@ -1,6 +1,6 @@
 package be.kdg.finalproject.controller.api;
 
-import be.kdg.finalproject.controller.api.dto.get.MunicipalityDto;
+import be.kdg.finalproject.controller.api.dto.get.MunicipalityDTO;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.modelmapper.ModelMapper;
@@ -24,7 +24,7 @@ public class MunicipalityRestController {
 	@Autowired
 	public MunicipalityRestController(MunicipalityService municipalityService) {
 		this.municipalityService = municipalityService;
-		modelMapper.createTypeMap(MunicipalityDto.class, Municipality.class)
+		modelMapper.createTypeMap(MunicipalityDTO.class, Municipality.class)
 		           .addMappings(new PropertyMap<>() {
 			           @Override
 			           protected void configure() {
@@ -34,14 +34,14 @@ public class MunicipalityRestController {
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MunicipalityDto>> getAllMunicipalities() {
+	public ResponseEntity<List<MunicipalityDTO>> getAllMunicipalities() {
 		var allMunicipalities = municipalityService.getAllMunicipalities();
 		logger.info("All municipalities: " + allMunicipalities);
 		if (allMunicipalities.isEmpty()) {
 			return ResponseEntity.noContent().build();
 		}
 		var allMunicipalitiesDto = allMunicipalities.stream()
-		                                            .map(municipality -> modelMapper.map(municipality, MunicipalityDto.class))
+		                                            .map(municipality -> modelMapper.map(municipality, MunicipalityDTO.class))
 		                                            .toList();
 
 		return ResponseEntity.ok(allMunicipalitiesDto);

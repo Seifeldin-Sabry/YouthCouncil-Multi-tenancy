@@ -29,7 +29,9 @@ public class ImageServiceDevImpl implements ImageService {
 
 	@PostConstruct
 	public void init() {
-		File directory = new File(PATH);
+		File directory = new File(FULL_PATH);
+		logger.debug("Directory: {}", directory);
+		logger.debug("Directory: {}", FULL_PATH);
 		if (!directory.exists()) {
 			logger.debug("Directory does not exist, creating directory");
 			directory.mkdirs();

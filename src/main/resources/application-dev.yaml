@@ -1,10 +1,4 @@
 spring:
-  servlet:
-    multipart:
-      enabled: true
-      max-file-size: 2MB
-      max-request-size: 10MB
-      location: ${java.io.tmpdir}
   mail:
     #    host: smtp.gmail.com
     #    port: ${DEV_EMAIL_PORT}
@@ -27,10 +21,10 @@ spring:
     database: POSTGRESQL
     show-sql: true
   datasource:
-    driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/YouthCouncilDev
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:YouthCouncil
+    username: "sa"
+    password: ""
   devtools:
     restart:
       enabled: true
@@ -49,3 +43,6 @@ logging:
     #        security: debug
     #        web: debug
     be.kdg.finalproject: debug
+
+images:
+  placeholderDir: /images/placeholders/

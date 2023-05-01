@@ -46,7 +46,6 @@ public class MunicipalityController {
 	@GetMapping ("/dashboard/municipalities")
 	@GeneralAdminOnly
 	public ModelAndView showMunicipalities() {
-		logger.debug("{}", municipalityService.getAllMunicipalitiesAndMembers());
 		return new ModelAndView("platform/platform-municipalities")
 				.addObject("municipalities", municipalityService.getAllMunicipalitiesAndMembers());
 	}

@@ -15,5 +15,12 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncilDev</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
+    <data-source source="LOCAL" name="YouthCouncil" uuid="74724fe5-0e21-43b6-8447-e1987e0f633a">
+      <driver-ref>h2.unified</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.h2.Driver</jdbc-driver>
+      <jdbc-url>jdbc:h2:mem:YouthCouncil</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
   </component>
 </project>
