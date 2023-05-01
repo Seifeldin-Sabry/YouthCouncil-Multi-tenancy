@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Call for ideas details</title>
+	<script defer src="/js/call-for-ideas/ideas.js" type="module"></script>
+	<style>
+		td{
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+<div th:if="${call != null}" th:text="${call.id}" id="callForIdeaId" hidden />
+<div th:if="${authUser != null}" th:text="${authUser.username}" id="username" hidden />
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+
+<div class="container my-3">
+	<th:block th:if="${call.isActive()}">
+		<div class="row mb-5">
+			<div class="col-md-12 col-lg-12 mx-auto">
+				<div class="card shadow-sm">
+					<div class="card-header">
+						<div class="d-flex justify-content-start">
+							<h3 class="card-title mb-0" th:text="${call.title}">Call For Idea Title</h3>
+						</div>
+						<br>
+						<div class="d-flex justify-content-between">
+							<p class="card-text text-muted" th:text="${#dates.format(call.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							<div class="bg-info rounded-3 p-1">
+								<i class="bi bi-tag"></i>
+								<span th:text="${call.theme.themeName}"></span>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer" th:with="maxLength=100">
+						<p class="card-text"
+						   th:text="${#strings.length(call.description) > maxLength ? #strings.substring(call.description, 0, maxLength) + '...' : call.description}"
+						></p>
+						<!--call for idea modal trigger-->
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#callForIdeaModal" th:if="${currentMembership != null}">
+							Click to post an idea
+						</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</div>
+
+<div class="container">
+	<label class="form-label" for="subThemeFilter">Filter on Sub-Themes</label>
+	<div class="col-md-3">
+		<select name="subThemeFilter" id="subThemeFilter"  class="form-select form-select-lg" style="font-size: small">
+			<option value="0">All</option>
+			<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}" th:value="${subTheme.id}">
+			</option>
+		</select>
+	</div>
+</div>
+
+
+
+<div class="container my-2 ideaContainer">
+	<th:block th:if="${call.isActive()}" th:each="idea : ${ideas}">
+		<div class="row mb-2">
+			<div class="col-md-12 col-lg-5 ms-4 me-auto">
+				<div class="card shadow-sm" id="cardIdeas">
+					<div class="card-header">
+						<div class="d-flex justify-content-start">
+							<p class="card-text h5" th:text="${idea.creator.username}"></p>
+						</div>
+						<div class="d-flex justify-content-between">
+							<p class="card-text text-muted" th:text="${#dates.format(idea.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							<div class="bg-info rounded-3 p-1">
+								<i class="bi bi-tag"></i>
+								<span th:text="${idea.subTheme.subThemeName}"></span>
+							</div>
+							<div>
+								<button class="btn btn-outline-secondary text-danger like-btn"
+										th:data-idea-id="${idea.id}"
+										th:data-liked="${idea.liked}"
+										th:classappend="${idea.liked ? 'btn-primary' : ''}"
+								>👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
+							</div>
+						</div>
+					</div>
+					<div class="card-footer" th:with="maxLength=100" th:if="${idea.getContent!=null}">
+						<p class="card-text"
+						   th:text="${#strings.length(idea.getContent) > maxLength ? #strings.substring(idea.getContent, 0, maxLength) + '...' : idea.getContent}"
+						></p>
+						<img class="d-block w-100" alt="ideaImage"
+							 th:src="${idea.image}"
+						/>
+					</div>
+				</div>
+			</div>
+		</div>
+	</th:block>
+</div>
+
+<br>
+<div class="container">
+	<a th:href="@{/call-for-ideas}">
+		<button class="btn btn-primary" id="goBack"> go back</button>
+	</a>
+</div>
+
+
+
+<!-- call for idea modal -->
+<div class="modal fade" id="callForIdeaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Post an idea!</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<form class="p-3" enctype="multipart/form-data">
+					<div class="input-group has-validation my-3">
+						<div class="validation-container description-err form-floating">
+							<textarea class="validation form-control form-control-lg description-field-err"
+									  id="description"
+									  name="description"
+							></textarea>
+							<label class="form-label" for="description">Description</label>
+						</div>
+						<div class="description-feedback invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation my-3">
+						<div class="validation-container form-floating subTheme-err">
+							<select name="subTheme" id="subTheme"  class="validation form-select form-select-lg subTheme-field-err" style="font-size: small">
+								<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}" th:value="${subTheme.id}">
+								</option>
+							</select>
+							<label class="form-label" for="subTheme">Sub-Theme</label>
+						</div>
+						<div class="invalid-feedback theme-invalid-feedback">
+						</div>
+					</div>
+					<div class="input-group has-validation">
+						<div class="validation-container form-floating images-err">
+							<input accept="image/*" class="validation form-control form-control-lg images-field-err"
+								   id="images"
+								   multiple name="images" type="file"
+							>
+							<label class="form-label" for="images">Images</label>
+						</div>
+						<div class="invalid-feedback images-invalid-feedback"
+						>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary submit-btn" id="submitIdea">Submit</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--error toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast error-toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<!--success toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast success-toast align-items-center text-white bg-success border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				Your request was processed successfully.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+
+
+
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+
+</body>
+</html>

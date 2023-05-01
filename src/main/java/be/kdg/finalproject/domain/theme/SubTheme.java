@@ -1,9 +1,11 @@
 package be.kdg.finalproject.domain.theme;
 
+import be.kdg.finalproject.domain.idea.Idea;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+import net.bytebuddy.utility.nullability.MaybeNull;
 import org.checkerframework.common.aliasing.qual.Unique;
 
 import javax.persistence.*;
@@ -29,6 +31,9 @@ public class SubTheme {
 	@JoinColumn (name = "theme_id")
 	@ToString.Exclude
 	private Theme theme;
+
+	@ManyToOne
+	private Idea idea;
 
 	public SubTheme(String subThemeName) {
 		this.subThemeName = subThemeName;

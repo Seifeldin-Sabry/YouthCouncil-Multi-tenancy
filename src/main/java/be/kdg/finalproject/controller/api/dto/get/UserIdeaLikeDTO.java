@@ -1,4 +1,4 @@
-package be.kdg.finalproject.controller.api.dto.form;
+package be.kdg.finalproject.controller.api.dto.get;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,7 +9,6 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FormDTO {
-	private long id;
-	private String title;
+public class UserIdeaLikeDTO {
+	private Long id;
 }

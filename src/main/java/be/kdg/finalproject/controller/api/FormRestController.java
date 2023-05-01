@@ -8,10 +8,7 @@ import be.kdg.finalproject.service.form.*;
 import be.kdg.finalproject.service.user.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -44,8 +41,8 @@ public class FormRestController {
 	}
 
 	@PostMapping
-	public ResponseEntity<FormDTO> addForm(@RequestBody @Valid FormDTO formDTO) {
-		formDTO.setFormId(formService.addForm(new Form(formDTO.getTitle())).getId());
+	public ResponseEntity<FormDTO> addForm(@ModelAttribute @Valid FormDTO formDTO) {
+		formDTO.setId(formService.addForm(new Form(formDTO.getTitle())).getId());
 		return new ResponseEntity<>(formDTO, HttpStatus.CREATED);
 	}
 
@@ -68,6 +65,7 @@ public class FormRestController {
 				textInputQuestionService.getQuestionByForm(formSubmission.getForm()).get(0));
 		submissionAnswer.setUserAnswer(textSubmissionAnswerDTO.getUserAnswerText());
 		formSubmission.getAnswers().add(submissionAnswer);
+		formSubmissionService.addSubmission(formSubmission);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -78,6 +76,7 @@ public class FormRestController {
 				radioQuestionService.getQuestionByForm(formSubmission.getForm()).get(0));
 		submissionAnswer.setUserAnswer(textSubmissionAnswerDTO.getUserAnswerText());
 		formSubmission.getAnswers().add(submissionAnswer);
+		formSubmissionService.addSubmission(formSubmission);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -88,6 +87,7 @@ public class FormRestController {
 				numericInputQuestionService.getQuestionByForm(formSubmission.getForm()).get(0));
 		submissionAnswer.setUserAnswer(numericSubmissionAnswerDTO.getUserAnswerNumeric());
 		formSubmission.getAnswers().add(submissionAnswer);
+		formSubmissionService.addSubmission(formSubmission);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 
@@ -98,6 +98,7 @@ public class FormRestController {
 				multipleChoiceQuestionService.getQuestionByForm(formSubmission.getForm()).get(0));
 		submissionAnswer.setUserAnswer(listSubmissionAnswerDTO.getUserAnswerChoices());
 		formSubmission.getAnswers().add(submissionAnswer);
+		formSubmissionService.addSubmission(formSubmission);
 		return new ResponseEntity<>(HttpStatus.CREATED);
 	}
 }

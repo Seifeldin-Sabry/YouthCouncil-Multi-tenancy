@@ -20,4 +20,7 @@ public interface ThemeRepository extends CrudRepository<Theme, Long> {
 	@Query ("select t from THEMES t order by t.isActive desc, t.id")
 	List<Theme> findAllOrderByIdAsc();
 
+	@Query ("select t from THEMES t where t.isActive = true")
+	List<Theme> findActiveThemes();
+
 }

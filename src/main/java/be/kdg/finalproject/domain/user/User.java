@@ -89,9 +89,28 @@ public class User {
 		this.role = role;
 		this.provider = Provider.LOCAL;
 	}
+	public void addIdea(Idea idea){
+		this.ideas.add(idea);
+	}
+	public void addUserIdeaLike(UserIdeaLike userIdeaLike){
+		likedIdeas.add(userIdeaLike);
+	}
 
 	public String getFullName() {
 		return firstName + " " + surname;
+	}
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof User user)) return false;
+
+		return username.equals(user.username);
+	}
+
+	@Override
+	public int hashCode() {
+		return username.hashCode();
 	}
 }
 

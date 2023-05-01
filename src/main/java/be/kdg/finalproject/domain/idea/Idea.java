@@ -1,15 +1,18 @@
 package be.kdg.finalproject.domain.idea;
 
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
+import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.time.LocalDate;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 @Entity (name = "IDEAS")
 @Getter
@@ -19,8 +22,10 @@ public class Idea {
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	@Column (name = "idea_id", nullable = false)
 	private Long id;
-	@Column (name = "idea_description", nullable = false)
-	private String ideaDescription;
+
+	private UUID uuid = UUID.randomUUID();
+	@Column (name = "content")
+	private String content;
 
 	@Column (name = "image", nullable = false)
 	private String image;
@@ -28,38 +33,64 @@ public class Idea {
 	@Column (name = "is_flagged", nullable = false)
 	private boolean isFlagged;
 
-	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH})
-	@JoinColumn (name = "theme_id", nullable = false)
-	private Theme theme;
+	@ManyToOne (cascade = {CascadeType.MERGE})
+	@JoinColumn (name = "sub_theme_id", nullable = false)
+	private SubTheme subTheme;
 
 	@OneToMany (mappedBy = "idea", cascade = CascadeType.ALL)
 	private Set<UserIdeaLike> likers = new HashSet<>();
 
-	@ManyToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+	@Column (name = "like_count", nullable = false, columnDefinition = "int default 0")
+	private int likeCount;
+
+	@Transient
+	private boolean liked;
+
+	@ManyToOne (cascade = {CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
 	@JoinColumn (name = "user_id", nullable = false)
 	private User creator;
 
-	@ManyToOne
+
 	@JoinColumn (name = "call_for_idea_id", nullable = false)
-	private CallForIdea callForIdea;
+	private Long callForIdeasId;
 
 	@Column (name = "date_created", nullable = false)
-	private LocalDate dateCreated;
+	private Timestamp dateCreated;
 
-	public Idea(String ideaDescription, String image, Theme theme) {
-		this.ideaDescription = ideaDescription;
+	public Idea(String content, String image, SubTheme subTheme) {
+		this.content = content;
 		this.image = image;
-		this.theme = theme;
-		this.dateCreated = LocalDate.now();
+		this.subTheme = subTheme;
+		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
 		this.isFlagged = false;
 	}
 
-	public Idea(String ideaDescription, String image, boolean isFlagged, Theme theme) {
-		this(ideaDescription, image, theme);
+	public Idea(String content, String image, boolean isFlagged, SubTheme subTheme) {
+		this(content, image, subTheme);
 		this.isFlagged = isFlagged;
+		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
 	}
 
 	public Idea() {
-		this.dateCreated = LocalDate.now();
+		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
+	}
+
+	public Idea(String content, String image) {
+		this.content = content;
+		this.image = image;
+		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
+		this.isFlagged = false;
+	}
+
+	public void addLiker() {
+		likeCount++;
+	}
+
+	public void setLiked(){
+		this.liked = true;
+	}
+
+	public void removeLiker() {
+		likeCount--;
 	}
 }
