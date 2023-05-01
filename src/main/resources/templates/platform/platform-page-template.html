@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:include="~{fragments/fragments :: meta_script_link}"></th:block>
+	<title th:text="${pageTemplate.name}"></title>
+	<script th:src="@{/js/page-templates/pageTemplate.js}" type="module"></script>
+</head>
+<body>
+<th:block th:include="~{fragments/fragments :: nav}"></th:block>
+<p class="visually-hidden page-template-id" th:data-page-template-id="${pageTemplate.id}"></p>
+<div class="container">
+	<div class="row">
+		<div id="container-list">
+			<div class="container-element element"
+				 th:data-type="${element}" th:each="element, iter : ${pageTemplate.elements}"
+				 th:id="${'container-' + iter.index}"
+			>
+				<img class="img-fluid" style="height: 100px" th:alt="${element.getName()}"
+					 th:src="${element.getName()}"
+				>
+				<div class="form-check">
+					<input class="form-check-input delete-checkbox" type="checkbox" value="">
+				</div>
+			</div>
+			<button class="btn btn-danger" disabled id="delete-selected-btn">Delete Selected</button>
+			<button class="btn btn-success" disabled id="save-btn">Save</button>
+			<button class="btn btn-primary" data-bs-target="#add-element-modal" data-bs-toggle="modal">
+				Add
+				Element
+			</button>
+		</div>
+	</div>
+</div>
+<!--add element modal-->
+<div aria-hidden="true" aria-labelledby="add-element-modal-label" class="modal fade" id="add-element-modal"
+	 tabindex="-1"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="add-element-modal-label">Add Element</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body">
+				<select class="form-select add-element-dropdown" id="element-type"
+						th:data-element-types="${elementTypes}"
+				>
+					<option th:each="opt : ${elementTypes}"
+							th:text="${opt}" th:value="${opt}"
+					></option>
+				</select>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+				</button>
+				<button class="btn btn-primary add-page-template-btn" id="add-page-template-modal-btn" type="button">Add
+																													 Element
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
+</body>
+</html>

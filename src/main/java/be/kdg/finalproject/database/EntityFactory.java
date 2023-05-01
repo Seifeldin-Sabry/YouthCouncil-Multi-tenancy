@@ -4,6 +4,8 @@ import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposalStatus;
 import be.kdg.finalproject.domain.form.*;
+import be.kdg.finalproject.domain.page.PageTemplate;
+import be.kdg.finalproject.domain.page.template.TemplateElement;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
@@ -12,9 +14,10 @@ import org.springframework.stereotype.Component;
 
 import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Stream;
 
 @Component
-@Profile ("dev")
+@Profile ({"dev", "prod"})
 public class EntityFactory {
 
 	private final Faker faker = new Faker();
@@ -62,6 +65,20 @@ public class EntityFactory {
 		return actionPoint;
 	}
 
+	public PageTemplate createRandomPageTemplate() {
+		return new PageTemplate(faker.funnyName().name(), createRandomPageTemplateElements());
+	}
+
+	private List<TemplateElement> createRandomPageTemplateElements() {
+		return Stream.generate(this::createRandomPageTemplateElement)
+		             .limit(faker.random().nextInt(3, 10))
+		             .toList();
+	}
+
+	private TemplateElement createRandomPageTemplateElement() {
+		return faker.options().option(TemplateElement.class);
+	}
+
 	private ActionPointProposal createRandomActionPointProposal() {
 		return new ActionPointProposal(faker.options().option(ActionPointProposalStatus.class), faker.lorem()
 		                                                                                             .sentence(faker.random()
@@ -100,5 +117,6 @@ public class EntityFactory {
 	private NumericInputQuestion randomNumericQuestion(Integer order) {
 		return new NumericInputQuestion(faker.lorem().sentence(), faker.bool().bool(), order + 1);
 	}
+
 
 }

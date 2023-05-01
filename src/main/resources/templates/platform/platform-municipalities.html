@@ -16,13 +16,14 @@
 <div class="container d-flex justify-content-evenly">
 	<div class="card" style="width: 18rem;" th:each="municipality: ${municipalities}">
 		<img th:if="${municipality.logo != null}" th:src="${municipality.logo}">
-		<img th:if="${municipality.logo == null}" th:src="@{/images/municipalities/placeholder.jpeg}">
+		<img th:if="${municipality.logo == null}" th:src="@{/images/placeholders/image-placeholder.jpeg}">
 		<div class="card-body">
 			<h5 class="card-title" th:text="${municipality.name}"></h5>
-			<th:block class="dropdown-item" th:each="member: ${municipality.members}"
-					  th:if="${municipality.members.size() > 0}"
+			<th:block
+					th:with="membersCount=${municipality.members.size()}"
 			>
-				<li th:text="${member.firstName} + ' ' + ${member.surname}"></li>
+				<p th:if="${membersCount > 0}" th:text="${membersCount} + ' members'"></p>
+				<p th:if="${membersCount == 0}" th:text="'No members'"></p>
 			</th:block>
 		</div>
 		<a class="text-white" th:href="@{/dashboard/municipalities/{uuid}(uuid=${municipality.uuid})}"

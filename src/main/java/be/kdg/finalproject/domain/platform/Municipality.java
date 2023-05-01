@@ -41,12 +41,6 @@ public class Municipality {
 	@ToString.Exclude
 	private List<SocialMediaLink> socialMediaLinks = new ArrayList<>();
 
-	@Column (name = "council_name")
-	private String councilName;
-
-	private boolean calendarEnabled = true;
-
-	private boolean newsEnabled = true;
 
 	@OneToMany (cascade = CascadeType.PERSIST)
 	@ToString.Exclude
@@ -65,7 +59,7 @@ public class Municipality {
 	@ToString.Exclude
 	private Set<PostCode> postcodes = new HashSet<>();
 
-	@OneToMany (mappedBy = "municipality")
+	@OneToMany
 	@ToString.Exclude
 	private List<InformativePage> informativePages = new ArrayList<>();
 
@@ -80,19 +74,16 @@ public class Municipality {
 
 	public Municipality(String name) {
 		this.name = name;
-		this.councilName = name;
 	}
 
 	public Municipality(String name, boolean hasPlatform) {
 		this.name = name;
 		this.hasPlatform = hasPlatform;
-		this.councilName = name;
 	}
 
 	public Municipality(String name, Set<PostCode> postcodes) {
 		this.name = name;
 		this.postcodes = postcodes;
-		this.councilName = name;
 	}
 
 	public void addMember(User user) {

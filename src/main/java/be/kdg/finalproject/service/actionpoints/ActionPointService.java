@@ -4,10 +4,12 @@ import be.kdg.finalproject.controller.api.dto.post.NewActionPointDTO;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.service.media.ImageService;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
 
 import javax.validation.Valid;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +19,12 @@ import java.util.UUID;
 public class ActionPointService {
 
 	private final ActionPointRepository actionPointRepository;
+	private final ImageService imageService;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointService.class);
 
-	public ActionPointService(ActionPointRepository actionPointRepository) {
+	public ActionPointService(ActionPointRepository actionPointRepository, ImageService imageService) {
 		this.actionPointRepository = actionPointRepository;
+		this.imageService = imageService;
 	}
 
 	public Set<ActionPoint> getActionPointsByMunicipalityIdAndUserIdWithImages(long municipalityId, long userId) {
@@ -46,13 +50,14 @@ public class ActionPointService {
 		                            .orElseThrow(() -> new EntityNotFoundException("ActionPoint not found"));
 	}
 
-	public ActionPoint createActionPoint(@Valid NewActionPointDTO actionPointViewModel, Long municipalityId) {
+	public ActionPoint createActionPoint(@Valid NewActionPointDTO actionPointViewModel, Long municipalityId) throws IOException {
 		ActionPoint actionPoint = new ActionPoint();
+		List<String> imageSources = imageService.saveImages(actionPointViewModel.getImages());
 		actionPoint.setTitle(actionPointViewModel.getTitle());
 		actionPoint.setDescription(actionPointViewModel.getDescription());
 		actionPoint.setMunicipalityId(municipalityId);
 		actionPoint.setSubTheme(actionPointViewModel.getSubTheme());
-		actionPoint.setImages(new HashSet<>(actionPointViewModel.getImageSources()));
+		actionPoint.setImages(new HashSet<>(imageSources));
 		actionPointViewModel.getActionPointProposals().forEach(actionPoint::addProposal);
 		return actionPointRepository.save(actionPoint);
 	}

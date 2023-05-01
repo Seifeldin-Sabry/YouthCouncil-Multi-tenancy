@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.api.dto.post;
 
 import be.kdg.finalproject.domain.theme.SubTheme;
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -28,5 +29,6 @@ public class NewActionPointDTO {
 	@NotNull (message = "Please add at least one proposal")
 	private List<String> actionPointProposals = new ArrayList<>();
 
-	private List<String> imageSources = new ArrayList<>();
+	@Size (min = 1, message = "Please add at least one image")
+	private List<MultipartFile> images = new ArrayList<>();
 }

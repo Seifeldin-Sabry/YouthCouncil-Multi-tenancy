@@ -3,6 +3,7 @@ package be.kdg.finalproject.database;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
+import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.platform.PostCode;
 import be.kdg.finalproject.domain.security.Provider;
@@ -14,6 +15,7 @@ import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.repository.municipality.PostCodeRepository;
+import be.kdg.finalproject.repository.page.PageTemplateRepository;
 import be.kdg.finalproject.repository.theme.ThemeRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
 import com.google.common.collect.ImmutableList;
@@ -30,7 +32,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-@Profile ("dev")
+@Profile ({"dev", "prod"})
 public class DatabaseSeeder {
 
 	private final ThemeRepository themeRepository;
@@ -41,14 +43,14 @@ public class DatabaseSeeder {
 	private final EntityFactory entityFactory;
 	private final MunicipalityRepository municipalityRepository;
 	private final PostCodeRepository postCodeRepository;
-
 	private final ActionPointRepository actionPointRepository;
+	private final PageTemplateRepository pageTemplateRepository;
 
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
 	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory,
-	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository) {
+	                      MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, ActionPointRepository actionPointRepository, PageTemplateRepository pageTemplateRepository) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -58,6 +60,7 @@ public class DatabaseSeeder {
 		this.municipalityRepository = municipalityRepository;
 		this.postCodeRepository = postCodeRepository;
 		this.actionPointRepository = actionPointRepository;
+		this.pageTemplateRepository = pageTemplateRepository;
 	}
 
 	@PostConstruct
@@ -118,6 +121,14 @@ public class DatabaseSeeder {
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 
+		// Page Templates
+		PageTemplate pageTemplate1 = entityFactory.createRandomPageTemplate();
+		PageTemplate pageTemplate2 = entityFactory.createRandomPageTemplate();
+		logger.debug("Page template 1: {}", pageTemplate1);
+		logger.debug("Page template 2: {}", pageTemplate2);
+
+		pageTemplateRepository.saveAll(List.of(pageTemplate1, pageTemplate2));
+
 
 		// ACTION POINTS
 		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
@@ -147,7 +158,6 @@ public class DatabaseSeeder {
 		actionPointRepository.save(randomActionPoint2);
 		actionPointRepository.save(randomActionPoint3);
 		actionPointRepository.save(randomActionPoint4);
-
 
 		//FORMS AND QUESTIONS
 		formRepository.save(entityFactory.createRandomFormWithQuestions());

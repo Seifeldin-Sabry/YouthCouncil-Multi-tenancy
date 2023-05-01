@@ -50,7 +50,7 @@ public class MunicipalityService {
 
 
 	public List<Municipality> getAllMunicipalitiesAndMembers() {
-		return municipalityRepository.findAllMunicipalitiesAndMembers();
+		return municipalityRepository.findAllMunicipalitiesWithMembers();
 	}
 
 

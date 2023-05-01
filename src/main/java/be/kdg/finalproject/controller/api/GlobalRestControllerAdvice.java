@@ -6,8 +6,10 @@ import be.kdg.finalproject.controller.mvc.GlobalControllerAdvisor;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.service.user.UserService;
+import org.apache.tomcat.util.http.fileupload.impl.SizeLimitExceededException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
@@ -41,5 +43,10 @@ public class GlobalRestControllerAdvice {
 	@ExceptionHandler (EntityNotFoundException.class)
 	public ResponseEntity<?> showEntityNotFound() {
 		return ResponseEntity.notFound().build();
+	}
+
+	@ExceptionHandler (value = {SizeLimitExceededException.class})
+	public ResponseEntity<String> handleSizeLimitExceeded() {
+		return new ResponseEntity<>("File size exceeded", HttpStatus.PAYLOAD_TOO_LARGE);
 	}
 }

@@ -90,7 +90,7 @@ const addActionPoint = async (event) => {
             ...csrfToken()
         },
     };
-    const response = await fetch('/api/actionpoints', options);
+    const response = await fetch('/api/action-points', options);
 
     if (response.status === 201) {
         hideAllErrors();
@@ -118,7 +118,12 @@ const addActionPoint = async (event) => {
         }
         bootstrapErrorToast.show();
         return;
-
+    }
+    if (response.status === 413) {
+        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+        errorToastBody.textContent = await response.text();
+        bootstrapErrorToast.show();
+        return;
     }
     errorToastBody.textContent = 'Something went wrong while processing your request';
     const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
