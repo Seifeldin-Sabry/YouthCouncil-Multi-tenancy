@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Component
-@Profile ({"dev", "prod"})
+@Profile ({"dev", "devpsql"})
 public class EntityFactory {
 
 	private final Faker faker = new Faker();
@@ -160,7 +160,6 @@ public class EntityFactory {
 
 		return new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 	}
-
 
 
 }

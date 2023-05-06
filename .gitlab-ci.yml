@@ -1,0 +1,47 @@
+image: seifsabry/ci_cd_gcloud:v1
+
+variables:
+  GRADLE_USER_HOME: "cache/.gradle"
+  GRADLE_ARGS_CI: "--no-daemon --stacktrace"
+
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - echo "Start CI/CD"
+
+cache:
+  paths:
+    - $GRADLE_USER_HOME/wrapper/
+    - $GRADLE_USER_HOME/caches/
+
+build:
+  stage: build
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+  only:
+    - main
+
+test:
+  stage: test
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
+  only:
+    - main
+
+deploy:
+  stage: deploy
+  script:
+    - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
+    - gcloud app deploy app.yaml --quiet --project $GOOGLE_PROJECT_ID
+  only:
+    - main
+
+after_script:
+  - echo "End CI/CD"

@@ -1,0 +1,11 @@
+spring:
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  profiles:
+    active: test # prod, test
+  messages:
+    basename: templates/details
+server:
+  port: 8080
