@@ -3,7 +3,22 @@ plugins {
     id 'org.springframework.boot' version '2.7.8'
     id 'io.spring.dependency-management' version '1.1.0'
 }
-
+//task runApp(type: JavaExec) {
+//    classpath = sourceSets.main.runtimeClasspath
+//    mainClass = 'be.kdg.groepi.GroepIApplication'
+//    systemProperty('GOOGLE_CLIENT_ID', System.getenv('GOOGLE_CLIENT_ID'))
+//    systemProperty('GOOGLE_CLIENT_SECRET', System.getenv('GOOGLE_CLIENT_SECRET'))
+//    systemProperty('FACEBOOK_CLIENT_ID', System.getenv('FACEBOOK_CLIENT_ID'))
+//    systemProperty('FACEBOOK_CLIENT_SECRET', System.getenv('FACEBOOK_CLIENT_SECRET'))
+//    systemProperty('FACEBOOK_TOKEN', System.getenv('FACEBOOK_TOKEN'))
+//    systemProperty('EMAIL_USERNAME', System.getenv('EMAIL_USERNAME'))
+//    systemProperty('EMAIL_PASSWORD', System.getenv('EMAIL_PASSWORD'))
+//    systemProperty('EMAIL_HOST', System.getenv('EMAIL_HOST'))
+//    systemProperty('EMAIL_PORT', System.getenv('EMAIL_PORT'))
+//    systemProperty('POSTGRES_PROD_USERNAME', System.getenv('POSTGRES_PROD_USERNAME'))
+//    systemProperty('POSTGRES_PROD_PASSWORD', System.getenv('POSTGRES_PROD_PASSWORD'))
+//    systemProperty('POSTGRES_HOST', System.getenv('POSTGRES_HOST'))
+//}
 group = 'be.kdg'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
@@ -43,6 +58,7 @@ dependencies {
     }
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.springframework.cloud:spring-cloud-gcp-starter-sql-postgresql'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

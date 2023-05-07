@@ -1,4 +1,11 @@
 spring:
+  cloud:
+    gcp:
+      sql:
+        instance-connection-name: ${SQL_INSTANCE_NAME}
+        database-name: ${POSTGRES_DB}
+        username: ${POSTGRES_PROD_USERNAME}
+        password: ${POSTGRES_PROD_PASSWORD}
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
@@ -18,9 +25,8 @@ spring:
     show-sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://34.78.51.39:5432/postgres
-    username: ${POSTGRES_USERNAME}
-    password: ${POSTGRES_PASSWORD}
+    username: ${POSTGRES_PROD_USERNAME}
+    password: ${POSTGRES_PROD_PASSWORD}
   devtools:
     restart:
       enabled: true

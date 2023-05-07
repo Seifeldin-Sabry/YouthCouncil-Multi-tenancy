@@ -47,8 +47,8 @@ deploy:
     - echo $(gcloud --version)
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
     - gcloud app deploy app.yml --quiet --project $GOOGLE_PROJECT_ID
-  only:
-    - main
+#  only:
+#    - main
 
 after_script:
   - echo "End CI/CD"
