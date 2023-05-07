@@ -8,6 +8,7 @@ stages:
   - build
   - test
   - deploy
+#  - destroy TODO: destroy the app after testing
 
 before_script:
   - echo "Start CI/CD"
@@ -26,12 +27,11 @@ build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
-  only:
-    - main
 
 test:
   stage: test
   artifacts:
+    expire_in: 1 week
     reports:
       junit: build/test-results/test/*.xml
     when: always
@@ -39,13 +39,12 @@ test:
       - build/reports/tests/test/index.html
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
-  only:
-    - main
 
 deploy:
   stage: deploy
   when: manual
   script:
+    - echo $(gcloud --version)
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
     - gcloud app deploy app.yml --quiet --project $GOOGLE_PROJECT_ID
   only:
