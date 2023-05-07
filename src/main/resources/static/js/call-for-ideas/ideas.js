@@ -270,7 +270,7 @@ function handleAddedIdea(idea){
                         </div>
                         <div>
                             <button class="btn btn-outline-secondary text-danger like-btn"
-                            data-idea-uuid="${idea.uuid}"
+                            data-idea-id="${idea.id}"
                             data-liked="false"
                             >👍 <span class="like-count">0</span></button>
                         </div>
@@ -305,7 +305,7 @@ function handleAddedIdea(idea){
                         </div>
                         <div>
                             <button class="btn btn-outline-secondary text-danger like-btn"
-                            data-idea-uuid="${idea.uuid}"
+                            data-idea-id="${idea.id}"
                             data-liked="false"
                             >👍 <span class="like-count">0</span></button>
                         </div>

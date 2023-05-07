@@ -24,6 +24,6 @@ public class NewIdeaDTO {
 	private String description;
 	@NotNull (message = "Please select a theme")
 	private SubTheme subTheme;
-	@Size (min = 1, message = "Please add at least one image")
+	@Size (min = 1, max = 1, message = "Please add 1 image")
 	private List<MultipartFile> images = new ArrayList<>();
 }

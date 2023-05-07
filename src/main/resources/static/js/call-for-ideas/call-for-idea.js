@@ -162,7 +162,7 @@ function handleAddedCall(call){
     tbody.innerHTML+=`
     <tr id="${call.id}">
         <td class="title" >
-            <a href="/call-for-ideas/${call.id}/ideas">${call.title}</a>
+            <a href="/call-for-ideas-dashboard/${call.uuid}/ideas">${call.title}</a>
         </td>
         <td class="description">${call.description}</td>
         <td class="theme">${call.theme.themeName}</td>
