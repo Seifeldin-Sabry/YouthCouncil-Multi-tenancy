@@ -56,7 +56,7 @@ function addEventListeners(){
 function handleAddedForm(form) {
     rows.innerHTML += `
         <div class="row">
-                    <a class="col ID" href="form/?formId=${form.formId}">${form.formId}
+                    <a class="col ID" href="form/?formId=${form.id}">${form.id}
 			</a>
 			<div class="col title" >${form.title}</div>
         </div>
