@@ -11,6 +11,7 @@ stages:
 
 before_script:
   - echo "Start CI/CD"
+  - echo "The current directory is $(pwd)"
 
 cache:
   paths:
@@ -30,6 +31,12 @@ build:
 
 test:
   stage: test
+  artifacts:
+    reports:
+      junit: build/test-results/test/*.xml
+    when: always
+    paths:
+      - build/reports/tests/test/index.html
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
   only:
@@ -37,9 +44,10 @@ test:
 
 deploy:
   stage: deploy
+  when: manual
   script:
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
-    - gcloud app deploy app.yaml --quiet --project $GOOGLE_PROJECT_ID
+    - gcloud app deploy app.yml --quiet --project $GOOGLE_PROJECT_ID
   only:
     - main
 
