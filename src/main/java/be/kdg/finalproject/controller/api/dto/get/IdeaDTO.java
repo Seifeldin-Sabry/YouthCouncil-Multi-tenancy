@@ -20,6 +20,7 @@ public class IdeaDTO {
 	private String content;
 	private SubThemeDTO subTheme;
 	private UUID uuid;
+	private Long id;
 	private Timestamp dateCreated;
 	private UserDTO creator;
 	private boolean liked;

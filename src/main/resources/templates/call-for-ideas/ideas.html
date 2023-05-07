@@ -18,7 +18,7 @@
 		<tbody class="tbodyIdeas">
 		<tr th:each="idea: ${ideas}" >
 			<td class="title" th:text="${idea.content}" />
-			<td class="description" th:text="${idea.theme.themeName}" />
+			<td class="description" th:text="${idea.subTheme.subThemeName}" />
 		</tr>
 		</tbody>
 	</table>

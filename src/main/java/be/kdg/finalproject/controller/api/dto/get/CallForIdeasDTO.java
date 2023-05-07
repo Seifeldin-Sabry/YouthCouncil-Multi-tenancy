@@ -7,6 +7,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.validation.constraints.NotNull;
+import java.util.UUID;
 
 @Getter
 @Setter
@@ -14,6 +15,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 public class CallForIdeasDTO {
 	private Long id;
+	private UUID uuid;
 	private String title;
 	private String description;
 	private ThemeDTO theme;

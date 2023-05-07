@@ -23,7 +23,7 @@ public class IdeaController {
 	}
 
 	@YouthCouncilAdmin
-	@GetMapping("/call-for-ideas/{callUUID}/ideas")
+	@GetMapping("/call-for-ideas-dashboard/{callUUID}/ideas")
 	public ModelAndView viewIdeas(@PathVariable UUID callUUID){
 		ModelAndView mav = new ModelAndView("call-for-ideas/ideas");
 		mav.addObject("ideas", callForIdeasService.getCallForIdeaByUUIDWithIdeas(callUUID).getIdeas());
