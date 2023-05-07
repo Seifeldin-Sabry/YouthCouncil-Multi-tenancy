@@ -46,7 +46,7 @@ deploy:
   script:
     - echo $(gcloud --version)
     - cat $ENV_VARIABLES
-    - cat $ENV_VARIABLES > .env_variables.yaml
+    - cat $ENV_VARIABLES > env_variables.yaml
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
     - gcloud app deploy app.yml --quiet --project $GOOGLE_PROJECT_ID
 #  only:
