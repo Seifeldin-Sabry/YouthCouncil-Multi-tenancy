@@ -58,7 +58,7 @@ dependencies {
     }
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'org.springframework.cloud:spring-cloud-gcp-starter-sql-postgresql'
+    runtimeOnly 'org.springframework.cloud:spring-cloud-gcp-starter-sql-postgresql:1.2.8.RELEASE'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'com.h2database:h2'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
