@@ -36,6 +36,7 @@ function create_vm() {
       --tags=$TARGET_TAGS \
       --image-family=$IMAGE_FAMILY \
       --image-project=$IMAGE_PROJECT \
+      --project-id="${GOOGLE_PROJECT_ID}" \
       --metadata=startup-script="#! /bin/bash
       apt-get update && apt install -y openjdk-17-jdk
       curl -L -o /tmp/gradle-7.4.2-bin.zip https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
