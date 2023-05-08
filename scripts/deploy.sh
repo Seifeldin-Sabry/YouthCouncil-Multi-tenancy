@@ -3,6 +3,20 @@
 # Author: Seifeldin Sabry
 # Function: deploy a VM on gcloud with apache2 installed and configured with a self-signed certificate
 
+ENV_VARIABLES=("$@")
+
+if [[ ${#ENV_VARIABLES[@]} -eq 0 ]]; then
+  echo "No environment variables provided"
+  exit 1
+fi
+
+declare -A variables
+
+for VAR in ${ENV_VARIABLES[*]}; do
+  key="${VAR%=*}"
+  value="${VAR#*=}"
+  export "$key"="$value"
+done
 
 VM_NAME="instance-deployed-integration"
 ZONE="europe-west1-b"
@@ -13,13 +27,10 @@ TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
 DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
-POSTGRES_INSTANCE_NAME="youthcouncil"
-PROJECT_ID="infra3-seifeldin-sabry"
-POSTGRES_INSTANCE_IP=$(gcloud sql instances describe $POSTGRES_INSTANCE_NAME --project $PROJECT_ID --format="value(ipAddresses.ipAddress)")
-
+echo "Fetching postgres instance ip address for ${SQL_INSTANCE_NAME}, PROJECT_ID: ${GOOGLE_PROJECT_ID}"
 POSTGRES_DB_NAME="YouthCouncil"
 
-ENV_VARIABLES=("$@")
+
 function create_vm() {
   gcloud compute instances describe $VM_NAME &> /dev/null && return
   gcloud compute instances create "$VM_NAME" \
