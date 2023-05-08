@@ -8,7 +8,7 @@ stages:
   - build
   - test
   - deploy
-#  - destroy TODO: destroy the app after testing
+  - destroy
 
 before_script:
   - echo "Start CI/CD"
@@ -52,6 +52,12 @@ deploy:
     - rm env_variables.yaml
 #  only:
 #    - main
+
+destroy:
+  stage: destroy
+  when: manual
+  script:
+    - echo "not implemented yet"
 
 after_script:
   - echo "End CI/CD"

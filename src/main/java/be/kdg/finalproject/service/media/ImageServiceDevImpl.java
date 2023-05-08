@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Profile ({"dev", "devpsql"})
+@Profile ({"dev", "devpsql", "test"})
 public class ImageServiceDevImpl implements ImageService {
 
 
