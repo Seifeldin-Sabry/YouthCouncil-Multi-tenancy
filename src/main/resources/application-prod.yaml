@@ -1,11 +1,11 @@
 spring:
   cloud:
     gcp:
+      project-id: ${PROJECT_ID}
       sql:
+        enabled: true
         instance-connection-name: ${SQL_INSTANCE_NAME}
         database-name: ${POSTGRES_DB}
-        username: ${POSTGRES_PROD_USERNAME}
-        password: ${POSTGRES_PROD_PASSWORD}
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
@@ -20,7 +20,7 @@ spring:
           required: true
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     database: POSTGRESQL
     show-sql: true
   datasource:
