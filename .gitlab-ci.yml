@@ -46,8 +46,7 @@ deploy:
   when: manual
   script:
     - echo $(gcloud --version)
-    - cat $ENV_VARIABLES
-    - cat $ENV_VARIABLES > .env_variables.yaml
+    - echo $ENV_VARIABLES
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
     - chmod +x ./scripts/deploy.sh
     - ./scripts/deploy.sh $ENV_VARIABLES
