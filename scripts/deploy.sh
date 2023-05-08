@@ -55,18 +55,6 @@ function create_vm() {
 
 function copy_files_over() {
     gcloud compute scp --recurse ../build "$VM_NAME":~/
-
-  #  gcloud compute ssh "$VM_NAME" --command "
-  #  curl "http://169.254.169.254/computeMetadata/v1/instance/attributes/env_variables" -H "Metadata-Flavor: Google" > .env
-  #  cat .env
-  #  IFS=$'\n'
-  #  for VAR in \$(cat .env); do
-  #    delimiter='='
-  #    var_name=\${VAR%%\$delimiter*}
-  #    var_value=\${VAR#*\$delimiter}
-  #    export \$var_name=\$var_value
-  #  done
-  #  "
     gcloud compute ssh "$VM_NAME" --command "echo \$POSTGRES_PASSWORD"
     gcloud compute ssh "$VM_NAME" --command "echo \$POSTGRES_USERNAME"
     gcloud compute ssh "$VM_NAME" --command "java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"

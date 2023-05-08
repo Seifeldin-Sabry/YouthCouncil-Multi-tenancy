@@ -49,7 +49,7 @@ deploy:
     - cat $ENV_VARIABLES
     - cat $ENV_VARIABLES > .env_variables.yaml
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
-    - ./scripts/deploy.sh
+    - ./scripts/deploy.sh $ENV_VARIABLES
 #  only:
 #    - main
 

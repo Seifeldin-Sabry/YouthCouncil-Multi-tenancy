@@ -31,12 +31,9 @@ class ThemeRestControllerTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-
 	@Autowired
 	private ThemeRepository themeRepository;
-
 	private Long themeId;
-
 
 	@BeforeEach
 	void setUp() {
