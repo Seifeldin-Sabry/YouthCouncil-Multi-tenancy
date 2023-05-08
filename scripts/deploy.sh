@@ -33,14 +33,14 @@ function set_project() {
 
 function create_vm() {
   echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
-  gcloud compute instances describe $VM_NAME --project "${GOOGLE_PROJECT_ID}" &> /dev/null && return
+  gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" &> /dev/null && return
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
       --tags=$TARGET_TAGS \
       --image-family=$IMAGE_FAMILY \
       --image-project=$IMAGE_PROJECT \
-      --project-id="${GOOGLE_PROJECT_ID}" \
+      --project="${GOOGLE_PROJECT_ID}" \
       --metadata=startup-script="#! /bin/bash
       apt-get update && apt install -y openjdk-17-jdk
       curl -L -o /tmp/gradle-7.4.2-bin.zip https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
