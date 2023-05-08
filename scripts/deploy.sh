@@ -10,12 +10,10 @@ if [[ ${#ENV_VARIABLES[@]} -eq 0 ]]; then
   exit 1
 fi
 
-declare -A variables
-
 for VAR in ${ENV_VARIABLES[*]}; do
   key="${VAR%=*}"
   value="${VAR#*=}"
-  "$key"="$value"
+  export "$key"="$value" 2> /dev/null
 done
 
 VM_NAME="instance-deployed-integration"
@@ -27,8 +25,6 @@ TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
 DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
-echo "Fetching postgres instance ip address for ${SQL_INSTANCE_NAME}, PROJECT_ID: ${GOOGLE_PROJECT_ID}"
-POSTGRES_DB_NAME="YouthCouncil"
 
 
 function create_vm() {
@@ -60,22 +56,19 @@ function create_vm() {
       export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
       export PATH=\$PATH:\$JAVA_HOME/bin
       exec /bin/bash
-      for VAR in ${ENV_VARIABLES[*]}; do
-        export \$VAR
-      done
       unset IFS"
 }
 
 function copy_files_over() {
     gcloud compute scp --recurse ../build "$VM_NAME":~/
-    gcloud compute ssh "$VM_NAME" --command "echo \$POSTGRES_PASSWORD"
-    gcloud compute ssh "$VM_NAME" --command "echo \$POSTGRES_USERNAME"
-    gcloud compute ssh "$VM_NAME" --command "java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
+    gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
+                                                     export \$VAR
+                                             done && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
 }
 
 function setup_database {
   gcloud sql connect $POSTGRES_INSTANCE_NAME --user=postgres << EOF
-  CREATE DATABASE IF NOT EXISTS $POSTGRES_DB_NAME;
+  CREATE DATABASE IF NOT EXISTS $POSTGRES_DB;
   CREATE USER youthcouncil WITH ENCRYPTED PASSWORD 'youthcouncil';
   GRANT ALL PRIVILEGES ON DATABASE youthcouncil TO youthcouncil;
 EOF
@@ -92,6 +85,17 @@ function establish_connection_to_vm() {
   done
 }
 
+function get_intance_ip() {
+  gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
+}
+
+function authorize_vm_to_instance() {
+  echo "Authorizing VM to connect to postgres instance"
+  gcloud sql instances describe "$SQL_INSTANCE_NAME" --project="${GOOGLE_PROJECT_ID}" &> /dev/null || echo "Instance $SQL_INSTANCE_NAME does not exist" && exit 1
+  gcloud sql instances patch "$SQL_INSTANCE_NAME" --project="${GOOGLE_PROJECT_ID}" --authorized-networks=$VM_NAME
+}
+
 create_vm
+authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over
