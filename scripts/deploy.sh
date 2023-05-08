@@ -14,7 +14,8 @@ DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 POSTGRES_INSTANCE_NAME="youthcouncil"
-POSTGRES_INSTANCE_IP=$(gcloud sql instances describe $POSTGRES_INSTANCE_NAME --format="value(ipAddresses.ipAddress)")
+PROJECT_ID="infra3-seifeldin-sabry"
+POSTGRES_INSTANCE_IP=$(gcloud sql instances describe $POSTGRES_INSTANCE_NAME --project $PROJECT_ID --format="value(ipAddresses.ipAddress)")
 
 POSTGRES_DB_NAME="YouthCouncil"
 

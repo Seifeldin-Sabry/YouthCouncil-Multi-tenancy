@@ -39,6 +39,8 @@ test:
       - build/reports/tests/test/index.html
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
+  only:
+    - main
 
 deploy:
   image: google/cloud-sdk:latest
