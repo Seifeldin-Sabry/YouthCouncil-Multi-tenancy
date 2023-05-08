@@ -26,6 +26,10 @@ DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 
+function set_project() {
+  echo "Setting project to ${GOOGLE_PROJECT_ID}"
+  gcloud config set project "${GOOGLE_PROJECT_ID}"
+}
 
 function create_vm() {
   echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
@@ -96,6 +100,7 @@ function authorize_vm_to_instance() {
   gcloud sql instances patch "$SQL_INSTANCE_NAME" --project="${GOOGLE_PROJECT_ID}" --authorized-networks=$VM_NAME
 }
 
+set_project
 create_vm
 authorize_vm_to_instance
 establish_connection_to_vm
