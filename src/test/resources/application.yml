@@ -8,7 +8,7 @@ spring:
       filter:
         enabled: true
   profiles:
-    active: test # prod, test
+    active: dev # prod, test
   messages:
     basename: templates/details
 server:

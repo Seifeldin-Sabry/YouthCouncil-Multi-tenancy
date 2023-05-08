@@ -18,6 +18,10 @@ spring:
         starttls:
           enable: true
           required: true
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
       ddl-auto: create
