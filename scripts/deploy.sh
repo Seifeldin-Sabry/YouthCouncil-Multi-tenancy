@@ -15,7 +15,7 @@ declare -A variables
 for VAR in ${ENV_VARIABLES[*]}; do
   key="${VAR%=*}"
   value="${VAR#*=}"
-  export "$key"="$value"
+  "$key"="$value"
 done
 
 VM_NAME="instance-deployed-integration"
@@ -32,7 +32,8 @@ POSTGRES_DB_NAME="YouthCouncil"
 
 
 function create_vm() {
-  gcloud compute instances describe $VM_NAME &> /dev/null && return
+  echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
+  gcloud compute instances describe $VM_NAME --project "${GOOGLE_PROJECT_ID}" &> /dev/null && return
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
