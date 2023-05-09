@@ -102,6 +102,7 @@ function establish_connection_to_vm() {
 }
 
 function get_instance_ip() {
+  echo "Getting VM IP"
   VM_IP=$(gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 }
 
