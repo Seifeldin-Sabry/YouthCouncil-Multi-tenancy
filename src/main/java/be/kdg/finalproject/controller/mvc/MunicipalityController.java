@@ -3,7 +3,6 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.municipalities.MunicipalityId;
@@ -29,7 +28,8 @@ public class MunicipalityController {
 
 	private final UserService userService;
 
-	public MunicipalityController(MunicipalityService municipalityService, UserService userService) {this.municipalityService = municipalityService;
+	public MunicipalityController(MunicipalityService municipalityService, UserService userService) {
+		this.municipalityService = municipalityService;
 		this.userService = userService;
 	}
 

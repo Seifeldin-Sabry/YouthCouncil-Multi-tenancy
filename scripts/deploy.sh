@@ -16,6 +16,8 @@ for VAR in ${ENV_VARIABLES[*]}; do
   export "$key"="$value" 2> /dev/null
 done
 
+echo "$SQL_INSTANCE_CONNECTION_NAME, $SQL_INSTANCE_NAME"
+
 VM_NAME="instance-deployed-integration"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
@@ -56,7 +58,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      certbot -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL
+      certbot certonly -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL --webroot
       curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\"
       export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
       export PATH=\$PATH:\$JAVA_HOME/bin
@@ -66,17 +68,20 @@ function create_vm() {
 
 function copy_files_over() {
     gcloud compute scp --recurse ../build "$VM_NAME":~/
+#    gcloud compute ssh "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
     gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
-                                                     export \$VAR
+                                                key=\"\${VAR%=*}\"
+                                                value=\"\${VAR#*=}\"
+                                                export \"\$key\"=\"\$value\" 2> /dev/null
                                              done && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
 }
 
 function setup_database {
-  gcloud sql connect $POSTGRES_INSTANCE_NAME --user=postgres << EOF
-  CREATE DATABASE IF NOT EXISTS $POSTGRES_DB;
-  CREATE USER youthcouncil WITH ENCRYPTED PASSWORD 'youthcouncil';
-  GRANT ALL PRIVILEGES ON DATABASE youthcouncil TO youthcouncil;
-EOF
+#  create Database if it does not exist
+  gcloud sql databases describe "$POSTGRES_DB" --instance=$SQL_INSTANCE_NAME -q || gcloud sql databases create "$POSTGRES_DB" --instance="$SQL_INSTANCE_NAME"
+  for file in ~/sql-data/*.sql; do
+    gcloud sql import sql "$SQL_INSTANCE_NAME" "$file" --database="$POSTGRES_DB"
+  done
 }
 
 function establish_connection_to_vm() {
@@ -90,18 +95,26 @@ function establish_connection_to_vm() {
   done
 }
 
-function get_intance_ip() {
-  gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)'
+function get_instance_ip() {
+  VM_IP=$(gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
 }
 
 function authorize_vm_to_instance() {
+#  if gcloud instance does not exist then exit
+  if ! gcloud sql instances describe "$SQL_INSTANCE_NAME" -q; then
+    echo "Instance $SQL_INSTANCE_NAME does not exist"
+    exit 1
+  fi
   echo "Authorizing VM to connect to postgres instance"
-  gcloud sql instances describe "$SQL_INSTANCE_NAME" --project="${GOOGLE_PROJECT_ID}" &> /dev/null || echo "Instance $SQL_INSTANCE_NAME does not exist" && exit 1
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --project="${GOOGLE_PROJECT_ID}" --authorized-networks=$VM_NAME
+  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
 }
 
 set_project
 create_vm
+get_instance_ip
 authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over
+
+
+#TODO: certbot fix, fix data not being inserted on run

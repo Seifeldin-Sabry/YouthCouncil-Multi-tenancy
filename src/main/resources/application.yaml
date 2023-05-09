@@ -30,8 +30,8 @@ spring:
       filter:
         enabled: true
   profiles:
-    active: prod # prod, dev, devpsql, test
+    active: devpsql # prod, dev, devpsql, test
   messages:
     basename: templates/details
 server:
-  port: 8080
+  port: 80
