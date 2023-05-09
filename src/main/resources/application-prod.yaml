@@ -6,6 +6,8 @@ spring:
         enabled: true
         database-name: ${POSTGRES_DB}
         instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
+      credentials:
+        encoded-key: ${GOOGLE_SERVICE_ACCOUNT_FILE}
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}

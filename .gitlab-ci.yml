@@ -51,8 +51,6 @@ deploy:
     - echo $ENV_VARIABLES
     - gcloud auth activate-service-account --key-file $GOOGLE_SERVICE_ACCOUNT_FILE
     - gcloud config set project $GOOGLE_PROJECT_ID
-    - gcloud auth list
-    - gcloud config list
     - chmod +x ./scripts/deploy.sh
     - ./scripts/deploy.sh $ENV_VARIABLES
 #  only:
