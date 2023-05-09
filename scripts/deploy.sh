@@ -35,7 +35,10 @@ function set_project() {
 
 function create_vm() {
   echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
-  gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" &> /dev/null && return
+  if gcloud compute instances describe $VM_NAME --quiet; then
+    echo "VM ${VM_NAME} already exists"
+    return 0
+  fi
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
@@ -67,13 +70,16 @@ function create_vm() {
 }
 
 function copy_files_over() {
-    gcloud compute scp --recurse ../build "$VM_NAME":~/
+#    gcloud compute scp --recurse ../build "$VM_NAME":~/
+    gcloud compute scp --recurse "$GOOGLE_SERVICE_ACCOUNT_FILE" "$VM_NAME":~/
+    gcloud compute ssh "$VM_NAME" --command "export GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_SERVICE_ACCOUNT_FILE && gcloud auth activate-service-account --key-file GOOGLE_SERVICE_ACCOUNT_FILE && rm $GOOGLE_SERVICE_ACCOUNT_FILE && unset $GOOGLE_SERVICE_ACCOUNT_FILE"
 #    gcloud compute ssh "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
-    gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
-                                                key=\"\${VAR%=*}\"
-                                                value=\"\${VAR#*=}\"
-                                                export \"\$key\"=\"\$value\" 2> /dev/null
-                                             done && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
+    gcloud compute ssh "$VM_NAME" --command "gcloud auth list; gcloud config list"
+#    gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
+#                                                key=\"\${VAR%=*}\"
+#                                                value=\"\${VAR#*=}\"
+#                                                export \"\$key\"=\"\$value\" 2> /dev/null
+#                                             done && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
 }
 
 function setup_database {
