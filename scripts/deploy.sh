@@ -35,7 +35,7 @@ function set_project() {
 
 function create_vm() {
   echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
-  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet; then
+  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID"; then
     echo "VM ${VM_NAME} already exists"
     return 0
   fi
@@ -103,7 +103,7 @@ function establish_connection_to_vm() {
 
 function get_instance_ip() {
   echo "Getting VM IP"
-  VM_IP=$(gcloud compute instances describe $VM_NAME --project="${GOOGLE_PROJECT_ID}" --zone=$ZONE --format='get(networkInterfaces[0].accessConfigs[0].natIP)')
+  VM_IP=$(gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --format="get(networkInterfaces[0].accessConfigs[0].natIP)")
 }
 
 function authorize_vm_to_instance() {
