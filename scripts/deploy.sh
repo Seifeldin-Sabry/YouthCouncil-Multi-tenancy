@@ -39,7 +39,7 @@ function create_vm() {
 #    echo "VM ${VM_NAME} already exists"
 #    return 0
 #  fi
-  gcloud compute instance delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
+  gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
