@@ -1,11 +1,11 @@
 spring:
   cloud:
     gcp:
-      project-id: ${GOOGLE_PROJECT_ID}
+      #      project-id: ${GOOGLE_PROJECT_ID}
       sql:
-        enabled: true
-        database-name: ${POSTGRES_DB}
-        instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
+        enabled: false
+  #        database-name: ${POSTGRES_DB}
+  #        instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
@@ -30,6 +30,7 @@ spring:
     defer-datasource-initialization: true
   datasource:
     driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://google/${POSTGRES_DB}?cloudSqlInstance=${SQL_INSTANCE_CONNECTION_NAME}&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=${POSTGRES_PROD_USERNAME}&password=${POSTGRES_PROD_PASSWORD}
     username: ${POSTGRES_PROD_USERNAME}
     password: ${POSTGRES_PROD_PASSWORD}
   devtools:
