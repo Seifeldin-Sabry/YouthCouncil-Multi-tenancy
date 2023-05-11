@@ -48,6 +48,8 @@ deploy:
   when: manual
   script:
     - echo $ENV_VARIABLES
+    - ls
+    - ls ./build/libs
     - chmod +x ./scripts/deploy.sh
     - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
 #  only:
