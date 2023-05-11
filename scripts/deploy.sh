@@ -71,16 +71,19 @@ function create_vm() {
 }
 
 function copy_files_over() {
-#    gcloud compute scp --recurse ../build "$VM_NAME":~/
-    gcloud compute scp --recurse "$GOOGLE_SERVICE_ACCOUNT_FILE" "$VM_NAME":~/
-    gcloud compute ssh "$VM_NAME" --command "export GOOGLE_APPLICATION_CREDENTIALS=$GOOGLE_SERVICE_ACCOUNT_FILE && gcloud auth activate-service-account --key-file GOOGLE_SERVICE_ACCOUNT_FILE && rm $GOOGLE_SERVICE_ACCOUNT_FILE && unset $GOOGLE_SERVICE_ACCOUNT_FILE"
-#    gcloud compute ssh "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
-    gcloud compute ssh "$VM_NAME" --command "gcloud auth list; gcloud config list"
-#    gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
-#                                                key=\"\${VAR%=*}\"
-#                                                value=\"\${VAR#*=}\"
-#                                                export \"\$key\"=\"\$value\" 2> /dev/null
-#                                             done && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
+  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ../secret.json
+  gcloud compute scp --recurse ../secret.json "$VM_NAME":~/secret.json
+  rm ../secret.json
+  gcloud compute scp --recurse ../build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/
+#    gcloud compute scp --recurse "$GOOGLE_SERVICE_ACCOUNT_FILE" "$VM_NAME":~/
+  gcloud compute ssh "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
+  gcloud compute ssh "$VM_NAME" --command "gcloud auth list; gcloud config list"
+  gcloud compute ssh "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
+  gcloud compute ssh "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
+                                              key=\"\${VAR%=*}\"
+                                              value=\"\${VAR#*=}\"
+                                              export \"\$key\"=\"\$value\" 2> /dev/null
+                                           done && java -jar FinalProject-0.0.1-SNAPSHOT.jar"
 }
 
 function setup_database {
@@ -92,14 +95,10 @@ function setup_database {
 }
 
 function establish_connection_to_vm() {
-  while true; do
     echo "Waiting for VM to be ready..."
-    sleep 5
-    gcloud compute ssh $VM_NAME --zone=$ZONE --command="echo 'VM is ready'" 2>/dev/null
-    if [ $? -eq 0 ]; then
-      break
-    fi
-  done
+    while ! gcloud compute ssh $VM_NAME --zone=$ZONE --command="java --version" 2> /dev/null; do
+      sleep 1
+    done
 }
 
 function get_instance_ip() {
@@ -123,6 +122,3 @@ get_instance_ip
 authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over
-
-
-#TODO: certbot fix, fix data not being inserted on run

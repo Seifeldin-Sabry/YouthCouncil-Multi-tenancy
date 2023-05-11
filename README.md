@@ -1,6 +1,5 @@
 Seifeldin Sabry
 Relja Mitrovic
-Ruben Vergauwen
 Max Etman
 Ransford Addai
 
@@ -49,3 +48,10 @@ role: `USER`
 ### Password Administrator Members creation
 
 For now its hardcoded to `password`
+
+How to add an admin
+
+1. You need to fill in the SQL an insert statment for the user you want to add
+2. `INSERT INTO app_users (email, username, password, role, provider) VALUES (<email>, <username>, <password>, ADMINISTRATOR, LOCAL);`
+3. for the password go to website [BCrypt](https://www.browserling.com/tools/bcrypt) and generate a password
+4. copy the generated password and paste it in the insert statment

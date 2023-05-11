@@ -22,7 +22,7 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-    database: POSTGRESQL
+    database: H2
     show-sql: true
   datasource:
     driver-class-name: org.h2.Driver
@@ -42,10 +42,6 @@ spring:
 #      data-locations: classpath:sql/municipalities/*.sql
 logging:
   level:
-    #    org:
-    #      springframework:
-    #        security: debug
-    #        web: debug
     be.kdg.finalproject: debug
 
 images:

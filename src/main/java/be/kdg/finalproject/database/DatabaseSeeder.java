@@ -1,12 +1,11 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
-import be.kdg.finalproject.domain.form.*;
-import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
+import be.kdg.finalproject.domain.idea.CallForIdeas;
+import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
-import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
@@ -17,11 +16,10 @@ import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.callforidea.CallForIdeasRepository;
 import be.kdg.finalproject.repository.form.*;
 import be.kdg.finalproject.repository.callforidea.IdeaRepository;
-import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
-import be.kdg.finalproject.repository.form.FormRepository;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.repository.municipality.PostCodeRepository;
@@ -42,7 +40,6 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.*;
 
 @Component
 @Profile ({"dev", "devpsql"})
@@ -84,12 +81,12 @@ public class DatabaseSeeder {
 		this.callForIdeasRepository = callForIdeasRepository;
 		this.ideaRepository = ideaRepository;
 		this.actionPointRepository = actionPointRepository;
+		this.pageTemplateRepository = pageTemplateRepository;
+		this.calendarActivityRepository = calendarActivityRepository;
 		this.textInputQuestionRepository = textInputQuestionRepository;
 		this.radioQuestionRepository = radioQuestionRepository;
 		this.multipleChoiceQuestionRepository = multipleChoiceQuestionRepository;
 		this.numericInputQuestionRepository = numericInputQuestionRepository;
-		this.pageTemplateRepository = pageTemplateRepository;
-		this.calendarActivityRepository = calendarActivityRepository;
 		this.reportRepository = reportRepository;
 	}
 
@@ -215,7 +212,6 @@ public class DatabaseSeeder {
 		calendarActivity4.setMunicipality(ghent);
 
 		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
-
 
 
 		// CALL FOR IDEAS AND IDEAS

@@ -5,12 +5,12 @@ import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
 import be.kdg.finalproject.domain.actionpoint.ActionPointProposalStatus;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.form.*;
-import be.kdg.finalproject.domain.page.PageTemplate;
-import be.kdg.finalproject.domain.page.template.TemplateElement;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.report.ReportReason;
+import be.kdg.finalproject.domain.page.PageTemplate;
+import be.kdg.finalproject.domain.page.template.TemplateElement;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
@@ -65,16 +65,16 @@ public class EntityFactory {
 		return form;
 	}
 
-	public CallForIdeas createRandomCallForIdeas(){
+	public CallForIdeas createRandomCallForIdeas() {
 		return new CallForIdeas(faker.lorem().sentence(), faker.lorem().sentence());
 	}
 
-	public Idea createRandomIdea(){
+	public Idea createRandomIdea() {
 		Idea idea = new Idea(faker.lorem().sentence(),
 				String.format("https://loremflickr.com/320/240?random=%s", faker.random()
 				                                                                .nextInt(1, 100)));
 		idea.setDateCreated(Timestamp.valueOf(faker.date().past(100, java.util.concurrent.TimeUnit.DAYS)
-		                                             .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));
+		                                           .toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()));
 		return idea;
 	}
 
