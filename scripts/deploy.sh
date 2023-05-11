@@ -73,9 +73,9 @@ function create_vm() {
 function copy_files_over() {
   cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":~/secret.json
-  rm ../secret.json
+  rm ./secret.json
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
-  gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/
+  gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json && rm secret.json"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
@@ -83,7 +83,7 @@ function copy_files_over() {
                                               key=\"\${VAR%=*}\"
                                               value=\"\${VAR#*=}\"
                                               export \"\$key\"=\"\$value\" 2> /dev/null
-                                           done && java -jar FinalProject-0.0.1-SNAPSHOT.jar"
+                                           done && java -jar build.jar"
 }
 
 function setup_database {
