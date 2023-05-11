@@ -47,11 +47,9 @@ deploy:
   stage: deploy
   when: manual
   script:
-    - cd scripts
-    - echo $(pwd)
     - echo $ENV_VARIABLES
-    - chmod +x deploy.sh
-    - ./deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
+    - chmod +x ./scripts/deploy.sh
+    - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
 #  only:
 #    - main
 
