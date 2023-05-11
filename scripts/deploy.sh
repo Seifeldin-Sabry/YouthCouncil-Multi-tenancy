@@ -116,6 +116,14 @@ function authorize_vm_to_instance() {
   gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
 }
 
+function authenticate() {
+  echo "Authenticating to gcloud"
+  gcloud auth activate-service-account --key-file "$GOOGLE_SERVICE_ACCOUNT_FILE"
+  gcloud auth list
+  gcloud config list
+}
+
+authenticate
 set_project
 create_vm
 get_instance_ip
