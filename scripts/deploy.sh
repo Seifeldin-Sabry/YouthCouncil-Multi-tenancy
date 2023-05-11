@@ -39,7 +39,7 @@ function create_vm() {
 #    echo "VM ${VM_NAME} already exists"
 #    return 0
 #  fi
-  gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
+#  gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
@@ -114,7 +114,8 @@ function authorize_vm_to_instance() {
     exit 1
   fi
   echo "Authorizing VM to connect to postgres instance"
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
+#  TODO: change this to the VM's IP
+  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="34.140.220.86" --quiet
 }
 
 function authenticate() {
@@ -127,7 +128,7 @@ function authenticate() {
 authenticate
 set_project
 create_vm
-get_instance_ip
-authorize_vm_to_instance
+#get_instance_ip
+#authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over
