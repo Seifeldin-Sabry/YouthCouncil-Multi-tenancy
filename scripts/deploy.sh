@@ -74,8 +74,8 @@ function copy_files_over() {
   cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ../secret.json
   gcloud compute scp --recurse ../secret.json --zone=$ZONE "$VM_NAME":~/secret.json
   rm ../secret.json
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
-  gcloud compute scp --zone=$ZONE --recurse ../build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf build 2> /dev/null"
+  gcloud compute scp --zone=$ZONE ../build "$VM_NAME":~/
 #    gcloud compute scp --recurse "$GOOGLE_SERVICE_ACCOUNT_FILE" "$VM_NAME":~/
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
