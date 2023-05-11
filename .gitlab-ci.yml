@@ -49,7 +49,7 @@ deploy:
   script:
     - echo $ENV_VARIABLES
     - chmod +x ./scripts/deploy.sh
-    - ./scripts/deploy.sh $ENV_VARIABLES
+    - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
 #  only:
 #    - main
 
