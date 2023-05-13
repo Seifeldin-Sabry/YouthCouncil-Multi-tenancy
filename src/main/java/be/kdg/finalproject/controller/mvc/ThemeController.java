@@ -20,7 +20,7 @@ public class ThemeController {
 
 	@GetMapping
 	public ModelAndView showThemes() {
-		return new ModelAndView("platform/platform-themes")
+		return new ModelAndView("/platform/platform-themes")
 				.addObject("themes", themeService.getAllThemes());
 	}
 }

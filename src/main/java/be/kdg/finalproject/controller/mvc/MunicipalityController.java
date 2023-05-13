@@ -7,7 +7,6 @@ import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
-import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
@@ -26,27 +25,24 @@ public class MunicipalityController {
 	private final Logger logger = LoggerFactory.getLogger(MunicipalityController.class);
 	private final MunicipalityService municipalityService;
 
-	private final UserService userService;
-
-	public MunicipalityController(MunicipalityService municipalityService, UserService userService) {
+	public MunicipalityController(MunicipalityService municipalityService) {
 		this.municipalityService = municipalityService;
-		this.userService = userService;
 	}
 
 	@GetMapping ({"/", "/home"})
-	public ModelAndView showPlatformHome() {
+	public String showPlatformHome() {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
 		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
 		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
-			return new ModelAndView("municipality/municipality-home");
+			return "municipality/municipality-home";
 		}
 		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
-			return new ModelAndView("platform/platform-dashboard");
+			return "platform/platform-home";
 		} else if (currentMunicipality == null) {
-			return new ModelAndView("login");
+			return "redirect:/login";
 		}
-		return new ModelAndView("platform/platform-home");
+		return "platform/platform-home";
 	}
 
 	@GetMapping ("/dashboard/municipalities")
