@@ -49,6 +49,8 @@ dependencies {
     implementation 'org.webjars.npm:bootstrap-icons:1.9.1'
     implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.google.zxing:core:3.4.1'
+    implementation platform('com.google.cloud:libraries-bom:26.14.0')
+    implementation 'com.google.cloud:google-cloud-bigquery'
     implementation 'org.ocpsoft.prettytime:prettytime:5.0.1.Final'
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.cloud.sql:postgres-socket-factory:1.2.2'
