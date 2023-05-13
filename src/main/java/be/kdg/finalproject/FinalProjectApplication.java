@@ -21,8 +21,8 @@ public class FinalProjectApplication {
 		String sqlInstance = System.getenv("SQL_INSTANCE_CONNECTION_NAME");
 
 		logger.error("Environment variables:");
-		logger.error("POSTGRES_PASSWORD = " + postgresPassword);
-		logger.error("POSTGRES_USERNAME = " + postgresUsername);
+		logger.error("POSTGRES_PROD_PASSWORD = " + postgresPassword);
+		logger.error("POSTGRES_PROD_USERNAME = " + postgresUsername);
 		logger.error("GOOGLE_CLIENT_ID = " + googleClientId);
 		logger.error("GOOGLE_CLIENT_SECRET = " + googleClientSecret);
 		logger.error("FACEBOOK_CLIENT_ID = " + facebookClientId);
