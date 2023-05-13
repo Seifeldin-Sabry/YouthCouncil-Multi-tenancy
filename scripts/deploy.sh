@@ -85,14 +85,13 @@ function copy_files_over() {
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
   key=\"\${VAR%=*}\"
   value=\"\${VAR#*=}\"
   export \"\$key\"=\"\$value\" 2> /dev/null
 done
-  java -jar build.jar"
+  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar"
 }
 
 function setup_database {
