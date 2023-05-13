@@ -8,6 +8,7 @@ spring:
         instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
       credentials:
         location: ~/secret.json
+
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
