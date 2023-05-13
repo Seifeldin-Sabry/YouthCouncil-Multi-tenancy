@@ -112,12 +112,12 @@ function get_instance_ip() {
 
 function authorize_vm_to_instance() {
 #  if gcloud instance does not exist then exit
-  if ! gcloud sql instances describe "$SQL_INSTANCE_NAME" --project="$GOOGLE_PROJECT_ID" -q; then
+  if ! gcloud sql instances describe "$SQL_INSTANCE_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" -q; then
     echo "Instance $SQL_INSTANCE_NAME does not exist"
     exit 1
   fi
   echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME the IP $VM_IP"
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --project="$GOOGLE_PROJECT_ID" --authorized-networks="$VM_IP" --quiet
+  gcloud sql instances patch "$SQL_INSTANCE_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --authorized-networks="$VM_IP" --quiet
 }
 
 function authenticate() {
