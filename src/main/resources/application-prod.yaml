@@ -27,7 +27,7 @@ spring:
       data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create
     database: POSTGRESQL
     show-sql: true
     defer-datasource-initialization: true

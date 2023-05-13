@@ -17,12 +17,12 @@ public class PlatformController {
 	@GeneralAdminOnly
 	@GetMapping ("/dashboard")
 	public ModelAndView showPlatformDashboard() {
-		return new ModelAndView("platform/platform-dashboard");
+		return new ModelAndView("platform-dashboard");
 	}
 
 	@GetMapping ("/youth-council-dashboard")
 	@YouthCouncilAdmin
 	public ModelAndView showYouthCouncilDashboard() {
-		return new ModelAndView("municipality/municipality-dashboard");
+		return new ModelAndView("municipality-dashboard");
 	}
 }
