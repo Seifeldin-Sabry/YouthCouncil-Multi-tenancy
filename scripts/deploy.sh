@@ -34,12 +34,11 @@ function set_project() {
 }
 
 function create_vm() {
-#  echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
-#  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID"; then
-#    echo "VM ${VM_NAME} already exists"
-#    return 0
-#  fi
-#  gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
+  echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
+  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID"; then
+    echo "VM ${VM_NAME} already exists"
+    return 0
+  fi
   gcloud compute instances create "$VM_NAME" \
       --zone=$ZONE \
       --machine-type=$MACHINE_TYPE \
@@ -78,7 +77,6 @@ function copy_files_over() {
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   echo "attempting authentication"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "lsof -i tcp:80"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
@@ -118,9 +116,8 @@ function authorize_vm_to_instance() {
     echo "Instance $SQL_INSTANCE_NAME does not exist"
     exit 1
   fi
-  echo "Authorizing VM to connect to postgres instance"
-#  TODO: change this to the VM's IP
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="34.140.220.86" --quiet
+  echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME the IP $VM_IP"
+  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
 }
 
 function authenticate() {
@@ -134,6 +131,6 @@ authenticate
 set_project
 create_vm
 get_instance_ip
-#authorize_vm_to_instance
+authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over
