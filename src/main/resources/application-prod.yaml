@@ -24,12 +24,12 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:sql/municipalities/*.sql
+  #      data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: update
     database: POSTGRESQL
-    show-sql: true
+    show-sql: false
     defer-datasource-initialization: true
   datasource:
     driver-class-name: org.postgresql.Driver

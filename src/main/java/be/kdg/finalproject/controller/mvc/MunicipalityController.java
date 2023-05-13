@@ -38,7 +38,7 @@ public class MunicipalityController {
 			return "municipality/municipality-home";
 		}
 		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
-			return "platform/platform-home";
+			return "platform/platform-dashboard";
 		} else if (currentMunicipality == null) {
 			return "redirect:/login";
 		}
