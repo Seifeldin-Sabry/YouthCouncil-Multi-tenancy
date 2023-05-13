@@ -78,7 +78,6 @@ function copy_files_over() {
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json && rm secret.json"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "export POSTGRES_DB=$POSTGRES_DB && export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && export POSTGRES_HOST=$POSTGRES_HOST && java -jar build/libs/FinalProject-0.0.1-SNAPSHOT.jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
                                               key=\"\${VAR%=*}\"
                                               value=\"\${VAR#*=}\"

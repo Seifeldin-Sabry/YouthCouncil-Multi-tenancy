@@ -42,7 +42,7 @@ import java.util.List;
 import java.util.Set;
 
 @Component
-@Profile ({"dev", "devpsql"})
+@Profile ({"dev", "devpsql", "prod"})
 public class DatabaseSeeder {
 
 	private final ThemeRepository themeRepository;

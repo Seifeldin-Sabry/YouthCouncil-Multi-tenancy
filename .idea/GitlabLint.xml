@@ -4,8 +4,8 @@
     <option name="gitlabUrl" value="https://gitlab.com/api/v4" />
     <option name="gitlabUrls">
       <set>
-        <option value="https://gitlab.com/api/v4" />
         <option value="https:/api/v4" />
+        <option value="https://gitlab.com/api/v4" />
       </set>
     </option>
   </component>

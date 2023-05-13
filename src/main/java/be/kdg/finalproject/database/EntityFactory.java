@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
 @Component
-@Profile ({"dev", "devpsql"})
+@Profile ({"dev", "devpsql", "prod"})
 public class EntityFactory {
 
 	private final Faker faker = new Faker();
