@@ -35,20 +35,20 @@ public class MunicipalityController {
 		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
 		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
 		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
-			return "municipality-home";
+			return "municipality/municipality-home";
 		}
 		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
-			return "platform-home";
+			return "platform/platform-home";
 		} else if (currentMunicipality == null) {
 			return "redirect:/login";
 		}
-		return "platform-home";
+		return "platform/platform-home";
 	}
 
 	@GetMapping ("/dashboard/municipalities")
 	@GeneralAdminOnly
 	public ModelAndView showMunicipalities() {
-		return new ModelAndView("platform-municipalities")
+		return new ModelAndView("platform/platform-municipalities")
 				.addObject("municipalities", municipalityService.getAllMunicipalitiesAndMembers());
 	}
 
@@ -56,13 +56,13 @@ public class MunicipalityController {
 	@GeneralAdminOnly
 	public ModelAndView showMunicipalityDetails(@PathVariable UUID uuid) throws EntityNotFoundException {
 		Municipality municipality = municipalityService.getMunicipalityByUUID(uuid);
-		return new ModelAndView("platform-municipality")
+		return new ModelAndView("platform/platform-municipality")
 				.addObject("municipality", municipality);
 	}
 
 	@GetMapping ("/youth-council-dashboard/settings")
 	public ModelAndView showMunicipalitySettings(@MunicipalityId Long municipalityId) {
-		return new ModelAndView("municipality-settings")
+		return new ModelAndView("municipality/municipality-settings")
 				.addObject("municipality", municipalityService.getMunicipalityByIdWithSocialMediaLinks(municipalityId));
 	}
 }

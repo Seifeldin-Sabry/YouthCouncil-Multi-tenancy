@@ -28,7 +28,7 @@ public class UserController {
 	@YouthCouncilAdmin
 	public ModelAndView showAllUsersOfMunicipality(@MunicipalityId Long municipalityId) {
 		List<Membership> membershipMembers = membershipService.getMembershipsByMunicipalityIdWhereNotAdmin(municipalityId);
-		return new ModelAndView("municipality-users")
+		return new ModelAndView("municipality/municipality-users")
 				.addObject("users", membershipMembers);
 	}
 }

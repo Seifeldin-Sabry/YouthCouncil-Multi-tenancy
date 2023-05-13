@@ -27,13 +27,12 @@ spring:
       data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     database: POSTGRESQL
     show-sql: true
     defer-datasource-initialization: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    #    url: jdbc:postgresql://google/${POSTGRES_DB}?cloudSqlInstance=${SQL_INSTANCE_CONNECTION_NAME}&socketFactory=com.google.cloud.sql.postgres.SocketFactory&user=${POSTGRES_PROD_USERNAME}&password=${POSTGRES_PROD_PASSWORD}
     username: ${POSTGRES_PROD_USERNAME}
     password: ${POSTGRES_PROD_PASSWORD}
   devtools:

@@ -33,5 +33,3 @@ spring:
     active: prod # prod, dev, devpsql, test
   messages:
     basename: templates/details
-server:
-  port: 80
