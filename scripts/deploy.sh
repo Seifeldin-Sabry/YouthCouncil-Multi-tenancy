@@ -71,13 +71,11 @@ function create_vm() {
 }
 
 function copy_files_over() {
-  echo "Copying authentication files over to VM"
-  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
+#  echo "Copying authentication files over to VM"
+#  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
   ls -a
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":~/secret.json
-  echo "Removing file from local machine"
-  rm ./secret.json
   echo "removing jar on VM"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
   echo "Copying jar over to VM"
@@ -87,6 +85,7 @@ function copy_files_over() {
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
   key=\"\${VAR%=*}\"
