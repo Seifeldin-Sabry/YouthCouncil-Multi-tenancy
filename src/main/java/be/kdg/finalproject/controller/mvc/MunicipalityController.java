@@ -35,14 +35,14 @@ public class MunicipalityController {
 		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
 		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
 		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
-			return "municipality/municipality-home";
+			return "/municipality/municipality-home";
 		}
 		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
-			return "platform/platform-home";
+			return "/platform/platform-home";
 		} else if (currentMunicipality == null) {
 			return "redirect:/login";
 		}
-		return "platform/platform-home";
+		return "/platform/platform-home";
 	}
 
 	@GetMapping ("/dashboard/municipalities")
