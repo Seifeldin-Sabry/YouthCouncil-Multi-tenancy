@@ -71,8 +71,8 @@ function create_vm() {
 }
 
 function copy_files_over() {
-#  echo "Copying authentication files over to VM"
-#  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
+  echo "Copying authentication files over to VM"
+  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
   ls -a
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":~/secret.json
