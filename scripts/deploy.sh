@@ -35,7 +35,7 @@ function set_project() {
 
 function create_vm() {
   echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
-  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID"; then
+  if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" 2>/dev/null; then
     echo "VM ${VM_NAME} already exists"
     return 0
   fi
