@@ -63,11 +63,7 @@ function create_vm() {
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
       certbot certonly -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL --webroot
-      curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\"
-      export JAVA_HOME=/usr/lib/jvm/java-17-openjdk-amd64
-      export PATH=\$PATH:\$JAVA_HOME/bin
-      exec /bin/bash
-      unset IFS"
+      curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
 }
 
 function copy_files_over() {
@@ -91,7 +87,7 @@ function copy_files_over() {
   value=\"\${VAR#*=}\"
   export \"\$key\"=\"\$value\" 2> /dev/null
 done
-  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar"
+  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar &"
 }
 
 function setup_database {
@@ -135,7 +131,7 @@ function authenticate() {
 authenticate
 set_project
 create_vm
-#get_instance_ip
+get_instance_ip
 #authorize_vm_to_instance
 establish_connection_to_vm
 copy_files_over

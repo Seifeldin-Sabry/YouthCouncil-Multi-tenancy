@@ -51,7 +51,7 @@ public class ActionPointController {
 		}
 		List<SubTheme> subThemesFiltered = subThemeService.findActionPointsBySubtheme(municipalityId);
 		logger.debug("Action points found: {}", actionPoints);
-		return new ModelAndView("/action-points/action-points")
+		return new ModelAndView("action-points/action-points")
 				.addObject("actionPoints", actionPoints)
 				.addObject("subThemes", subThemeService.getAllSubThemes())
 				.addObject("subthemesFiltered", subThemesFiltered);
@@ -65,7 +65,7 @@ public class ActionPointController {
 		}
 		ActionPoint actionPoint = actionPointService.getActionPointByUUID(municipalityId, uuid);
 		logger.debug("Action points found: {}", actionPoint);
-		return new ModelAndView("/action-points/action-point")
+		return new ModelAndView("action-points/action-point")
 				.addObject("actionPoint", actionPoint);
 	}
 }

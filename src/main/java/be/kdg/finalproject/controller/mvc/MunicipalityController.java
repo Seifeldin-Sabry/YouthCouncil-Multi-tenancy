@@ -42,9 +42,9 @@ public class MunicipalityController {
 			return new ModelAndView("municipality/municipality-home");
 		}
 		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
-			return new ModelAndView("/platform/platform-dashboard");
+			return new ModelAndView("platform/platform-dashboard");
 		} else if (currentMunicipality == null) {
-			return new ModelAndView("/login");
+			return new ModelAndView("login");
 		}
 		return new ModelAndView("platform/platform-home");
 	}

@@ -24,13 +24,13 @@ public class PageTemplatesController {
 
 	@GetMapping
 	public ModelAndView getPageTemplates() {
-		return new ModelAndView("/platform/platform-page-templates")
+		return new ModelAndView("platform/platform-page-templates")
 				.addObject("pageTemplates", pageTemplateService.getAllPageTemplates());
 	}
 
 	@GetMapping ("/{uuid}")
 	public ModelAndView getPageTemplate(@PathVariable UUID uuid) {
-		return new ModelAndView("/platform/platform-page-template")
+		return new ModelAndView("platform/platform-page-template")
 				.addObject("pageTemplate", pageTemplateService.getPageTemplateByUuid(uuid))
 				.addObject("elementTypes", TemplateElement.values());
 	}
