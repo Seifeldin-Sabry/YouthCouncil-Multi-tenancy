@@ -119,7 +119,7 @@ function authorize_vm_to_instance() {
     exit 1
   fi
   echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME the IP $VM_IP"
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --project "$GOOGLE_PROJECT_ID" --authorized-networks="$VM_IP" --quiet
+  gcloud sql instances patch "$SQL_INSTANCE_CONNECTION_NAME" --authorized-networks="$VM_IP" --quiet
 }
 
 function authenticate() {
