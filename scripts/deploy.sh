@@ -77,13 +77,8 @@ function copy_files_over() {
   echo "Copying jar over to VM"
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   echo "attempting authentication"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "IFS='
-  '
-  for process in \$(ps aux | grep java | grep -v grep); do
-    echo 'killing process' \$process'
-    kill -9 \$(echo \$process | awk '{print \$2}')
-  done
-  unset IFS"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "lsof -i tcp:80"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
