@@ -83,6 +83,7 @@ function copy_files_over() {
   echo "Copying jar over to VM"
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   echo "attempting authentication"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "ls -a"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json && rm secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
