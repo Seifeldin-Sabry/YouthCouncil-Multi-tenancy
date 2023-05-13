@@ -77,7 +77,13 @@ function copy_files_over() {
   echo "Copying jar over to VM"
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   echo "attempting authentication"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "ls -a"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "IFS='
+  '
+  for process in \$(ps aux | grep java | grep -v grep); do
+    echo 'killing process' \$process'
+    kill -9 \$(echo \$process | awk '{print \$2}')
+  done
+  unset IFS"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   echo "current permissions"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
@@ -108,6 +114,7 @@ function establish_connection_to_vm() {
 function get_instance_ip() {
   echo "Getting VM IP"
   VM_IP=$(gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --format="get(networkInterfaces[0].accessConfigs[0].natIP)")
+  echo "VM IP is $VM_IP"
 }
 
 function authorize_vm_to_instance() {
