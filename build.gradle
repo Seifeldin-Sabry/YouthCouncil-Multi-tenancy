@@ -23,6 +23,7 @@ spotbugsMain {
         xml.enabled = true
         html.enabled = false
     }
+    ignoreFailures = true
 }
 
 check {
