@@ -4,6 +4,7 @@ import be.kdg.finalproject.controller.api.dto.post.NewActionPointDTO;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
+import be.kdg.finalproject.repository.theme.SubThemeRepository;
 import be.kdg.finalproject.service.media.ImageService;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -19,11 +20,14 @@ import java.util.UUID;
 public class ActionPointService {
 
 	private final ActionPointRepository actionPointRepository;
+
+	private final SubThemeRepository subThemeRepository;
 	private final ImageService imageService;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointService.class);
 
-	public ActionPointService(ActionPointRepository actionPointRepository, ImageService imageService) {
+	public ActionPointService(ActionPointRepository actionPointRepository, SubThemeRepository subThemeRepository, ImageService imageService) {
 		this.actionPointRepository = actionPointRepository;
+		this.subThemeRepository = subThemeRepository;
 		this.imageService = imageService;
 	}
 
@@ -67,5 +71,9 @@ public class ActionPointService {
 		logger.debug("Getting action point with municipalityId: " + municipalityId);
 		return actionPointRepository.findByMunicipalityIdAndUuidWithProposals(municipalityId, uuid)
 		                            .orElseThrow(() -> new EntityNotFoundException("ActionPoint not found"));
+	}
+
+	public Set<ActionPoint> findBySubThemeId(Long subThemeId) {
+		return actionPointRepository.getActionPointBySubTheme(subThemeRepository.findById(subThemeId).orElseThrow(() -> new EntityNotFoundException("Subtheme not found!")));
 	}
 }

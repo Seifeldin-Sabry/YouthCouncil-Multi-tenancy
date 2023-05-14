@@ -1,9 +1,12 @@
 package be.kdg.finalproject.repository.actionpoint;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+
+import be.kdg.finalproject.domain.theme.SubTheme;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -39,4 +42,8 @@ public interface ActionPointRepository extends CrudRepository<ActionPoint, Long>
 			ORDER BY ap.dateCreated DESC
 			""")
 	List<Object[]> getActionPointsWithFollowedByUser(@Param ("municipalityId") Long municipalityId, @Param ("userId") Long userId);
+
+
+	Set<ActionPoint> getActionPointBySubTheme(SubTheme subtheme);
+
 }

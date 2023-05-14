@@ -34,7 +34,7 @@ public class ActionPoint {
 	@Column (name = "date_created", nullable = false)
 	private LocalDate dateCreated;
 
-	@OneToMany (cascade = CascadeType.PERSIST)
+	@OneToMany (fetch = FetchType.EAGER, cascade = CascadeType.PERSIST)
 	@JoinColumn (name = "action_point_id")
 	@ToString.Exclude
 	private Set<ActionPointProposal> actionPointProposals = new HashSet<>();
