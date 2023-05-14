@@ -99,7 +99,7 @@ function copy_files_over() {
   value=\"\${VAR#*=}\"
   export \"\$key\"=\"\$value\" 2> /dev/null
 done
-  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar" &
+  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar"
 }
 
 

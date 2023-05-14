@@ -32,4 +32,5 @@ function delete_all() {
   delete_deployed_VMs
 }
 
+authenticate
 delete_all
