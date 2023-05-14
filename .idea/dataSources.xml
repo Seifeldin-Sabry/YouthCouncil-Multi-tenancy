@@ -15,13 +15,6 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncilPostgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="YouthCouncil" uuid="74724fe5-0e21-43b6-8447-e1987e0f633a">
-      <driver-ref>h2.unified</driver-ref>
-      <synchronize>true</synchronize>
-      <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:mem:YouthCouncil</jdbc-url>
-      <working-dir>$ProjectFileDir$</working-dir>
-    </data-source>
     <data-source source="LOCAL" name="YouthCouncil@34.78.19.74" uuid="0a2ecaea-9860-4a38-9fa3-0173eec5d350">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
@@ -29,11 +22,11 @@
       <jdbc-url>jdbc:postgresql://34.78.19.74:5432/YouthCouncil</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="YouthCouncilTest" uuid="fd23ccc3-74da-4ce1-9c18-b9f763584008">
-      <driver-ref>h2.unified</driver-ref>
+    <data-source source="LOCAL" name="db" uuid="44a39dd2-cc21-4ff8-813a-4cf51d8f0df1">
+      <driver-ref>hsqldb.local</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:mem:YouthCouncilTest</jdbc-url>
+      <jdbc-driver>org.hsqldb.jdbc.JDBCDriver</jdbc-driver>
+      <jdbc-url>jdbc:hsqldb:file:./db/YouthCouncelDev;DB_CLOSE_ON_EXIT=FALSE</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

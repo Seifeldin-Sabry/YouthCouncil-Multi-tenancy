@@ -30,6 +30,6 @@ spring:
       filter:
         enabled: true
   profiles:
-    active: prod # prod, dev, devpsql
+    active: dev # prod, dev, devpsql
   messages:
     basename: templates/details
