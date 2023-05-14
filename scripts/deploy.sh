@@ -37,7 +37,8 @@ function set_project() {
 function create_vm() {
   if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet 1>/dev/null 2>/dev/null; then
     echo "VM ${VM_NAME} already exists"
-    return 0
+    echo "Deleting VM ${VM_NAME}"
+    gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
   fi
   gcloud compute instances create "$VM_NAME" \
       --zone="$ZONE" \
