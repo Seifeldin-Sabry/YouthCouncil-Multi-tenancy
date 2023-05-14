@@ -46,6 +46,8 @@ sast-java:
   script:
     - sast --analyzers=java
   artifacts:
+    reports:
+      sast: gl-sast-report.json
     paths:
       - gl-sast-report.json
 
@@ -55,6 +57,8 @@ sast-js:
   script:
     - sast --analyzers=javascript
   artifacts:
+    reports:
+      sast: gl-sast-report.json
     paths:
       - gl-sast-report.json
 
