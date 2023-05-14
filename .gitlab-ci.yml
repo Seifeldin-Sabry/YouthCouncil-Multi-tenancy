@@ -57,11 +57,9 @@ destroy:
   stage: destroy
   when: manual
   script:
-    - ls
-    - ls ./build/libs
-    - ls ./build/libs/*.jar
     - chmod +x ./scripts/destroy.sh
-    - ./scripts/destroy.sh $SQL_INSTANCE_NAME $VM_INSTANCE_PATTERN
+    #    - ./scripts/destroy.sh $SQL_INSTANCE_NAME $VM_INSTANCE_PATTERN
+    - ./scripts/destroy.sh test $VM_INSTANCE_PATTERN infra3-seifeldin-sabry
 
 after_script:
   - echo "End CI/CD"
