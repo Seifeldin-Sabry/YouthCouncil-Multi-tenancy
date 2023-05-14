@@ -5,6 +5,7 @@ variables:
 stages:
   - build
   - test
+  - sast
   - deploy
   - destroy
 
@@ -41,16 +42,15 @@ test:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
 sast:
-  stage: test
   image: gradle:7.2.0-jdk17
+  stage: sast
   script:
-    - gradle spotbugsMain
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME spotbugsMain
   artifacts:
     paths:
       - build/reports/spotbugs/main.xml
     reports:
       sast: gl-sast-report.sarif
-  allow_failure: true
 
 
 deploy:
