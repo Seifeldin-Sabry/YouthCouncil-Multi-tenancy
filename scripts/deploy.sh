@@ -61,7 +61,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL
+      certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log
       curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
 }
 
