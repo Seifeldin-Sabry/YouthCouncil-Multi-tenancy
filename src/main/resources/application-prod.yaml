@@ -24,10 +24,10 @@ spring:
   sql:
     init:
       mode: always
-  #      data-locations: classpath:sql/municipalities/*.sql
+      data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create-drop
     database: POSTGRESQL
     show-sql: false
     defer-datasource-initialization: true

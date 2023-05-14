@@ -4,6 +4,7 @@ ZONE="europe-west1-b"
 SQL_INSTANCE_NAME=$1
 VM_PATTERN=$2
 GOOGLE_PROJECT_ID=$3
+GOOGLE_SERVICE_ACCOUNT_FILE=$4
 
 function delete_sql_instance() {
   echo "Deleting SQL instance: $SQL_INSTANCE_NAME"
@@ -19,6 +20,13 @@ function delete_deployed_VMs() {
       gcloud compute instances delete "$vm" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" -q
     done
   fi
+}
+
+function authenticate() {
+  echo "Authenticating to gcloud"
+  gcloud auth activate-service-account --key-file "$GOOGLE_SERVICE_ACCOUNT_FILE"
+  gcloud auth list
+  gcloud config list
 }
 
 function delete_all() {
