@@ -4,4 +4,26 @@ spring:
       sql:
         enabled: false
   profiles:
-    active: test
+    active: dev
+  mail:
+    #    host: smtp.gmail.com
+    #    port: ${DEV_EMAIL_PORT}
+    #    username: ${DEV_EMAIL_USERNAME}
+    #    password: ${DEV_EMAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  jpa:
+    show-sql: false
+    open-in-view: false
+    defer-datasource-initialization: true
+  sql:
+    init:
+      mode: never
+logging:
+  level:
+    be.kdg.finalproject: debug

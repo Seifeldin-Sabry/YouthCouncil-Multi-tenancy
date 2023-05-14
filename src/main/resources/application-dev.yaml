@@ -21,27 +21,17 @@ spring:
       ddl-auto: create-drop
     properties:
       hibernate:
-    database: H2
+    database: HSQL
     show-sql: true
   datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:YouthCouncilDev
-    username: "sa"
-    password: ""
-  devtools:
-    restart:
-      enabled: true
-      additional-paths: src/main/javah
-      additional-exclude: WEB-INF/**
-  thymeleaf:
-    cache: false
-  sql:
-    init:
-      mode: always
-#      data-locations: classpath:sql/municipalities/*.sql
-logging:
-  level:
-    be.kdg.finalproject: debug
-
+    driver-class-name: org.hsqldb.jdbc.JDBCDriver
+    url: jdbc:hsqldb:file:./db/YouthCouncelDev;DB_CLOSE_ON_EXIT=FALSE
+    username: "admin"
+    password: "admin"
+  security:
+    user:
+      name: "admin"
+      password: "admin"
+      roles: "MEMBER"
 images:
   placeholderDir: /images/placeholders/
