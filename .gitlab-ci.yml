@@ -1,3 +1,6 @@
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+
 variables:
   GRADLE_USER_HOME: "cache/.gradle"
   GRADLE_ARGS_CI: "--no-daemon --stacktrace"
@@ -40,27 +43,12 @@ test:
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
-sast-java:
-  stage: test
-  image: registry.gitlab.com/gitlab-org/security-products/sast:latest
-  script:
-    - sast --analyzers=java
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
-    paths:
-      - gl-sast-report.json
-
-sast-js:
-  stage: test
-  image: registry.gitlab.com/gitlab-org/security-products/sast:latest
-  script:
-    - sast --analyzers=javascript
-  artifacts:
-    reports:
-      sast: gl-sast-report.json
-    paths:
-      - gl-sast-report.json
+# sast stage test
+#sast:
+#  stage: test
+#  image: docker:stable
+#  services:
+#    - docker:stable-dind
 
 deploy:
   image: google/cloud-sdk:latest
