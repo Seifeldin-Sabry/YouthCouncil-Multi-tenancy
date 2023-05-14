@@ -40,6 +40,24 @@ test:
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
+sast-java:
+  stage: test
+  image: registry.gitlab.com/gitlab-org/security-products/sast:latest
+  script:
+    - sast --analyzers=java
+  artifacts:
+    paths:
+      - gl-sast-report.json
+
+sast-js:
+  stage: test
+  image: registry.gitlab.com/gitlab-org/security-products/sast:latest
+  script:
+    - sast --analyzers=javascript
+  artifacts:
+    paths:
+      - gl-sast-report.json
+
 deploy:
   image: google/cloud-sdk:latest
   stage: deploy

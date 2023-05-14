@@ -101,9 +101,7 @@ function copy_files_over() {
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf secret.json"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
   key=\"\${VAR%=*}\"
@@ -117,7 +115,7 @@ done
 
 function establish_connection_to_vm() {
     echo "Waiting for VM to be ready..."
-    while ! gcloud compute ssh $VM_NAME --zone=$ZONE --command="java --version" 2> /dev/null; do
+    while ! gcloud compute ssh $VM_NAME --zone=$ZONE --command="java --version && which certbot" 2> /dev/null; do
       sleep 1
     done
 }
