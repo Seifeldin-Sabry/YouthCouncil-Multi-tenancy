@@ -13,6 +13,7 @@ function create_vm() {
       --image-family="$IMAGE_FAMILY" \
       --image-project="$IMAGE_PROJECT" \
       --project="${GOOGLE_PROJECT_ID}" \
+      --service-account=gitlab-ci-cd@infra3-seifeldin-sabry.iam.gserviceaccount.com \
       --metadata=startup-script="#! /bin/bash
       apt-get update && apt install -y openjdk-17-jdk
       curl -L -o /tmp/gradle-7.4.2-bin.zip https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
@@ -58,7 +59,7 @@ function get_instance_ip() {
   echo "VM IP is $VM_IP"
 }
 
-VM_NAME="instance-deployed-integration"
+VM_NAME="instance-deployed-integration-test"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
 IMAGE_FAMILY="ubuntu-2204-lts"

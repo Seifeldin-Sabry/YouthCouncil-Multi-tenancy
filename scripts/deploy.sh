@@ -16,7 +16,7 @@ for VAR in ${ENV_VARIABLES[*]}; do
   export "$key"="$value" 2> /dev/null
 done
 
-VM_NAME="instance-deployed-integration"
+VM_NAME="instance-deployed-integration-test"
 ZONE="europe-west1-b"
 
 function set_project() {
