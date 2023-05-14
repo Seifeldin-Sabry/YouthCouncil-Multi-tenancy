@@ -68,7 +68,7 @@ function authorize_vm_to_instance() {
 #  if gcloud instance does not exist then exit
   echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME"
 #  use gcloud instances list to find the instance, if not exist exit 1
- if ! gcloud sql instances describe "$SQL_INSTANCE_NAME" --project="$GOOGLE_PROJECT_ID" 2> /dev/null; then
+ if ! gcloud sql instances describe "$SQL_INSTANCE_NAME"; then
     echo "Instance $SQL_INSTANCE_NAME does not exist"
     exit 1
   fi
