@@ -45,8 +45,9 @@ sast:
   image: gradle:7.2.0-jdk17
   script:
     - gradle spotbugsMain
-    - spotbugs-to-sarif -f build/reports/spotbugs/main.xml -o gl-sast-report.sarif
   artifacts:
+    paths:
+      - build/reports/spotbugs/main.xml
     reports:
       sast: gl-sast-report.sarif
   allow_failure: true
