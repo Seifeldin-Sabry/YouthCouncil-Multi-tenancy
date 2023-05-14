@@ -74,8 +74,8 @@ function check_VM() {
   fi
 }
 
-check_VM
 authenticate
+check_VM
 set_project
 establish_connection_to_vm
 copy_files_over
