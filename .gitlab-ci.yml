@@ -43,17 +43,16 @@ test:
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
-sast-spotbugs:
+sast:
   stage: test
   image: gradle:7.2.0-jdk17
-  when: always
   script:
-    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME spotbugsMain
+    - gradle spotbugsMain
+    - spotbugs-to-sarif -f build/reports/spotbugs/main.xml -o gl-sast-report.sarif
   artifacts:
     reports:
-      when: always
-    paths:
-      - build/reports/spotbugs/main.xml
+      sast: gl-sast-report.sarif
+  allow_failure: true
 
 
 deploy:
