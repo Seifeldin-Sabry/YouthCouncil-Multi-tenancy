@@ -61,7 +61,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      certbot certonly -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL --standalone
+      certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL
       curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
 }
 
@@ -93,7 +93,6 @@ function get_instance_ip() {
 function copy_files_over() {
   echo "Copying authentication files over to VM"
   cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
-  ls -a
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":~/secret.json
   echo "removing jar on VM"
