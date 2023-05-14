@@ -1,6 +1,3 @@
-include:
-  - template: Jobs/SAST.gitlab-ci.yml
-
 variables:
   GRADLE_USER_HOME: "cache/.gradle"
   GRADLE_ARGS_CI: "--no-daemon --stacktrace"
