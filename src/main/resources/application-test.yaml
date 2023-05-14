@@ -1,0 +1,26 @@
+spring:
+  sql:
+    init:
+      mode: always
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  cloud:
+    gcp:
+      sql:
+        enabled: false
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:YouthCouncilTest;DB_CLOSE_ON_EXIT=FALSE
+    username: "sa"
+    password: ""
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
+  profiles:
+    active: test # prod, test
+  messages:
+    basename: templates/details
+server:
+  port: 8080

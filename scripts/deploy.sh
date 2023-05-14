@@ -61,7 +61,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log
+      # certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log
       curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
 }
 
@@ -107,7 +107,10 @@ function copy_files_over() {
   value=\"\${VAR#*=}\"
   export \"\$key\"=\"\$value\" 2> /dev/null
 done
-  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar"
+  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && nohup java -jar build.jar &"
+  echo "Jar is running"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf secret.json"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL > /tmp/certbot.log"
 }
 
 

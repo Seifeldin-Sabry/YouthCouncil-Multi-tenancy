@@ -1,7 +1,7 @@
 package be.kdg.finalproject.municipalities;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.exceptions.NoPlatformException;
 import be.kdg.finalproject.repository.membership.MembershipRespository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.service.user.UserService;
@@ -38,12 +38,12 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 			MunicipalityContext.clear();
 			logger.debug("current municipality is " + MunicipalityContext.getCurrentMunicipality());
 			logger.debug("current municipalityName is " + MunicipalityContext.getCurrentMunicipalityName());
-			throw new EntityNotFoundException("Municipality not found");
-			//			return;
+			chain.doFilter(request, response);
+			return;
 		}
 		if (!municipalityFound.isHasPlatform()) {
 			MunicipalityContext.clear();
-			throw new EntityNotFoundException("Municipality does not have a platform yet");
+			throw new NoPlatformException("Municipality does not have a platform yet");
 		}
 		MunicipalityContext.setCurrentMunicipalityName(municipality);
 		MunicipalityContext.setCurrentMunicipality(municipalityFound);
