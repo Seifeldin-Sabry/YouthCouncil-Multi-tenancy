@@ -65,7 +65,7 @@ function authenticate() {
 
 function check_VM() {
   echo "Checking if VM exists"
-  if gcloud compute instances list | grep ${VM_NAME}; then
+  if gcloud compute instances list --zone=$ZONE --project="$GOOGLE_PROJECT_ID" | grep ${VM_NAME}; then
     echo "VM exists"
   else
     echo "VM does not exist"
