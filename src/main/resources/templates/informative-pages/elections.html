@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Elections</title>
+	<link rel="stylesheet" th:href="@{/css/elections/elections.css}">
+	<script defer th:src="@{/js/elections/elections.js}" type="module"></script>
+</head>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<body>
+
+<main>
+	<section class="py-5">
+		<div class="container">
+			<h1 class="text-center mb-5">How do the elections work?</h1>
+
+			<div class="row justify-content-center">
+				<div class="col-md-4 mb-4">
+					<div class="card">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/ZMKKrWyzmd8" allowfullscreen></iframe>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">How do elections work?</h5>
+							<p class="card-text">A general explanation of how elections work. Look at other videos for more info!</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/LVJfU0-HZaE" allowfullscreen></iframe>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">What were the elections about?</h5>
+							<p class="card-text">Explanation about what was discussed and which ideas were part of elections.</p>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-4 mb-4">
+					<div class="card">
+						<div class="embed-responsive embed-responsive-16by9">
+							<iframe class="embed-responsive-item" src="https://www.youtube.com/embed/3BZPMLkLS9s" allowfullscreen></iframe>
+						</div>
+						<div class="card-body">
+							<h5 class="card-title">What was the end result?</h5>
+							<p class="card-text">Explanation of what happened. A short description of video and end result and when it will be in effect. </p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+</main>
+</body>
+</html>
