@@ -38,8 +38,8 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 			MunicipalityContext.clear();
 			logger.debug("current municipality is " + MunicipalityContext.getCurrentMunicipality());
 			logger.debug("current municipalityName is " + MunicipalityContext.getCurrentMunicipalityName());
-			chain.doFilter(request, response);
-			return;
+			throw new EntityNotFoundException("Municipality not found");
+			//			return;
 		}
 		if (!municipalityFound.isHasPlatform()) {
 			MunicipalityContext.clear();
