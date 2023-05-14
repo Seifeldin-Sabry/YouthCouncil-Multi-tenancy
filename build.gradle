@@ -25,6 +25,12 @@ spotbugsMain {
     }
 }
 
+check {
+    dependsOn = tasks.matching {
+        it.name.startsWith('test') && !it.name.contains('SpotBugs')
+    }
+}
+
 
 configurations {
     compileOnly {
