@@ -61,7 +61,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      certbot certonly -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL --webroot
+      certbot certonly -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL --standalone
       curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
 }
 
@@ -71,8 +71,17 @@ function authorize_vm_to_instance() {
     echo "Instance $SQL_INSTANCE_NAME does not exist"
     create_sql_instance
   fi
-  echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME the IP $VM_IP"
-  gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
+# Get the list of current authnw
+  current_authnw=$(gcloud sql instances describe "$SQL_INSTANCE_NAME" \
+    --format='value(settings.ipConfiguration.authorizedNetworks[].value)' \
+    |tr ";" ",")
+  if [[ -z ${current_authnw} || ${current_authnw} = "0.0.0.0/0" ]]; then
+    gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="${VM_IP}" -q
+  else
+    current_authnw+=,${VM_IP}
+    gcloud sql instances patch "$SQL_INSTANCE_NAME" \
+        --authorized-networks="${current_authnw}" -q
+  fi
 }
 
 function get_instance_ip() {

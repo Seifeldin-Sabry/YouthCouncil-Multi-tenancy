@@ -54,4 +54,12 @@ How to add an admin
 1. You need to fill in the SQL an insert statment for the user you want to add
 2. `INSERT INTO app_users (email, username, password, role, provider) VALUES (<email>, <username>, <password>, ADMINISTRATOR, LOCAL);`
 3. for the password go to website [BCrypt](https://www.browserling.com/tools/bcrypt) and generate a password
-4. copy the generated password and paste it in the insert statment
+4. copy the generated password and paste it in the insert statement
+
+#### Important notes about deployment
+
+1. The first deploy must have ddl-auto set to create in the application.properties file
+2. After the first deploy, ddl-auto must be set to update in the application.properties file, and the scripts to insert
+   must be commented out
+3. Now any update will just update the schema, and not drop the tables and recreate them
+4. All municipalities should also be registered and their postcode too as a result
