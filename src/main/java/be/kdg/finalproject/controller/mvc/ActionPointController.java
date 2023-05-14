@@ -1,6 +1,7 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityId;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpSession;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -47,10 +49,12 @@ public class ActionPointController {
 			logger.debug("No user found");
 			actionPoints = actionPointService.getActionPointsByMunicipalityId(municipalityId);
 		}
+		List<SubTheme> subThemesFiltered = subThemeService.findActionPointsBySubtheme(municipalityId);
 		logger.debug("Action points found: {}", actionPoints);
 		return new ModelAndView("/action-points/action-points")
 				.addObject("actionPoints", actionPoints)
-				.addObject("subThemes", subThemeService.getAllSubThemes());
+				.addObject("subThemes", subThemeService.getAllSubThemes())
+				.addObject("subthemesFiltered", subThemesFiltered);
 	}
 
 	@GetMapping ("/action-points/{uuid}")
@@ -64,5 +68,4 @@ public class ActionPointController {
 		return new ModelAndView("/action-points/action-point")
 				.addObject("actionPoint", actionPoint);
 	}
-
 }

@@ -9,6 +9,7 @@
 	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
 	<script defer th:src="@{js/action-points/actionPoints.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/addActionPoint.js}" type="module"></script>
+	<script defer th:src="@{/js/action-points/filterActionPoints.js}" type="module"></script>
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
@@ -65,6 +66,19 @@
 		</div>
 	</div>
 </div>
+
+
+<div class="container my-5"  th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
+	<div class="row mt-2">
+		<div class="col-md-8 col-lg-6 mx-auto">
+			<select name="subThemeFilter" id="subThemeFilter" class="form-select form-select-lg" style="font-size: small">
+				<option value="0">All</option>
+				<option th:each="subthemeFiltered : ${subthemesFiltered}" th:value="${subthemeFiltered.id}" th:text="${subthemeFiltered.subThemeName}"></option>
+			</select>
+		</div>
+	</div>
+</div>
+
 <div class="container my-5 action-points">
 	<th:block th:each="actionPoint, iter : ${actionPoints}">
 		<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">
