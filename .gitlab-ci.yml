@@ -43,12 +43,18 @@ test:
   script:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
-# sast stage test
-#sast:
-#  stage: test
-#  image: docker:stable
-#  services:
-#    - docker:stable-dind
+sast-spotbugs:
+  stage: test
+  image: gradle:7.2.0-jdk17
+  when: always
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME spotbugsMain
+  artifacts:
+    reports:
+      when: always
+    paths:
+      - build/reports/spotbugs/main.xml
+
 
 deploy:
   image: google/cloud-sdk:latest
