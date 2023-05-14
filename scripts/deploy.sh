@@ -46,7 +46,6 @@ function create_vm() {
       --image-family="$IMAGE_FAMILY" \
       --image-project="$IMAGE_PROJECT" \
       --project="${GOOGLE_PROJECT_ID}" \
-      --service-account=gitlab-ci-cd@infra3-seifeldin-sabry.iam.gserviceaccount.com \
       --metadata=startup-script="#! /bin/bash
       apt-get update && apt install -y openjdk-17-jdk
       curl -L -o /tmp/gradle-7.4.2-bin.zip https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
@@ -67,7 +66,6 @@ function create_vm() {
 }
 
 function authorize_vm_to_instance() {
-#  if gcloud instance does not exist then exit
 #  use gcloud instances list to find the instance, if not exist exit 1
  if ! gcloud sql instances list --project="$GOOGLE_PROJECT_ID" | grep "$SQL_INSTANCE_NAME" 1>/dev/null 2>/dev/null; then
     echo "Instance $SQL_INSTANCE_NAME does not exist"
@@ -93,18 +91,15 @@ function copy_files_over() {
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
   echo "Copying jar over to VM"
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
-  echo "attempting authentication"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
-  echo "current permissions"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth list; gcloud config list"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
   key=\"\${VAR%=*}\"
   value=\"\${VAR#*=}\"
   export \"\$key\"=\"\$value\" 2> /dev/null
 done
-  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar & disown" &
+  export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && java -jar build.jar" &
 }
 
 
@@ -135,15 +130,14 @@ function authenticate() {
   gcloud config list
 }
 
-function check_VM() {
-  echo "Checking if VM exists"
-  if gcloud compute instances list --zones=$ZONE --project="$GOOGLE_PROJECT_ID" | grep ${VM_NAME}; then
-    echo "VM exists"
-  else
-    echo "VM does not exist"
-    echo "Run the initialise_cloud.sh script to setup the deployment environment"
-    exit 1
+
+function setup_database() {
+  echo "Setting up database $POSTGRES_DB"
+  if ! gcloud sql databases list --instance="$SQL_INSTANCE_NAME" --project="$GOOGLE_PROJECT_ID" | grep "$POSTGRES_DB" 1>/dev/null 2>/dev/null; then
+    echo "Database $POSTGRES_DB does not exist"
+    gcloud sql databases create "$POSTGRES_DB" --instance="$SQL_INSTANCE_NAME" --project="$GOOGLE_PROJECT_ID"
   fi
+  echo "Database $POSTGRES_DB already exists"
 }
 
 authenticate
@@ -151,5 +145,6 @@ set_project
 create_vm
 get_instance_ip
 authorize_vm_to_instance
+setup_database
 establish_connection_to_vm
 copy_files_over

@@ -58,8 +58,7 @@ destroy:
   when: manual
   script:
     - chmod +x ./scripts/destroy.sh
-    #    - ./scripts/destroy.sh $SQL_INSTANCE_NAME $VM_INSTANCE_PATTERN
-    - ./scripts/destroy.sh test $VM_INSTANCE_PATTERN infra3-seifeldin-sabry
+    - ./scripts/destroy.sh $SQL_INSTANCE_NAME $VM_INSTANCE_PATTERN $GOOGLE_PROJECT_ID $GOOGLE_SERVICE_ACCOUNT_FILE
 
 after_script:
   - echo "End CI/CD"

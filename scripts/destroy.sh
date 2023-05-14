@@ -25,8 +25,6 @@ function delete_deployed_VMs() {
 function authenticate() {
   echo "Authenticating to gcloud"
   gcloud auth activate-service-account --key-file "$GOOGLE_SERVICE_ACCOUNT_FILE"
-  gcloud auth list
-  gcloud config list
 }
 
 function delete_all() {
