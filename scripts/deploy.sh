@@ -32,7 +32,6 @@ function set_project() {
 }
 
 function create_vm() {
-  echo "Creating VM ${VM_NAME} in zone ${ZONE} with machine type ${MACHINE_TYPE} and image family ${IMAGE_FAMILY}"
   if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet 1>/dev/null 2>/dev/null; then
     echo "VM ${VM_NAME} already exists"
     return 0
@@ -68,7 +67,7 @@ function authorize_vm_to_instance() {
 #  if gcloud instance does not exist then exit
   echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME"
 #  use gcloud instances list to find the instance, if not exist exit 1
- if ! gcloud sql instances describe "$SQL_INSTANCE_NAME"; then
+ if ! gcloud sql instances list --project="$GOOGLE_PROJECT_ID" | grep "$SQL_INSTANCE_NAME" 1>/dev/null 2>/dev/null; then
     echo "Instance $SQL_INSTANCE_NAME does not exist"
     exit 1
   fi
