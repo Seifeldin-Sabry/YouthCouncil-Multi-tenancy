@@ -57,8 +57,7 @@ How to add an admin
 4. copy the generated password and paste it in the insert statement
 
 example
-admin: `INSERT INTO app_users (email, username, password, role, provider) VALUES ('admin@admin.co', 'admin', '$2a$10$3/cFBOh7pajctdMKJke2DuejPelAV8Ikt90BFcsvx/yUigAkP5zPO', 'ADMINISTRATOR', 'LOCAL');
-`
+admin: `INSERT INTO app_users (email, username, password, role, provider) VALUES ('admin@admin.co', 'admin', '$2a$10$3/cFBOh7pajctdMKJke2DuejPelAV8Ikt90BFcsvx/yUigAkP5zPO', 'ADMINISTRATOR', 'LOCAL');`
 
 #### Important notes about deployment
 

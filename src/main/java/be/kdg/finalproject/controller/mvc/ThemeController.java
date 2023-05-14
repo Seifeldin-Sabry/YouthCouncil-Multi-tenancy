@@ -1,6 +1,8 @@
 package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
+import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.theme.ThemeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,7 +21,10 @@ public class ThemeController {
 	}
 
 	@GetMapping
-	public ModelAndView showThemes() {
+	public ModelAndView showThemes(@MunicipalityId Long muid) {
+		if (muid != null) {
+			throw new EntityNotFoundException("Page not found");
+		}
 		return new ModelAndView("platform/platform-themes")
 				.addObject("themes", themeService.getAllThemes());
 	}

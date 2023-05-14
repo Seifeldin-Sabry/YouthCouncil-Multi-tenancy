@@ -7,8 +7,6 @@ import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -22,7 +20,6 @@ import java.util.UUID;
 @Controller
 public class MunicipalityController {
 
-	private final Logger logger = LoggerFactory.getLogger(MunicipalityController.class);
 	private final MunicipalityService municipalityService;
 
 	public MunicipalityController(MunicipalityService municipalityService) {
@@ -34,27 +31,31 @@ public class MunicipalityController {
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		String role = auth.getAuthorities().stream().findFirst().get().getAuthority();
 		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
-		if (currentMunicipality != null && !Objects.equals(role, "ROLE_ANONYMOUS")) {
+		if (currentMunicipality != null) {
 			return "municipality/municipality-home";
 		}
-		if (currentMunicipality == null && Objects.equals(role, "ROLE_ADMINISTRATOR")) {
+		if (Objects.equals(role, "ROLE_ADMINISTRATOR")) {
 			return "platform/platform-dashboard";
-		} else if (currentMunicipality == null) {
-			return "redirect:/login";
 		}
-		return "platform/platform-home";
+		return "redirect:/login";
 	}
 
 	@GetMapping ("/dashboard/municipalities")
 	@GeneralAdminOnly
-	public ModelAndView showMunicipalities() {
+	public ModelAndView showMunicipalities(@MunicipalityId Long muid) {
+		if (muid != null) {
+			throw new EntityNotFoundException("Page not found");
+		}
 		return new ModelAndView("platform/platform-municipalities")
 				.addObject("municipalities", municipalityService.getAllMunicipalitiesAndMembers());
 	}
 
 	@GetMapping ("/dashboard/municipalities/{uuid}")
 	@GeneralAdminOnly
-	public ModelAndView showMunicipalityDetails(@PathVariable UUID uuid) throws EntityNotFoundException {
+	public ModelAndView showMunicipalityDetails(@PathVariable UUID uuid, @MunicipalityId Long muid) throws EntityNotFoundException {
+		if (muid != null) {
+			throw new EntityNotFoundException("Page not found");
+		}
 		Municipality municipality = municipalityService.getMunicipalityByUUID(uuid);
 		return new ModelAndView("platform/platform-municipality")
 				.addObject("municipality", municipality);
