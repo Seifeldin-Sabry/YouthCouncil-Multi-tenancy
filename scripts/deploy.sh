@@ -16,7 +16,10 @@ for VAR in ${ENV_VARIABLES[*]}; do
   export "$key"="$value" 2> /dev/null
 done
 
-VM_NAME="instance-deployed-integration-test"
+VM_NAME="instance-deployed-integration"
+SQL_INSTANCE_NAME="youthcouncil"
+REGION="europe-west1"
+SQL_ROOT_PASSWORD="root"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
 IMAGE_FAMILY="ubuntu-2204-lts"
@@ -65,11 +68,10 @@ function create_vm() {
 
 function authorize_vm_to_instance() {
 #  if gcloud instance does not exist then exit
-  echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME"
 #  use gcloud instances list to find the instance, if not exist exit 1
  if ! gcloud sql instances list --project="$GOOGLE_PROJECT_ID" | grep "$SQL_INSTANCE_NAME" 1>/dev/null 2>/dev/null; then
     echo "Instance $SQL_INSTANCE_NAME does not exist"
-    exit 1
+    create_sql_instance
   fi
   echo "Authorizing VM to connect to postgres instance $SQL_INSTANCE_NAME the IP $VM_IP"
   gcloud sql instances patch "$SQL_INSTANCE_NAME" --authorized-networks="$VM_IP" --quiet
@@ -113,6 +115,19 @@ function establish_connection_to_vm() {
     done
 }
 
+function create_sql_instance() {
+  echo "Creating SQL instance"
+  gcloud sql instances create "$SQL_INSTANCE_NAME" \
+    --database-version=POSTGRES_14 \
+    --cpu=1 \
+    --memory=3840MiB \
+    --region="$REGION" \
+    --project="$GOOGLE_PROJECT_ID" \
+    --root-password="$SQL_ROOT_PASSWORD" \
+    --storage-type=HDD \
+    --tier=db-f1-micro
+}
+
 function authenticate() {
   echo "Authenticating to gcloud"
   gcloud auth activate-service-account --key-file "$GOOGLE_SERVICE_ACCOUNT_FILE"
@@ -132,7 +147,6 @@ function check_VM() {
 }
 
 authenticate
-#check_VM
 set_project
 create_vm
 get_instance_ip
