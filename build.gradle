@@ -38,7 +38,6 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.1.1'
     implementation 'com.google.cloud.sql:postgres-socket-factory:1.2.2'
     implementation 'commons-fileupload:commons-fileupload:1.5'
-    implementation 'com.github.csueiras.acme:spring-boot-starter-acme:0.1.0'
     implementation 'com.google.cloud:google-cloud-storage:2.2.0'
     implementation('com.github.javafaker:javafaker:1.0.2') {
         exclude group: 'org.yaml', module: 'snakeyaml'
