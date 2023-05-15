@@ -47,7 +47,7 @@ ExecStart=export POSTGRES_DB=$POSTGRES_DB && \
  export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
  export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
  export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
- java -jar /web/build.jar
+ /usr/bin/java -jar /web/build.jar
 
 Restart=on-failure
 
