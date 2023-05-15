@@ -30,21 +30,7 @@ DUCK_DNS=youth-council
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
-SYSTEMD_SERVICE_CONTENT="[Unit]
-Description=Youthcouncil service
-After=network.target
-
-[Service]
-Type=simple
-User=root
-WorkingDirectory=/web
-ExecStart=bash /web/start.sh
-
-Restart=on-failure
-
-[Install]
-WantedBy=multi-user.target
-"
+SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -134,11 +120,10 @@ function copy_files_over() {
   echo "Copying jar over to VM"
   gcloud compute scp --recurse --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
-  echo "requesting certificate"
   echo "stopping service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"${SYSTEMD_SERVICE_NAME}\""
   echo "requesting certificate"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"${DOMAIN_NAME}\" 1>/dev/null 2>/dev/null; then certbot certonly --standalone -d \"${DOMAIN_NAME}\" --non-interactive --agree-tos --email \"${EMAIL}\"; fi"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"$DUCK_DNS/duckdns.org\" 1>/dev/null 2>/dev/null; then certbot certonly --standalone -d \"$DUCK_DNS/duckdns.org\" --non-interactive --agree-tos --email \"${EMAIL}\"; fi"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DUCK_DNS.duckdns.org | grep keystore.p12; then openssl pkcs12 -export -in fullchain.pem -inkey /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/privkey.pem -out /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 -name bootalias -CAfile chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && cp /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 /web/keystore.p12; fi"
   echo "restarting youth council service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"${SYSTEMD_SERVICE_NAME}\""
