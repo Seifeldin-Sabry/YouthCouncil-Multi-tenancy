@@ -58,7 +58,7 @@ public class ImageServiceProdImpl implements ImageService {
 		logger.debug("Saving {} images", images.size());
 		for (MultipartFile image : images) {
 			logger.debug("Saving image {}", image.getOriginalFilename());
-			String file_path = "temp/" + image.getOriginalFilename();
+			String file_path = "/tmp/" + image.getOriginalFilename();
 			image.transferTo(Path.of(file_path));
 			urls.add(uploadObject(image.getOriginalFilename(), file_path));
 		}
