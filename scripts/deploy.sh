@@ -130,7 +130,6 @@ function copy_files_over() {
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
   key=\"\${VAR%=*}\"
@@ -139,6 +138,8 @@ function copy_files_over() {
 done
   export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && systemctl start \"${SYSTEMD_SERVICE_NAME}\""
   echo "Jar is running"
+  echo "requesting certificate"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
 }
 
 
