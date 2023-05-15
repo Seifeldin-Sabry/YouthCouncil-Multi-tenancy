@@ -25,7 +25,7 @@ public class ImageServiceDevImpl implements ImageService {
 	                                                                                                   .substring(PARENT_DIR.length());
 	private final String FULL_PATH = new ClassPathResource(String.format("%s/images/image_db/", PARENT_DIR)).getPath();
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ImageServiceDevImpl.class);
-	private long imageId = 0;
+	private volatile long imageId = 0;
 
 	@PostConstruct
 	public void init() {
@@ -69,7 +69,7 @@ public class ImageServiceDevImpl implements ImageService {
 		return savedImages;
 	}
 
-	private String generateImageName() {
+	private synchronized String generateImageName() {
 		return "image_" + UUID.randomUUID() + "_" + imageId++;
 	}
 }

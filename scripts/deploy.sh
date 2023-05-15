@@ -38,14 +38,7 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=/bin/bash -c 'for VAR in ${ENV_VARIABLES[*]}; do
-                    key=\"\${VAR%=*}\"
-                    value=\"\${VAR#*=}\"
-                    export \"\$key\"=\"\$value\" 2> /dev/null
-                  done &&
-                  export HOME_DIR=\$(pwd) &&
-                  export PATH_TO_SECRET=\$HOME_DIR/secret.json &&
-                  /usr/bin/java -jar /web/build.jar'
+ExecStart=chmod
 Restart=on-failure
 
 [Install]
