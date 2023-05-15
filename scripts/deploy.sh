@@ -38,7 +38,12 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=/usr/bin/java -jar /web/build.jar
+ExecStart=for VAR in ${ENV_VARIABLES[*]}; do
+            key=\"\${VAR%=*}\"
+            value=\"\${VAR#*=}\"
+            export \"\$key\"=\"\$value\" 2> /dev/null
+          done && \
+          export HOME_DIR=\$(pwd) && export PATH_TO_SECRET=\$HOME_DIR/secret.json && /usr/bin/java -jar /web/build.jar
 Restart=on-failure
 
 [Install]
@@ -112,7 +117,7 @@ function copy_files_over() {
   echo "Copying authentication files over to VM"
   cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
   echo "Copying file over to VM"
-  gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":~/secret.json
+  gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":/web/secret.json
   echo "removing jar on VM"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
   echo "Copying jar over to VM"
