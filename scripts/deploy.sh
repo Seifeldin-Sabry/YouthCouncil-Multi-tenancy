@@ -26,7 +26,7 @@ IMAGE_FAMILY="ubuntu-2204-lts"
 IMAGE_PROJECT="ubuntu-os-cloud"
 TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
 DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
-DUCK_DNS=youthcouncil
+DUCK_DNS=youth-council
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
@@ -38,19 +38,21 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=bash /web/var.sh
+ExecStart=export POSTGRES_DB=$POSTGRES_DB && \
+ export export POSTGRES_HOST=$POSTGRES_HOST && \
+ export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && \
+ export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && \
+ export SQL_INSTANCE_CONNECTION_NAME=$SQL_INSTANCE_CONNECTION_NAME && \
+ export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID && \
+ export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
+ export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
+ export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
+ java -jar /web/build.jar
 
 Restart=on-failure
 
 [Install]
 WantedBy=multi-user.target
-"
-
-varsh_content="#!/bin/bash
-for line in \$(cat /web/.env); do
-  export \$line
-done
-java -jar /web/build.jar
 "
 
 function set_project() {
@@ -83,11 +85,6 @@ function create_vm() {
       ufw enable
       mkdir /web
       echo \"$SYSTEMD_SERVICE_CONTENT\" > \"$SYSTEMD_SERVICE_PATH\"
-      echo \"$varsh_content\" > /web/var.sh
-      chmod +x /web/var.sh
-      for VAR in ${ENV_VARIABLES[*]}; do
-        echo \$VAR >> /web/.env
-      done
       systemctl daemon-reload
       snap install core
       snap refresh core
