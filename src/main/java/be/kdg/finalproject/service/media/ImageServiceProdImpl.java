@@ -17,11 +17,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-@Profile ("prod")
+@Profile ({"prod", "devpsql"})
 public class ImageServiceProdImpl implements ImageService {
 
 	private static final String BUCKET_NAME = "youth-council-image-bucket";
-	private final String PROJECT_ID = "jovial-pod-377109";
+	private final String PROJECT_ID = "infra3-seifeldin-sabry";
 	private final Storage storage;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ImageServiceProdImpl.class);
 

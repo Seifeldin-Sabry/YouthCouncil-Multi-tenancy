@@ -28,6 +28,8 @@ TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
 DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
+SYSTEMD_SERVICE_NAME="youthcouncil.service"
+
 
 function set_project() {
   echo "Setting project to ${GOOGLE_PROJECT_ID}"
@@ -57,6 +59,7 @@ function create_vm() {
       ufw allow 443/tcp
       ufw allow 22/tcp
       ufw enable
+
       snap install core
       snap refresh core
       snap install --classic certbot
@@ -98,7 +101,7 @@ function copy_files_over() {
   echo "removing jar on VM"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
   echo "Copying jar over to VM"
-  gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":~/build.jar
+  gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file secret.json"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
