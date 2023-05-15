@@ -128,7 +128,7 @@ function copy_files_over() {
     certbot certonly --standalone -d $DOMAIN --non-interactive --agree-tos --email $EMAIL
   fi"
   gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DOMAIN | grep keystore.p12; then
-    openssl pkcs12 -export -in /etc/letsencrypt/live/$DOMAIN/fullchain.pem -inkey /etc/letsencrypt/live/$DOMAIN/privkey.pem -out /etc/letsencrypt/live/$DOMAIN/keystore.p12 -name bootalias -CAfile /etc/letsencrypt/live/$DOMAIN/chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && \
+    openssl pkcs12 -export -in /etc/letsencrypt/live/$DOMAIN/fullchain.pem -inkey /etc/letsencrypt/live/$DOMAIN/privkey.pem -out /etc/letsencrypt/live/$DOMAIN/keystore.p12 -name tomcat -CAfile /etc/letsencrypt/live/$DOMAIN/chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && \
     cp /etc/letsencrypt/live/$DOMAIN/keystore.p12 /web/keystore.p12
   fi"
   echo "restarting youth council service"
