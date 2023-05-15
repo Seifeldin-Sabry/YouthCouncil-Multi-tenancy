@@ -49,7 +49,7 @@ sast:
     paths:
       - build/reports/spotbugs/main.xml
     reports:
-      sast: gl-sast-report.sarif
+      sast: build/reports/spotbugs/main.xml
 
 
 deploy:
