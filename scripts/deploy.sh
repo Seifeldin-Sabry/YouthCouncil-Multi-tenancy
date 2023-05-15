@@ -57,7 +57,7 @@ export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID && \
 export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
 export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
-java -jar /web/build/libs/FinalProject-0.0.1-SNAPSHOT.jar
+java -jar /web/build.jar
 "
 
 function set_project() {
@@ -130,14 +130,18 @@ function copy_files_over() {
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":/web/secret.json
   echo "removing jar on VM"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf /web/build 2> /dev/null"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm /web/build.jar 2> /dev/null"
   echo "Copying jar over to VM"
-  gcloud compute scp --recurse ./build --zone=$ZONE "$VM_NAME":/web/build
+  gcloud compute scp --recurse --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "requesting certificate"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"$DUCK_DNS.duckdns.org\" 1>/dev/null 2>/dev/null; then certbot certonly --webroot -n -d \"$DUCK_DNS.duckdns.org\" --agree-tos --email $EMAIL -w /web/build/resources/main/static; fi"
-  echo "attempting to run jar"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl restart \"${SYSTEMD_SERVICE_NAME}\""
+  echo "stopping service"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"${SYSTEMD_SERVICE_NAME}\""
+  echo "requesting certificate"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"${DOMAIN_NAME}\" 1>/dev/null 2>/dev/null; then certbot certonly --standalone -d \"${DOMAIN_NAME}\" --non-interactive --agree-tos --email \"${EMAIL}\"; fi"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DUCK_DNS.duckdns.org | grep keystore.p12; then openssl pkcs12 -export -in fullchain.pem -inkey /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/privkey.pem -out /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 -name bootalias -CAfile chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && cp /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 /web/keystore.p12; fi"
+  echo "restarting youth council service"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"${SYSTEMD_SERVICE_NAME}\""
   echo "Jar is running"
 }
 
