@@ -1,7 +1,6 @@
 package be.kdg.finalproject.municipalities;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.exceptions.NoPlatformException;
 import be.kdg.finalproject.repository.membership.MembershipRespository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.service.user.UserService;
@@ -33,17 +32,13 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 
 		var municipality = getMunicipality(request);
 		Municipality municipalityFound = municipalityRepository.findByNameIgnoreCase(municipality).orElse(null);
-		if (municipalityFound == null) {
+		if (municipalityFound == null || !municipalityFound.isHasPlatform()) {
 			// Attempted access to non-existing tenant
 			MunicipalityContext.clear();
 			logger.debug("current municipality is " + MunicipalityContext.getCurrentMunicipality());
 			logger.debug("current municipalityName is " + MunicipalityContext.getCurrentMunicipalityName());
 			chain.doFilter(request, response);
 			return;
-		}
-		if (!municipalityFound.isHasPlatform()) {
-			MunicipalityContext.clear();
-			throw new NoPlatformException("Municipality does not have a platform yet");
 		}
 		MunicipalityContext.setCurrentMunicipalityName(municipality);
 		MunicipalityContext.setCurrentMunicipality(municipalityFound);
