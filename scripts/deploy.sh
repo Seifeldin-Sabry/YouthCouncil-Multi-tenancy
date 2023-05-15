@@ -38,11 +38,24 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=chmod
+ExecStart=bash /web/var.sh"
+
+additional_systemd="
 Restart=on-failure
 
 [Install]
-WantedBy=multi-user.target"
+WantedBy=multi-user.target
+"
+
+varsh_content="#!/bin/bash
+for VAR in ${ENV_VARIABLES[*]}; do
+  echo \"export \$VAR\" >> /etc/environment
+done
+source /etc/environment
+echo \"$additional_systemd\" >> $SYSTEMD_SERVICE_PATH
+systemctl daemon-reload
+java -jar /web/build.jar
+"
 
 function set_project() {
   echo "Setting project to ${GOOGLE_PROJECT_ID}"
@@ -74,6 +87,8 @@ function create_vm() {
       ufw enable
       mkdir /web
       echo \"${SYSTEMD_SERVICE_CONTENT}\" > ${SYSTEMD_SERVICE_PATH}
+      echo \"${varsh_content}\" > /web/var.sh
+      chmod +x /web/var.sh
       systemctl daemon-reload
       snap install core
       snap refresh core
