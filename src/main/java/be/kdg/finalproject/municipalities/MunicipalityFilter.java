@@ -60,6 +60,7 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 	}
 
 	private String getMunicipality(HttpServletRequest request) {
+		logger.debug("request.getServerName() is " + request.getServerName());
 		var domain = request.getServerName();
 		var dotIndex = domain.indexOf(".");
 		if (dotIndex != -1) {
