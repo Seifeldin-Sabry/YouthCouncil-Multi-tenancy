@@ -2,26 +2,27 @@ package be.kdg.finalproject.service.callforidea;
 
 import be.kdg.finalproject.controller.api.dto.post.NewIdeaDTO;
 import be.kdg.finalproject.domain.idea.Idea;
+import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.callforidea.IdeaRepository;
+import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.service.media.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class IdeaService{
 
-	IdeaRepository ideaRepository;
-	ImageService imageService;
+	private final IdeaRepository ideaRepository;
+	private final UserRepository userRepository;
+	private final ImageService imageService;
 
-	public IdeaService(IdeaRepository ideaRepository, ImageService imageService) {
+	public IdeaService(IdeaRepository ideaRepository, UserRepository userRepository, ImageService imageService) {
 		this.ideaRepository = ideaRepository;
+		this.userRepository = userRepository;
 		this.imageService = imageService;
 	}
 
@@ -35,6 +36,18 @@ public class IdeaService{
 		idea.setCallForIdeasId(callForIdeasId);
 		idea.setCreator(user);
 		return ideaRepository.save(idea);
+	}
+
+	public List<Idea> getLikedIdeasByUser(Long likerId){
+		Set<UserIdeaLike> userIdeaLikes = userRepository.findLikedIdeasByUserId(likerId);
+		if (userIdeaLikes.isEmpty()){
+			return null;
+		}
+		List<Idea> likedIdeas = new ArrayList<>();
+		userIdeaLikes.forEach(userIdeaLike -> {
+			likedIdeas.add(userIdeaLike.getIdea());
+		});
+		return likedIdeas;
 	}
 
 	public Optional<Idea> getIdeaById(Long id){return ideaRepository.findById(id);}
