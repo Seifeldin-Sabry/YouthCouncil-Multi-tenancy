@@ -100,11 +100,16 @@ public class MembershipService {
 		membershipRepository.save(new Membership(user, municipality, Role.USER));
 	}
 
-	public void updateBanStatus(Long membershipId, boolean ban) {
+	public boolean updateBanStatus(Long membershipId, boolean ban) {
 		Membership membership = membershipRepository.findById(membershipId)
 		                                            .orElseThrow(() -> new EntityNotFoundException("Membership not found"));
+		if(!(membership.getUser().getRole()==Role.USER)){
+			logger.debug("Moderator can only ban users, ban did not go through");
+			return false;
+		}
 		membership.setBanned(ban);
 		membershipRepository.save(membership);
+		return true;
 	}
 
 	public void updatePromoteStatus(Long membershipId, boolean promote) {

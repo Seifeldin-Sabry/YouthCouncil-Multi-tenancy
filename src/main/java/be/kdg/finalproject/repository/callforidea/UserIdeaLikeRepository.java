@@ -12,5 +12,11 @@ import java.util.Set;
 
 @Repository
 public interface UserIdeaLikeRepository extends CrudRepository<UserIdeaLike, Long> {
-	UserIdeaLike findByIdeaAndLiker(Idea idea, User liker);
+	@Query("""
+		SELECT ui
+		FROM USER_IDEA_LIKE ui
+		WHERE ui.idea.id = :ideaId
+		AND ui.liker.id = :likerId
+		""")
+	UserIdeaLike findByIdeaAndLiker(Long ideaId, Long likerId);
 }

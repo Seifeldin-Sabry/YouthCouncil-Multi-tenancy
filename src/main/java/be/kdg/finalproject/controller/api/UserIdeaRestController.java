@@ -41,10 +41,10 @@ public class UserIdeaRestController {
 
 	@LoggedIn
 	@PatchMapping ("/{id}/like")
-	public ResponseEntity<?> toggleLike(@RequestBody LikeDTO dto, @PathVariable Long id,
+	public ResponseEntity<?> toggleLike(@PathVariable Long id,
 	                                    @ModelAttribute ("authUser") User user){
 
-		userIdeaLikeService.likeOrUnlike(id, user, !dto.isLike());
+		userIdeaLikeService.likeOrUnlike(id, user);
 
 		return new ResponseEntity<>(HttpStatus.NO_CONTENT);
 	}

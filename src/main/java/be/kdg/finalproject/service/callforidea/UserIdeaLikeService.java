@@ -25,23 +25,22 @@ public class UserIdeaLikeService {
 		this.userRepository = userRepository;
 	}
 
-	public void likeOrUnlike(Long ideaId, User user, boolean like) {
+	public void likeOrUnlike(Long ideaId, User user) {
 		Idea idea = ideaRepository.findById(ideaId).orElseThrow(() -> new EntityNotFoundException("Idea not found"));
 		User actualUser = userRepository.findByUsernameOrEmail(user.getUsername()).orElseThrow(
 				() -> new EntityNotFoundException("User not found"));
-		UserIdeaLike userIdeaLike = userIdeaLikeRepository.findByIdeaAndLiker(idea, user);
-		if (like && userIdeaLike == null) {
+		UserIdeaLike userIdeaLike = userIdeaLikeRepository.findByIdeaAndLiker(ideaId, actualUser.getId());
+		if (userIdeaLike == null) {
 			userIdeaLike = new UserIdeaLike();
 			idea.addLiker();
 			userIdeaLike.setIdea(idea);
 			userIdeaLike.setLiker(actualUser);
 			userIdeaLikeRepository.save(userIdeaLike);
-			return;
 		}
-		if (!like && userIdeaLike != null) {
+		else {
 			idea.removeLiker();
+			idea.setLiked(false);
 			userIdeaLikeRepository.deleteById(userIdeaLike.getId());
-			ideaRepository.save(idea);
 		}
 	}
 }

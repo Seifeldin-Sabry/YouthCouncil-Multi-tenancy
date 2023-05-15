@@ -10,6 +10,7 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.platform.PostCode;
+import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.Theme;
@@ -24,6 +25,7 @@ import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.repository.municipality.PostCodeRepository;
 import be.kdg.finalproject.repository.page.PageTemplateRepository;
+import be.kdg.finalproject.repository.report.ReportRepository;
 import be.kdg.finalproject.repository.theme.ThemeRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
 import com.google.common.collect.ImmutableList;
@@ -64,18 +66,12 @@ public class DatabaseSeeder {
 	private final PageTemplateRepository pageTemplateRepository;
 	private final CalendarActivityRepository calendarActivityRepository;
 
+	private final ReportRepository reportRepository;
+
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
-	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository,
-	                      MembershipService membershipService, BCryptPasswordEncoder passwordEncoder,
-	                      EntityFactory entityFactory, MunicipalityRepository municipalityRepository,
-	                      PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository,
-	                      IdeaRepository ideaRepository, ActionPointRepository actionPointRepository,
-	                      TextInputQuestionRepository textInputQuestionRepository,
-	                      RadioQuestionRepository radioQuestionRepository,
-	                      MultipleChoiceQuestionRepository multipleChoiceQuestionRepository,
-	                      NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository) {
+	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository, IdeaRepository ideaRepository, ActionPointRepository actionPointRepository, TextInputQuestionRepository textInputQuestionRepository, RadioQuestionRepository radioQuestionRepository, MultipleChoiceQuestionRepository multipleChoiceQuestionRepository, NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository, ReportRepository reportRepository) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -87,12 +83,13 @@ public class DatabaseSeeder {
 		this.callForIdeasRepository = callForIdeasRepository;
 		this.ideaRepository = ideaRepository;
 		this.actionPointRepository = actionPointRepository;
-		this.pageTemplateRepository = pageTemplateRepository;
-		this.calendarActivityRepository = calendarActivityRepository;
 		this.textInputQuestionRepository = textInputQuestionRepository;
 		this.radioQuestionRepository = radioQuestionRepository;
 		this.multipleChoiceQuestionRepository = multipleChoiceQuestionRepository;
 		this.numericInputQuestionRepository = numericInputQuestionRepository;
+		this.pageTemplateRepository = pageTemplateRepository;
+		this.calendarActivityRepository = calendarActivityRepository;
+		this.reportRepository = reportRepository;
 	}
 
 	@PostConstruct
@@ -137,8 +134,9 @@ public class DatabaseSeeder {
 		User moderator = new User("mod", "mod", "mod", "mod@user.co", passwordEncoder.encode("pass"), Role.YOUTH_COUNCIL_MODERATOR, Provider.LOCAL);
 		User user = new User("user", "user", "user", "user@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
 		User user2 = new User("user2", "user2", "user2", "user2@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
+		User offlineUser= new User("offline", "idea", "offline_idea", "offline@idea.user", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
 
-		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user, user2));
+		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user, user2, offlineUser));
 
 		//MEMBERSHIPS
 		membershipService.addMembershipByUserAndMunicipalityId(youthCouncil, antwerpen.getId(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
@@ -245,7 +243,7 @@ public class DatabaseSeeder {
 
 		idea1.setCallForIdeasId(callForIdeas1.getId());
 		idea2.setCallForIdeasId(callForIdeas1.getId());
-		idea3.setCallForIdeasId(callForIdeas1.getId());
+		idea3.setCallForIdeasId(callForIdeas2.getId());
 
 		ideaRepository.save(idea1);
 		ideaRepository.save(idea2);
@@ -254,11 +252,30 @@ public class DatabaseSeeder {
 		Set<Idea> ideas = new HashSet<>();
 		ideas.add(idea1);
 		ideas.add(idea2);
-		ideas.add(idea3);
+
+		Set<Idea> ideas2 = new HashSet<>();
+		ideas2.add(idea3);
 
 		callForIdeas1.setIdeas(ideas);
+		callForIdeas2.setIdeas(ideas2);
 
 		callForIdeasRepository.save(callForIdeas1);
+		callForIdeasRepository.save(callForIdeas2);
+
+		Report report1 = entityFactory.createRandomReport();
+		Report report2 = entityFactory.createRandomReport();
+		Report report3 = entityFactory.createRandomReport();
+		Report report4 = entityFactory.createRandomReport();
+
+		report1.setIdeaId(idea1.getId());
+		report2.setIdeaId(idea2.getId());
+		report3.setIdeaId(idea3.getId());
+		report4.setIdeaId(idea1.getId());
+
+		reportRepository.save(report1);
+		reportRepository.save(report2);
+		reportRepository.save(report3);
+		reportRepository.save(report4);
 
 
 	}

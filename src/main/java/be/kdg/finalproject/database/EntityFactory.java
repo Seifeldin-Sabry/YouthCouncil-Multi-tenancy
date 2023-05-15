@@ -9,6 +9,8 @@ import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.page.template.TemplateElement;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
+import be.kdg.finalproject.domain.report.Report;
+import be.kdg.finalproject.domain.report.ReportReason;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
@@ -37,6 +39,13 @@ public class EntityFactory {
 			theme.addSubTheme(createRandomSubTheme());
 		}
 		return theme;
+	}
+
+	public Report createRandomReport(){
+		Report report = new Report();
+		report.setReportDescription(faker.lorem().sentence());
+		report.setReportReason(ReportReason.values()[faker.random().nextInt(0, 3)]);
+		return report;
 	}
 
 	private Theme createRandomTheme() {
@@ -147,7 +156,7 @@ public class EntityFactory {
 		                                                                                                                          .numberBetween(0, 59))));
 		LocalTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
 		String activityTitle = faker.lorem().sentence();
-		String activityDescription = faker.lorem().paragraph();
+		String activityDescription = faker.lorem().sentence();
 
 		return new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 	}

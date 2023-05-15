@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.api;
 
 import be.kdg.finalproject.controller.api.dto.patch.BanDTO;
 import be.kdg.finalproject.controller.api.dto.patch.PromoteDTO;
+import be.kdg.finalproject.controller.authority.Moderator;
 import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
 import be.kdg.finalproject.service.membership.MembershipService;
 import org.springframework.http.ResponseEntity;
@@ -15,11 +16,16 @@ public class MembershipRestController {
 
 	public MembershipRestController(MembershipService membershipService) {this.membershipService = membershipService;}
 
-	@YouthCouncilAdmin
+	@Moderator
 	@PatchMapping ("/{membershipId}/ban")
 	public ResponseEntity<?> banOrUnbanMembership(@PathVariable Long membershipId, @RequestBody BanDTO banDTO) {
-		membershipService.updateBanStatus(membershipId, banDTO.isBan());
-		return ResponseEntity.ok().build();
+		boolean banWentThrough= membershipService.updateBanStatus(membershipId, banDTO.isBan());
+		if (banWentThrough){
+			return ResponseEntity.ok().build();
+		} else {
+			return ResponseEntity.badRequest().build();
+		}
+
 	}
 
 	@YouthCouncilAdmin

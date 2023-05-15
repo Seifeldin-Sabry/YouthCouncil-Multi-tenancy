@@ -39,8 +39,7 @@
 					<a aria-current="page" class="nav-link active" href="/home">Home</a>
 				</li>
 				<li class="nav-item"
-					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
-				>
+					th:if="${currentMembership != null}" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')">
 					<a aria-current="page" class="nav-link active" href="/youth-council-dashboard">Municipality
 																								   Settings</a>
 				</li>
@@ -56,6 +55,7 @@
 				<li class="nav-item" th:if="${currentMunicipality != null}">
 					<a aria-current="page" class="nav-link active" href="/action-points">Action Points</a>
 				</li>
+				<li class="nav-item" sec:authorize="isAuthenticated()" th:if="${currentMunicipality!= null}">
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
 					<a aria-current="page" class="nav-link active" href="/elections">Elections</a>
 				</li>
@@ -63,11 +63,10 @@
 					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of
 																							   Activities</a>
 				</li>
-
 				<li class="nav-item"
-					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_MODERATOR}"
+					th:if="${currentMembership != null}" sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')"
 				>
-					<a aria-current="page" class="nav-link active" href="#">DashMod</a>
+					<a aria-current="page" class="nav-link active" href="/dash-mod">DashMod</a>
 				</li>
 				<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
 					<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
