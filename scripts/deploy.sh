@@ -26,7 +26,7 @@ IMAGE_FAMILY="ubuntu-2204-lts"
 IMAGE_PROJECT="ubuntu-os-cloud"
 TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
 DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
-DUCK_DNS=youth-council
+DUCK_DNS=jeugdcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
@@ -121,12 +121,12 @@ function copy_files_over() {
   gcloud compute scp --recurse --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "stopping service"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"${SYSTEMD_SERVICE_NAME}\""
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"$SYSTEMD_SERVICE_NAME\""
   echo "requesting certificate"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"$DUCK_DNS/duckdns.org\" 1>/dev/null 2>/dev/null; then certbot certonly --standalone -d \"$DUCK_DNS/duckdns.org\" --non-interactive --agree-tos --email \"${EMAIL}\"; fi"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DUCK_DNS.duckdns.org | grep keystore.p12; then openssl pkcs12 -export -in fullchain.pem -inkey /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/privkey.pem -out /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 -name bootalias -CAfile chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && cp /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 /web/keystore.p12; fi"
   echo "restarting youth council service"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"${SYSTEMD_SERVICE_NAME}\""
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"$SYSTEMD_SERVICE_NAME\""
   echo "Jar is running"
 }
 
