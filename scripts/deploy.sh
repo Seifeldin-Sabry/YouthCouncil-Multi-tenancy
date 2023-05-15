@@ -48,12 +48,10 @@ WantedBy=multi-user.target
 "
 
 varsh_content="#!/bin/bash
-for VAR in ${ENV_VARIABLES[*]}; do
-  echo \"export \$VAR\" >> /etc/environment
+for line in \$(cat /web/.env); do
+  export \$line
 done
-source /etc/environment
 echo \"$additional_systemd\" >> $SYSTEMD_SERVICE_PATH
-systemctl daemon-reload
 java -jar /web/build.jar
 "
 
@@ -89,6 +87,9 @@ function create_vm() {
       echo \"${SYSTEMD_SERVICE_CONTENT}\" > ${SYSTEMD_SERVICE_PATH}
       echo \"${varsh_content}\" > /web/var.sh
       chmod +x /web/var.sh
+      for VAR in ${ENV_VARIABLES[*]}; do
+        echo \$VAR >> /web/env
+      done
       systemctl daemon-reload
       snap install core
       snap refresh core
