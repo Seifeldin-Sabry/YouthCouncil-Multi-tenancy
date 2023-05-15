@@ -46,3 +46,9 @@ spring:
     basename: templates/messages
 server:
   port: 80
+  http.port: 8080
+  ssl:
+    key-store: /web/keystore.p12
+    key-store-password: ${POSTGRES_PROD_PASSWORD}
+    keyStoreType: PKCS12
+    keyAlias: bootalias
