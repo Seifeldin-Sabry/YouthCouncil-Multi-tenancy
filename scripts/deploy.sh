@@ -57,7 +57,7 @@ export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID && \
 export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
 export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
-java -jar /web/build.jar
+java -jar /web/build/libs/FinalProject-0.0.1-SNAPSHOT.jar
 "
 
 function set_project() {
@@ -68,8 +68,6 @@ function set_project() {
 function create_vm() {
   if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet 1>/dev/null 2>/dev/null; then
     echo "VM ${VM_NAME} already exists"
-    echo "Deleting VM ${VM_NAME}"
-    gcloud compute instances delete "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet
   fi
   gcloud compute instances create "$VM_NAME" \
       --zone="$ZONE" \
@@ -132,13 +130,13 @@ function copy_files_over() {
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":/web/secret.json
   echo "removing jar on VM"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm /web/build.jar 2> /dev/null"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf /web/build 2> /dev/null"
   echo "Copying jar over to VM"
-  gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
+  gcloud compute scp --recurse --zone=$ZONE ./build "$VM_NAME":/web/build
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "requesting certificate"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d \"$DUCK_DNS.duckdns.org\" --agree-tos --email $EMAIL"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"$DUCK_DNS.duckdns.org\" 1>/dev/null 2>/dev/null; then certbot certonly --webroot -n -d \"$DUCK_DNS.duckdns.org\" --agree-tos --email $EMAIL -w /web/build/resources/main/static; fi"
   echo "attempting to run jar"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl restart \"${SYSTEMD_SERVICE_NAME}\""
   echo "Jar is running"
