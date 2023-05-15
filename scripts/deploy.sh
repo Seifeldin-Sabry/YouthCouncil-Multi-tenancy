@@ -29,7 +29,20 @@ DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
 DUCK_DNS=youthcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
+SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
+SYSTEMD_SERVICE_CONTENT="[Unit]
+Description=Youthcouncil service
+After=network.target
 
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/web
+ExecStart=/usr/bin/java -jar /web/build.jar
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target"
 
 function set_project() {
   echo "Setting project to ${GOOGLE_PROJECT_ID}"
@@ -59,7 +72,9 @@ function create_vm() {
       ufw allow 443/tcp
       ufw allow 22/tcp
       ufw enable
-
+      mkdir /web
+      echo \"${SYSTEMD_SERVICE_CONTENT}\" > ${SYSTEMD_SERVICE_PATH}
+      systemctl daemon-reload
       snap install core
       snap refresh core
       snap install --classic certbot
