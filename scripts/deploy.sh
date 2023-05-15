@@ -30,7 +30,8 @@ DUCK_DNS=jeugdcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
-SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)
+SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
+DOMAIN="$DUCK_DNS.duckdns.org"
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -123,8 +124,13 @@ function copy_files_over() {
   echo "stopping service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"$SYSTEMD_SERVICE_NAME\""
   echo "requesting certificate"
-  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! certbot certificates | grep $DUCK_DNS/duckdns.org 1>/dev/null 2>/dev/null; then certbot certonly --standalone -d $DUCK_DNS/duckdns.org --non-interactive --agree-tos --email $EMAIL --cert-name \"$DUCK_DNS.duckdns.org\"; fi"
-  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DUCK_DNS.duckdns.org | grep keystore.p12; then openssl pkcs12 -export -in /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/fullchain.pem -inkey /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/privkey.pem -out /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 -name bootalias -CAfile /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && cp /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 /web/keystore.p12; fi"
+  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DOMAIN | grep fullchain.pem; then
+    certbot certonly --standalone -d $DOMAIN --non-interactive --agree-tos --email $EMAIL
+  fi"
+  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DOMAIN | grep keystore.p12; then
+    openssl pkcs12 -export -in /etc/letsencrypt/live/$DOMAIN/fullchain.pem -inkey /etc/letsencrypt/live/$DOMAIN/privkey.pem -out /etc/letsencrypt/live/$DUCK_DNS.duckdns.org/keystore.p12 -name bootalias -CAfile /etc/letsencrypt/live/$DOMAIN/chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && \
+    cp /etc/letsencrypt/live/$DOMAIN/keystore.p12 /web/keystore.p12
+  fi"
   echo "restarting youth council service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"$SYSTEMD_SERVICE_NAME\""
   echo "Jar is running"
