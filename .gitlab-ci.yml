@@ -61,6 +61,7 @@ deploy:
   image: google/cloud-sdk:latest
   stage: deploy
   when: on_success
+  needs: [ "build" ] # TODO: add test when ready
   script:
     - echo $ENV_VARIABLES
     - ls

@@ -17,21 +17,16 @@ for VAR in ${ENV_VARIABLES[*]}; do
 done
 
 VM_NAME="instance-deployed-integration"
-SQL_INSTANCE_NAME="youthcouncil"
 REGION="europe-west1"
-SQL_ROOT_PASSWORD="root"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
 IMAGE_FAMILY="ubuntu-2204-lts"
 IMAGE_PROJECT="ubuntu-os-cloud"
 TARGET_TAGS="http-server,ssl-rule-tag,ssh,https-server,default-allow-ssh"
-DUCK_TOKEN=2836d713-b14a-404a-83ee-6d67c4f93d86
-DUCK_DNS=jeugdcouncil
 EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
-DOMAIN="$DUCK_DNS.duckdns.org"
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -44,7 +39,8 @@ export GOOGLE_PROJECT_ID=$GOOGLE_PROJECT_ID && \
 export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
 export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
-java -jar /web/build.jar
+export DOMAIN=$DOMAIN && \
+java -Dserver.port=80 -Dacme.enabled=true -Dacme.domain-name=$DOMAIN -Dacme.accept-terms-of-service=true -jar /web/build.jar
 "
 
 function set_project() {
