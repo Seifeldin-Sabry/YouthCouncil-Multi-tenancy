@@ -40,12 +40,11 @@ const swapActive = async (event) => {
     const callId = event.target.parentNode.parentNode.id;
     console.log(callId)
 
-    const cookie = csrfToken();
     const options = {
         method: 'PATCH',
         headers: {
             'Content-Type': 'application/json',
-            ...cookie
+            ...csrfToken()
         }
     }
     console.log(options)

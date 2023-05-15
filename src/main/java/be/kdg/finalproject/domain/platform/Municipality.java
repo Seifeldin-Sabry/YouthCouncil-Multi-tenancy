@@ -43,6 +43,9 @@ public class Municipality {
 	@ToString.Exclude
 	private List<SocialMediaLink> socialMediaLinks = new ArrayList<>();
 
+	@Column(name = "election_phase")
+	@Enumerated (EnumType.STRING)
+	private ElectionPhase electionPhase;
 
 	@OneToMany (cascade = CascadeType.PERSIST)
 	@ToString.Exclude
