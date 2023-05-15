@@ -48,6 +48,9 @@ sast:
     SAST_EXCLUDED_ANALYZERS: brakeman, flawfinder, kubesec, nodejs-scan, phpcs-security-audit,
       pmd-apex, security-code-scan, sobelow
   stage: test
+  artifacts:
+    reports:
+      sast: gl-sast-report.json
 
 
 deploy:
