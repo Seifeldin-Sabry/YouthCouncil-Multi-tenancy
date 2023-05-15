@@ -38,7 +38,8 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=export POSTGRES_DB=$POSTGRES_DB && \
+ExecStart=export PATH_TO_SECRET=/web/secret.json && \
+ export POSTGRES_DB=$POSTGRES_DB && \
  export export POSTGRES_HOST=$POSTGRES_HOST && \
  export POSTGRES_PROD_USERNAME=$POSTGRES_PROD_USERNAME && \
  export POSTGRES_PROD_PASSWORD=$POSTGRES_PROD_PASSWORD && \
@@ -133,12 +134,7 @@ function copy_files_over() {
   echo "requesting certificate"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
   echo "attempting to run jar"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "for VAR in ${ENV_VARIABLES[*]}; do
-  key=\"\${VAR%=*}\"
-  value=\"\${VAR#*=}\"
-  export \"\$key\"=\"\$value\" 2> /dev/null
-done
-  export PATH_TO_SECRET=/web/secret.json && systemctl start \"${SYSTEMD_SERVICE_NAME}\""
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "export PATH_TO_SECRET=/web/secret.json && systemctl start \"${SYSTEMD_SERVICE_NAME}\""
   echo "Jar is running"
 }
 
