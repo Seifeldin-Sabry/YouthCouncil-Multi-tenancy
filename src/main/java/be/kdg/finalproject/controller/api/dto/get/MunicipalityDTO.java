@@ -13,4 +13,5 @@ public class MunicipalityDTO {
 
 	private String name;
 	private boolean hasWebsite;
+	private String logo;
 }

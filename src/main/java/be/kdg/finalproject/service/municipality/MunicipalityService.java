@@ -1,7 +1,9 @@
 package be.kdg.finalproject.service.municipality;
 
+import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
@@ -63,6 +65,24 @@ public class MunicipalityService {
 	public Municipality getMunicipalityByIdWithSocialMediaLinks(Long municipalityId) {
 		return municipalityRepository.findMunicipalityByIdWithSocials(municipalityId)
 		                             .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
+	}
+
+	public void changeElectrionPhaseByMunicipality(Long municipalityId){
+		Municipality municipality = municipalityRepository.findById(municipalityId)
+		                                                  .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
+		ElectionPhase currentElectionPhase = municipality.getElectionPhase();
+		ElectionPhase newElectionPhase;
+		if (currentElectionPhase==ElectionPhase.BEFORE_ELECTION){
+			newElectionPhase= ElectionPhase.AFTER_ELECTION;
+		}
+		else {
+			newElectionPhase= ElectionPhase.BEFORE_ELECTION;
+		}
+		municipalityRepository.updateElectionPhase(newElectionPhase, municipalityId);
+	}
+
+	public void changeLogo(String image, long municipalityId){
+		municipalityRepository.updateImage(image, municipalityId);
 	}
 
 }

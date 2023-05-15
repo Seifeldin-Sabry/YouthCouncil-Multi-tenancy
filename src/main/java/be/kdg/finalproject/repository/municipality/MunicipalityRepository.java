@@ -1,5 +1,6 @@
 package be.kdg.finalproject.repository.municipality;
 
+import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,17 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 	@Modifying
 	@Query ("update MUNICIPALITIES m set m.hasPlatform = ?1 where m.id = ?2")
 	void updatePlatformStatus(boolean hasPlatform, Long id);
+
+	@Transactional
+	@Modifying
+	@Query ("update MUNICIPALITIES m set m.electionPhase = ?1 where m.id = ?2")
+	void updateElectionPhase(ElectionPhase electionPhase, Long id);
+
+	@Transactional
+	@Modifying
+	@Query ("update MUNICIPALITIES m set m.logo = ?1 where m.id = ?2")
+	void updateImage(String image, Long id);
+
 
 	Optional<Municipality> findByNameIgnoreCase(String name);
 

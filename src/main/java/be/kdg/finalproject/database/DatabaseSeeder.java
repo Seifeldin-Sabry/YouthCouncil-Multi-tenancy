@@ -8,6 +8,7 @@ import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.page.PageTemplate;
+import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.platform.PostCode;
 import be.kdg.finalproject.domain.report.Report;
@@ -96,6 +97,7 @@ public class DatabaseSeeder {
 	public void seed() {
 		//MUNICIPALITIES & POSTCODES
 		Municipality antwerpen = new Municipality("Antwerpen", true);
+		antwerpen.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
 		Set<PostCode> postCodes = new HashSet<>();
 		Set<PostCode> finalPostCodes1 = postCodes;
 		List.of(2000, 2018, 2020, 2030, 2040, 2050, 2060, 2100, 2140, 2170, 2180, 2600, 2610, 2660).forEach((code) -> {
@@ -106,6 +108,7 @@ public class DatabaseSeeder {
 		municipalityRepository.save(antwerpen);
 
 		Municipality ghent = new Municipality("Ghent");
+		ghent.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
 		postCodes = new HashSet<>();
 		Set<PostCode> finalPostCodes = postCodes;
 		List.of(1000, 3000).forEach((code) -> {
@@ -116,6 +119,7 @@ public class DatabaseSeeder {
 		municipalityRepository.save(ghent);
 
 		Municipality brussels = new Municipality("Brussels", true);
+		brussels.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
 		postCodes = new HashSet<>();
 		Set<PostCode> finalPostCodes2 = postCodes;
 		List.of(1000, 3000).forEach((code) -> {
