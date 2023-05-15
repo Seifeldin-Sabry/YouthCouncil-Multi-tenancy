@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Profile ("prod")
+@Profile ({"prod"})
 public class ImageServiceProdImpl implements ImageService {
 
 	private static final String BUCKET_NAME = "youth-council-image-bucket";
@@ -72,6 +72,8 @@ public class ImageServiceProdImpl implements ImageService {
 			String file_path = dir + "/" + imageName;
 			image.transferTo(Path.of(file_path));
 			urls.add(uploadObject(imageName, file_path));
+			File file = new File(file_path);
+			file.delete();
 		}
 		logger.debug("Images saved {}", urls);
 		return urls;

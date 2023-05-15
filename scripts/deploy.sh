@@ -132,15 +132,15 @@ function copy_files_over() {
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":/web/secret.json
   echo "removing jar on VM"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf FinalProject-0.0.1-SNAPSHOT.jar 2> /dev/null"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm /web/build.jar 2> /dev/null"
   echo "Copying jar over to VM"
   gcloud compute scp --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "requesting certificate"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d $DUCK_DNS.duckdns.org --agree-tos --email $EMAIL"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "certbot certonly --standalone -n -d \"$DUCK_DNS.duckdns.org\" --agree-tos --email $EMAIL"
   echo "attempting to run jar"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"${SYSTEMD_SERVICE_NAME}\""
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl restart \"${SYSTEMD_SERVICE_NAME}\""
   echo "Jar is running"
 }
 
