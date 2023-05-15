@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 
@@ -35,6 +36,9 @@ public class IdeaService{
 		idea.setCreator(user);
 		return ideaRepository.save(idea);
 	}
+
+	public Optional<Idea> getIdeaById(Long id){return ideaRepository.findById(id);}
+	public void deleteIdeaById(Long id){ideaRepository.deleteById(id);}
 
 	public Idea getIdeaByUUID(UUID uuid){
 		return ideaRepository.findByUUID(uuid);

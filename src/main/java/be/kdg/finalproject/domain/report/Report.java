@@ -28,5 +28,12 @@ public class Report {
 
 	@Column (name = "report_date", nullable = false)
 	private LocalDate reportDate;
+
+	@JoinColumn (name = "idea_id", nullable = false)
+	private Long ideaId;
+
+	public Report() {
+		this.reportDate=LocalDate.now();
+	}
 }
 

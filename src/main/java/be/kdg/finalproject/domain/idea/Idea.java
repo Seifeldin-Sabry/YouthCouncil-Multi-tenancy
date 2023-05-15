@@ -1,6 +1,7 @@
 package be.kdg.finalproject.domain.idea;
 
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
+import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
@@ -53,6 +54,9 @@ public class Idea {
 
 	@JoinColumn (name = "call_for_idea_id", nullable = false)
 	private Long callForIdeasId;
+
+	@OneToMany (mappedBy = "ideaId", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<Report> reports = new HashSet<>();
 
 	@Column (name = "date_created", nullable = false)
 	private Timestamp dateCreated;

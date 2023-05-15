@@ -5,6 +5,7 @@ import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
+import be.kdg.finalproject.domain.report.ReportReason;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
@@ -79,6 +80,7 @@ public class CallForIdeasController {
 		});
 		mav.addObject("call", callForIdeas);
 		mav.addObject("ideas", ideas);
+		mav.addObject("reportReasons", ReportReason.values());
 
 		return mav;
 	}

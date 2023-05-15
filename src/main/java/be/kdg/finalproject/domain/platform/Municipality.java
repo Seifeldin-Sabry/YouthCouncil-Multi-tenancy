@@ -30,8 +30,7 @@ public class Municipality {
 	@Column (name = "uuid", nullable = false, unique = true)
 	private UUID uuid = UUID.randomUUID();
 
-	@Column (name = "name", nullable = false)
-	@Unique
+	@Column (name = "name", nullable = false, unique = true)
 	private String name;
 
 	@Column (name = "logo")

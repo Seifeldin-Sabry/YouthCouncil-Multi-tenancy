@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<title>Dash Mod</title>
+	<script defer src="/js/moderation/dashmod.js" type="module"></script>
+	<style>
+		td{
+			height: 50px;
+		}
+	</style>
+</head>
+<body>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<div class="container my-2">
+	<div th:each="report : ${reports}">
+		<th:block th:each="idea : ${ideas}" th:if="${idea.id == report.ideaId}">
+			<div class="row mb-2 report" th:data-call-id="${idea.callForIdeasId}" th:data-idea-id="${idea.id}">
+				<div class="col-md-12 col-lg-5 ms-4 me-auto">
+					<div class="card shadow-sm" id="cardIdeas">
+						<div class="card-header">
+							<div class="d-flex justify-content-start">
+								<div class="card-text h5" th:text="${report.reportReason}"></div>
+							</div>
+							<div class="d-flex justify-content-start">
+								<div class="card-text" th:text="${report.reportDescription}"></div>
+							</div>
+						</div>
+						<div class="card-footer" th:with="maxLength=100" th:if="${idea.getContent!=null}">
+							<div class="d-flex justify-content-between">
+								<p class="card-text h5" th:text="${idea.creator.username}"></p>
+								<button th:data-user-id="${idea.creator.memberships}" class="btn btn-danger banButton">ban user</button>
+							</div>
+							<div class="d-flex justify-content-between">
+								<p class="card-text text-muted" th:text="${#dates.format(idea.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							</div>
+							<div class="d-flex justify-content-between">
+								<div class="bg-info rounded-3 p-1">
+									<i class="bi bi-tag"></i>
+									<span th:text="${idea.subTheme.subThemeName}"></span>
+								</div>
+							</div>
+							<p class="card-text"
+							   th:text="${#strings.length(idea.getContent) > maxLength ? #strings.substring(idea.getContent, 0, maxLength) + '...' : idea.getContent}"
+							></p>
+							<img class="d-block w-100" alt="ideaImage"
+								 th:src="${idea.image}"
+							/>
+							<br>
+							<button th:data-idea-id="${idea.id}" class="btn btn-danger removeButton">remove post</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</th:block>
+		<br>
+	</div>
+</div>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
+</body>
+</html>

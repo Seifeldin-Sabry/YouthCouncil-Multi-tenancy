@@ -13,7 +13,6 @@
 </head>
 <body>
 <div th:if="${call != null}" th:text="${call.id}" id="callForIdeaId" hidden />
-<div th:if="${authUser != null}" th:text="${authUser.username}" id="username" hidden />
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
 
 <div class="container my-3">
@@ -64,7 +63,7 @@
 
 <div class="container my-2 ideaContainer">
 	<th:block th:if="${call.isActive()}" th:each="idea : ${ideas}">
-		<div class="row mb-2">
+		<div class="row mb-2" th:data-call-id="${idea.callForIdeasId}">
 			<div class="col-md-12 col-lg-5 ms-4 me-auto">
 				<div class="card shadow-sm" id="cardIdeas">
 					<div class="card-header">
@@ -73,17 +72,25 @@
 						</div>
 						<div class="d-flex justify-content-between">
 							<p class="card-text text-muted" th:text="${#dates.format(idea.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
-							<div class="bg-info rounded-3 p-1">
-								<i class="bi bi-tag"></i>
-								<span th:text="${idea.subTheme.subThemeName}"></span>
-							</div>
-							<div>
+							<div th:if="${currentMembership != null}">
 								<button class="btn btn-outline-secondary text-danger like-btn"
 										th:data-idea-id="${idea.id}"
 										th:data-liked="${idea.liked}"
 										th:classappend="${idea.liked ? 'btn-primary' : ''}"
 								>👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
 							</div>
+							<div th:if="${currentMembership == null}">
+								<button class="btn btn-outline-secondary text-danger"
+								>👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
+							</div>
+						</div>
+						<div class="d-flex justify-content-between">
+							<div class="bg-info rounded-3 p-1">
+								<i class="bi bi-tag"></i>
+								<span th:text="${idea.subTheme.subThemeName}"></span>
+							</div>
+							<button th:if="${currentMembership != null}" th:data-idea-id="${idea.id}" data-bs-toggle="modal"
+									data-bs-target="#reportModal" class="btn btn-outline-danger text-dark btn-sm reportModalButton">report post</button>
 						</div>
 					</div>
 					<div class="card-footer" th:with="maxLength=100" th:if="${idea.getContent!=null}">
@@ -93,11 +100,57 @@
 						<img class="d-block w-100" alt="ideaImage"
 							 th:src="${idea.image}"
 						/>
+						<br sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" >
+						<button sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" th:data-idea-id="${idea.id}" class="btn btn-danger removeButton">remove post</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</th:block>
+</div>
+
+<!--report modal-->
+<div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="deleteModalLabel">Report idea</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body">
+				<h2>Reporting an idea</h2>
+				<form class="p-3" enctype="multipart/form-data">
+					<div class="input-group has-validation my-3">
+						<div class="validation-container reportDescription-err form-floating">
+							<textarea class="validation form-control form-control-lg reportDescription-field-err"
+									  id="reportDescription"
+									  name="reportDescription"
+							></textarea>
+							<label class="form-label" for="reportDescription">Description</label>
+						</div>
+						<div class="reportDescription-invalid-feedback invalid-feedback"
+						>
+						</div>
+					</div>
+					<div class="input-group has-validation my-3">
+						<div class="validation-container form-floating reportReason-err">
+							<select name="reportReason" id="reportReason"  class="validation form-select form-select-lg reportReason-field-err" style="font-size: small">
+								<option th:each="reportReason : ${reportReasons}" th:text="${reportReason}">
+								</option>
+							</select>
+							<label class="form-label" for="reportReason">Report Reason</label>
+						</div>
+						<div class="invalid-feedback reportReason-invalid-feedback">
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-danger reportButton" id="reportButton">Report</button>
+			</div>
+		</div>
+	</div>
 </div>
 
 <br>
@@ -118,6 +171,9 @@
 				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
 			</div>
 			<div class="modal-body">
+				<h4 class="text-muted fs-6" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')">
+					Youth Council Administrator role detected! Your ideas will be stored as offline ideas!
+				</h4>
 				<form class="p-3" enctype="multipart/form-data">
 					<div class="input-group has-validation my-3">
 						<div class="validation-container description-err form-floating">
