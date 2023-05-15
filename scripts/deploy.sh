@@ -132,8 +132,7 @@ function copy_files_over() {
   echo "removing jar on VM"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm -rf /web/build 2> /dev/null"
   echo "Copying jar over to VM"
-  gcloud compute scp --recurse --zone=$ZONE ./build "$VM_NAME":/web/build
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "killall java"
+  gcloud compute scp --recurse ./build --zone=$ZONE "$VM_NAME":/web/build
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "requesting certificate"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "if ! certbot certificates | grep \"$DUCK_DNS.duckdns.org\" 1>/dev/null 2>/dev/null; then certbot certonly --webroot -n -d \"$DUCK_DNS.duckdns.org\" --agree-tos --email $EMAIL -w /web/build/resources/main/static; fi"
