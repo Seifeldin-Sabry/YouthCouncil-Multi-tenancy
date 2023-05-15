@@ -13,6 +13,13 @@
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
 <div class="container my-5">
+	<a th:href="@{'/call-for-ideas/ideas/liked'}" sec:authorize="isAuthenticated()" class="row mb-4">
+		<button class="btn btn-primary btn-lg col-sm-5 col-md-4 mx-auto"
+				type="button"
+		>
+			View My liked Ideas
+		</button>
+	</a>
 	<th:block th:if="${call.isActive()}" th:each="call, iter : ${calls}">
 		<div class="row mb-4">
 			<div class="col-md-8 col-lg-6 mx-auto">

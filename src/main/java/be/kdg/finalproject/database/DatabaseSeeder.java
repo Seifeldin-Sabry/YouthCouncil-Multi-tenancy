@@ -146,6 +146,7 @@ public class DatabaseSeeder {
 		membershipService.addMembershipByUserAndMunicipalityId(youthCouncil, antwerpen.getId(), Role.YOUTH_COUNCIL_ADMINISTRATOR);
 		membershipService.addMembershipByUserAndMunicipalityId(moderator, antwerpen.getId(), Role.YOUTH_COUNCIL_MODERATOR);
 		membershipService.addMembershipByUserAndMunicipalityId(user, antwerpen.getId(), Role.USER);
+		membershipService.addMembershipByUserAndMunicipalityId(user2, antwerpen.getId(), Role.USER);
 		membershipService.addMembershipByUserAndMunicipalityId(user, brussels.getId(), Role.USER);
 
 
