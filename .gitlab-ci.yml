@@ -30,18 +30,18 @@ build:
       - build/libs/*.jar
     expire_in: 1 week
 
-#test:
-#  image: gradle:7.2.0-jdk17
-#  stage: test
-#  artifacts:
-#    expire_in: 1 week
-#    reports:
-#      junit: build/test-results/test/*.xml
-#    when: always
-#    paths:
-#      - build/reports/tests/test/index.html
-#  script:
-#    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
+test:
+  image: gradle:7.2.0-jdk17
+  stage: test
+  artifacts:
+    expire_in: 1 week
+    reports:
+      junit: build/test-results/test/*.xml
+    when: always
+    paths:
+      - build/reports/tests/test/index.html
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
 sast:
   variables:
