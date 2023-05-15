@@ -7,6 +7,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -22,7 +24,7 @@ public class ImageServiceProdImpl implements ImageService {
 	private final String PROJECT_ID = "infra3-seifeldin-sabry";
 	private final Storage storage;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ImageServiceProdImpl.class);
-	private final String dir = System.getProperty("user.dir");
+	private final String dir = System.getProperty("user.dir") + "/images";
 	private volatile long imageId = 0;
 
 	public ImageServiceProdImpl() {
@@ -36,6 +38,26 @@ public class ImageServiceProdImpl implements ImageService {
 
 		Blob image = storage.createFrom(blobInfo, Paths.get(filePath));
 		return image.getMediaLink();
+	}
+
+	@PostConstruct
+	public void init() {
+		//		clear user directory /images
+		File directory = new File(dir);
+		if (!directory.exists()) {
+			logger.debug("Directory does not exist, creating directory");
+			directory.mkdirs();
+			return;
+		}
+		File[] files = directory.listFiles();
+		if (files == null) {
+			return;
+		}
+		for (File file : files) {
+			if (file.isFile()) {
+				file.delete();
+			}
+		}
 	}
 
 
