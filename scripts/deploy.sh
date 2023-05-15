@@ -38,9 +38,8 @@ After=network.target
 Type=simple
 User=root
 WorkingDirectory=/web
-ExecStart=bash /web/var.sh"
+ExecStart=bash /web/var.sh
 
-additional_systemd="
 Restart=on-failure
 
 [Install]
@@ -51,7 +50,6 @@ varsh_content="#!/bin/bash
 for line in \$(cat /web/.env); do
   export \$line
 done
-echo \"$additional_systemd\" >> $SYSTEMD_SERVICE_PATH
 java -jar /web/build.jar
 "
 
@@ -84,11 +82,11 @@ function create_vm() {
       ufw allow 22/tcp
       ufw enable
       mkdir /web
-      echo \"${SYSTEMD_SERVICE_CONTENT}\" > ${SYSTEMD_SERVICE_PATH}
-      echo \"${varsh_content}\" > /web/var.sh
+      echo \"$SYSTEMD_SERVICE_CONTENT\" > \"$SYSTEMD_SERVICE_PATH\"
+      echo \"$varsh_content\" > /web/var.sh
       chmod +x /web/var.sh
       for VAR in ${ENV_VARIABLES[*]}; do
-        echo \$VAR >> /web/env
+        echo \$VAR >> /web/.env
       done
       systemctl daemon-reload
       snap install core
