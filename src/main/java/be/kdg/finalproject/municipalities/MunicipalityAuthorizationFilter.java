@@ -15,7 +15,6 @@ import java.util.Objects;
 import java.util.logging.Logger;
 
 import static org.springframework.http.HttpStatus.FORBIDDEN;
-import static org.springframework.http.HttpStatus.NOT_FOUND;
 
 public class MunicipalityAuthorizationFilter extends OncePerRequestFilter {
 	private static final Logger LOGGER =
@@ -26,7 +25,7 @@ public class MunicipalityAuthorizationFilter extends OncePerRequestFilter {
 	                                FilterChain chain) throws ServletException, IOException {
 		if (MunicipalityContext.getCurrentMunicipality() != null && !MunicipalityContext.getCurrentMunicipality()
 		                                                                                .isHasPlatform()) {
-			response.setStatus(NOT_FOUND.value());
+			response.sendRedirect("/error/no-platform");
 			return;
 		}
 		var tenantId = MunicipalityContext.getCurrentMunicipalityId();
