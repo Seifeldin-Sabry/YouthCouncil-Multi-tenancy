@@ -49,8 +49,12 @@ sast:
       pmd-apex, security-code-scan, sobelow
   stage: test
   artifacts:
+    expire_in: 1 week
+    when: always
     reports:
       sast: gl-sast-report.json
+    paths:
+      - "gl-sast-report.json"
 
 
 deploy:
