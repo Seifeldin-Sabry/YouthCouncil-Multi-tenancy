@@ -27,6 +27,7 @@ EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
+DOMAIN=mocanupaulc.com
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -40,7 +41,7 @@ export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
 export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
 export DOMAIN=$DOMAIN && \
-java -Dserver.port=80 -Dacme.enabled=true -Dacme.domain-name=$DOMAIN -Dacme.accept-terms-of-service=true -jar /web/build.jar
+java -jar /web/build.jar
 "
 
 function set_project() {
