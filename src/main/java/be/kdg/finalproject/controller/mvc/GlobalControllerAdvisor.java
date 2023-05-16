@@ -47,6 +47,7 @@ public class GlobalControllerAdvisor {
 		Long currentMunicipalityId = MunicipalityContext.getCurrentMunicipalityId();
 		boolean isMunicipalityChanged = sessionService.isMunicipalityChanged(session, currentMunicipalityId);
 		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
+		model.addAttribute("munName", MunicipalityContext.getCurrentMunicipalityName());
 		if (authentication == null) return;
 		boolean isInSession = sessionService.isUserInSession();
 		User user;

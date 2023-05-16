@@ -15,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/youth-council-dashboard/users")
+@RequestMapping ("/{municipality}/youth-council-dashboard/users")
 public class UserController {
 
 	private final MembershipService membershipService;

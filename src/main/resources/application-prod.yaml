@@ -8,7 +8,6 @@ spring:
         instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
       credentials:
         location: file:${PATH_TO_SECRET}
-
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
@@ -24,7 +23,6 @@ spring:
   sql:
     init:
       mode: always
-      data-locations: classpath:sql/municipalities/*.sql
   jpa:
     hibernate:
       ddl-auto: create

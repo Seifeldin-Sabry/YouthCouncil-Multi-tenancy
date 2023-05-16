@@ -11,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class MunicipalityFilter extends OncePerRequestFilter {
@@ -55,13 +56,14 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 	}
 
 	private String getMunicipality(HttpServletRequest request) {
-		logger.debug("request.getServerName() is " + request.getServerName());
-		var domain = request.getServerName();
-		var dotIndex = domain.indexOf(".");
-		if (dotIndex != -1) {
-			return domain.substring(0, dotIndex);
+		String requestURI = request.getRequestURI();
+		logger.debug("requestURI is " + requestURI);
+		String[] split = requestURI.split("/");
+		logger.debug("split is " + Arrays.toString(split));
+		if (split.length < 2) {
+			return null;
 		}
-		return "";
+		return split[1];
 	}
 }
 

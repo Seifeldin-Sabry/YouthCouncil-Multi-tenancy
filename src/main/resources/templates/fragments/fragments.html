@@ -39,7 +39,8 @@
 					<a aria-current="page" class="nav-link active" href="/home">Home</a>
 				</li>
 				<li class="nav-item"
-					th:if="${currentMembership != null}" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')">
+					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
+				>
 					<a aria-current="page" class="nav-link active" href="/youth-council-dashboard">Municipality
 																								   Settings</a>
 				</li>
@@ -64,7 +65,7 @@
 																							   Activities</a>
 				</li>
 				<li class="nav-item"
-					th:if="${currentMembership != null}" sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')"
+					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_MODERATOR}"
 				>
 					<a aria-current="page" class="nav-link active" href="/dash-mod">DashMod</a>
 				</li>
@@ -113,3 +114,4 @@
 </div>
 </body>
 </html>
+
