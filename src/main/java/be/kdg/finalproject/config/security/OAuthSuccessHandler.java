@@ -36,11 +36,7 @@ public class OAuthSuccessHandler implements AuthenticationSuccessHandler {
 		} else {
 			userService.processOAuthPostLoginFaceBook(oauthUser.getEmail(), oauthUser.getName(), provider, MunicipalityContext.getCurrentMunicipalityId());
 		}
-		//		get the request parameter ?=<municipality> use pslit to get the municipality
-		String currentMunicipality = request.getRequestURL().toString().split("'?'")[0];
-		String domain = request.getServerName();
-		String redirectUrl = String.format("%s.%s/", currentMunicipality, domain);
-		logger.debug("Redirecting to: {}", redirectUrl);
-		response.sendRedirect(redirectUrl);
+		String currentMunicipality = MunicipalityContext.getCurrentMunicipalityName();
+		response.sendRedirect("/" + currentMunicipality + "/home");
 	}
 }

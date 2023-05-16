@@ -58,14 +58,14 @@
 						<th:block th:if="${currentMunicipality != null}">
 							<hr class="my-4">
 							<div class="d-grid mb-2">
-								<a class="btn btn-danger" href="http://localhost:8080/oauth2/authorization/google"><i
+								<a class="btn btn-danger" href="/oauth2/authorization/google"><i
 										class="bi-google"
 								></i>
 									Log in with Google</a>
 							</div>
 							<div class="d-grid">
 								<a class="btn btn-primary"
-								   th:href="@{${currentMunicipality} +  'localhost:8080/oauth2/authorization/facebook'}"
+								   href="oauth2/authorization/facebook"
 								><i
 										class="bi-facebook"
 								></i> Log in with Facebook</a>

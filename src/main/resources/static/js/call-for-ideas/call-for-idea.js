@@ -50,10 +50,9 @@ const swapActive = async (event) => {
     console.log(options)
     const response = await fetch(`/api/call-for-ideas/${callId}/active`, options);
     if (response.ok) {
-        if(event.target.classList.contains("deActivate")){
+        if (event.target.classList.contains("deActivate")) {
             handleDeactivate(event.target.parentNode);
-        }
-        else{
+        } else {
             handleActivate(event.target.parentNode);
         }
     }
@@ -61,16 +60,16 @@ const swapActive = async (event) => {
 
 addEventListeners();
 
-function addEventListeners(){
+function addEventListeners() {
     let activeSwapButtons = document.querySelectorAll('.changeActive');
-    for (let button of activeSwapButtons){
+    for (let button of activeSwapButtons) {
         button.addEventListener('click', swapActive);
     }
 }
 
-function handleDeactivate(target){
+function handleDeactivate(target) {
     target.querySelector('.changeActive').remove()
-    target.innerHTML+=`
+    target.innerHTML += `
     <td>
         <button type="button" class="btn btn-primary changeActive">
             Activate
@@ -81,9 +80,9 @@ function handleDeactivate(target){
     addEventListeners();
 }
 
-function handleActivate(target){
+function handleActivate(target) {
     target.querySelector('.changeActive').remove()
-    target.innerHTML+=`
+    target.innerHTML += `
     <td>
         <button type="button" class="btn btn-primary changeActive deActivate">
             De-Activate
@@ -95,14 +94,13 @@ function handleActivate(target){
 }
 
 
-
-const postCall = async (event) =>{
+const postCall = async (event) => {
     event.preventDefault();
     // console.log(event.target.dataset.uuid);
     console.log('helo')
-    const titleCall= document.getElementById('title').value;
-    const descriptionCall= document.getElementById('description').value;
-    const themeCall= document.getElementById('theme').value;
+    const titleCall = document.getElementById('title').value;
+    const descriptionCall = document.getElementById('description').value;
+    const themeCall = document.getElementById('theme').value;
     console.log(titleCall)
     console.log(descriptionCall)
     const formData = new FormData();
@@ -156,12 +154,12 @@ const postCall = async (event) =>{
 
 }
 
-function handleAddedCall(call){
+function handleAddedCall(call) {
     const tbody = document.querySelector('.tbodyCalls');
-    tbody.innerHTML+=`
+    tbody.innerHTML += `
     <tr id="${call.id}">
         <td class="title" >
-            <a href="/call-for-ideas-dashboard/${call.uuid}/ideas">${call.title}</a>
+            <a href="call-for-ideas-dashboard/${call.uuid}/ideas">${call.title}</a>
         </td>
         <td class="description">${call.description}</td>
         <td class="theme">${call.theme.themeName}</td>
@@ -172,8 +170,8 @@ function handleAddedCall(call){
         </td>
     </tr>
     `
-    document.getElementById('title').value='';
-    document.getElementById('description').value='';
+    document.getElementById('title').value = '';
+    document.getElementById('description').value = '';
     addEventListeners();
 
 
