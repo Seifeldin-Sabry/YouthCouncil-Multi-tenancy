@@ -42,7 +42,7 @@ public class UserAccountController {
 	}
 
 	//TODO: fix admin login
-	@GetMapping ("/{municipality}/login")
+	@GetMapping ("/login")
 	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error, HttpSession session, @PathVariable (required = false) String municipality) {
 		if (error != null) {
 			return new ModelAndView("login")
@@ -51,7 +51,7 @@ public class UserAccountController {
 		return new ModelAndView("login");
 	}
 
-	@GetMapping ("/{municipality}/sign-up")
+	@GetMapping ("/sign-up")
 	public ModelAndView showSignUp(@PathVariable (required = false) String municipality) {
 		return new ModelAndView("sign-up", "user", new UserSignUpViewModel());
 	}

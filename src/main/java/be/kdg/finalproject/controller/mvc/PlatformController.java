@@ -22,7 +22,7 @@ public class PlatformController {
 		return new ModelAndView("platform/platform-dashboard");
 	}
 
-	@GetMapping ("/{municipality}/youth-council-dashboard")
+	@GetMapping ("/youth-council-dashboard")
 	@YouthCouncilAdmin
 	public ModelAndView showYouthCouncilDashboard(@MunicipalityId Long municipalityId) {
 		if (municipalityId == null) {

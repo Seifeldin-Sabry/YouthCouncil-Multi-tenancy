@@ -37,7 +37,7 @@ public class MembershipService {
 
 
 	public Membership addMembershipByUserAndMunicipalityId(User user, Long municipalityId, Role role) {
-		Municipality municipality = municipalityRepository.findMunicipalityThatHasPlatformWithMembers(municipalityId)
+		Municipality municipality = municipalityRepository.findMunicipalityWithMembers(municipalityId)
 		                                                  .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
 		logger.debug("Municipality {}", municipality);
 		Membership save = membershipRepository.save(new Membership(user, municipality, role));
@@ -93,7 +93,7 @@ public class MembershipService {
 	}
 
 	public void addMembershipByUserEmailAndMunicipalityId(String email, Long municipalityId) {
-		Municipality municipality = municipalityRepository.findMunicipalityThatHasPlatformWithMembers(municipalityId)
+		Municipality municipality = municipalityRepository.findMunicipalityWithMembers(municipalityId)
 		                                                  .orElseThrow(() -> new EntityNotFoundException("Municipality not found"));
 		User user = userRepository.findByUsernameOrEmail(email)
 		                          .orElseThrow(() -> new EntityNotFoundException("User not found"));

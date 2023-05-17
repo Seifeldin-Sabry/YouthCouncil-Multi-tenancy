@@ -14,7 +14,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/{municipality}")
 public class ActivityCalendarController {
 	private final Logger logger = LoggerFactory.getLogger(ActivityCalendarController.class);
 	private final CalendarActivitiesService calendarActivitiesService;

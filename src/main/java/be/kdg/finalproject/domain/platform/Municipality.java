@@ -33,6 +33,12 @@ public class Municipality {
 	@Column (name = "name", nullable = false, unique = true)
 	private String name;
 
+	@Column (name = "latitude", nullable = false)
+	private double latitude;
+
+	@Column (name = "longitude", nullable = false)
+	private double longitude;
+
 	@Column (name = "logo")
 	private String logo;
 
@@ -43,9 +49,9 @@ public class Municipality {
 	@ToString.Exclude
 	private List<SocialMediaLink> socialMediaLinks = new ArrayList<>();
 
-	@Column(name = "election_phase")
+	@Column(name = "election_phase", nullable = false)
 	@Enumerated (EnumType.STRING)
-	private ElectionPhase electionPhase;
+	private ElectionPhase electionPhase = ElectionPhase.BEFORE_ELECTION;
 
 	@OneToMany (cascade = CascadeType.PERSIST)
 	@ToString.Exclude
@@ -93,6 +99,12 @@ public class Municipality {
 	public Municipality(String name, Set<PostCode> postcodes) {
 		this.name = name;
 		this.postcodes = postcodes;
+	}
+
+	public Municipality(String name, double latitude, double longitude) {
+		this.name = name;
+		this.latitude = latitude;
+		this.longitude = longitude;
 	}
 
 	public void addMember(User user) {

@@ -66,10 +66,12 @@ public class DatabaseSeeder {
 
 	private final ReportRepository reportRepository;
 
+	private final MunicipalitySeeder municipalitySeeder;
+
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
-	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository, IdeaRepository ideaRepository, ActionPointRepository actionPointRepository, TextInputQuestionRepository textInputQuestionRepository, RadioQuestionRepository radioQuestionRepository, MultipleChoiceQuestionRepository multipleChoiceQuestionRepository, NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository, ReportRepository reportRepository) {
+	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository, IdeaRepository ideaRepository, ActionPointRepository actionPointRepository, TextInputQuestionRepository textInputQuestionRepository, RadioQuestionRepository radioQuestionRepository, MultipleChoiceQuestionRepository multipleChoiceQuestionRepository, NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository, ReportRepository reportRepository, MunicipalitySeeder municipalitySeeder) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -88,46 +90,15 @@ public class DatabaseSeeder {
 		this.multipleChoiceQuestionRepository = multipleChoiceQuestionRepository;
 		this.numericInputQuestionRepository = numericInputQuestionRepository;
 		this.reportRepository = reportRepository;
+		this.municipalitySeeder = municipalitySeeder;
 	}
 
 	@PostConstruct
 	public void seed() {
+		municipalitySeeder.seed();
 		//MUNICIPALITIES & POSTCODES
-		Municipality antwerpen = new Municipality("Antwerpen", true);
-		antwerpen.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
-		Set<PostCode> postCodes = new HashSet<>();
-		Set<PostCode> finalPostCodes1 = postCodes;
-		List.of(2000, 2018, 2020, 2030, 2040, 2050, 2060, 2100, 2140, 2170, 2180, 2600, 2610, 2660).forEach((code) -> {
-			PostCode postCode = new PostCode(code);
-			finalPostCodes1.add(postCode);
-		});
-		antwerpen.setPostcodes(postCodes);
-		municipalityRepository.save(antwerpen);
-
-		Municipality ghent = new Municipality("Ghent");
-		ghent.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
-		postCodes = new HashSet<>();
-		Set<PostCode> finalPostCodes = postCodes;
-		List.of(1000, 3000).forEach((code) -> {
-			PostCode postCode = new PostCode(code);
-			finalPostCodes.add(postCode);
-		});
-		ghent.setPostcodes(postCodes);
-		municipalityRepository.save(ghent);
-
-		Municipality brussels = new Municipality("Brussels", true);
-		brussels.setElectionPhase(ElectionPhase.BEFORE_ELECTION);
-		postCodes = new HashSet<>();
-		Set<PostCode> finalPostCodes2 = postCodes;
-		List.of(1000, 3000).forEach((code) -> {
-			PostCode postCode = new PostCode(code);
-			finalPostCodes2.add(postCode);
-		});
-		brussels.setPostcodes(postCodes);
-		municipalityRepository.save(brussels);
-
-		logger.debug("Postcodes saved for Antwerpen {} ", ImmutableList.copyOf(postCodeRepository.findAll()));
-		logger.debug("Municipalities saved {} ", ImmutableList.copyOf(municipalityRepository.findAll()));
+		Municipality antwerpen = municipalityRepository.findByNameIgnoreCase("antwerp").get();
+		Municipality bruges = municipalityRepository.findByNameIgnoreCase("bruges").get();
 
 		// USERS
 		User admin = new User("admin", "admin", "admin", "admin@admin.co", passwordEncoder.encode("pass"), Role.ADMINISTRATOR, Provider.LOCAL);
@@ -144,7 +115,7 @@ public class DatabaseSeeder {
 		membershipService.addMembershipByUserAndMunicipalityId(moderator, antwerpen.getId(), Role.YOUTH_COUNCIL_MODERATOR);
 		membershipService.addMembershipByUserAndMunicipalityId(user, antwerpen.getId(), Role.USER);
 		membershipService.addMembershipByUserAndMunicipalityId(user2, antwerpen.getId(), Role.USER);
-		membershipService.addMembershipByUserAndMunicipalityId(user, brussels.getId(), Role.USER);
+		membershipService.addMembershipByUserAndMunicipalityId(user, bruges.getId(), Role.USER);
 
 
 		//THEMES AND SUBTHEMES
@@ -203,13 +174,13 @@ public class DatabaseSeeder {
 		calendarActivity1.setMunicipality(antwerpen);
 
 		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
-		calendarActivity2.setMunicipality(ghent);
+		calendarActivity2.setMunicipality(bruges);
 
 		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
 		calendarActivity3.setMunicipality(antwerpen);
 
 		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
-		calendarActivity4.setMunicipality(ghent);
+		calendarActivity4.setMunicipality(bruges);
 
 		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 
@@ -221,7 +192,7 @@ public class DatabaseSeeder {
 		callForIdeas1.setActive(true);
 
 		callForIdeas1.setMunicipality(antwerpen);
-		callForIdeas2.setMunicipality(ghent);
+		callForIdeas2.setMunicipality(bruges);
 
 		callForIdeas1.setTheme(randomThemeWithSubThemes1);
 		callForIdeas2.setTheme(randomThemeWithSubThemes1);

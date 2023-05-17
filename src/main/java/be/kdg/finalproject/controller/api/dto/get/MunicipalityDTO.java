@@ -12,6 +12,8 @@ import lombok.Setter;
 public class MunicipalityDTO {
 
 	private String name;
-	private boolean hasWebsite;
+	private boolean hasPlatform;
 	private String logo;
+	private double latitude;
+	private double longitude;
 }

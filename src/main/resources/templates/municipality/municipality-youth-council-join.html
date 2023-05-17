@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en"
+	  xmlns="http://www.w3.org/1999/xhtml"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Join a Youth Council</title>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<link rel="stylesheet" th:href="@{/css/join-youth-council/join-youth-council.css}" type="text/css">
+	<script defer th:src="@{/js/join-youth-council/join-youth-councils.js}" type="module"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOu0eUhpGD_i4JmMBeDJXTSm6233jjFXc&callback=initMap" async defer></script>
+</head>
+<div th:insert="~{fragments/fragments::nav}">My navbar</div>
+<body>
+<h2 class="text-center">Youth Councils in Flanders</h2>
+<div id="map"></div>
+</body>
+</html>

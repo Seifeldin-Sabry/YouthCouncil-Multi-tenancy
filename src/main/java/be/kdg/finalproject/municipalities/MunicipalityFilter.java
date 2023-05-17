@@ -44,6 +44,8 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 		MunicipalityContext.setCurrentMunicipalityName(municipality);
 		MunicipalityContext.setCurrentMunicipality(municipalityFound);
 		MunicipalityContext.setCurrentMunicipalityId(municipalityFound.getId());
+		logger.debug("current municipality is " + MunicipalityContext.getCurrentMunicipality());
+		logger.debug("current municipalityName is " + MunicipalityContext.getCurrentMunicipalityName());
 		chain.doFilter(request, response);
 	}
 
@@ -56,14 +58,12 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 	}
 
 	private String getMunicipality(HttpServletRequest request) {
-		String requestURI = request.getRequestURI();
-		logger.debug("requestURI is " + requestURI);
-		String[] split = requestURI.split("/");
-		logger.debug("split is " + Arrays.toString(split));
-		if (split.length < 2) {
-			return null;
+		var domain = request.getServerName();
+		var dotIndex = domain.indexOf(".");
+		if (dotIndex != -1) {
+			return domain.substring(0, dotIndex);
 		}
-		return split[1];
+		return "";
 	}
 }
 
