@@ -12,10 +12,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.ServletException;
@@ -44,8 +41,9 @@ public class UserAccountController {
 		return new ModelAndView("account-details");
 	}
 
-	@GetMapping ("/login")
-	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error, HttpSession session) {
+	//TODO: fix admin login
+	@GetMapping ("/{municipality}/login")
+	public ModelAndView showLogin(@RequestParam (name = "error", required = false) String error, HttpSession session, @PathVariable (required = false) String municipality) {
 		if (error != null) {
 			return new ModelAndView("login")
 					.addObject("errorMessage", "Invalid email/username or password");
@@ -53,11 +51,8 @@ public class UserAccountController {
 		return new ModelAndView("login");
 	}
 
-	@GetMapping ("/sign-up")
-	public ModelAndView showSignUp() {
-		if (MunicipalityContext.getCurrentMunicipalityName() == null) {
-			return new ModelAndView("redirect:/");
-		}
+	@GetMapping ("/{municipality}/sign-up")
+	public ModelAndView showSignUp(@PathVariable (required = false) String municipality) {
 		return new ModelAndView("sign-up", "user", new UserSignUpViewModel());
 	}
 

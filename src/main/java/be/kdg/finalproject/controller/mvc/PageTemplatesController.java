@@ -2,6 +2,8 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.GeneralAdminOnly;
 import be.kdg.finalproject.domain.page.template.TemplateElement;
+import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.page.PageTemplateService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,14 +25,20 @@ public class PageTemplatesController {
 	}
 
 	@GetMapping
-	public ModelAndView getPageTemplates() {
-		return new ModelAndView("/platform/platform-page-templates")
+	public ModelAndView getPageTemplates(@MunicipalityId Long muid) {
+		if (muid != null) {
+			throw new EntityNotFoundException("Page not found");
+		}
+		return new ModelAndView("platform/platform-page-templates")
 				.addObject("pageTemplates", pageTemplateService.getAllPageTemplates());
 	}
 
 	@GetMapping ("/{uuid}")
-	public ModelAndView getPageTemplate(@PathVariable UUID uuid) {
-		return new ModelAndView("/platform/platform-page-template")
+	public ModelAndView getPageTemplate(@PathVariable UUID uuid, @MunicipalityId Long muid) {
+		if (muid != null) {
+			throw new EntityNotFoundException("Page not found");
+		}
+		return new ModelAndView("platform/platform-page-template")
 				.addObject("pageTemplate", pageTemplateService.getPageTemplateByUuid(uuid))
 				.addObject("elementTypes", TemplateElement.values());
 	}

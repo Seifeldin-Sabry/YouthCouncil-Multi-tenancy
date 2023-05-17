@@ -27,7 +27,7 @@ public class Municipality {
 	@Column (name = "municipality_id", nullable = false)
 	private Long id;
 
-	@Column (name = "uuid", nullable = false, unique = true)
+	@Column (name = "uuid", nullable = true, unique = true)
 	private UUID uuid = UUID.randomUUID();
 
 	@Column (name = "name", nullable = false, unique = true)

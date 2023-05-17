@@ -1,7 +1,6 @@
 package be.kdg.finalproject.municipalities;
 
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.membership.MembershipRespository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.service.user.UserService;
@@ -12,6 +11,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.logging.Logger;
 
 public class MunicipalityFilter extends OncePerRequestFilter {
@@ -33,17 +33,13 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 
 		var municipality = getMunicipality(request);
 		Municipality municipalityFound = municipalityRepository.findByNameIgnoreCase(municipality).orElse(null);
-		if (municipalityFound == null) {
+		if (municipalityFound == null || !municipalityFound.isHasPlatform()) {
 			// Attempted access to non-existing tenant
 			MunicipalityContext.clear();
 			logger.debug("current municipality is " + MunicipalityContext.getCurrentMunicipality());
 			logger.debug("current municipalityName is " + MunicipalityContext.getCurrentMunicipalityName());
 			chain.doFilter(request, response);
 			return;
-		}
-		if (!municipalityFound.isHasPlatform()) {
-			MunicipalityContext.clear();
-			throw new EntityNotFoundException("Municipality does not have a platform yet");
 		}
 		MunicipalityContext.setCurrentMunicipalityName(municipality);
 		MunicipalityContext.setCurrentMunicipality(municipalityFound);
@@ -60,12 +56,14 @@ public class MunicipalityFilter extends OncePerRequestFilter {
 	}
 
 	private String getMunicipality(HttpServletRequest request) {
-		var domain = request.getServerName();
-		var dotIndex = domain.indexOf(".");
-		if (dotIndex != -1) {
-			return domain.substring(0, dotIndex);
+		String requestURI = request.getRequestURI();
+		logger.debug("requestURI is " + requestURI);
+		String[] split = requestURI.split("/");
+		logger.debug("split is " + Arrays.toString(split));
+		if (split.length < 2) {
+			return null;
 		}
-		return "";
+		return split[1];
 	}
 }
 

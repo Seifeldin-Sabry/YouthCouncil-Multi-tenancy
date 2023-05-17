@@ -1,0 +1,82 @@
+include:
+  - template: Jobs/SAST.gitlab-ci.yml
+
+variables:
+  GRADLE_USER_HOME: "cache/.gradle"
+  GRADLE_ARGS_CI: "--no-daemon --stacktrace"
+
+stages:
+  - build
+  - test
+  - deploy
+  - destroy
+
+before_script:
+  - echo "Start CI/CD"
+  - echo "The current directory is $(pwd)"
+
+cache:
+  paths:
+    - $GRADLE_USER_HOME/wrapper/
+    - $GRADLE_USER_HOME/caches/
+
+build:
+  image: gradle:7.2.0-jdk17
+  stage: build
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME assemble
+  artifacts:
+    paths:
+      - build/libs/*.jar
+    expire_in: 1 week
+
+test:
+  image: gradle:7.2.0-jdk17
+  stage: test
+  artifacts:
+    expire_in: 1 week
+    reports:
+      junit: build/test-results/test/*.xml
+    when: always
+    paths:
+      - build/reports/tests/test/index.html
+  script:
+    - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
+
+sast:
+  variables:
+    SAST_EXCLUDED_ANALYZERS: brakeman, flawfinder, kubesec, nodejs-scan, phpcs-security-audit,
+      pmd-apex, security-code-scan, sobelow
+  stage: test
+  artifacts:
+    expire_in: 1 week
+    when: always
+    reports:
+      sast: gl-sast-report.json
+    paths:
+      - "gl-sast-report.json"
+
+
+deploy:
+  image: google/cloud-sdk:latest
+  stage: deploy
+  when: on_success
+  needs: [ "test", "build" ]
+  script:
+    - echo $ENV_VARIABLES
+    - ls
+    - ls ./build/libs
+    - chmod +x ./scripts/deploy.sh
+    - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
+  only:
+    - main
+
+destroy:
+  stage: destroy
+  when: manual
+  script:
+    - chmod +x ./scripts/destroy.sh
+    - ./scripts/destroy.sh $SQL_INSTANCE_NAME $VM_INSTANCE_PATTERN $GOOGLE_PROJECT_ID $GOOGLE_SERVICE_ACCOUNT_FILE
+
+after_script:
+  - echo "End CI/CD"

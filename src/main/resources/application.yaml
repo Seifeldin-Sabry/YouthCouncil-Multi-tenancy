@@ -30,8 +30,9 @@ spring:
       filter:
         enabled: true
   profiles:
-    active: dev # prod, dev
+    active: prod # prod, dev, devpsql
   messages:
     basename: templates/details
-server:
-  port: 8080
+logging:
+  level:
+    be.kdg.finalproject: debug

@@ -13,7 +13,7 @@
 		<button class="btn btn-outline-success" type="submit">Search</button>
 	</form>
 </div>
-<div class="container d-flex justify-content-evenly">
+<div class="container d-flex justify-content-evenly flex-column flex-wrap gap-2">
 	<div class="card" style="width: 18rem;" th:each="municipality: ${municipalities}">
 		<img th:if="${municipality.logo != null}" th:src="${municipality.logo}"
 			 style="

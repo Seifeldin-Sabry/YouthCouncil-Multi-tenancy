@@ -23,6 +23,11 @@ public class MunicipalityAuthorizationFilter extends OncePerRequestFilter {
 	@Override
 	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
 	                                FilterChain chain) throws ServletException, IOException {
+		if (MunicipalityContext.getCurrentMunicipality() != null && !MunicipalityContext.getCurrentMunicipality()
+		                                                                                .isHasPlatform()) {
+			response.sendRedirect("/error/no-platform");
+			return;
+		}
 		var tenantId = MunicipalityContext.getCurrentMunicipalityId();
 		var authentication = SecurityContextHolder.getContext().getAuthentication();
 		if (authentication == null) {

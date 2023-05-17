@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
 import be.kdg.finalproject.domain.user.Membership;
+import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.membership.MembershipService;
 import org.slf4j.Logger;
@@ -14,7 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.List;
 
 @Controller
-@RequestMapping ("/youth-council-dashboard/users")
+@RequestMapping ("/{municipality}/youth-council-dashboard/users")
 public class UserController {
 
 	private final MembershipService membershipService;
@@ -27,6 +28,10 @@ public class UserController {
 	@GetMapping
 	@YouthCouncilAdmin
 	public ModelAndView showAllUsersOfMunicipality(@MunicipalityId Long municipalityId) {
+		if (municipalityId == null) {
+			logger.error("MunicipalityId is null");
+			throw new EntityNotFoundException("MunicipalityId is null");
+		}
 		List<Membership> membershipMembers = membershipService.getMembershipsByMunicipalityIdWhereNotAdmin(municipalityId);
 		return new ModelAndView("municipality/municipality-users")
 				.addObject("users", membershipMembers);

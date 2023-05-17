@@ -4,6 +4,7 @@ import be.kdg.finalproject.config.security.CustomOAuth2User;
 import be.kdg.finalproject.config.security.CustomUserDetails;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
+import be.kdg.finalproject.exceptions.NoPlatformException;
 import be.kdg.finalproject.exceptions.UserBannedException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.SessionService;
@@ -46,6 +47,7 @@ public class GlobalControllerAdvisor {
 		Long currentMunicipalityId = MunicipalityContext.getCurrentMunicipalityId();
 		boolean isMunicipalityChanged = sessionService.isMunicipalityChanged(session, currentMunicipalityId);
 		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
+		model.addAttribute("munName", MunicipalityContext.getCurrentMunicipalityName());
 		if (authentication == null) return;
 		boolean isInSession = sessionService.isUserInSession();
 		User user;
@@ -78,11 +80,15 @@ public class GlobalControllerAdvisor {
 		return new ModelAndView("error/access-denied");
 	}
 
-	//TODO: ask lars about this :)
 	@ExceptionHandler (EntityNotFoundException.class)
 	public ModelAndView showEntityNotFound() {
 		logger.debug("Entity not found");
 		return new ModelAndView("error/404");
+	}
+
+	@ExceptionHandler (NoPlatformException.class)
+	public ModelAndView showNoPlatform() {
+		return new ModelAndView("error/no-platform");
 	}
 
 	@ExceptionHandler (UserBannedException.class)

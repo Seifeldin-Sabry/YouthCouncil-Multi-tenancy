@@ -28,6 +28,8 @@ spring:
     url: jdbc:h2:mem:finalproject
     username: "sa"
     password: "sa"
+  profiles:
+    active: test # prod, test
   security:
     user:
       name: "admin"

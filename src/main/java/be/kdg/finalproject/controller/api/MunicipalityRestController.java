@@ -26,6 +26,7 @@ public class MunicipalityRestController {
 	private final ModelMapper modelMapper = new ModelMapper();
 	private final Logger logger = Logger.getLogger(MunicipalityRestController.class.getName());
 
+
 	@Autowired
 	public MunicipalityRestController(MunicipalityService municipalityService, ImageService imageService) {
 		this.municipalityService = municipalityService;

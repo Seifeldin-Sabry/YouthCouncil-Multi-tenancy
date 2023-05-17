@@ -1,13 +1,8 @@
 spring:
   cloud:
     gcp:
-      project-id: ${GOOGLE_PROJECT_ID}
       sql:
-        enabled: true
-        database-name: ${POSTGRES_DB}
-        instance-connection-name: ${SQL_INSTANCE_CONNECTION_NAME}
-      credentials:
-        location: file:${PATH_TO_SECRET}
+        enabled: false
   mail:
     #    host: smtp.gmail.com
     #    port: ${EMAIL_PORT}
@@ -20,19 +15,16 @@ spring:
         starttls:
           enable: true
           required: true
-  sql:
-    init:
-      mode: always
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: create-drop
     database: POSTGRESQL
-    show-sql: false
-    defer-datasource-initialization: true
+    show-sql: true
   datasource:
     driver-class-name: org.postgresql.Driver
-    username: ${POSTGRES_PROD_USERNAME}
-    password: ${POSTGRES_PROD_PASSWORD}
+    url: jdbc:postgresql://localhost:5432/${POSTGRES_DEV}
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASSWORD}
   devtools:
     restart:
       enabled: true
@@ -42,10 +34,6 @@ spring:
     cache: false
   messages:
     basename: templates/messages
-server:
-  port: 80
-  ssl:
-    key-store: /web/keystore.p12
-    key-store-password: ${POSTGRES_PROD_PASSWORD}
-    keyStoreType: PKCS12
-    keyAlias: tomcat
+
+images:
+  placeholderDir: /images/placeholders/

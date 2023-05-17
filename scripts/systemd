@@ -1,0 +1,14 @@
+[Unit]
+Description=Youthcouncil service
+After=network.target
+
+[Service]
+Type=simple
+User=root
+WorkingDirectory=/web
+ExecStart=bash /web/start.sh
+
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

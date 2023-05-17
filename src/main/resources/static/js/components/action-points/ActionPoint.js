@@ -43,7 +43,7 @@ export class ActionPoint {
 						</div>
 						<h3 class="card-title mb-0">${actionPoint.title}</h3>
 						<div class="d-flex justify-content-end">
-							<a href="/action-points/${actionPoint.uuid}">
+							<a href="action-points/${actionPoint.uuid}">
 								<button class="btn btn-primary"
 										type="button"
 								>

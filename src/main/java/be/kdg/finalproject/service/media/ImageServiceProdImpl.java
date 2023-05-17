@@ -1,54 +1,63 @@
 package be.kdg.finalproject.service.media;
 
 
-import com.google.cloud.storage.BlobId;
-import com.google.cloud.storage.BlobInfo;
-import com.google.cloud.storage.Storage;
-import com.google.cloud.storage.StorageOptions;
+import com.google.cloud.storage.*;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.PostConstruct;
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Service
-@Profile ("prod")
+@Profile ({"prod"})
 public class ImageServiceProdImpl implements ImageService {
 
 	private static final String BUCKET_NAME = "youth-council-image-bucket";
-	private final String PROJECT_ID = "jovial-pod-377109";
+	private final String PROJECT_ID = "infra3-seifeldin-sabry";
 	private final Storage storage;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ImageServiceProdImpl.class);
+	private final String dir = System.getProperty("user.dir") + "/images";
+	private volatile long imageId = 0;
 
 	public ImageServiceProdImpl() {
 		storage = StorageOptions.newBuilder().setProjectId(PROJECT_ID).build().getService();
 	}
 
 	public String uploadObject(String objectName, String filePath) throws IOException {
-		// The ID of your GCP project
-		// String projectId = "your-project-id";
-
-		// The ID of your GCS bucket
-		// String bucketName = "your-unique-bucket-name";
-
-		// The ID of your GCS object
-		// String objectName = "your-object-name";
-
-		// The path to your file to upload
-		// String filePath = "path/to/your/file"
 
 		BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
 		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
 
-		storage.createFrom(blobInfo, Paths.get(filePath));
+		Blob image = storage.createFrom(blobInfo, Paths.get(filePath));
+		return image.getMediaLink();
+	}
 
-		//		return URL no expiration
-		return blobInfo.getMediaLink();
+	@PostConstruct
+	public void init() {
+		//		clear user directory /images
+		File directory = new File(dir);
+		if (!directory.exists()) {
+			logger.debug("Directory does not exist, creating directory");
+			directory.mkdirs();
+			return;
+		}
+		File[] files = directory.listFiles();
+		if (files == null) {
+			return;
+		}
+		for (File file : files) {
+			if (file.isFile()) {
+				file.delete();
+			}
+		}
 	}
 
 
@@ -57,12 +66,21 @@ public class ImageServiceProdImpl implements ImageService {
 		List<String> urls = new ArrayList<>();
 		logger.debug("Saving {} images", images.size());
 		for (MultipartFile image : images) {
-			logger.debug("Saving image {}", image.getOriginalFilename());
-			String file_path = "temp/" + image.getOriginalFilename();
+			String originalFilename = image.getOriginalFilename();
+			String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+			String imageName = generateImageName() + extension;
+			String file_path = dir + "/" + imageName;
 			image.transferTo(Path.of(file_path));
-			urls.add(uploadObject(image.getOriginalFilename(), file_path));
+			urls.add(uploadObject(imageName, file_path));
+			File file = new File(file_path);
+			file.delete();
 		}
 		logger.debug("Images saved {}", urls);
 		return urls;
 	}
+
+	private synchronized String generateImageName() {
+		return "image_" + UUID.randomUUID() + "_" + imageId++;
+	}
+
 }

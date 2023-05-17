@@ -8,18 +8,18 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncil</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="YouthCouncilDev@localhost" uuid="d7eb7b00-d663-4802-8b60-8bf30626f402">
+    <data-source source="LOCAL" name="YouthCouncilPostgres@localhost" uuid="d7eb7b00-d663-4802-8b60-8bf30626f402">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncilDev</jdbc-url>
+      <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncilPostgres</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="YouthCouncil" uuid="74724fe5-0e21-43b6-8447-e1987e0f633a">
-      <driver-ref>h2.unified</driver-ref>
+    <data-source source="LOCAL" name="YouthCouncil@34.78.19.74" uuid="0a2ecaea-9860-4a38-9fa3-0173eec5d350">
+      <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <jdbc-driver>org.h2.Driver</jdbc-driver>
-      <jdbc-url>jdbc:h2:mem:YouthCouncil</jdbc-url>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://34.78.19.74:5432/YouthCouncil</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

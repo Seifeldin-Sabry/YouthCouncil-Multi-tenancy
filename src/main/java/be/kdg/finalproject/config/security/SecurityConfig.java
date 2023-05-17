@@ -6,6 +6,7 @@ import be.kdg.finalproject.repository.membership.MembershipRespository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.service.SessionService;
 import be.kdg.finalproject.service.user.UserService;
+import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -30,6 +31,8 @@ public class SecurityConfig {
 	private final MembershipRespository membershipRepository;
 	private final UserService userService;
 
+	private Logger logger = org.slf4j.LoggerFactory.getLogger(SecurityConfig.class);
+
 	@Autowired
 	public SecurityConfig(CustomOAuth2UserService oauthUserService, OAuthSuccessHandler oAuthSuccessHandler, MunicipalityRepository municipalityRepository, SessionService sessionService, MembershipRespository membershipRepository, UserService userService) {
 		this.oauthUserService = oauthUserService;
@@ -42,6 +45,7 @@ public class SecurityConfig {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		logger.debug("Configuring SecurityFilterChain");
 		http
 				.httpBasic()
 				.authenticationEntryPoint(httpStatusEntryPoint())

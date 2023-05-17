@@ -16,8 +16,8 @@ import java.time.LocalTime;
 public class CalendarActivity {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "calendar_activity_id", nullable = false)
+	@GeneratedValue (strategy = GenerationType.IDENTITY)
+	@Column (name = "calendar_activity_id", nullable = false)
 	private Long id;
 
 	@Column (name = "title", nullable = false)
@@ -32,13 +32,13 @@ public class CalendarActivity {
 	@Column (name = "endTime", nullable = false)
 	private LocalTime endTime;
 
-	@Column (name = "description", nullable = false)
+	@Column (name = "description", nullable = false, columnDefinition = "TEXT")
 	private String description;
 
 	@ManyToOne
 	private Municipality municipality;
 
-	public CalendarActivity(String title,LocalDate date, LocalTime startTime, LocalTime endTime, String description) {
+	public CalendarActivity(String title, LocalDate date, LocalTime startTime, LocalTime endTime, String description) {
 		this.title = title;
 		this.date = date;
 		this.startTime = startTime;
