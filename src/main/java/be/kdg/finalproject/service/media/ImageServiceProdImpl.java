@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
-@Profile ({"prod", "devpsql"})
+@Profile ({"prod"})
 public class ImageServiceProdImpl implements ImageService {
 
 	private static final String BUCKET_NAME = "youth-council-image-bucket";
