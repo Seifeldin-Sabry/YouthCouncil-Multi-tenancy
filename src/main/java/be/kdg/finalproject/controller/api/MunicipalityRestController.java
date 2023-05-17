@@ -1,13 +1,10 @@
 package be.kdg.finalproject.controller.api;
-
 import be.kdg.finalproject.controller.api.dto.get.MunicipalityDTO;
 import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
-import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.media.ImageService;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
 import org.modelmapper.ModelMapper;
-import org.modelmapper.PropertyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,18 +28,11 @@ public class MunicipalityRestController {
 	public MunicipalityRestController(MunicipalityService municipalityService, ImageService imageService) {
 		this.municipalityService = municipalityService;
 		this.imageService = imageService;
-		modelMapper.createTypeMap(MunicipalityDTO.class, Municipality.class)
-		           .addMappings(new PropertyMap<>() {
-			           @Override
-			           protected void configure() {
-				           source.setHasWebsite(destination.getMembers() != null);
-			           }
-		           });
 	}
 
 	@GetMapping
-	public ResponseEntity<List<MunicipalityDTO>> getAllMunicipalities() {
-		var allMunicipalities = municipalityService.getAllMunicipalities();
+	public ResponseEntity<List<MunicipalityDTO>> getAllMunicipalities(@RequestParam(name = "p") boolean hasPlatform) {
+		var allMunicipalities = municipalityService.getAllMunicipalities(hasPlatform);
 		logger.info("All municipalities: " + allMunicipalities);
 		if (allMunicipalities.isEmpty()) {
 			return ResponseEntity.noContent().build();

@@ -25,8 +25,8 @@ public class MunicipalityService {
 	}
 
 
-	public List<Municipality> getAllMunicipalities() {
-		return ImmutableList.copyOf(municipalityRepository.findAll());
+	public List<Municipality> getAllMunicipalities(boolean hasPlatform) {
+		return municipalityRepository.findByHasPlatform(hasPlatform);
 	}
 
 

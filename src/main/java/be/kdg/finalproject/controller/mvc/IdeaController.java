@@ -23,7 +23,6 @@ import java.util.List;
 import java.util.UUID;
 
 @Controller
-@RequestMapping ("/{municipality}")
 public class IdeaController {
 	private final CallForIdeasService callForIdeasService;
 	private final ThemeService themeService;

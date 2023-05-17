@@ -7,6 +7,8 @@ import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,9 +21,10 @@ import java.util.Objects;
 import java.util.UUID;
 
 @Controller
-@RequestMapping ("/{municipality}")
+@RequestMapping
 public class MunicipalityController {
 
+	private final Logger logger = LoggerFactory.getLogger(MunicipalityController.class);
 	private final MunicipalityService municipalityService;
 
 	public MunicipalityController(MunicipalityService municipalityService) {

@@ -15,6 +15,7 @@ import java.util.UUID;
 
 @Repository
 public interface MunicipalityRepository extends CrudRepository<Municipality, Long> {
+	List<Municipality> findByHasPlatform(boolean hasPlatform);
 	@Transactional
 	@Modifying
 	@Query ("update MUNICIPALITIES m set m.hasPlatform = ?1 where m.id = ?2")
@@ -44,8 +45,8 @@ public interface MunicipalityRepository extends CrudRepository<Municipality, Lon
 
 	List<Municipality> findByNameContainingIgnoreCase(String name);
 
-	@Query ("SELECT distinct m FROM MUNICIPALITIES m left JOIN FETCH m.members WHERE m.hasPlatform = true AND m.id = :id")
-	Optional<Municipality> findMunicipalityThatHasPlatformWithMembers(@Param ("id") Long id);
+	@Query ("SELECT distinct m FROM MUNICIPALITIES m left JOIN FETCH m.members WHERE m.id = :id")
+	Optional<Municipality> findMunicipalityWithMembers(@Param ("id") Long id);
 
 
 	@Query ("SELECT m FROM MUNICIPALITIES m WHERE UPPER(m.name) LIKE CONCAT('%', UPPER(:namePart), '%')")

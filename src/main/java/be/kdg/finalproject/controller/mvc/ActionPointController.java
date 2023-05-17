@@ -22,7 +22,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-@RequestMapping ("/{municipality}")
 public class ActionPointController {
 
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointController.class);

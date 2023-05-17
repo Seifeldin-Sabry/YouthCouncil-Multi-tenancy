@@ -25,7 +25,6 @@ import java.util.Set;
 import java.util.UUID;
 
 @Controller
-@RequestMapping ("/{municipality}")
 public class CallForIdeasController {
 	private final CallForIdeasService callForIdeasService;
 	private final MunicipalityService municipalityService;

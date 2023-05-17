@@ -61,8 +61,10 @@
 					<a aria-current="page" class="nav-link active" href="/elections">Elections</a>
 				</li>
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
-					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of
-																							   Activities</a>
+					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of Activities</a>
+				</li>
+				<li class="nav-item" th:if="${currentMunicipality!= null}">
+					<a aria-current="page" class="nav-link active" href="/join-youth-council">Join a Youth Council</a>
 				</li>
 				<li class="nav-item"
 					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_MODERATOR}"
