@@ -52,6 +52,8 @@ public class CustomUserDetailsService implements UserDetailsService {
 			if (membership.isBanned()) {
 				throw new UserBannedException("User is banned");
 			}
+			authorities.clear();
+			authorities.add(new SimpleGrantedAuthority(membership.getRole().getAuthority()));
 			return new CustomUserDetails(user.getId(), user.getUsername(), user.getEmail(), user.getPassword(), municipalityId, authorities);
 		}
 	}
