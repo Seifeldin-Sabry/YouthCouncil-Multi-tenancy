@@ -61,15 +61,15 @@ deploy:
   image: google/cloud-sdk:latest
   stage: deploy
   when: on_success
-  needs: [ "build" ] # TODO: add test when ready
+  needs: [ "test", "build" ]
   script:
     - echo $ENV_VARIABLES
     - ls
     - ls ./build/libs
     - chmod +x ./scripts/deploy.sh
     - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
-#  only:
-#    - main
+  only:
+    - main
 
 destroy:
   stage: destroy
