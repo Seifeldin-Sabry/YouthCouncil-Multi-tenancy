@@ -27,7 +27,6 @@ EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
-DOMAIN=mocanupaulc.com
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
