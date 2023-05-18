@@ -25,7 +25,7 @@ spring:
       mode: always
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: validate
     database: POSTGRESQL
     show-sql: false
     defer-datasource-initialization: true
@@ -43,9 +43,12 @@ spring:
   messages:
     basename: templates/messages
 server:
-  port: 80
+  port: 443
+  servlet:
+    context-path: /
   ssl:
-    key-store: /web/keystore.p12
+    key-store: file:/web/cert.p12
     key-store-password: ${POSTGRES_PROD_PASSWORD}
-    keyStoreType: PKCS12
-    keyAlias: tomcat
+    key-store-type: PKCS12
+    key-alias: tomcat
+    enabled: true

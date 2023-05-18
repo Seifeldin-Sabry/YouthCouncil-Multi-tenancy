@@ -28,6 +28,7 @@ SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
 
+
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
 export POSTGRES_DB=$POSTGRES_DB && \
@@ -43,6 +44,16 @@ export DOMAIN=$DOMAIN && \
 java -jar /web/build.jar
 "
 
+request_sh_content="#!/bin/bash
+if ls /web/cert.p12 1>/dev/null 2>/dev/null; then
+  echo \"Certificate already exists\"
+  exit 0
+fi
+keytool -genkeypair -alias tomcat -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore cert.p12 -validity 3650 --keypass $POSTGRES_PROD_PASSWORD --storepass $POSTGRES_PROD_PASSWORD -dname \"CN=YouthCouncil, OU=Council, O=Kdg, L=Antwerp, ST=Antwerp, C=BE\"
+keytool -list -v -keystore cert.p12 -storepass $POSTGRES_PROD_PASSWORD
+mv cert.p12 /web/cert.p12
+"
+
 function set_project() {
   echo "Setting project to ${GOOGLE_PROJECT_ID}"
   gcloud config set project "${GOOGLE_PROJECT_ID}"
@@ -51,6 +62,7 @@ function set_project() {
 function create_vm() {
   if gcloud compute instances describe "$VM_NAME" --zone="$ZONE" --project="$GOOGLE_PROJECT_ID" --quiet 1>/dev/null 2>/dev/null; then
     echo "VM ${VM_NAME} already exists"
+    return
   fi
   gcloud compute instances create "$VM_NAME" \
       --zone="$ZONE" \
@@ -120,13 +132,7 @@ function copy_files_over() {
   echo "stopping service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"$SYSTEMD_SERVICE_NAME\""
   echo "requesting certificate"
-  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DOMAIN | grep fullchain.pem; then
-    certbot certonly --standalone -d $DOMAIN --non-interactive --agree-tos --email $EMAIL
-  fi"
-  gcloud compute ssh --zone="$ZONE" "$VM_NAME" --command "if ! ls /etc/letsencrypt/live/$DOMAIN | grep keystore.p12; then
-    openssl pkcs12 -export -in /etc/letsencrypt/live/$DOMAIN/fullchain.pem -inkey /etc/letsencrypt/live/$DOMAIN/privkey.pem -out /etc/letsencrypt/live/$DOMAIN/keystore.p12 -name tomcat -CAfile /etc/letsencrypt/live/$DOMAIN/chain.pem -caname root -passout pass:$POSTGRES_PROD_PASSWORD && \
-    cp /etc/letsencrypt/live/$DOMAIN/keystore.p12 /web/keystore.p12
-  fi"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "bash -c $request_sh_content"
   echo "restarting youth council service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"$SYSTEMD_SERVICE_NAME\""
   echo "Jar is running"
