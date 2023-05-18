@@ -1,4 +1,4 @@
-(function(g) {
+(function (g) {
     var h, a, k, p = "The Google Maps JavaScript API",
         c = "google",
         l = "importLibrary",
@@ -10,7 +10,7 @@
         r = new Set,
         e = new URLSearchParams,
         u = () => h || (h = new Promise(async (f, n) => {
-            await(a = m.createElement("script"));
+            await (a = m.createElement("script"));
             e.set("libraries", [...r] + "");
             for (k in g) e.set(k.replace(/[A-Z]/g, t => "_" + t[0].toLowerCase()), g[k]);
             e.set("callback", c + ".maps." + q);
@@ -112,50 +112,52 @@ async function initMap() {
     });
 
 }
-    async function renderMunicipalities(){
-        const res = await fetch("/api/municipalities?p=true")
-        if (res.status === 204) {
-            //TODO: toast or notification no platforms
-            return;
+
+async function renderMunicipalities() {
+    const res = await fetch("/api/municipalities?p=true")
+    if (res.status === 204) {
+        //TODO: toast or notification no platforms
+        return;
+    }
+    if (res.status === 500) {
+        //TODO: error sff
+        return;
+    }
+    /**
+     *
+     * @type {
+     * {name: string,
+     * hasPlatform: boolean,
+     * longitude: number,
+     * latitude: number,
+     * logo: string}[]
+     * }
+     */
+    const municipalities = await res.json()
+    return municipalities.forEach(municipality => createMarker(municipality))
+}
+
+
+function createMarker(municipality) {
+    var marker = new google.maps.Marker({
+        position: {lat: municipality.latitude, lng: municipality.longitude},
+        map: map,
+        title: municipality.name
+    });
+
+    var infoWindow = new google.maps.InfoWindow({
+        //TODO: CONSTRUCT URL TO ACTUALLY GO TO THAT MUNICIPALITY
+        content: municipality.name
+    });
+
+    marker.addListener("click", function () {
+        if (openInfoWindow) {
+            openInfoWindow.close(); // Close the previously opened info window
         }
-        if(res.status === 500){
-            //TODO: error sff
-            return;}
-        /**
-         *
-         * @type {
-         * {name: string,
-         * hasPlatform: boolean,
-         * longitude: number,
-         * latitude: number,
-         * logo: string}[]
-         * }
-         */
-        const municipalities = await res.json()
-        return municipalities.forEach(municipality => createMarker(municipality))
-    }
-
-
-    function createMarker(municipality) {
-        var marker = new google.maps.Marker({
-            position: { lat: municipality.latitude, lng: municipality.longitude },
-            map: map,
-            title: municipality.name
-        });
-
-        var infoWindow = new google.maps.InfoWindow({
-            //TODO: CONSTRUCT URL TO ACTUALLY GO TO THAT MUNICIPALITY
-            content: municipality.name
-        });
-
-        marker.addListener("click", function() {
-            if (openInfoWindow) {
-                openInfoWindow.close(); // Close the previously opened info window
-            }
-            infoWindow.open(map, marker);
-            openInfoWindow = infoWindow; // Update the currently opened info window
-        });
-    }
+        infoWindow.open(map, marker);
+        openInfoWindow = infoWindow; // Update the currently opened info window
+    });
+}
 
 (async () => {
     await initMap()
