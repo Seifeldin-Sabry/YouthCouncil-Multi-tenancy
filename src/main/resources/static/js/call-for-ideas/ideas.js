@@ -275,7 +275,12 @@ const submitIdea= async (event) =>{
     }
     console.log(options)
     // alert(callForIdeaId)
+    submitButton.innerHTML=`
+  <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+  Loading...
+`
     const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas`, options);
+    submitButton.innerHTML=`Submit`
     if (response.status === 201) {
         hideAllErrors();
         const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
