@@ -3,11 +3,16 @@
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Municipality Home</title>
+	<link rel="stylesheet" th:href="@{/css/municiplaity-home/home.css}">
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
-<h1>MUNICIPALITY HOME</h1>
+
+<div class="container my-4">
+	<h2 class="text-center mb-5">Welcome to the Homepage!</h2>
+</div>
 
 
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

@@ -7,9 +7,7 @@ import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.page.PageTemplate;
-import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
-import be.kdg.finalproject.domain.platform.PostCode;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
@@ -27,7 +25,6 @@ import be.kdg.finalproject.repository.page.PageTemplateRepository;
 import be.kdg.finalproject.repository.report.ReportRepository;
 import be.kdg.finalproject.repository.theme.ThemeRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +33,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.util.Arrays;
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -134,6 +132,7 @@ public class DatabaseSeeder {
 
 
 		// ACTION POINTS
+
 		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
 		randomActionPoint1.setMunicipalityId(antwerpen.getId());
 		randomActionPoint1.getFollowers().add(new UserActionPointFollow(user, randomActionPoint1));
@@ -162,6 +161,7 @@ public class DatabaseSeeder {
 		actionPointRepository.save(randomActionPoint3);
 		actionPointRepository.save(randomActionPoint4);
 
+
 		//FORMS AND QUESTIONS
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		formRepository.save(entityFactory.createRandomFormWithQuestions());
@@ -169,20 +169,28 @@ public class DatabaseSeeder {
 
 
 		//CALENDAR OF ACTIVITIES
+		// Park Cleanup Event
+		LocalDate parkCleanupDate = LocalDate.of(2023, 7, 10);
+		LocalTime parkCleanupStartTime = LocalTime.of(9, 0);
+		LocalTime parkCleanupEndTime = LocalTime.of(12, 0);
+		String parkCleanupTitle = "Youth Council Park Cleanup";
+		String parkCleanupDescription = "Join us for a community park cleanup event organized by the Youth Council. Let's work together to keep our park clean and beautiful.";
 
-		CalendarActivity calendarActivity1 = entityFactory.createRandomCalendarActivity();
-		calendarActivity1.setMunicipality(antwerpen);
+		CalendarActivity parkCleanupActivity = new CalendarActivity(parkCleanupTitle, parkCleanupDate, parkCleanupStartTime, parkCleanupEndTime, parkCleanupDescription);
+		parkCleanupActivity.setMunicipality(antwerpen);
+		calendarActivityRepository.save(parkCleanupActivity);
 
-		CalendarActivity calendarActivity2 = entityFactory.createRandomCalendarActivity();
-		calendarActivity2.setMunicipality(bruges);
+		// Community Workshop Event
+		LocalDate workshopDate = LocalDate.of(2023, 7, 15);
+		LocalTime workshopStartTime = LocalTime.of(14, 0);
+		LocalTime workshopEndTime = LocalTime.of(16, 0);
+		String workshopTitle = "Youth Council Community Workshop";
+		String workshopDescription = "The Youth Council invites all young community members to attend a workshop on community engagement and active participation. Learn valuable skills and contribute to shaping our community.";
 
-		CalendarActivity calendarActivity3 = entityFactory.createRandomCalendarActivity();
-		calendarActivity3.setMunicipality(antwerpen);
+		CalendarActivity workshopActivity = new CalendarActivity(workshopTitle, workshopDate, workshopStartTime, workshopEndTime, workshopDescription);
+		workshopActivity.setMunicipality(antwerpen);
+		calendarActivityRepository.save(workshopActivity);
 
-		CalendarActivity calendarActivity4 = entityFactory.createRandomCalendarActivity();
-		calendarActivity4.setMunicipality(bruges);
-
-		calendarActivityRepository.saveAll(Arrays.asList(calendarActivity1, calendarActivity2, calendarActivity3, calendarActivity4));
 
 
 		// CALL FOR IDEAS AND IDEAS
@@ -248,7 +256,5 @@ public class DatabaseSeeder {
 		reportRepository.save(report2);
 		reportRepository.save(report3);
 		reportRepository.save(report4);
-
-
 	}
 }

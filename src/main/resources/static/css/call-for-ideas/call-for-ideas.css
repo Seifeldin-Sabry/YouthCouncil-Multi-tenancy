@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333; /* Add a border with 2px width and #333 color */
+    padding: 10px; /* Add some padding for better spacing */
+    border-radius: 4px;
+}
+
+ i, span, .btn {
+    font-family: "Open Sans";
+}
+
+ h4 , p{
+     font-family: 'Bungee';
+ }
+
+td{
+    height: 50px;
+}
+

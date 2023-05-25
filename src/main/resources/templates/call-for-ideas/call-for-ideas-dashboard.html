@@ -6,17 +6,15 @@
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer src="/js/call-for-ideas/call-for-idea.js" type="module"></script>
 	<title>Call for ideas dashboard</title>
-	<style>
-		td {
-			height: 50px;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/call-for-ideas/call-for-ideas-dashboard.css}">
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
-
-
-<h1>Call For Ideas</h1>
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Call for ideas dashboard</h2>
+	</div>
+</div>
 
 <!--error toast-->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
@@ -52,13 +50,13 @@
 >
 	<thead>
 	<tr>
-		<th class="th-sm">title
+		<th class="th-sm">Title
 		</th>
-		<th class="th-sm">description
+		<th class="th-sm">Description
 		</th>
-		<th class="th-sm">theme
+		<th class="th-sm">Theme
 		</th>
-		<th class="th-sm">buttons
+		<th class="th-sm">Buttons
 		</th>
 	</tr>
 	</thead>
@@ -89,9 +87,9 @@
 <!-- Button trigger modal -->
 <button class="btn btn-primary" data-bs-target="#callForIdeaModal" data-bs-toggle="modal"
 		sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')"
-		type="button"
+		type="button" id="create-call"
 >
-	Create new Call
+	Create New Call
 </button>
 
 <!-- Modal -->

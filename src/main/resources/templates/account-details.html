@@ -8,77 +8,62 @@
 	<script defer th:src="@{/js/user/updateDetails.js}" type="module"></script>
 	<!--	<script defer th:src="@{/js/user/deleteAccount.js}" type="module"></script>-->
 	<script defer th:src="@{/js/user/changePassword.js}" type="module"></script>
+	<link rel="stylesheet" th:href="@{/css/account-details/account-details.css}">
 </head>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
 <body class="text-center">
-<div class="container">
-	<div class="col-lg-8">
-		<div class="card mb-4">
-			<div class="card-body">
-				<div class="input-group has-validation">
-					<div class="form-floating">
-						<input class="form-control" id="firstName" placeholder="Enter First Name"
-							   th:value="${authUser.firstName}" type="text"
-						>
-						<label class="form-label" for="firstName">First Name</label>
-					</div>
-					<div class="invalid-feedback" id="firstName-err"></div>
-				</div>
-				<hr>
-				<div class="input-group has-validation">
-					<div class="form-floating">
-						<input class="form-control" id="surname" placeholder="Enter Surname"
-							   th:value="${authUser.surname}" type="text"
-						>
-						<label class="form-label" for="surname">Surname</label>
-					</div>
-					<div class="invalid-feedback" id="surname-err"></div>
-				</div>
-				<hr>
-				<div>
-					<div class="input-group has-validation">
-						<div class="form-floating">
-							<input class="form-control" id="username" placeholder="Enter Email"
-								   th:value="${authUser.username}" type="email"
-							>
-							<label class="form-label" for="username">Username</label>
+<div class="container mx-auto">
+	<h2 class="text-center mb-4">My Account</h2>
+	<div class="row justify-content-center align-items-center">
+		<div class="col-lg-8">
+			<div class="card mb-4">
+				<div class="card-body">
+					<form>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label text-end" for="firstName">First Name</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="firstName" placeholder="Enter First Name" th:value="${authUser.firstName}" type="text">
+								<div class="invalid-feedback" id="firstName-err"></div>
+							</div>
 						</div>
-						<div class="invalid-feedback" id="username-err"></div>
-					</div>
-				</div>
-				<hr>
-				<div class="input-group has-validation">
-					<div class="form-floating">
-						<input class="form-control" id="email" placeholder="Enter Email" th:value="${authUser.email}"
-							   type="email"
-						>
-						<label class="form-label" for="email">Email</label>
-					</div>
-					<div class="invalid-feedback" id="email-err"></div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label text-end" for="surname">Surname</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="surname" placeholder="Enter Surname" th:value="${authUser.surname}" type="text">
+								<div class="invalid-feedback" id="surname-err"></div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label text-end" for="username">Username</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="username" placeholder="Enter Email" th:value="${authUser.username}" type="email">
+								<div class="invalid-feedback" id="username-err"></div>
+							</div>
+						</div>
+						<div class="form-group row">
+							<label class="col-sm-4 col-form-label text-end" for="email">Email</label>
+							<div class="col-sm-8">
+								<input class="form-control" id="email" placeholder="Enter Email" th:value="${authUser.email}" type="email">
+								<div class="invalid-feedback" id="email-err"></div>
+							</div>
+						</div>
+					</form>
 				</div>
 			</div>
 		</div>
 	</div>
 </div>
-<div class="card mb-4">
+
 	<div class="card-body text-center">
 		<div class="d-flex justify-content-center mb-4">
-			<button class="btn btn-danger"
-					data-bs-target="#deleteAccount" data-bs-toggle="modal" type="button"
-			>Delete Account
-			</button>
-			<button class="btn btn-outline-primary ms-1" disabled id="save-profile-button" th:data-id="${authUser.id}"
-					type="button"
-			>Save Profile
-			</button>
-			<button class="btn btn-outline-primary ms-1" data-bs-target="#changePassword"
-					data-bs-toggle="modal" type="button"
-			>Change Password
-			</button>
+			<button class="btn btn-danger" data-bs-target="#deleteAccount" data-bs-toggle="modal" type="button">Delete Account</button>
+			<button class="btn btn-outline-primary ms-1" disabled id="save-profile-button" th:data-id="${authUser.id}" type="button">Save Profile</button>
+			<button class="btn btn-outline-primary ms-1" data-bs-target="#changePassword" data-bs-toggle="modal" type="button">Change Password</button>
 		</div>
 	</div>
 
-</div>
+</body>
+
 
 
 <!--CHANGE PASSWORD MODAL-->
@@ -133,6 +118,6 @@
 		<button aria-label="Close" class="btn-close ms-auto me-2" data-bs-dismiss="toast" type="button"></button>
 	</div>
 </div>
-
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>
