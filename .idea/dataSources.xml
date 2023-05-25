@@ -8,7 +8,7 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncil</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="YouthCouncilPostgres@localhost" uuid="d7eb7b00-d663-4802-8b60-8bf30626f402">
+    <data-source source="LOCAL" name="YouthCouncilDev@localhost" uuid="d7eb7b00-d663-4802-8b60-8bf30626f402">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
@@ -20,6 +20,13 @@
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://34.78.19.74:5432/YouthCouncil</jdbc-url>
+      <working-dir>$ProjectFileDir$</working-dir>
+    </data-source>
+    <data-source source="LOCAL" name="YouthCouncilDevReal@localhost" uuid="785236fd-5882-4282-9540-48fd6710a17a">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://localhost:5432/YouthCouncilDev</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
   </component>

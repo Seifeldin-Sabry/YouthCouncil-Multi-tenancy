@@ -60,10 +60,10 @@ public class SecurityConfig {
 								auths
 										.antMatchers(HttpMethod.POST, "/register", "/login", "/logout")
 										.permitAll()
-										.antMatchers("/api/**")
-										.authenticated()
 										.antMatchers(HttpMethod.GET, "/**")
 										.permitAll()
+										.antMatchers("/api/**")
+										.authenticated()
 										.anyRequest()
 										.authenticated()
 				)
