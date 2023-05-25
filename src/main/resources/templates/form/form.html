@@ -1,162 +1,160 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+	  xmlns:th="http://www.thymeleaf.org">
 <head>
 	<meta charset="UTF-8">
-	<title></title>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+	<title>Form</title>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
+	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
 	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<script defer src="/js/form/form.js" type="module"></script>
 	<style>
-		.col {
-			border:1px solid gray;
+		@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+		div, p, input, h6 {
+			font-family: 'Open Sans';
 		}
-		.checkbox {
-			height: 45px;
+
+		h6 {
+			padding: 5px;
+		}
+
+		.container {
+			margin-top: 20px;
+			border: 2px solid #333;
+			border-radius: 4px;
+			padding: 15px;
+		}
+
+		.row:hover {
+			background-color: #f5f5f5;
+		}
+
+		.button-container {
+			margin-top: 20px;
+			text-align: center;
+		}
+
+		.goBack-button-container {
+			margin: 10px;
+			text-align: center;
+		}
+
+		.row {
+			border-bottom: 1px solid #ddd;
+		}
+
+		.row:last-child {
+			border-bottom: none;
+		}
+
+		.row > div {
+			border-right: 1px solid #ddd;
+			padding: 5px;
+		}
+
+		.row > div:last-child {
+			border-right: none;
 		}
 	</style>
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
-	<br>
-	<div class="container textInput">
-		<comment class="invisible">TEXT_QUESTION</comment>
-		<h6>Text Input Questions</h6>
-		<br>
-		<div class="row">
-			<div class="col">
-				question id
-			</div>
-			<div class="col">
-				question title
-			</div>
-			<div class="col">
-				order
-			</div>
-			<div class="col">
-				Is Required
-			</div>
-			<div class="col invisible">
-			</div>
+
+<div class="container textInput">
+	<h6 style="text-align: center; font-weight: bold;">Text Input Questions</h6>
+	<div class="row">
+		<div class="col">Question ID</div>
+		<div class="col">Question Title</div>
+		<div class="col">Order</div>
+		<div class="col">Is Required</div>
+	</div>
+	<div class="rows">
+		<div class="row" th:each="textQuestion: ${textQuestions}">
+			<div class="col ID" th:text="${textQuestion.id}"></div>
+			<div class="col text" th:text="${textQuestion.questionText}"></div>
+			<div class="col questionOrder" th:text="${textQuestion.questionOrder}"></div>
+			<div class="col isRequired" th:text="${textQuestion.required}"></div>
 		</div>
-		<div class="rows">
-			<div class="row" th:each="textQuestion: ${textQuestions}">
-				<div class="col ID"  th:text="${textQuestion.id}" />
-				<div class="col text" th:text="${textQuestion.questionText}" />
-				<div class="col questionOrder" th:text="${textQuestion.questionOrder}" />
-				<div class="col isRequired" th:text="${textQuestion.required}" />
-				<div class="col invisible">
-				</div>
-			</div>
-		</div>
-		<br>
+	</div>
+	<div class="button-container">
 		<button type="button" class="btn btn-primary textInputButton create">New</button>
 	</div>
-	<br>
-	<div class="container numericInput">
-		<comment class="invisible">NUMBER_QUESTION</comment>
-		<h6>Numeric Input Questions</h6>
-		<br>
-		<div class="row">
-			<div class="col">
-				question id
-			</div>
-			<div class="col">
-				question title
-			</div>
-			<div class="col">
-				order
-			</div>
-			<div class="col">
-				Is Required
-			</div>
-			<div class="col invisible">
-			</div>
+</div>
+
+<div class="container numericInput">
+	<h6 style="text-align: center; font-weight: bold;">Numeric Input Questions</h6>
+	<div class="row">
+		<div class="col">Question ID</div>
+		<div class="col">Question Title</div>
+		<div class="col">Order</div>
+		<div class="col">Is Required</div>
+	</div>
+	<div class="rows">
+		<div class="row" th:each="numericQuestion: ${numericQuestions}">
+			<div class="col ID" th:text="${numericQuestion.id}"></div>
+			<div class="col text" th:text="${numericQuestion.questionText}"></div>
+			<div class="col questionOrder" th:text="${numericQuestion.questionOrder}"></div>
+			<div class="col isRequired" th:text="${numericQuestion.required}"></div>
 		</div>
-		<div class="rows">
-			<div class="row" th:each="numericQuestion: ${numericQuestions}">
-				<div class="col ID"  th:text="${numericQuestion.id}" />
-				<div class="col text" th:text="${numericQuestion.questionText}" />
-				<div class="col questionOrder" th:text="${numericQuestion.questionOrder}" />
-				<div class="col isRequired" th:text="${numericQuestion.required}" />
-				<div class="col invisible">
-				</div>
-			</div>
-		</div>
-		<br>
+	</div>
+	<div class="button-container">
 		<button type="button" class="btn btn-primary numericInputButton create">New</button>
 	</div>
-	<br>
-	<div class="container radio">
-		<comment class="invisible">RADIO_QUESTION</comment>
-		<h6>Radio Questions</h6>
-		<br>
-		<div class="row">
-			<div class="col">
-				question id
-			</div>
-			<div class="col">
-				question title
-			</div>
-			<div class="col">
-				order
-			</div>
-			<div class="col">
-				Is Required
-			</div>
-			<div class="col">
-				choices
-			</div>
+</div>
+
+<div class="container radio">
+	<h6 style="text-align: center; font-weight: bold;">Radio Questions</h6>
+	<div class="row">
+		<div class="col">Question ID</div>
+		<div class="col">Question Title</div>
+		<div class="col">Order</div>
+		<div class="col">Is Required</div>
+		<div class="col">Choices</div>
+	</div>
+	<div class="rows">
+		<div class="row" th:each="radioQuestion: ${radioQuestions}">
+			<div class="col ID" th:text="${radioQuestion.id}"></div>
+			<div class="col text" th:text="${radioQuestion.questionText}"></div>
+			<div class="col questionOrder" th:text="${radioQuestion.questionOrder}"></div>
+			<div class="col isRequired" th:text="${radioQuestion.required}"></div>
+			<div class="col choices" th:text="${radioQuestion.getChoices()}"></div>
 		</div>
-		<div class="rows">
-			<div class="row" th:each="radioQuestion: ${radioQuestions}">
-				<div class="col ID"  th:text="${radioQuestion.id}" />
-				<div class="col text" th:text="${radioQuestion.questionText}" />
-				<div class="col questionOrder" th:text="${radioQuestion.questionOrder}" />
-				<div class="col isRequired" th:text="${radioQuestion.required}" />
-				<div class="col choices" th:text="${radioQuestion.getChoices()}" />
-			</div>
-		</div>
-		<br>
+	</div>
+	<div class="button-container">
 		<button type="button" class="btn btn-primary radioButton create">New</button>
 	</div>
-	<br>
+</div>
 
-	<div class="container choice">
-		<comment class="invisible">MULTIPLE_CHOICE_QUESTION</comment>
-		<h6>Multiple Choice Questions</h6>
-		<br>
-		<div class="row">
-			<div class="col">
-				question id
-			</div>
-			<div class="col">
-				question title
-			</div>
-			<div class="col">
-				order
-			</div>
-			<div class="col">
-				Is Required
-			</div>
-			<div class="col">
-				choices
-			</div>
-		</div>
-		<div class="rows">
-			<div class="row" th:each="choiceQuestion: ${choiceQuestions}">
-				<div class="col ID"  th:text="${choiceQuestion.id}" />
-				<div class="col text" th:text="${choiceQuestion.questionText}" />
-				<div class="col questionOrder" th:text="${choiceQuestion.questionOrder}" />
-				<div class="col isRequired" th:text="${choiceQuestion.required}" />
-				<div class="col choices" th:text="${choiceQuestion.getChoices()}" />
-			</div>
-		</div>
-		<br>
-		<button type="button" class="btn btn-primary choiceButton create">New</button>
-		<a th:href="forms">
-			<button type="button" class="btn btn-dark">Go Back</button>
-		</a>
+<div class="container choice">
+	<h6 style="text-align: center; font-weight: bold;">Multiple Choice Questions</h6>
+	<div class="row">
+		<div class="col">Question ID</div>
+		<div class="col">Question Title</div>
+		<div class="col">Order</div>
+		<div class="col">Is Required</div>
+		<div class="col">Choices</div>
 	</div>
+	<div class="rows">
+		<div class="row" th:each="choiceQuestion: ${choiceQuestions}">
+			<div class="col ID" th:text="${choiceQuestion.id}"></div>
+			<div class="col text" th:text="${choiceQuestion.questionText}"></div>
+			<div class="col questionOrder" th:text="${choiceQuestion.questionOrder}"></div>
+			<div class="col isRequired" th:text="${choiceQuestion.required}"></div>
+			<div class="col choices" th:text="${choiceQuestion.getChoices()}"></div>
+		</div>
+	</div>
+	<div class="button-container">
+		<button type="button" class="btn btn-primary choiceButton create">New</button>
+	</div>
+</div>
 
+<div class="goBack-button-container">
+	<a th:href="forms">
+		<button type="button" id="goBackBtn" class="btn btn-dark go-back-button">Go Back</button>
+	</a>
+</div>
+
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

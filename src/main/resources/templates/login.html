@@ -6,6 +6,7 @@
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Log in</title>
 	<script defer th:src="@{/js/login/login.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/login/login.css}">
 </head>
 <body>
 
@@ -17,62 +18,43 @@
 				<div class="card-body p-4 p-sm-5">
 					<h5 class="card-title text-center mb-5 fw-light fs-5">Log In</h5>
 					<form method="POST" th:action="@{/login}">
-						<div class="input-group has-validation">
-							<div th:class="${errorMessage != null?'form-floating is-invalid':'form-floating'}">
-								<input id="username" name="username"
-									   placeholder="Email or Username"
-									   th:class="${errorMessage != null ?
-    				   'form-control form-control-lg is-invalid ':
-    				   'form-control form-control-lg border-3 '}"
-									   type="text"
-								/>
-								<label class="form-label" for="username">Email or Username</label>
-							</div>
-
+						<div class="form-floating mb-3">
+							<input id="username" name="username" placeholder="Email or Username"
+								   class="form-control form-control-lg border-2"
+								   th:classappend="${errorMessage != null ? 'is-invalid' : ''}"
+								   type="text">
+							<label class="form-label" for="username">Email or Username</label>
+							<div class="invalid-feedback" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
 						</div>
-						<div class="input-group has-validation">
-							<div th:class="${errorMessage != null?'form-floating is-invalid':'form-floating'}">
-								<input id="password" name="password"
-									   placeholder="Password"
-									   th:class="${errorMessage != null?
-    				   'form-control form-control-lg is-invalid ':
-    				   'form-control form-control-lg border-3 '}"
-									   type="password"
-								/>
-								<label class="form-label" th:for="password">Password</label>
-							</div>
+						<div class="input-group mb-3">
+							<input id="password" name="password" placeholder="Password"
+								   class="form-control form-control-lg border-2"
+								   th:classappend="${errorMessage != null ? 'is-invalid' : ''}"
+								   type="password">
+							<label class="form-label visually-hidden" for="password">Password</label>
 							<button class="btn btn-outline-secondary" id="button-show-password" type="button">
 								<i class="bi bi-eye"></i>
 							</button>
-							<div class="invalid-feedback"
-								 th:if="${errorMessage != null}"
-								 th:text="${errorMessage}"
-							>
-							</div>
+							<div class="invalid-feedback" th:if="${errorMessage != null}" th:text="${errorMessage}"></div>
 						</div>
 						<div class="d-grid">
-							<button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Log
-																										   in
-							</button>
+							<button class="btn btn-primary btn-login text-uppercase fw-bold" type="submit">Log in</button>
 						</div>
 						<th:block th:if="${currentMunicipality != null}">
 							<hr class="my-4">
 							<div class="d-grid mb-2">
-								<a class="btn btn-danger" href="/oauth2/authorization/google"><i
-										class="bi-google"
-								></i>
-									Log in with Google</a>
+								<a class="btn btn-danger" href="/oauth2/authorization/google">
+									<i class="bi bi-google"></i> Log in with Google
+								</a>
 							</div>
 							<div class="d-grid">
-								<a class="btn btn-primary"
-								   href="oauth2/authorization/facebook"
-								><i
-										class="bi-facebook"
-								></i> Log in with Facebook</a>
+								<a class="btn btn-primary" href="oauth2/authorization/facebook">
+									<i class="bi bi-facebook"></i> Log in with Facebook
+								</a>
 							</div>
 							<hr class="my-4">
-							<div class="mb-2 text-center text-muted">Don't have an account? <a th:href="@{/sign-up}">Sign
-																													 up</a>
+							<div class="mb-2 text-center text-muted">
+								Don't have an account? <a th:href="@{/sign-up}">Sign up</a>
 							</div>
 						</th:block>
 					</form>

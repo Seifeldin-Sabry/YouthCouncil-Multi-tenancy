@@ -13,8 +13,12 @@
 </head>
 <div th:insert="~{fragments/fragments::nav}">My navbar</div>
 <body>
+
+<div class="py-5">
+	<h2 class="text-center">Youth Councils in Flanders</h2>
+</div>
+
 <div th:text="${currentMunicipality.name}" id="currentMunName" hidden></div>
-<h2 class="text-center">Youth Councils in Flanders</h2>
 <div id="map"></div>
 <div class="container my-3">
 	<h4>Check if your municipality has a platform by entering your postcode!</h4>
@@ -26,5 +30,6 @@
 	<div id="resultPostcode">
 	</div>
 </div>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

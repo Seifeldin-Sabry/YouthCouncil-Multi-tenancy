@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+
+body {
+    background-image: url(../../../static/images/platform/backgroundWhite.jpg);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333; /* Add a border with 2px width and #333 color */
+    padding: 10px; /* Add some padding for better spacing */
+    border-radius: 4px;
+}
+
+div, p {
+    font-family: 'Open Sans';
+}
+
+.table tbody tr:hover {
+    background-color: #64c1f3;
+}

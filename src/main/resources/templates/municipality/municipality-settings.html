@@ -7,11 +7,13 @@
 	<title>Customise Municipality</title>
 	<script defer src="/js/municipality/changeElectionPhase.js" type="module"></script>
 	<script defer src="/js/municipality/submit-logo.js" type="module"></script>
+	<link rel="stylesheet" th:href="@{/css/municipality-settings/municipality-settings.css}">
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
 <div class="container">
 	<div class="row">
+		<h2 class="text-center mb-5">Municipality Settings</h2>
 		<div class="col-md-6">
 			<div class="mb-3">
 				<form class="p-3" enctype="multipart/form-data">

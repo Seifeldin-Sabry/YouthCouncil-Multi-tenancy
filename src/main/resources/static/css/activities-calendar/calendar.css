@@ -1,3 +1,36 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+/*BACKGROUND NOT SHOWING UP ON PAGE*/
+/*body {*/
+/*    background-image: url(static/images/platform/backgroundBlue.jpg);*/
+/*    background-repeat: no-repeat;*/
+/*    background-attachment: fixed;*/
+/*    background-size: cover;*/
+/*}*/
+
+h2{
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333; /* Add a border with 2px width and #333 color */
+    padding: 10px; /* Add some padding for better spacing */
+    border-radius: 4px;
+}
+
+h4 {
+    font-family: 'Langar';
+}
+
+label, p, span{
+    font-family: 'Open Sans';
+}
+
+.container {
+    width: 60%;
+    margin: 0 auto;
+}
+
 .timeline-1 {
     border-left: 3px solid #b565a7;
     border-bottom-right-radius: 4px;
@@ -8,33 +41,38 @@
     padding: 50px;
     list-style: none;
     text-align: left;
-    max-width: 40%;
+    max-width: 60%;
 }
 
 @media (max-width: 767px) {
+    .container {
+        width: 90%;
+        max-width: none;
+    }
+
     .timeline-1 {
-        max-width: 98%;
         padding: 25px;
+        max-width: 100%;
     }
 }
 
-.timeline-1 .event {
-    border-bottom: 1px dashed #000;
-    padding-bottom: 25px;
-    margin-bottom: 25px;
+.event {
+    margin-bottom: 30px;
+    padding: 30px;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     position: relative;
 }
 
 @media (max-width: 767px) {
-    .timeline-1 .event {
-        padding-top: 30px;
+    .event {
+        padding: 40px;
     }
 }
 
-.timeline-1 .event:last-of-type {
-    padding-bottom: 0;
-    margin-bottom: 0;
-    border: none;
+.timeline-1 .event .d-flex {
+    flex-wrap: wrap;
+    justify-content: flex-end;
 }
 
 .timeline-1 .event:before,
@@ -42,6 +80,15 @@
     position: absolute;
     display: block;
     top: 0;
+}
+
+.timeline-1 .event .d-flex > * {
+    margin-left: 10px;
+    margin-bottom: 10px;
+}
+
+.timeline-1 .event .d-flex > *:first-child {
+    margin-left: 0;
 }
 
 .timeline-1 .event:before {
@@ -55,13 +102,13 @@
 
 @media (max-width: 767px) {
     .timeline-1 .event:before {
-        left: 0px;
+        left: 0;
         text-align: left;
     }
 }
 
-.timeline-1 .event:after {
-    -webkit-box-shadow: 0 0 0 3px #b565a7;
+.timeline-1 .event:after{
+-webkit-box-shadow: 0 0 0 3px #b565a7;
     box-shadow: 0 0 0 3px #b565a7;
     left: -55.8px;
     background: #fff;
@@ -77,3 +124,18 @@
         left: -31.8px;
     }
 }
+
+/* Cards animation */
+.event {
+    position: relative;
+    padding-left: 30px;
+    margin-bottom: 40px;
+    opacity: 0;
+    transform: translateX(100%);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.event.fade-in {
+    opacity: 1;
+    transform: none;
+}
+

@@ -1,7 +1,7 @@
 import {csrfToken} from "../cookie.js";
 
 
-let editActivityButtons = document.querySelectorAll('.btn-outline-primary');
+let editActivityButtons = document.querySelectorAll('.editButton');
 // ADD ACTIVITY
 const addActivityButton = document.getElementById('add-activity-button');
 const addActivityForm = document.getElementById('add-activity-form');
@@ -175,41 +175,96 @@ async function addActivity() {
 
 }
 
+// function handleAddedActivity(activity) {
+//     console.log("ACTIVITY ADDED!")
+//     // Update the activity with the new data
+//     // Get the reference to the ul element
+//     const activityList = document.querySelector('.timeline-1');
+//
+//     // Set the innerHTML of the new activity
+//     activityList.innerHTML += `
+//    <li class="event" id="${activity.id}">
+//     <div class="d-flex gap-3">
+//         <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activity.id}" data-activity-id="${activity.id}">Edit</button>
+//         <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
+//           data-bs-target="#deleteModal" id="delete-activity-${activity.id}" data-activity-id="${activity.id}">Delete
+//         </button>
+//     </div>
+//     <div class="d-flex justify-content-between mb-3">
+//         <h4 class="mb-3" id="title">${activity.title}</h4>
+//     </div>
+//     <p class="time">
+//         <span class="date" id="date">${activity.date}</span>
+//         <br />
+//         <div class="form-group start-time">
+//             <label for="start-time">From:</label>
+//             <span id="start-time">${activity.startTime}</span>
+//         </div>
+//         <div class="form-group end-time">
+//             <label for="end-time">Till:</label>
+//             <span id="end-time">${activity.endTime}</span>
+//         </div>
+//     </p>
+//     <p id="description">${activity.description}</p>
+//    </li>
+// `;
+//     addEventListeners()
+// }
+
+
 function handleAddedActivity(activity) {
-    console.log("ACTIVITY ADDED!")
-    // Update the activity with the new data
+    console.log("ACTIVITY ADDED!");
+
+    // Create a new li element for the activity
+    const newActivity = document.createElement('li');
+    newActivity.classList.add('event');
+    newActivity.id = activity.id;
+
+    // Set the inner HTML of the new activity
+    newActivity.innerHTML = `
+    <div class="d-flex gap-3">
+      <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activity.id}" data-activity-id="${activity.id}">Edit</button>
+      <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
+        data-bs-target="#deleteModal" id="delete-activity-${activity.id}" data-activity-id="${activity.id}">Delete
+      </button>
+    </div>
+    <div class="d-flex justify-content-between mb-3">
+      <h4 class="mb-3" id="title">${activity.title}</h4>
+    </div>
+    <p class="time">
+      <span class="date" id="date">${activity.date}</span>
+      <br />
+      <div class="form-group start-time">
+        <label for="start-time">From:</label>
+        <span id="start-time">${activity.startTime}</span>
+      </div>
+      <div class="form-group end-time">
+        <label for="end-time">Till:</label>
+        <span id="end-time">${activity.endTime}</span>
+      </div>
+    </p>
+    <p id="description">${activity.description}</p>
+  `;
+
+    // Hide the new activity initially
+    newActivity.style.opacity = 0;
+    newActivity.style.transform = 'translateX(100%)';
+
     // Get the reference to the ul element
     const activityList = document.querySelector('.timeline-1');
 
-    // Set the innerHTML of the new activity
-    activityList.innerHTML += `
-   <li class="event" id="${activity.id}">
-    <div class="d-flex gap-3">
-        <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activity.id}" data-activity-id="${activity.id}">Edit</button>
-        <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
-          data-bs-target="#deleteModal" id="delete-activity-${activity.id}" data-activity-id="${activity.id}">Delete
-        </button>
-    </div>
-    <div class="d-flex justify-content-between mb-3">
-        <h4 class="mb-3" id="title">${activity.title}</h4>
-    </div>
-    <p class="time">
-        <span class="date" id="date">${activity.date}</span>
-        <br />
-        <div class="form-group start-time">
-            <label for="start-time">From:</label>
-            <span id="start-time">${activity.startTime}</span>
-        </div>
-        <div class="form-group end-time">
-            <label for="end-time">Till:</label>
-            <span id="end-time">${activity.endTime}</span>
-        </div>
-    </p>
-    <p id="description">${activity.description}</p>
-   </li>
-`;
-    addEventListeners()
+    // Append the new activity to the list
+    activityList.appendChild(newActivity);
+
+    // Apply the fade-in animation
+    setTimeout(() => {
+        newActivity.style.opacity = 1;
+        newActivity.style.transform = 'none';
+    }, 300);
+
+    addEventListeners();
 }
+
 
 confirmAddActivityButton.addEventListener('click', addActivity);
 
@@ -223,3 +278,20 @@ function addEventListeners() {
 }
 
 addEventListeners()
+
+
+
+
+//CARDS ANIMATION
+document.addEventListener('DOMContentLoaded', function() {
+    var events = document.querySelectorAll('.event');
+
+    // Add fade-in class to each event after a delay
+    for (var i = 0; i < events.length; i++) {
+        (function(index) {
+            setTimeout(function() {
+                events[index].classList.add('fade-in');
+            }, 300 * index);
+        })(i);
+    }
+});

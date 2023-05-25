@@ -5,11 +5,7 @@
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Liked Ideas</title>
 	<script defer src="/js/call-for-ideas/like-idea.js" type="module"></script>
-	<style>
-		td{
-			height: 50px;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/call-for-ideas/liked-ideas.css}">
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
@@ -18,7 +14,12 @@
 
 
 <div class="container my-2 ideaContainer">
-	<h2 th:if="${ideas==null}" >You have no liked ideas!</h2>
+	<div class="row">
+		<div class="col">
+			<h2 th:if="${ideas==null}" class="text-center mt-4 mb-4" >You have no liked ideas!</h2>
+		</div>
+	</div>
+<!--	<h2 th:if="${ideas==null}" >You have no liked ideas!</h2>-->
 	<th:block th:each="idea : ${ideas}">
 		<div class="row mb-2" th:data-call-id="${idea.callForIdeasId}">
 			<div class="col-md-12 col-lg-5 ms-4 me-auto">
@@ -67,7 +68,7 @@
 <br>
 <div class="container">
 	<a th:href="@{/call-for-ideas}">
-		<button class="btn btn-primary" id="goBack"> go back</button>
+		<button class="btn btn-primary" id="goBack"> Go Back</button>
 	</a>
 </div>
 

@@ -8,6 +8,7 @@
 	<script sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')" src="/js/management/userManagementMunicipality.js"
 			type="module"
 	></script>
+	<link rel="stylesheet" th:href="@{/css/municipality-users/municipality-users.css}">
 </head>
 <body>
 <th:block th:replace="~{fragments/fragments :: nav}"></th:block>
@@ -26,7 +27,9 @@
 <div class="container">
 	<div class="row">
 		<div class="col-md-12">
-			<h1>Users Overview</h1>
+			<div class="py-5">
+				<h2 class="text-center">Users Overview</h2>
+			</div>
 			<table class="table">
 				<thead>
 				<tr>

@@ -17,12 +17,13 @@ import com.github.javafaker.Faker;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-import java.sql.Timestamp;
 import java.time.ZoneId;
 import java.util.List;
+
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Stream;
 
@@ -95,6 +96,7 @@ public class EntityFactory {
 		return actionPoint;
 	}
 
+
 	public PageTemplate createRandomPageTemplate() {
 		return new PageTemplate(faker.funnyName().name(), createRandomPageTemplateElements());
 	}
@@ -152,14 +154,11 @@ public class EntityFactory {
 		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
 		                              .toLocalDate();
 		LocalTime activityStartTime = LocalTime.from(LocalDateTime.of(activityDate, LocalTime.of(faker.number()
-		                                                                                              .numberBetween(0, 23), faker.number()
-		                                                                                                                          .numberBetween(0, 59))));
+		                                                                                              .numberBetween(0, 23), faker.number().numberBetween(0, 59))));
 		LocalTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
 		String activityTitle = faker.lorem().sentence();
 		String activityDescription = faker.lorem().sentence();
 
 		return new CalendarActivity(activityTitle, activityDate, activityStartTime, activityEndTime, activityDescription);
 	}
-
-
 }

@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+
+h2 {
+  font-family: 'Bungee';
+  background-color: yellow;
+  width: 60%;
+  margin: 0 auto;
+  border: 3px solid #333; /* Add a border with 2px width and #333 color */
+  padding: 10px; /* Add some padding for better spacing */
+  border-radius: 4px;
+}
+
+label , p {
+  font-family: "Open Sans";
+}
+
+.container {
+  padding-top: 40px;
+}
+
+.card {
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.card-body {
+  padding: 30px;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.invalid-feedback {
+  color: red;
+}
+
+.btn {
+  margin-top: 10px;
+}

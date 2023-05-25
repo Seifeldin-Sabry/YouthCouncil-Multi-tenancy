@@ -3,16 +3,18 @@
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<link rel="stylesheet" th:href="@{css/call-for-ideas/call-for-ideas.css}">
 	<title>Call for ideas</title>
-	<style>
-		td{
-			height: 50px;
-		}
-	</style>
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Call for ideas</h2>
+	</div>
+</div>
 <div class="container my-5">
+
 	<a th:href="@{'/call-for-ideas/ideas/liked'}" sec:authorize="isAuthenticated()" class="row mb-4">
 		<button class="btn btn-primary btn-lg col-sm-5 col-md-4 mx-auto"
 				type="button"
@@ -26,7 +28,7 @@
 				<div class="card shadow-sm">
 					<div class="card-header">
 						<div class="d-flex justify-content-start">
-							<h3 class="card-title mb-0" th:text="${call.title}">Call For Idea Title</h3>
+							<h4 class="card-title mb-0" th:text="${call.title}">Call For Idea Title</h4>
 						</div>
 						<br>
 						<div class="d-flex justify-content-between">

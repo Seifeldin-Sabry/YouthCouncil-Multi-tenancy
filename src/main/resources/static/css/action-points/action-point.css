@@ -1,3 +1,26 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+h3,p {
+    font-family: 'Bungee';
+    font-weight: lighter;
+}
+
+ i, span, .btn {
+    font-family: "Open Sans";
+}
+
+
 .carousel {
     width: 585px;
     height: 468px;
@@ -79,6 +102,13 @@
     }
 }
 
+
+
+body {
+    background: linear-gradient(135deg, #FF00FF, #00FFFF);
+}
+
+
 /* Styling for the like button and emojis */
 
 .like-emojis {
@@ -101,6 +131,3 @@
     background-color: inherit;
     color: inherit;
 }
-
-
-
