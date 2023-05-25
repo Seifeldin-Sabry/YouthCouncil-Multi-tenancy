@@ -2,23 +2,25 @@
 <html lang="en"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  style="min-height: 100%; position: relative">
 <head>
 	<title>Join a Youth Council</title>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<link rel="stylesheet" th:href="@{/css/join-youth-council/join-youth-council.css}" type="text/css">
 	<script defer th:src="@{/js/join-youth-council/join-youth-councils.js}" type="module"></script>
 	<script defer th:src="@{/js/municipality/checkOnPostcode.js}" type="module"></script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOu0eUhpGD_i4JmMBeDJXTSm6233jjFXc&callback=initMap" async defer></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCOu0eUhpGD_i4JmMBeDJXTSm6233jjFXc&callback=initMap"
+			async defer
+	></script>
 </head>
-<div th:insert="~{fragments/fragments::nav}">My navbar</div>
 <body>
-
+<div th:insert="~{fragments/fragments::nav}">My navbar</div>
+<div th:text="${currentMunicipality.name}" id="currentMunName" hidden></div>
 <div class="py-5">
 	<h2 class="text-center">Youth Councils in Flanders</h2>
 </div>
 
-<div th:text="${currentMunicipality.name}" id="currentMunName" hidden></div>
 <div id="map"></div>
 <div class="container my-3">
 	<h4>Check if your municipality has a platform by entering your postcode!</h4>
@@ -27,9 +29,9 @@
 	<br>
 	<button class="btn btn-outline-success" id="postcodeButton">Search</button>
 
-	<div id="resultPostcode">
-	</div>
+	<div id="resultPostcode"></div>
 </div>
-<div th:insert="~{fragments/fragments::footer}">Footer</div>
+<br>
+<th:block th:insert="~{fragments/fragments::footer}">Footer</th:block>
 </body>
 </html>

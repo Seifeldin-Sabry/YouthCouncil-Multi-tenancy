@@ -1,12 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  style="min-height: 100%; position: relative">
 <head>
-	<meta charset="UTF-8">
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Forms</title>
-	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
 	<script defer src="/js/form/forms.js" type="module"></script>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
@@ -90,7 +89,7 @@
 	</div>
 	<div class="rows">
 		<div class="row" th:each="form: ${forms}">
-			<a class="col ID" href="form.html" th:href="@{/form(formId=${form.id})}" th:text="${form.id}">
+			<a class="col ID" th:href="@{/form(formId=${form.id})}" th:text="${form.id}">
 			</a>
 			<div class="col title" th:text="${form.title}" ></div>
 		</div>

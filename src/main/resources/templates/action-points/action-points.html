@@ -2,7 +2,7 @@
 <html lang="en"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
->
+	  style="min-height: 100%; position: relative">
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Action Points</title>
@@ -10,6 +10,7 @@
 	<script defer th:src="@{js/action-points/actionPoints.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/addActionPoint.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/filterActionPoints.js}" type="module"></script>
+	<script defer th:src="@{/js/action-points/searchpoints.js}" type="module"></script>
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
@@ -103,7 +104,7 @@
 						</div>
 						<h3 class="card-title mb-0" th:text="${actionPoint.title}">Action Point Title</h3>
 						<div class="d-flex justify-content-end">
-							<a th:href="@{action-points/{uuid}(uuid = ${actionPoint.uuid})}">
+							<a th:href="@{'action-points/'+${actionPoint.uuid}}">
 								<button class="btn btn-primary"
 										type="button"
 								>

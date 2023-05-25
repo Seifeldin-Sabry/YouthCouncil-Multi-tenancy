@@ -1,17 +1,16 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  style="min-height: 100%; position: relative">
 <head>
-	<meta charset="UTF-8">
-	<title></title>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<title>Form</title>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer src="/js/form/user-form.js" type="module"></script>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
 
 		body {
-			background-image: url(/static/images/platform/backgroundWhite.jpg);
+			background-image: url("images/platform/backgroundWhite.jpg");
 			background-repeat: no-repeat;
 			background-attachment: fixed;
 			background-size: cover;
@@ -83,7 +82,7 @@
 			<button type="button" class="btn btn-success submit">submit</button>
 		</form>
 	</div>
-
-
+<br>
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

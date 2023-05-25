@@ -2,7 +2,7 @@
 <html lang="en"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
->
+	  style="min-height: 100%; position: relative">
 <head>
 	<title>Calendar of Activities</title>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
@@ -72,6 +72,35 @@
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
 				<button type="button" class="btn btn-danger" id="confirmDeleteButton">Delete</button>
 			</div>
+		</div>
+	</div>
+</div>
+
+<!--error toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast error-toast align-items-center text-white bg-danger border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				An error occurred while processing your request.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
+		</div>
+	</div>
+</div>
+<!--success toast-->
+<div class="toast-container position-fixed bottom-0 end-0 p-3">
+	<div aria-atomic="true" aria-live="assertive"
+		 class="toast success-toast align-items-center text-white bg-success border-0"
+		 role="alert"
+	>
+		<div class="d-flex">
+			<div class="toast-body">
+				Your request was processed successfully.
+			</div>
+			<button aria-label="Close" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button>
 		</div>
 	</div>
 </div>

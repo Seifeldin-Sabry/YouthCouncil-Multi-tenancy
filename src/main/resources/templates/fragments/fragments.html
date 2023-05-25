@@ -69,6 +69,7 @@
 </head>
 
 <body>
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="nav">
 	<div class="container-fluid">
 		<a class="navbar-brand" href="/home" th:if="${currentMunicipality != null && currentMunicipality.logo != null}">
@@ -161,10 +162,13 @@
 		</div>
 	</div>
 </nav>
+<th:block th:fragment="footer">
+	<br>
+	<footer class="footer" style="position: absolute">
+		<p>All rights reserved by Team 1 Integration 4 2023</p>
+	</footer>
+</th:block>
 
-<div class="footer" th:fragment="footer">
-	<p>All rights reserved by Team 1 Integration 4 2023</p>
-</div>
 </body>
 </html>
 

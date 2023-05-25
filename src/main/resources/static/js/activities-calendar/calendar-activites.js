@@ -13,6 +13,10 @@ const addActivityDescriptionInput = document.getElementById('add-activity-descri
 const confirmAddActivityButton = document.getElementById('modal-add-activity-button');
 const modalDeleteButton = document.getElementById('confirmDeleteButton');
 let currentActivityId;
+const errorToast = document.querySelector('.error-toast');
+const errorToastBody = errorToast.querySelector('.toast-body');
+const successToast = document.querySelector('.success-toast');
+const successToastBody = successToast.querySelector('.toast-body');
 
 console.log(addActivityButton)
 console.log(addActivityForm)
@@ -96,6 +100,46 @@ async function updateActivity(event) {
             description: document.getElementById(`description-input-${activityId}`).value,
         };
 
+        const dateFormatted = new Date(updatedActivityData.date)
+        let dateToday = new Date()
+        const splitStart= updatedActivityData.startTime.toString().split(':')
+        const splitEnd = updatedActivityData.endTime.toString().split(':')
+        dateFormatted.setHours(0, 0, 0, 0);
+        dateToday.setHours(0, 0, 0, 0);
+        if (dateFormatted.getTime()<dateToday.getTime()){
+            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+            errorToastBody.textContent = 'Date has to be in the present or future';
+            bootstrapErrorToast.show();
+            return
+        }
+        dateToday = new Date()
+        if (Number(splitStart[0])<=Number(dateToday.getHours().toString())){
+            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+            if (Number(splitStart[0])<Number(dateToday.getHours().toString())){
+                errorToastBody.textContent = 'Hour of start time has to be in the present or future';
+                bootstrapErrorToast.show();
+                return;
+            }
+            if (Number(splitStart[1])<=Number(dateToday.getMinutes().toString())){
+                errorToastBody.textContent = 'Minutes of start time has to be in the future';
+                bootstrapErrorToast.show();
+                return;
+            }
+        }
+        if (Number(splitStart[0])>=Number(splitEnd[0])){
+            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+            if (Number(splitStart[0])>Number(splitEnd[0])){
+                errorToastBody.textContent = 'End time needs to be past start time';
+                bootstrapErrorToast.show();
+                return;
+            }
+            if (Number(splitStart[1])>=Number(splitEnd[1])){
+                errorToastBody.textContent = 'End time needs to be past start time';
+                bootstrapErrorToast.show();
+                return;
+            }
+        }
+
         // Send PUT request to update the activity
         console.log(updatedActivityData)
         const response = await fetch(`/api/calendar-activities/${activityId}`, {
@@ -111,29 +155,34 @@ async function updateActivity(event) {
         if (response.ok) {
             // Update the activity with the new data
             activityBody.innerHTML = ` 
-                <div class="d-flex gap-3">
-                    <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activityId}" data-activity-id="${activityId}">Edit</button>
-                    <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
-                    data-bs-target="#deleteModal" id="delete-activity-${activityId}" data-activity-id="${activityId}">Delete
-                    </button>
-                </div>
-            <div class="d-flex justify-coclassName-between mb-3">
+            <div class="d-flex gap-3">
+                <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activityId}" data-activity-id="${activityId}">Edit</button>
+                <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
+                data-bs-target="#deleteModal" id="delete-activity-${activityId}" data-activity-id="${activityId}">Delete
+                </button>
+            </div>
+            <div class="d-flex justify-content-between mb-3">
                 <h4 class="mb-3" id="title">${updatedActivityData.title}</h4>
             </div>
             <p class="time">
-                <spclassNameass="date" id="date">${updatedActivityData.date}</span>
-                <br />
-                <div class="form-group start-className>
-							<label for=" start-time">From:</htmlForel>
-							<span id="start-time">${updatedActivityData.startTime}</span>
-						</div>
-						<div class=" form-group end-ticlassName
-						<label for="end-time">Till:</lahtmlFor>
-                <span id="end-time">${updatedActivityData.endTime}</span>
-            </div>
-        </p>
-         <p id="description">${updatedActivityData.description}</p>
+                <span class="date" id="date">${updatedActivityData.date}</span>
+                <br>
+                <div class="form-group start-time" id="start-time">
+                    <label for="start-time">From:</label>
+                    <span>${updatedActivityData.startTime}</span>
+                </div>
+                <div class="form-group end-time" id="end-time">
+                    <label for="end-time">Till:</label>
+                    <span>${updatedActivityData.endTime}</span>
+                </div>
+            </p>
+            <p id="description">${updatedActivityData.description}</p>
             `
+            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+            bootstrapErrorToast.hide();
+            const bootstrapSuccessToast = bootstrap.Toast.getOrCreateInstance(successToast);
+            successToastBody.textContent = 'Activity edited successfully';
+            bootstrapSuccessToast.show();
             addEventListeners()
         }
     }
@@ -149,6 +198,47 @@ async function addActivity() {
     const startTime1 = addActivityStartTimeInput.value;
     const endTime1 = addActivityEndTimeInput.value;
     const description1 = addActivityDescriptionInput.value;
+    const dateFormatted = new Date(date1)
+    let dateToday = new Date()
+    const splitStart= startTime1.toString().split(':')
+    const splitEnd = endTime1.toString().split(':')
+    dateFormatted.setHours(0, 0, 0, 0);
+    dateToday.setHours(0, 0, 0, 0);
+    if (dateFormatted.getTime()<dateToday.getTime()){
+        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+        errorToastBody.textContent = 'Date has to be in the present or future';
+        bootstrapErrorToast.show();
+        return
+    }
+    dateToday = new Date()
+    if (Number(splitStart[0])<=Number(dateToday.getHours().toString())){
+        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+        if (Number(splitStart[0])<Number(dateToday.getHours().toString())){
+            errorToastBody.textContent = 'Hour of start time has to be in the present or future';
+            bootstrapErrorToast.show();
+            return;
+        }
+        if (Number(splitStart[1])<=Number(dateToday.getMinutes().toString())){
+            errorToastBody.textContent = 'Minutes of start time has to be in the future';
+            bootstrapErrorToast.show();
+            return;
+        }
+    }
+    if (Number(splitStart[0])>=Number(splitEnd[0])){
+        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+        if (Number(splitStart[0])>Number(splitEnd[0])){
+            errorToastBody.textContent = 'End time needs to be past start time';
+            bootstrapErrorToast.show();
+            return;
+        }
+        if (Number(splitStart[1])>=Number(splitEnd[1])){
+            errorToastBody.textContent = 'End time needs to be past start time';
+            bootstrapErrorToast.show();
+            return;
+        }
+    }
+
+
 
     // Make a POST request to the server to add the activity
     const response = await fetch('/api/calendar-activities', {
@@ -168,6 +258,11 @@ async function addActivity() {
 
     if (response.ok) {
         response.json().then(handleAddedActivity)
+        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+        bootstrapErrorToast.hide();
+        const bootstrapSuccessToast = bootstrap.Toast.getOrCreateInstance(successToast);
+        successToastBody.textContent = 'Activity created successfully';
+        bootstrapSuccessToast.show();
 
         const addModal = document.getElementById('addModal');
         bootstrap.Modal.getOrCreateInstance(addModal).hide();
@@ -264,7 +359,6 @@ function handleAddedActivity(activity) {
 
     addEventListeners();
 }
-
 
 confirmAddActivityButton.addEventListener('click', addActivity);
 
