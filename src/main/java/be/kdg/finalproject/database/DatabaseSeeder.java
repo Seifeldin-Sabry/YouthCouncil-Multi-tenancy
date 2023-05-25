@@ -2,6 +2,10 @@ package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
+import be.kdg.finalproject.domain.form.Form;
+import be.kdg.finalproject.domain.form.MultipleChoiceQuestion;
+import be.kdg.finalproject.domain.form.RadioQuestion;
+import be.kdg.finalproject.domain.form.TextInputQuestion;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
@@ -11,6 +15,7 @@ import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.security.Provider;
 import be.kdg.finalproject.domain.security.Role;
+import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
@@ -35,6 +40,7 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -117,7 +123,11 @@ public class DatabaseSeeder {
 
 
 		//THEMES AND SUBTHEMES
-		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
+//		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
+		Theme randomThemeWithSubThemes1 = new Theme("Football");
+		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Gardening"));
+		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Maintenance"));
+		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Competition"));
 		themeRepository.save(randomThemeWithSubThemes1);
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
@@ -132,7 +142,6 @@ public class DatabaseSeeder {
 
 
 		// ACTION POINTS
-
 		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
 		randomActionPoint1.setMunicipalityId(antwerpen.getId());
 		randomActionPoint1.getFollowers().add(new UserActionPointFollow(user, randomActionPoint1));
@@ -161,11 +170,23 @@ public class DatabaseSeeder {
 		actionPointRepository.save(randomActionPoint3);
 		actionPointRepository.save(randomActionPoint4);
 
-
 		//FORMS AND QUESTIONS
-		formRepository.save(entityFactory.createRandomFormWithQuestions());
-		formRepository.save(entityFactory.createRandomFormWithQuestions());
-		formRepository.save(entityFactory.createRandomFormWithQuestions());
+//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+		Form form1 = new Form("Garbage form");
+		RadioQuestion radioQuestion = new RadioQuestion("Rate our endeavors on our garbage cleanup endeavors from 1(horrible) to 5(perfect)", 1);
+		List<String> list = new ArrayList<>();
+		list.add("1");
+		list.add("2");
+		list.add("3");
+		list.add("4");
+		list.add("5");
+		radioQuestion.setChoices(list);
+		form1.addQuestion(radioQuestion);
+		TextInputQuestion textInputQuestion = new TextInputQuestion("Explain your choice",  2);
+		form1.addQuestion(textInputQuestion);
+		formRepository.save(form1);
 
 
 		//CALENDAR OF ACTIVITIES
@@ -194,8 +215,12 @@ public class DatabaseSeeder {
 
 
 		// CALL FOR IDEAS AND IDEAS
-		CallForIdeas callForIdeas1 = entityFactory.createRandomCallForIdeas();
-		CallForIdeas callForIdeas2 = entityFactory.createRandomCallForIdeas();
+//		CallForIdeas callForIdeas1 = entityFactory.createRandomCallForIdeas();
+//		CallForIdeas callForIdeas2 = entityFactory.createRandomCallForIdeas();
+		CallForIdeas callForIdeas1 = new CallForIdeas("Call for football field ideas",
+				"Please give us some nice ideas on what you want to be improved on the local football field");
+		CallForIdeas callForIdeas2 = new CallForIdeas("Call for cultural event ideas",
+				"Please give us some nice ideas for a cultural event we are going to do in the future");
 
 		callForIdeas1.setActive(true);
 
@@ -205,9 +230,12 @@ public class DatabaseSeeder {
 		callForIdeas1.setTheme(randomThemeWithSubThemes1);
 		callForIdeas2.setTheme(randomThemeWithSubThemes1);
 
-		Idea idea1 = entityFactory.createRandomIdea();
-		Idea idea2 = entityFactory.createRandomIdea();
-		Idea idea3 = entityFactory.createRandomIdea();
+//		Idea idea1 = entityFactory.createRandomIdea();
+//		Idea idea2 = entityFactory.createRandomIdea();
+//		Idea idea3 = entityFactory.createRandomIdea();
+		Idea idea1 = new Idea("Some new seeding on te grass would be nice, its starting to become a dirt field...", entityFactory.randomImage());
+		Idea idea2 = new Idea("A new net for the goal would be awesome", entityFactory.randomImage());
+		Idea idea3 = new Idea("A rope skipping event with a huge rope would be cool!", entityFactory.randomImage());
 		idea1.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
 		idea2.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(1));
 		idea3.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(2));
@@ -256,5 +284,7 @@ public class DatabaseSeeder {
 		reportRepository.save(report2);
 		reportRepository.save(report3);
 		reportRepository.save(report4);
+
+
 	}
 }

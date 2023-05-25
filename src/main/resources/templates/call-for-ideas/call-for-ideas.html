@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+style="min-height: 100%; position: relative">
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<link rel="stylesheet" th:href="@{css/call-for-ideas/call-for-ideas.css}">
@@ -58,7 +59,7 @@
 		</div>
 	</th:block>
 </div>
-<div th:insert="~{fragments/fragments::footer}">Footer</div>
+<th:block th:insert="~{fragments/fragments::footer}">Footer</th:block>
 </body>
 </html>
 

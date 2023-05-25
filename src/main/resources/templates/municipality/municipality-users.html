@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
 	  xmlns:th="http://www.thymeleaf.org"
->
+	  style="min-height: 100%; position: relative">
 <head>
 	<th:block th:insert="~{fragments/fragments :: meta_script_link}"></th:block>
 	<title>Municipality Users</title>
@@ -77,5 +77,6 @@
 		</div>
 	</div>
 </div>
+<th:block th:insert="~{fragments/fragments::footer}">Footer</th:block>
 </body>
 </html>

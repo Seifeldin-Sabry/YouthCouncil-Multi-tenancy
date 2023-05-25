@@ -70,6 +70,11 @@ public class EntityFactory {
 		return new CallForIdeas(faker.lorem().sentence(), faker.lorem().sentence());
 	}
 
+	public String randomImage(){
+		return String.format("https://loremflickr.com/320/240?random=%s", faker.random()
+		                                                                       .nextInt(1, 100));
+	}
+
 	public Idea createRandomIdea() {
 		Idea idea = new Idea(faker.lorem().sentence(),
 				String.format("https://loremflickr.com/320/240?random=%s", faker.random()

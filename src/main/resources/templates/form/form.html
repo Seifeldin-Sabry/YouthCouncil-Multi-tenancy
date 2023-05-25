@@ -1,12 +1,10 @@
 <!DOCTYPE html>
 <html lang="en"
-	  xmlns:th="http://www.thymeleaf.org">
+	  xmlns:th="http://www.thymeleaf.org"
+	  style="min-height: 100%; position: relative">
 <head>
-	<meta charset="UTF-8">
 	<title>Form</title>
-	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
-	<link rel="stylesheet" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}" />
-	<script defer th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer src="/js/form/form.js" type="module"></script>
 	<style>
 		@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
@@ -150,11 +148,12 @@
 </div>
 
 <div class="goBack-button-container">
-	<a th:href="forms">
+	<a th:href="@{/forms}">
 		<button type="button" id="goBackBtn" class="btn btn-dark go-back-button">Go Back</button>
 	</a>
 </div>
-
+<br>
+<br>
 <div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

@@ -1,8 +1,10 @@
 package be.kdg.finalproject.controller.mvc;
 
+import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
 import be.kdg.finalproject.domain.form.*;
 import be.kdg.finalproject.service.form.*;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,12 +32,13 @@ public class FormController {
 	}
 
 
-	@RequestMapping ("/forms")
+	@YouthCouncilAdmin
+	@GetMapping ("/forms")
 	public ModelAndView getForms() {
 		return new ModelAndView("form/forms", "forms", formService.getAllForms());
 	}
 
-	@RequestMapping ("/user-form")
+	@GetMapping ("/user-form")
 	public ModelAndView getFormForUser(@RequestParam Long formId) {
 		Form form = formService.getFormById(formId);
 		List<TextInputQuestion> textInputQuestions = textInputQuestionService.getQuestionByForm(form);
@@ -54,7 +57,8 @@ public class FormController {
 		return modelAndView;
 	}
 
-	@RequestMapping ("/form")
+	@YouthCouncilAdmin
+	@GetMapping ("/form")
 	public ModelAndView getForm(@RequestParam Long formId) {
 		Form form = formService.getFormById(formId);
 		List<TextInputQuestion> textInputQuestions = textInputQuestionService.getQuestionByForm(form);
