@@ -4,7 +4,6 @@ import be.kdg.finalproject.domain.platform.ElectionPhase;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
-import com.google.common.collect.ImmutableList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,6 +76,17 @@ public class MunicipalityService {
 
 	public void changeLogo(String image, long municipalityId) {
 		municipalityRepository.updateImage(image, municipalityId);
+	}
+
+	public Municipality getMunicipalityByPostcodeAndHasPlatform(Integer postcode){
+		Municipality municipality= municipalityRepository.findByPostcode(postcode);
+		if (municipality==null){
+			return null;
+		}
+		if (municipality.isHasPlatform()){
+			return municipality;
+		}
+		return null;
 	}
 
 }

@@ -1,6 +1,7 @@
 package be.kdg.finalproject.controller.api;
 import be.kdg.finalproject.controller.api.dto.get.MunicipalityDTO;
 import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
+import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.media.ImageService;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
@@ -60,6 +61,19 @@ public class MunicipalityRestController {
 		MunicipalityDTO municipalityDTO = new MunicipalityDTO();
 		municipalityDTO.setLogo(logo);
 		return new ResponseEntity<>(municipalityDTO, HttpStatus.CREATED);
+
+	}
+
+
+	@GetMapping("/{postcode}/postcode")
+	public ResponseEntity<?> checkIfExistsOnPostcode(@PathVariable Integer postcode){
+		Municipality municipality = municipalityService.getMunicipalityByPostcodeAndHasPlatform(postcode);
+		if (municipality==null){
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+		MunicipalityDTO municipalityDTO = new MunicipalityDTO();
+		municipalityDTO.setName(municipality.getName());
+		return new ResponseEntity<>(municipalityDTO, HttpStatus.FOUND);
 
 	}
 
