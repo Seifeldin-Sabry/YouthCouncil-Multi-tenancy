@@ -21,6 +21,7 @@ public class ListElement extends PageElement {
 
 	public ListElement() {
 		super();
+		setElementType("LIST");
 	}
 
 	public ListElement(List<String> list) {

@@ -29,6 +29,8 @@ build:
     paths:
       - build/libs/*.jar
     expire_in: 1 week
+  only:
+    - main
 
 test:
   image: gradle:7.2.0-jdk17
@@ -44,9 +46,6 @@ test:
     - ./gradlew $GRADLE_ARGS_CI -g $GRADLE_USER_HOME check
 
 sast:
-  variables:
-    SAST_EXCLUDED_ANALYZERS: brakeman, flawfinder, kubesec, nodejs-scan, phpcs-security-audit,
-      pmd-apex, security-code-scan, sobelow
   stage: test
   artifacts:
     expire_in: 1 week

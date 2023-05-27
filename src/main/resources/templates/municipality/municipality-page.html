@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+	<title>Page Builder</title>
+	<!-- Include Bootstrap CSS -->
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<!-- Include JavaScript logic -->
+	<script th:src="@{/js/pages/pageBuilder.js}"></script>
+</head>
+<body class="container">
+<th:block th:insert="~{fragments/fragments::nav}" />
+<div class="my-3">
+	<!-- Element type selection -->
+	<select class="form-control" id="elementSelect">
+		<option value="heading">Heading</option>
+		<option value="list">List</option>
+		<option value="paragraph">Paragraph</option>
+		<option value="image">Image</option>
+	</select>
+</div>
+
+<!-- Customization options -->
+<div class="my-3">
+	<input class="form-control" id="elementText" placeholder="Text content" type="text">
+</div>
+<div class="my-3">
+	<input class="form-control" id="elementSrc" placeholder="Image source" type="text">
+</div>
+<div class="my-3">
+	<button class="btn btn-primary" id="addButton">Add</button>
+</div>
+
+<!-- List manipulation -->
+<div class="my-3" id="listManipulation" style="display: none;">
+	<button class="btn btn-secondary" id="addListItem">Add list item</button>
+	<button class="btn btn-secondary" id="removeListItem">Remove last list item</button>
+</div>
+
+<!-- The content container -->
+<div class="mt-5" id="content"></div>
+
+</body>
+</html>

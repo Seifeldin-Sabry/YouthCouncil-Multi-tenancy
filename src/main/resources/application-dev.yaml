@@ -33,5 +33,3 @@ spring:
       name: "admin"
       password: "admin"
       roles: "MEMBER"
-images:
-  placeholderDir: /images/placeholders/

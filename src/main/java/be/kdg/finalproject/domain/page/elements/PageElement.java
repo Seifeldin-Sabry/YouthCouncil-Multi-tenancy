@@ -17,4 +17,7 @@ public abstract class PageElement {
 	@Column (name = "element_id")
 	@GeneratedValue (strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@Column (name = "element_type", insertable = false, updatable = false)
+	private String elementType;
 }

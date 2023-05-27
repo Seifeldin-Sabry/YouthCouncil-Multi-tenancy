@@ -34,6 +34,3 @@ spring:
     cache: false
   messages:
     basename: templates/messages
-
-images:
-  placeholderDir: /images/placeholders/

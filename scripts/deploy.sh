@@ -16,7 +16,7 @@ for VAR in ${ENV_VARIABLES[*]}; do
   export "$key"="$value" 2> /dev/null
 done
 
-VM_NAME="instance-deployed-integration"
+VM_NAME="instance-deployed-integration-test-prod"
 REGION="europe-west1"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
@@ -27,7 +27,7 @@ EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
-
+DOMAIN="jeugdtest.duckdns.org" # TODO remove when work
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -41,6 +41,7 @@ export GOOGLE_CLIENT_ID=$GOOGLE_CLIENT_ID && \
 export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
 export DOMAIN=$DOMAIN && \
+export PROFILE=prod && \
 java -jar /web/build.jar
 "
 
@@ -121,18 +122,18 @@ function get_instance_ip() {
 
 function copy_files_over() {
   echo "Copying authentication files over to VM"
-  cat "$GOOGLE_SERVICE_ACCOUNT_FILE" > ./secret.json
+  cat "$GOOGLE_SERVICE_ACC_VM_FILE" > ./secret.json
   echo "Copying file over to VM"
   gcloud compute scp --recurse ./secret.json --zone=$ZONE "$VM_NAME":/web/secret.json
   echo "removing jar on VM"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "rm /web/build.jar 2> /dev/null"
   echo "Copying jar over to VM"
   gcloud compute scp --recurse --zone=$ZONE ./build/libs/FinalProject-0.0.1-SNAPSHOT.jar "$VM_NAME":/web/build.jar
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
   echo "stopping service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl stop \"$SYSTEMD_SERVICE_NAME\""
+  authenticate_on_vm
   echo "requesting certificate"
-  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "bash -c $request_sh_content"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "IFS='\n' && bash -c $request_sh_content && unset IFS"
   echo "restarting youth council service"
   gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "systemctl start \"$SYSTEMD_SERVICE_NAME\""
   echo "Jar is running"
@@ -176,6 +177,17 @@ function setup_database() {
   echo "Database $POSTGRES_DB already exists"
 }
 
+function logout_gcloud() {
+  echo "Logging out of gcloud"
+  gcloud auth revoke "$(gcloud auth list --filter=status:ACTIVE --format="value(account)")"
+}
+
+function authenticate_on_vm() {
+  echo "Authenticating on VM"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud auth activate-service-account --key-file /web/secret.json"
+  gcloud compute ssh --zone=$ZONE "$VM_NAME" --command "gcloud config set project $GOOGLE_PROJECT_ID"
+}
+
 authenticate
 set_project
 create_vm
@@ -184,3 +196,4 @@ authorize_vm_to_instance
 setup_database
 establish_connection_to_vm
 copy_files_over
+logout_gcloud

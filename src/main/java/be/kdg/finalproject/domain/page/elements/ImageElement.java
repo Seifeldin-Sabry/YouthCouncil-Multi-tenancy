@@ -15,6 +15,7 @@ public class ImageElement extends PageElement {
 
 	public ImageElement() {
 		super();
+		setElementType("IMAGE");
 	}
 
 	public ImageElement(String src) {
