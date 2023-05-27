@@ -34,15 +34,17 @@ public class ImageServiceProdImpl implements ImageService {
 	public String uploadObject(String objectName, String filePath) throws IOException {
 
 		BlobId blobId = BlobId.of(BUCKET_NAME, objectName);
-		BlobInfo blobInfo = BlobInfo.newBuilder(blobId).build();
-
+		BlobInfo blobInfo = BlobInfo.newBuilder(blobId)
+		                            .build();
 		Blob image = storage.createFrom(blobInfo, Paths.get(filePath));
 		return image.getMediaLink();
 	}
 
+	// TODO: uncomment if buckets work, or if ur brave enough to fix it
+	// PERMISSION DENIED CRAP CAUSE OF BUCKETS, on my life I have the permissions
 	@PostConstruct
 	public void init() {
-		//		clear user directory /images
+		//				clear user directory /images
 		File directory = new File(dir);
 		if (!directory.exists()) {
 			logger.debug("Directory does not exist, creating directory");
@@ -71,6 +73,8 @@ public class ImageServiceProdImpl implements ImageService {
 			String imageName = generateImageName() + extension;
 			String file_path = dir + "/" + imageName;
 			image.transferTo(Path.of(file_path));
+			//			urls.add(file_path);
+			// TODO: uncomment if buckets work, or if ur brave enough to fix it
 			urls.add(uploadObject(imageName, file_path));
 			File file = new File(file_path);
 			file.delete();

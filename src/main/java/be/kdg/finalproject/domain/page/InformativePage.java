@@ -24,11 +24,16 @@ public class InformativePage {
 	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<PageElement> elements;
 
+	private boolean active = false;
+
+	private String pageName;
+
 	@JoinColumn (name = "municipalitiy_id", updatable = false, insertable = false)
 	private Long municipalityId;
 
 	public InformativePage(String title) {
 		this.title = title;
+		this.pageName = title.toLowerCase().replace(" ", "-");
 	}
 
 }

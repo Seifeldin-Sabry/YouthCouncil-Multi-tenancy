@@ -9,8 +9,6 @@ import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.report.ReportReason;
-import be.kdg.finalproject.domain.page.PageTemplate;
-import be.kdg.finalproject.domain.page.template.TemplateElement;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import com.github.javafaker.Faker;
@@ -23,9 +21,7 @@ import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
-
 import java.util.concurrent.TimeUnit;
-import java.util.stream.Stream;
 
 @Component
 @Profile ({"dev", "devpsql"})
@@ -42,7 +38,7 @@ public class EntityFactory {
 		return theme;
 	}
 
-	public Report createRandomReport(){
+	public Report createRandomReport() {
 		Report report = new Report();
 		report.setReportDescription(faker.lorem().sentence());
 		report.setReportReason(ReportReason.values()[faker.random().nextInt(0, 3)]);
@@ -70,7 +66,7 @@ public class EntityFactory {
 		return new CallForIdeas(faker.lorem().sentence(), faker.lorem().sentence());
 	}
 
-	public String randomImage(){
+	public String randomImage() {
 		return String.format("https://loremflickr.com/320/240?random=%s", faker.random()
 		                                                                       .nextInt(1, 100));
 	}
@@ -101,20 +97,6 @@ public class EntityFactory {
 		return actionPoint;
 	}
 
-
-	public PageTemplate createRandomPageTemplate() {
-		return new PageTemplate(faker.funnyName().name(), createRandomPageTemplateElements());
-	}
-
-	private List<TemplateElement> createRandomPageTemplateElements() {
-		return Stream.generate(this::createRandomPageTemplateElement)
-		             .limit(faker.random().nextInt(3, 10))
-		             .toList();
-	}
-
-	private TemplateElement createRandomPageTemplateElement() {
-		return faker.options().option(TemplateElement.class);
-	}
 
 	private ActionPointProposal createRandomActionPointProposal() {
 		return new ActionPointProposal(faker.options().option(ActionPointProposalStatus.class), faker.lorem()
@@ -159,7 +141,8 @@ public class EntityFactory {
 		LocalDate activityDate = faker.date().future(30, TimeUnit.DAYS).toInstant().atZone(ZoneId.systemDefault())
 		                              .toLocalDate();
 		LocalTime activityStartTime = LocalTime.from(LocalDateTime.of(activityDate, LocalTime.of(faker.number()
-		                                                                                              .numberBetween(0, 23), faker.number().numberBetween(0, 59))));
+		                                                                                              .numberBetween(0, 23), faker.number()
+		                                                                                                                          .numberBetween(0, 59))));
 		LocalTime activityEndTime = activityStartTime.plusHours(faker.number().numberBetween(1, 4));
 		String activityTitle = faker.lorem().sentence();
 		String activityDescription = faker.lorem().sentence();

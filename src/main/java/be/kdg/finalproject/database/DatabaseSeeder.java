@@ -3,14 +3,12 @@ package be.kdg.finalproject.database;
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.form.Form;
-import be.kdg.finalproject.domain.form.MultipleChoiceQuestion;
 import be.kdg.finalproject.domain.form.RadioQuestion;
 import be.kdg.finalproject.domain.form.TextInputQuestion;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
-import be.kdg.finalproject.domain.page.PageTemplate;
 import be.kdg.finalproject.domain.platform.Municipality;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.security.Provider;
@@ -21,12 +19,11 @@ import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
 import be.kdg.finalproject.repository.calendarofactivities.CalendarActivityRepository;
 import be.kdg.finalproject.repository.callforidea.CallForIdeasRepository;
-import be.kdg.finalproject.repository.form.*;
 import be.kdg.finalproject.repository.callforidea.IdeaRepository;
+import be.kdg.finalproject.repository.form.*;
 import be.kdg.finalproject.repository.membership.UserRepository;
 import be.kdg.finalproject.repository.municipality.MunicipalityRepository;
 import be.kdg.finalproject.repository.municipality.PostCodeRepository;
-import be.kdg.finalproject.repository.page.PageTemplateRepository;
 import be.kdg.finalproject.repository.report.ReportRepository;
 import be.kdg.finalproject.repository.theme.ThemeRepository;
 import be.kdg.finalproject.service.membership.MembershipService;
@@ -65,7 +62,6 @@ public class DatabaseSeeder {
 	private final RadioQuestionRepository radioQuestionRepository;
 	private final MultipleChoiceQuestionRepository multipleChoiceQuestionRepository;
 	private final NumericInputQuestionRepository numericInputQuestionRepository;
-	private final PageTemplateRepository pageTemplateRepository;
 	private final CalendarActivityRepository calendarActivityRepository;
 
 	private final ReportRepository reportRepository;
@@ -75,7 +71,7 @@ public class DatabaseSeeder {
 	private final Logger logger = LoggerFactory.getLogger(DatabaseSeeder.class);
 
 	@Autowired
-	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository, IdeaRepository ideaRepository, ActionPointRepository actionPointRepository, TextInputQuestionRepository textInputQuestionRepository, RadioQuestionRepository radioQuestionRepository, MultipleChoiceQuestionRepository multipleChoiceQuestionRepository, NumericInputQuestionRepository numericInputQuestionRepository, PageTemplateRepository pageTemplateRepository, CalendarActivityRepository calendarActivityRepository, ReportRepository reportRepository, MunicipalitySeeder municipalitySeeder) {
+	public DatabaseSeeder(ThemeRepository themeRepository, FormRepository formRepository, UserRepository userRepository, MembershipService membershipService, BCryptPasswordEncoder passwordEncoder, EntityFactory entityFactory, MunicipalityRepository municipalityRepository, PostCodeRepository postCodeRepository, CallForIdeasRepository callForIdeasRepository, IdeaRepository ideaRepository, ActionPointRepository actionPointRepository, TextInputQuestionRepository textInputQuestionRepository, RadioQuestionRepository radioQuestionRepository, MultipleChoiceQuestionRepository multipleChoiceQuestionRepository, NumericInputQuestionRepository numericInputQuestionRepository, CalendarActivityRepository calendarActivityRepository, ReportRepository reportRepository, MunicipalitySeeder municipalitySeeder) {
 		this.themeRepository = themeRepository;
 		this.formRepository = formRepository;
 		this.userRepository = userRepository;
@@ -87,7 +83,6 @@ public class DatabaseSeeder {
 		this.callForIdeasRepository = callForIdeasRepository;
 		this.ideaRepository = ideaRepository;
 		this.actionPointRepository = actionPointRepository;
-		this.pageTemplateRepository = pageTemplateRepository;
 		this.calendarActivityRepository = calendarActivityRepository;
 		this.textInputQuestionRepository = textInputQuestionRepository;
 		this.radioQuestionRepository = radioQuestionRepository;
@@ -110,7 +105,7 @@ public class DatabaseSeeder {
 		User moderator = new User("mod", "mod", "mod", "mod@user.co", passwordEncoder.encode("pass"), Role.YOUTH_COUNCIL_MODERATOR, Provider.LOCAL);
 		User user = new User("user", "user", "user", "user@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
 		User user2 = new User("user2", "user2", "user2", "user2@user.co", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
-		User offlineUser= new User("offline", "idea", "offline_idea", "offline@idea.user", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
+		User offlineUser = new User("offline", "idea", "offline_idea", "offline@idea.user", passwordEncoder.encode("pass"), Role.USER, Provider.LOCAL);
 
 		userRepository.saveAll(List.of(admin, youthCouncil, moderator, user, user2, offlineUser));
 
@@ -123,7 +118,7 @@ public class DatabaseSeeder {
 
 
 		//THEMES AND SUBTHEMES
-//		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
+		//		Theme randomThemeWithSubThemes1 = entityFactory.createRandomThemeWithSubThemes(3);
 		Theme randomThemeWithSubThemes1 = new Theme("Football");
 		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Gardening"));
 		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Maintenance"));
@@ -131,14 +126,6 @@ public class DatabaseSeeder {
 		themeRepository.save(randomThemeWithSubThemes1);
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
-
-		// Page Templates
-		PageTemplate pageTemplate1 = entityFactory.createRandomPageTemplate();
-		PageTemplate pageTemplate2 = entityFactory.createRandomPageTemplate();
-		logger.debug("Page template 1: {}", pageTemplate1);
-		logger.debug("Page template 2: {}", pageTemplate2);
-
-		pageTemplateRepository.saveAll(List.of(pageTemplate1, pageTemplate2));
 
 
 		// ACTION POINTS
@@ -171,9 +158,9 @@ public class DatabaseSeeder {
 		actionPointRepository.save(randomActionPoint4);
 
 		//FORMS AND QUESTIONS
-//		formRepository.save(entityFactory.createRandomFormWithQuestions());
-//		formRepository.save(entityFactory.createRandomFormWithQuestions());
-//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+		//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+		//		formRepository.save(entityFactory.createRandomFormWithQuestions());
+		//		formRepository.save(entityFactory.createRandomFormWithQuestions());
 		Form form1 = new Form("Garbage form");
 		RadioQuestion radioQuestion = new RadioQuestion("Rate our endeavors on our garbage cleanup endeavors from 1(horrible) to 5(perfect)", 1);
 		List<String> list = new ArrayList<>();
@@ -184,7 +171,7 @@ public class DatabaseSeeder {
 		list.add("5");
 		radioQuestion.setChoices(list);
 		form1.addQuestion(radioQuestion);
-		TextInputQuestion textInputQuestion = new TextInputQuestion("Explain your choice",  2);
+		TextInputQuestion textInputQuestion = new TextInputQuestion("Explain your choice", 2);
 		form1.addQuestion(textInputQuestion);
 		formRepository.save(form1);
 
@@ -213,10 +200,9 @@ public class DatabaseSeeder {
 		calendarActivityRepository.save(workshopActivity);
 
 
-
 		// CALL FOR IDEAS AND IDEAS
-//		CallForIdeas callForIdeas1 = entityFactory.createRandomCallForIdeas();
-//		CallForIdeas callForIdeas2 = entityFactory.createRandomCallForIdeas();
+		//		CallForIdeas callForIdeas1 = entityFactory.createRandomCallForIdeas();
+		//		CallForIdeas callForIdeas2 = entityFactory.createRandomCallForIdeas();
 		CallForIdeas callForIdeas1 = new CallForIdeas("Call for football field ideas",
 				"Please give us some nice ideas on what you want to be improved on the local football field");
 		CallForIdeas callForIdeas2 = new CallForIdeas("Call for cultural event ideas",
@@ -230,9 +216,9 @@ public class DatabaseSeeder {
 		callForIdeas1.setTheme(randomThemeWithSubThemes1);
 		callForIdeas2.setTheme(randomThemeWithSubThemes1);
 
-//		Idea idea1 = entityFactory.createRandomIdea();
-//		Idea idea2 = entityFactory.createRandomIdea();
-//		Idea idea3 = entityFactory.createRandomIdea();
+		//		Idea idea1 = entityFactory.createRandomIdea();
+		//		Idea idea2 = entityFactory.createRandomIdea();
+		//		Idea idea3 = entityFactory.createRandomIdea();
 		Idea idea1 = new Idea("Some new seeding on te grass would be nice, its starting to become a dirt field...", entityFactory.randomImage());
 		Idea idea2 = new Idea("A new net for the goal would be awesome", entityFactory.randomImage());
 		Idea idea3 = new Idea("A rope skipping event with a huge rope would be cool!", entityFactory.randomImage());

@@ -1,6 +1,11 @@
 spring:
   cloud:
     gcp:
+      storage:
+        project-id: ${GOOGLE_PROJECT_ID}
+        enabled: true
+        credentials:
+          location: file:${PATH_TO_SECRET}
       project-id: ${GOOGLE_PROJECT_ID}
       sql:
         enabled: true

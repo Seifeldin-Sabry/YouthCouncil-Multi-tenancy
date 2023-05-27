@@ -34,5 +34,6 @@ public class TextElement extends PageElement {
 	public TextElement(String text, int fontSize) {
 		this.text = text;
 		this.fontSize = fontSize;
+		setElementType("TEXT");
 	}
 }
