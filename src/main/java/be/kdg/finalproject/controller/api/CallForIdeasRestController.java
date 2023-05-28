@@ -80,7 +80,7 @@ public class CallForIdeasRestController {
 	}
 
 	@LoggedIn
-	@PostMapping
+	@PostMapping ("/{callForIdeasId}/ideas")
 	public ResponseEntity<?> addIdea(@PathVariable long callForIdeasId,
 	                                 @ModelAttribute @Valid NewIdeaDTO newIdeaDTO, BindingResult errors, @MunicipalityId Long municipalityId,
 	                                 @ModelAttribute ("currentMembership") Membership membership) throws IOException {
@@ -100,7 +100,7 @@ public class CallForIdeasRestController {
 		} else {
 			idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, membership.getUser());
 		}
-		String s = null;
+		String s;
 		String param = idea.getContent();
 		Process p = Runtime.getRuntime().exec("python src\\pythonModule\\python\\input.py \"" + param + "\"");
 		BufferedReader stdInput = new BufferedReader(new
