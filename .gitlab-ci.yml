@@ -13,7 +13,6 @@ stages:
 
 before_script:
   - echo "Start CI/CD"
-  - echo "The current directory is $(pwd)"
 
 cache:
   paths:
@@ -62,9 +61,6 @@ deploy:
   when: on_success
   needs: [ "test", "build" ]
   script:
-    - echo $ENV_VARIABLES
-    - ls
-    - ls ./build/libs
     - chmod +x ./scripts/deploy.sh
     - ./scripts/deploy.sh $ENV_VARIABLES $GOOGLE_SERVICE_ACCOUNT_FILE
   only:

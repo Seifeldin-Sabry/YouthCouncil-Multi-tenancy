@@ -1,25 +1,19 @@
 package be.kdg.finalproject.controller.api.dto.get;
 
-import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
-import be.kdg.finalproject.domain.theme.Theme;
-import be.kdg.finalproject.domain.user.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.sql.Timestamp;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 public class IdeaDTO {
+	private String title;
 	private String content;
 	private SubThemeDTO subTheme;
-	private UUID uuid;
 	private Long id;
 	private Timestamp dateCreated;
 	private UserDTO creator;

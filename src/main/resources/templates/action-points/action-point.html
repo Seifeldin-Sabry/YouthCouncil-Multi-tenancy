@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
-	  style="min-height: 100%; position: relative">
+<html lang="en" style="min-height: 100%; position: relative"
+	  xmlns:th="http://www.thymeleaf.org"
+>
 <head>
 	<th:block th:replace="~{fragments/fragments :: meta_script_link}"></th:block>
 	<title>Action Point</title>
@@ -80,6 +81,50 @@
 					<span class="visually-hidden">Next</span>
 				</a>
 			</div>
+			<div class="container" th:with="maxLength=50">
+				<th:block th:if="${actionPoint.getLinkedIdeas().isEmpty()}">
+					<p>No Linked Ideas</p>
+				</th:block>
+				<th:block th:each="linkedIdea,iter: ${actionPoint.getLinkedIdeas()}"
+						  th:if="${!actionPoint.getLinkedIdeas().isEmpty()}"
+				>
+					<p style="text-align: left">Inspired By:</p>
+					<div class="col my-2 d-flex justify-content-evenly">
+						<div>
+							<p class="idea-text collapse show d-inline-block mr-2" id="idea-text"
+							   th:text="${#strings.length(linkedIdea.content) > maxLength ? #strings.substring(linkedIdea.content, 0, maxLength) + '...' : linkedIdea.content}"
+							></p>
+							<a class="see-more d-inline-block" data-bs-toggle="modal"
+							   th:attr="data-bs-target=${'#idea-modal-'+iter.index}"
+							   th:if="${#strings.length(linkedIdea.content) > maxLength}"
+							>See more</a>
+						</div>
+						<div class="ml-3">
+							<p th:text="'By '+${linkedIdea.getCreator().username}"></p>
+						</div>
+					</div>
+
+					<div aria-hidden="true" class="modal fade" tabindex="-1"
+						 th:attr="aria-labelledby=${'#idea-modal-'+iter.index}, id=${'idea-modal-'+iter.index}"
+					>
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"
+									></button>
+								</div>
+								<div class="modal-body">
+									<p th:text="${linkedIdea.content}"></p>
+								</div>
+								<div class="modal-footer">
+									<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</th:block>
+			</div>
 			<hr>
 			<div class="d-flex justify-content-between">
 				<div>
@@ -132,7 +177,9 @@
 							>See more</a>
 						</div>
 					</div>
-					<div class="col-md-4" th:if="${currentMunicipality.getElectionPhase().toString() == 'AFTER_ELECTION'}">
+					<div class="col-md-4"
+						 th:if="${currentMunicipality.getElectionPhase().toString() == 'AFTER_ELECTION'}"
+					>
 						<div class="card p-3" th:classappend="${proposal.status.getBootstrapClass()}">
 							<h5 class="card-title" th:text="${proposal.status.getPrettyName()}"></h5>
 						</div>

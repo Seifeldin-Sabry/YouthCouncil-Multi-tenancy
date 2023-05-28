@@ -24,7 +24,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping ("/api/call-for-ideas/{callForIdeasId}/ideas")
@@ -58,11 +61,10 @@ public class IdeaRestController {
 			Map<String, String> errorMap = ValidationUtils.getErrorsMap(errors);
 			return ResponseEntity.badRequest().body(errorMap);
 		}
-		Idea idea=new Idea();
-		if(user.getRole()== Role.YOUTH_COUNCIL_ADMINISTRATOR){
+		Idea idea = new Idea();
+		if (user.getRole() == Role.YOUTH_COUNCIL_ADMINISTRATOR) {
 			idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, userService.getUserByUsernameOrEmail("offline_idea"));
-		}
-		else {
+		} else {
 			idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, user);
 		}
 
@@ -70,20 +72,17 @@ public class IdeaRestController {
 		return new ResponseEntity<>(ideaDTO, HttpStatus.CREATED);
 	}
 
-	@GetMapping("/sub-theme/{subThemeId}")
-	public ResponseEntity<?> getIdeasBySubtheme(@PathVariable long callForIdeasId,@PathVariable int subThemeId, @MunicipalityId Long municipalityId){
+	@GetMapping ("/sub-theme/{subThemeId}")
+	public ResponseEntity<?> getIdeasBySubtheme(@PathVariable long callForIdeasId, @PathVariable int subThemeId, @MunicipalityId Long municipalityId) {
 		if (municipalityId == null) {
 			logger.debug("No municipality ID found");
 			throw new EntityNotFoundException("Not found");
 		}
-		List<Idea> ideas = new ArrayList<>();
-		if (subThemeId==0){
-			if (callForIdeasService.getCallForIdeaById(callForIdeasId).isPresent()){
-				ideas = callForIdeasService.getCallForIdeaById(callForIdeasId).get().getIdeas().stream().toList();
-			}
-		}
-		else {
-			SubTheme subTheme = subThemeService.getAllSubThemes().get((subThemeId-1));
+		List<Idea> ideas;
+		if (subThemeId == 0) {
+			ideas = ideaService.getIdeasByCallForIdeas(callForIdeasId);
+		} else {
+			SubTheme subTheme = subThemeService.getAllSubThemes().get((subThemeId - 1));
 			ideas = ideaService.getIdeasBySubtheme(subTheme);
 		}
 
@@ -96,10 +95,10 @@ public class IdeaRestController {
 	}
 
 	@Moderator
-	@DeleteMapping("/{id}/delete")
-	public ResponseEntity<?> deleteIdea(@PathVariable Long id){
+	@DeleteMapping ("/{id}/delete")
+	public ResponseEntity<?> deleteIdea(@PathVariable Long id) {
 		Optional<Idea> idea = ideaService.getIdeaById(id);
-		if (idea.isEmpty()){
+		if (idea.isEmpty()) {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
 		}
 		ideaService.deleteIdeaById(id);

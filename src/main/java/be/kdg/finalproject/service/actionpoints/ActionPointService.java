@@ -5,6 +5,7 @@ import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.repository.actionpoint.ActionPointRepository;
 import be.kdg.finalproject.repository.theme.SubThemeRepository;
+import be.kdg.finalproject.service.callforidea.IdeaService;
 import be.kdg.finalproject.service.media.ImageService;
 import org.slf4j.Logger;
 import org.springframework.stereotype.Service;
@@ -25,10 +26,13 @@ public class ActionPointService {
 	private final ImageService imageService;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(ActionPointService.class);
 
-	public ActionPointService(ActionPointRepository actionPointRepository, SubThemeRepository subThemeRepository, ImageService imageService) {
+	private IdeaService ideaService;
+
+	public ActionPointService(ActionPointRepository actionPointRepository, SubThemeRepository subThemeRepository, ImageService imageService, IdeaService ideaService) {
 		this.actionPointRepository = actionPointRepository;
 		this.subThemeRepository = subThemeRepository;
 		this.imageService = imageService;
+		this.ideaService = ideaService;
 	}
 
 	public Set<ActionPoint> getActionPointsByMunicipalityIdAndUserIdWithImages(long municipalityId, long userId) {
@@ -62,7 +66,9 @@ public class ActionPointService {
 		actionPoint.setMunicipalityId(municipalityId);
 		actionPoint.setSubTheme(actionPointViewModel.getSubTheme());
 		actionPoint.setImages(new HashSet<>(imageSources));
+		actionPoint.setLinkedIdeas(ideaService.getIdeasByIds(actionPointViewModel.getIdeas()));
 		actionPointViewModel.getActionPointProposals().forEach(actionPoint::addProposal);
+		logger.debug("Creating action point: " + actionPoint);
 		return actionPointRepository.save(actionPoint);
 	}
 
@@ -74,6 +80,7 @@ public class ActionPointService {
 	}
 
 	public Set<ActionPoint> findBySubThemeId(Long subThemeId) {
-		return actionPointRepository.getActionPointBySubTheme(subThemeRepository.findById(subThemeId).orElseThrow(() -> new EntityNotFoundException("Subtheme not found!")));
+		return actionPointRepository.getActionPointBySubTheme(subThemeRepository.findById(subThemeId)
+		                                                                        .orElseThrow(() -> new EntityNotFoundException("Subtheme not found!")));
 	}
 }

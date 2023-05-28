@@ -11,10 +11,13 @@ import be.kdg.finalproject.service.media.ImageService;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 @Service
-public class IdeaService{
+public class IdeaService {
 
 	private final IdeaRepository ideaRepository;
 	private final UserRepository userRepository;
@@ -27,7 +30,7 @@ public class IdeaService{
 	}
 
 	public Idea createIdea(NewIdeaDTO newIdeaDTO, long callForIdeasId, User user) throws IOException {
-		Idea idea =  new Idea();
+		Idea idea = new Idea();
 		List<String> imageSources = imageService.saveImages(newIdeaDTO.getImages());
 		idea.setImage(imageSources.get(0));// for now we keep images to 1 since its not clear if we need multiple
 		idea.setSubTheme(newIdeaDTO.getSubTheme());
@@ -38,9 +41,9 @@ public class IdeaService{
 		return ideaRepository.save(idea);
 	}
 
-	public List<Idea> getLikedIdeasByUser(Long likerId){
+	public List<Idea> getLikedIdeasByUser(Long likerId) {
 		Set<UserIdeaLike> userIdeaLikes = userRepository.findLikedIdeasByUserId(likerId);
-		if (userIdeaLikes.isEmpty()){
+		if (userIdeaLikes.isEmpty()) {
 			return null;
 		}
 		List<Idea> likedIdeas = new ArrayList<>();
@@ -50,14 +53,26 @@ public class IdeaService{
 		return likedIdeas;
 	}
 
-	public Optional<Idea> getIdeaById(Long id){return ideaRepository.findById(id);}
-	public void deleteIdeaById(Long id){ideaRepository.deleteById(id);}
-
-	public Idea getIdeaByUUID(UUID uuid){
-		return ideaRepository.findByUUID(uuid);
+	public List<Idea> getIdeasBySearchTerm(String searchTerm, Long municipalityId) {
+		return ideaRepository.findAllBySearchTermContainingIgnoreCase(searchTerm, municipalityId);
 	}
 
-	public List<Idea> getIdeasBySubtheme(SubTheme subTheme){
+	public Optional<Idea> getIdeaById(Long id) {return ideaRepository.findById(id);}
+
+	public void deleteIdeaById(Long id) {
+		ideaRepository.softDeleteById(id);
+	}
+
+
+	public List<Idea> getIdeasBySubtheme(SubTheme subTheme) {
 		return ideaRepository.findAllBySubTheme(subTheme);
+	}
+
+	public List<Idea> getIdeasByCallForIdeas(long callForIdeasId) {
+		return ideaRepository.findAllByCallForIdeasId(callForIdeasId);
+	}
+
+	public List<Idea> getIdeasByIds(List<Long> ideas) {
+		return ideaRepository.findByIdIn(ideas);
 	}
 }

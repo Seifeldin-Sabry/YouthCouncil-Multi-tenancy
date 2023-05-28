@@ -1,12 +1,10 @@
 package be.kdg.finalproject.repository.actionpoint;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
-
 import be.kdg.finalproject.domain.theme.SubTheme;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.Optional;
@@ -18,7 +16,8 @@ public interface ActionPointRepository extends CrudRepository<ActionPoint, Long>
 	@Query ("""
 			SELECT ap
 			FROM ACTION_POINTS ap
-			left JOIN fetch ap.actionPointProposals
+			left join fetch ap.actionPointProposals
+			left join fetch ap.linkedIdeas
 			WHERE ap.uuid = :uuid
 			AND ap.municipalityId = :municipalityId
 			""")

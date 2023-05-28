@@ -1,6 +1,5 @@
 package be.kdg.finalproject.repository.membership;
 
-import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
 import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
@@ -22,10 +21,10 @@ public interface UserRepository extends CrudRepository<User, Long> {
 	Optional<User> findByUsernameOrEmailWithMemberShips(@Param ("usernameOrEmail") String usernameOrEmail);
 
 	@Query ("""
-SELECT u.likedIdeas
-FROM APP_USERS u
-WHERE u.id=:userID
-""")
+			SELECT u.likedIdeas
+			FROM APP_USERS u
+			WHERE u.id=:userID
+			""")
 	Set<UserIdeaLike> findLikedIdeasByUserId(long userID);
 
 	boolean existsByUsernameIgnoreCase(String username);

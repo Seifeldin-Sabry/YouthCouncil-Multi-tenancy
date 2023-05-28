@@ -1,5 +1,6 @@
 package be.kdg.finalproject.domain.actionpoint;
 
+import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.interaction.follow.UserActionPointFollow;
 import be.kdg.finalproject.domain.interaction.like.UserActionPointLike;
 import be.kdg.finalproject.domain.theme.SubTheme;
@@ -10,6 +11,7 @@ import lombok.ToString;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -69,6 +71,13 @@ public class ActionPoint {
 
 	@JoinColumn (name = "municipalitiy_id", nullable = false, updatable = false, insertable = false)
 	private Long municipalityId;
+
+	@ManyToMany (fetch = FetchType.LAZY)
+	@JoinTable (name = "IDEA_ACTION_POINT",
+			joinColumns = @JoinColumn (name = "action_point_id"),
+			inverseJoinColumns = @JoinColumn (name = "idea_id"))
+	@ToString.Exclude
+	private List<Idea> linkedIdeas;
 
 	public ActionPoint(String title, String description) {
 		this.title = title;

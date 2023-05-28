@@ -3,7 +3,6 @@ package be.kdg.finalproject.domain.idea;
 import be.kdg.finalproject.domain.interaction.like.UserIdeaLike;
 import be.kdg.finalproject.domain.report.Report;
 import be.kdg.finalproject.domain.theme.SubTheme;
-import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.domain.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +12,6 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
-import java.util.UUID;
 
 @Entity (name = "IDEAS")
 @Getter
@@ -24,7 +22,9 @@ public class Idea {
 	@Column (name = "idea_id", nullable = false)
 	private Long id;
 
-	private UUID uuid = UUID.randomUUID();
+	@Column (name = "title", nullable = false)
+	private String title;
+
 	@Column (name = "content")
 	private String content;
 
@@ -61,6 +61,9 @@ public class Idea {
 	@Column (name = "date_created", nullable = false)
 	private Timestamp dateCreated;
 
+	@Column (name = "deleted", nullable = false, columnDefinition = "boolean default false")
+	private boolean deleted;
+
 	public Idea(String content, String image, SubTheme subTheme) {
 		this.content = content;
 		this.image = image;
@@ -73,6 +76,7 @@ public class Idea {
 		this(content, image, subTheme);
 		this.isFlagged = isFlagged;
 		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
+		this.title = content.substring(0, content.length() / 2);
 	}
 
 	public Idea() {
@@ -84,13 +88,14 @@ public class Idea {
 		this.image = image;
 		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
 		this.isFlagged = false;
+		this.title = content.substring(0, content.length() / 2);
 	}
 
 	public void addLiker() {
 		likeCount++;
 	}
 
-	public void setLiked(){
+	public void setLiked() {
 		this.liked = true;
 	}
 

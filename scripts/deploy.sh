@@ -16,7 +16,7 @@ for VAR in ${ENV_VARIABLES[*]}; do
   export "$key"="$value" 2> /dev/null
 done
 
-VM_NAME="instance-deployed-integration-test-prod"
+VM_NAME="instance-deployed-integration"
 REGION="europe-west1"
 ZONE="europe-west1-b"
 MACHINE_TYPE="e2-small"
@@ -27,7 +27,6 @@ EMAIL=seifeldin.sabry@student.kdg.be
 SYSTEMD_SERVICE_NAME="youthcouncil.service"
 SYSTEMD_SERVICE_PATH="/etc/systemd/system/${SYSTEMD_SERVICE_NAME}"
 SYSTEMD_SERVICE_CONTENT=$(cat ./scripts/systemd)]
-DOMAIN="jeugdtest.duckdns.org" # TODO remove when work
 
 start_sh_content="#!/bin/bash
 export PATH_TO_SECRET=/web/secret.json && \
@@ -42,17 +41,20 @@ export GOOGLE_CLIENT_SECRET=$GOOGLE_CLIENT_SECRET && \
 export SQL_INSTANCE_NAME=$SQL_INSTANCE_NAME && \
 export DOMAIN=$DOMAIN && \
 export PROFILE=prod && \
+export DNS=$DNS && \
 java -jar /web/build.jar
 "
 
+#
 request_sh_content="#!/bin/bash
-if ls /web/cert.p12 1>/dev/null 2>/dev/null; then
+if ls /web/cert.jks 1>/dev/null 2>/dev/null; then
   echo \"Certificate already exists\"
   exit 0
 fi
-keytool -genkeypair -alias tomcat -keyalg RSA -keysize 2048 -storetype PKCS12 -keystore cert.p12 -validity 3650 --keypass $POSTGRES_PROD_PASSWORD --storepass $POSTGRES_PROD_PASSWORD -dname \"CN=YouthCouncil, OU=Council, O=Kdg, L=Antwerp, ST=Antwerp, C=BE\"
-keytool -list -v -keystore cert.p12 -storepass $POSTGRES_PROD_PASSWORD
-mv cert.p12 /web/cert.p12
+certbot certonly -n --standalone --agree-tos -m $EMAIL -d \"$DOMAIN\"
+openssl pkcs12 -export -in /etc/letsencrypt/live/\"$DOMAIN\"/fullchain.pem -inkey /etc/letsencrypt/live/\"$DOMAIN\"/privkey.pem -name \"$DNS\" -out \"$DNS\".p12 -passout pass:$POSTGRES_PROD_PASSWORD
+keytool -importkeystore -deststorepass $POSTGRES_PROD_PASSWORD -destkeypass $POSTGRES_PROD_PASSWORD -destkeystore \"$DNS\".jks -srckeystore \"$DNS\".p12 -srcstoretype PKCS12 -srcstorepass $POSTGRES_PROD_PASSWORD -alias \"$DNS\"
+mv \"$DNS\".p12 /web/cert.p12
 "
 
 function set_project() {
@@ -71,9 +73,11 @@ function create_vm() {
       --tags="$TARGET_TAGS" \
       --image-family="$IMAGE_FAMILY" \
       --image-project="$IMAGE_PROJECT" \
+      --service-account="$GOOGLE_SERVICE_ACC_VM_EMAIL" \
+      --scopes=storage-full \
       --project="${GOOGLE_PROJECT_ID}" \
       --metadata=startup-script="#! /bin/bash
-      apt-get update && apt install -y openjdk-17-jdk
+      apt-get update && apt install -y openjdk-17-jdk python3-certbot-dns-route53
       curl -L -o /tmp/gradle-7.4.2-bin.zip https://services.gradle.org/distributions/gradle-7.4.2-bin.zip
       apt-get update && apt-get -y install unzip
       unzip -d /opt/gradle /tmp/gradle-7.4.2-bin.zip
@@ -92,7 +96,7 @@ function create_vm() {
       snap install --classic certbot
       ln -s /snap/bin/certbot /usr/bin/certbot
       sleep 5
-      curl -k \"https://www.duckdns.org/update?domains=$DUCK_DNS&token=$DUCK_TOKEN&ip=\""
+      curl -k \"https://www.duckdns.org/update?domains=$DNS&token=$DUCK_TOKEN&ip=\""
 }
 
 function authorize_vm_to_instance() {

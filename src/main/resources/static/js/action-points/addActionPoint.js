@@ -23,6 +23,44 @@ const description = document.querySelector('#description');
 const subTheme = document.querySelector('#subTheme');
 const images = document.querySelector('#images');
 
+// Showing Linked Ideas
+const ideasSearchInput = document.querySelector('#searchInput');
+const ideasSearchBtn = document.querySelector('#searchBtn');
+const ideasDropdown = document.querySelector('#searchSelect');
+const ideasPrompt = document.querySelector('#promptModal');
+const noIdeasFound = document.querySelector('#noIdeaFoundModal');
+const searchIdeas = async (event) => {
+    event.preventDefault();
+    if (ideasSearchInput.value === '') {
+        bootstrap.Modal.getOrCreateInstance(ideasPrompt).show();
+        return;
+    }
+    const options = {
+        method: 'GET',
+        headers: {
+            ...csrfToken()
+        },
+    };
+    const response = await fetch(`/api/ideas?t=${ideasSearchInput.value}`, options);
+    if (response.status === 200) {
+        const ideas = await response.json();
+        console.log(ideas)
+        ideasDropdown.innerHTML = '';
+        ideas.forEach((idea) => {
+            const option = document.createElement('option');
+            option.value = idea.id;
+            option.textContent = `${idea.title} - by ${idea.creator.username}`
+            ideasDropdown.appendChild(option);
+        });
+        return
+    }
+    if (response.status === 204) {
+        bootstrap.Modal.getOrCreateInstance(noIdeasFound).show();
+    }
+}
+
+ideasSearchBtn.addEventListener('click', searchIdeas);
+
 const addProposal = () => {
     const proposalRow = document.createElement('tr')
     const proposal = document.createElement('td')
@@ -83,6 +121,7 @@ const addActionPoint = async (event) => {
     for (let i = 0; i < images.files.length; i++) {
         formData.append('images', images.files[i]);
     }
+    formData.append('ideas', [...ideasDropdown.selectedOptions].map((option) => option.value));
     const options = {
         method: 'POST',
         body: formData,
@@ -132,3 +171,6 @@ const addActionPoint = async (event) => {
 
 form.addEventListener('submit', addActionPoint)
 submitBtn.addEventListener('click', addActionPoint)
+
+
+
