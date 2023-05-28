@@ -31,4 +31,6 @@ public class NewActionPointDTO {
 
 	@Size (min = 1, message = "Please add at least one image")
 	private List<MultipartFile> images = new ArrayList<>();
+
+	private List<Long> ideas = new ArrayList<>();
 }

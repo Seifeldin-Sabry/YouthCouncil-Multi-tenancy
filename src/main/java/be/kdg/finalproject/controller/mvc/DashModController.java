@@ -8,7 +8,6 @@ import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.callforidea.CallForIdeasService;
 import be.kdg.finalproject.service.callforidea.IdeaService;
 import be.kdg.finalproject.service.report.ReportService;
-import org.aspectj.weaver.ast.Call;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,8 +29,8 @@ public class DashModController {
 	}
 
 	@Moderator
-	@GetMapping("dash-mod")
-	public ModelAndView getDashMod(@MunicipalityId Long municipalityId){
+	@GetMapping ("dash-mod")
+	public ModelAndView getDashMod(@MunicipalityId Long municipalityId) {
 		ModelAndView mav = new ModelAndView("moderator-dashboard");
 		mav.addObject("reports", reportService.getAllReportsOfMunicipalityId(
 				MunicipalityContext.getCurrentMunicipalityId()));
@@ -39,7 +38,7 @@ public class DashModController {
 				MunicipalityContext.getCurrentMunicipalityId());
 		List<Idea> ideas = new ArrayList<>();
 		for (CallForIdeas call : calls) {
-			ideas.addAll(call.getIdeas());
+			ideas.addAll(ideaService.getIdeasByCallForIdeas(call.getId()));
 		}
 		mav.addObject("ideas", ideas);
 

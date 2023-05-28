@@ -9,6 +9,7 @@ import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.callforidea.CallForIdeasService;
+import be.kdg.finalproject.service.callforidea.IdeaService;
 import be.kdg.finalproject.service.callforidea.UserIdeaLikeService;
 import be.kdg.finalproject.service.form.FormService;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
@@ -18,9 +19,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,17 +32,19 @@ public class CallForIdeasController {
 	private final FormService formService;
 	private final ThemeService themeService;
 	private final UserIdeaLikeService userIdeaLikeService;
+	private final IdeaService ideaService;
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(CallForIdeasController.class);
 
 
 	public CallForIdeasController(CallForIdeasService callForIdeasService, MunicipalityService municipalityService,
 	                              FormService formService, ThemeService themeService,
-	                              UserIdeaLikeService userIdeaLikeService) {
+	                              UserIdeaLikeService userIdeaLikeService, IdeaService ideaService) {
 		this.callForIdeasService = callForIdeasService;
 		this.municipalityService = municipalityService;
 		this.formService = formService;
 		this.themeService = themeService;
 		this.userIdeaLikeService = userIdeaLikeService;
+		this.ideaService = ideaService;
 	}
 
 	@YouthCouncilAdmin
@@ -69,7 +72,7 @@ public class CallForIdeasController {
 			logger.debug("No callForIdea found");
 			throw new EntityNotFoundException("Not found");
 		}
-		Set<Idea> ideas = callForIdeas.getIdeas();
+		Set<Idea> ideas = new HashSet<>(ideaService.getIdeasByCallForIdeas(callForIdeas.getId()));
 		ideas.forEach(idea -> {
 			for (UserIdeaLike liker : idea.getLikers()) {
 				if (liker.getLiker().equals(user)) {

@@ -1,6 +1,7 @@
 package be.kdg.finalproject.service.media;
 
 
+import com.google.auth.oauth2.ServiceAccountCredentials;
 import com.google.cloud.storage.*;
 import org.slf4j.Logger;
 import org.springframework.context.annotation.Profile;
@@ -27,8 +28,12 @@ public class ImageServiceProdImpl implements ImageService {
 	private final String dir = System.getProperty("user.dir") + "/images";
 	private volatile long imageId = 0;
 
-	public ImageServiceProdImpl() {
-		storage = StorageOptions.newBuilder().setProjectId(PROJECT_ID).build().getService();
+	public ImageServiceProdImpl() throws IOException {
+		storage = StorageOptions.newBuilder()
+		                        .setCredentials(ServiceAccountCredentials.getApplicationDefault())
+		                        .setProjectId(PROJECT_ID)
+		                        .build()
+		                        .getService();
 	}
 
 	public String uploadObject(String objectName, String filePath) throws IOException {
@@ -40,8 +45,6 @@ public class ImageServiceProdImpl implements ImageService {
 		return image.getMediaLink();
 	}
 
-	// TODO: uncomment if buckets work, or if ur brave enough to fix it
-	// PERMISSION DENIED CRAP CAUSE OF BUCKETS, on my life I have the permissions
 	@PostConstruct
 	public void init() {
 		//				clear user directory /images
@@ -73,8 +76,6 @@ public class ImageServiceProdImpl implements ImageService {
 			String imageName = generateImageName() + extension;
 			String file_path = dir + "/" + imageName;
 			image.transferTo(Path.of(file_path));
-			//			urls.add(file_path);
-			// TODO: uncomment if buckets work, or if ur brave enough to fix it
 			urls.add(uploadObject(imageName, file_path));
 			File file = new File(file_path);
 			file.delete();

@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="en"
+	  style="min-height: 100%; position: relative"
 	  xmlns="http://www.w3.org/1999/xhtml"
 	  xmlns:th="http://www.thymeleaf.org"
-	  style="min-height: 100%; position: relative">
+>
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Action Points</title>
@@ -69,24 +70,29 @@
 </div>
 
 
-<div class="container my-5"  th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}">
+<div class="container my-5"
+	 th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
+>
 	<div class="row mt-2">
 		<div class="col-md-8 col-lg-6 mx-auto">
-			<select name="subThemeFilter" id="subThemeFilter" class="form-select form-select-lg" style="font-size: small">
+			<select class="form-select form-select-lg" id="subThemeFilter" name="subThemeFilter"
+					style="font-size: small"
+			>
 				<option value="0">All</option>
-				<option th:each="subthemeFiltered : ${subthemesFiltered}" th:value="${subthemeFiltered.id}" th:text="${subthemeFiltered.subThemeName}"></option>
+				<option th:each="subthemeFiltered : ${subthemesFiltered}" th:text="${subthemeFiltered.subThemeName}"
+						th:value="${subthemeFiltered.id}"
+				></option>
 			</select>
 		</div>
 	</div>
 </div>
-
-<div class="container my-5 action-points">
-	<div class="row">
-		<div class="col">
-			<h2 class="text-center mt-4 mb-4">Action Points</h2>
-		</div>
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Action Points</h2>
 	</div>
-		<th:block th:each="actionPoint, iter : ${actionPoints}">
+</div>
+<div class="container my-5 action-points">
+	<th:block th:each="actionPoint, iter : ${actionPoints}">
 		<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">
 			<div class="col-md-10 col-lg-8 mx-auto">
 				<div class="card shadow-sm">
@@ -257,11 +263,70 @@
 						<div class="invalid-feedback actionPointProposals-invalid-feedback">
 						</div>
 					</div>
+					<div class="container">
+						<p>Link Ideas to this Action Point</p>
+						<div class="dropdown">
+							<div class="d-flex justify-content-center">
+								<input class="form-control d-inline-block" id="searchInput"
+									   placeholder="Search for ideas.."
+									   title="Type in a name"
+									   type="text"
+								>
+								<button class="btn btn-primary" id="searchBtn" type="button"><i class="bi bi-search"
+								></i>
+								</button>
+							</div>
+							<label for="searchSelect"></label>
+							<select class="form-select" id="searchSelect" multiple name="searchSelect">
+							</select>
+						</div>
+					</div>
+					<div id="search-results"></div>
+
 				</form>
 			</div>
 			<div class="modal-footer">
 				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
 				<button class="btn btn-primary submit-btn" id="add-member-btn" type="button">Add Action Point</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!--prompt modal-->
+<div aria-hidden="true" aria-labelledby="promptModalLabel" class="modal fade" id="promptModal" tabindex="-1">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title prompt-modal-title" id="promptModalLabel">Please Provide a Search Term</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body prompt-modal-body">
+				<p>In order to get a list of ideas, you must search for an idea</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				<button class="btn btn-primary prompt-modal-btn" data-bs-dismiss="modal" type="button">Ok</button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div aria-hidden="true" aria-labelledby="noIdeaFoundModalLabel" class="modal fade" id="noIdeaFoundModal"
+	 tabindex="-1"
+>
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title no-idea-found-modal-title" id="noIdeaFoundModalLabel">No Idea Found</h5>
+				<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
+			</div>
+			<div class="modal-body no-idea-found-modal-body">
+				<p>No idea was found with the search term provided</p>
+			</div>
+			<div class="modal-footer">
+				<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+				<button class="btn btn-primary no-idea-found-modal-btn" data-bs-dismiss="modal" type="button">Ok
+				</button>
 			</div>
 		</div>
 	</div>

@@ -30,7 +30,7 @@ spring:
       mode: always
   jpa:
     hibernate:
-      ddl-auto: validate
+      ddl-auto: update
     database: POSTGRESQL
     show-sql: false
     defer-datasource-initialization: true
@@ -52,8 +52,8 @@ server:
   servlet:
     context-path: /
   ssl:
-    key-store: file:/web/cert.p12
+    key-store: file:/web/cert.jks
     key-store-password: ${POSTGRES_PROD_PASSWORD}
     key-store-type: PKCS12
-    key-alias: tomcat
+    key-alias: ${DNS}
     enabled: true

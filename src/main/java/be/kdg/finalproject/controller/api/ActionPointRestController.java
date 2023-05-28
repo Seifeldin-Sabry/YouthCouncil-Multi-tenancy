@@ -7,7 +7,6 @@ import be.kdg.finalproject.domain.actionpoint.ActionPoint;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.actionpoints.ActionPointService;
-
 import be.kdg.finalproject.util.ValidationUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -19,7 +18,10 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping ("/api/action-points")
@@ -55,7 +57,7 @@ public class ActionPointRestController {
 	}
 
 
-	@GetMapping("/{subtheme}/subtheme")
+	@GetMapping ("/{subtheme}/subtheme")
 	public ResponseEntity<?> filterBySubtheme(@MunicipalityId Long municipalityId, @PathVariable Long subtheme) {
 
 		Set<ActionPoint> actionPoints;
@@ -63,13 +65,13 @@ public class ActionPointRestController {
 		if (subtheme == 0) {
 			// Return all action points without filtering by subtheme
 			actionPoints = actionPointService.getActionPointsByMunicipalityId(municipalityId);
-		}else{
+		} else {
 			actionPoints = actionPointService.findBySubThemeId(subtheme);
 		}
 
 		List<ActionPointDTO> actionPointsDTO = new ArrayList<>();
 		actionPoints.forEach(actionPoint -> {
-			ActionPointDTO actionPointDTO = modelMapper.map(actionPoint,ActionPointDTO.class);
+			ActionPointDTO actionPointDTO = modelMapper.map(actionPoint, ActionPointDTO.class);
 			actionPointsDTO.add(actionPointDTO);
 		});
 		return new ResponseEntity<>(actionPointsDTO, HttpStatus.FOUND);
