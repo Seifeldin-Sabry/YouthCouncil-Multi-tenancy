@@ -18,7 +18,7 @@
 			/*	background-color: #5ba0fa !important;*/
 			/*}*/
 
-			a, #dropdown-logout{
+			a, #dropdown-logout {
 				font-family: 'Bungee';
 			}
 
@@ -36,13 +36,13 @@
 				color: magenta !important;
 			}
 
-			#dropdown-profile:hover{
+			#dropdown-profile:hover {
 				box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 				color: magenta !important;
 			}
 
-			.nav-item, .dropdown-item, .nav-link{
-				color:black;
+			.nav-item, .dropdown-item, .nav-link {
+				color: black;
 			}
 
 			/*not working*/
@@ -93,20 +93,11 @@
 				<li class="nav-item" th:if="${currentMunicipality != null && currentMunicipality.logo == null}">
 					<a aria-current="page" class="nav-link active" href="/home">Home</a>
 				</li>
-				<li class="nav-item"
-					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
-				>
-					<a aria-current="page" class="nav-link active" href="/youth-council-dashboard">Municipality
-																								   Settings</a>
-				</li>
 				<li class="nav-item" sec:authorize="hasRole('ROLE_ADMINISTRATOR')">
 					<a aria-current="page" class="nav-link active" href="/dashboard">Dashboard</a>
 				</li>
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
 					<a aria-current="page" class="nav-link active" href="/call-for-ideas">Call for Ideas</a>
-				</li>
-				<li class="nav-item" th:if="${currentMembership != null}" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')">
-					<a aria-current="page" class="nav-link active" href="/call-for-ideas-dashboard">Call for Ideas Dashboard</a>
 				</li>
 				<li class="nav-item" th:if="${currentMunicipality != null}">
 					<a aria-current="page" class="nav-link active" href="/action-points">Action Points</a>
@@ -116,7 +107,8 @@
 					<a aria-current="page" class="nav-link active" href="/elections">Elections</a>
 				</li>
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
-					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of Activities</a>
+					<a aria-current="page" class="nav-link active" href="/calendar-activities">Calendar of
+																							   Activities</a>
 				</li>
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
 					<a aria-current="page" class="nav-link active" href="/join-youth-council">Join a Youth Council</a>
@@ -126,9 +118,29 @@
 				>
 					<a aria-current="page" class="nav-link active" href="/dash-mod">DashMod</a>
 				</li>
+				<li class="nav-item dropdown" sec:authorize="hasRole('YOUTH_COUNCIL_ADMINISTRATOR')"
+					th:if="${currentMembership != null}"
+				>
+					<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					   id="manageNavDropdown" role="button"
+					>Manage</a>
+					<ul aria-labelledby="manageNavDropdown" class="dropdown-menu">
+						<li class="nav-item"
+						>
+							<a aria-current="page" class="nav-link active" href="/youth-council-dashboard">Municipality
+																										   Settings</a>
+						</li>
+						<li class="nav-item">
+							<a aria-current="page" class="nav-link active" href="/call-for-ideas-dashboard">Call for
+																											Ideas
+																											Dashboard</a>
+						</li>
+					</ul>
+				</li>
 				<li class="nav-item dropdown" sec:authorize="isAuthenticated()">
 					<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
-					   id="generalNavProfileDropDown" role="button">Profile</a>
+					   id="generalNavProfileDropDown" role="button"
+					>Profile</a>
 					<ul aria-labelledby="generalNavProfileDropDown" class="dropdown-menu">
 						<li>
 							<a class="dropdown-item" id="dropdown-profile" th:href="@{/my-account}">Edit Profile</a>

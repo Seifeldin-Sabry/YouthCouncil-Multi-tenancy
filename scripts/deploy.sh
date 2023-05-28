@@ -45,7 +45,7 @@ export DNS=$DNS && \
 java -jar /web/build.jar
 "
 
-#
+
 request_sh_content="#!/bin/bash
 if ls /web/cert.jks 1>/dev/null 2>/dev/null; then
   echo \"Certificate already exists\"
@@ -54,7 +54,7 @@ fi
 certbot certonly -n --standalone --agree-tos -m $EMAIL -d \"$DOMAIN\"
 openssl pkcs12 -export -in /etc/letsencrypt/live/\"$DOMAIN\"/fullchain.pem -inkey /etc/letsencrypt/live/\"$DOMAIN\"/privkey.pem -name \"$DNS\" -out \"$DNS\".p12 -passout pass:$POSTGRES_PROD_PASSWORD
 keytool -importkeystore -deststorepass $POSTGRES_PROD_PASSWORD -destkeypass $POSTGRES_PROD_PASSWORD -destkeystore \"$DNS\".jks -srckeystore \"$DNS\".p12 -srcstoretype PKCS12 -srcstorepass $POSTGRES_PROD_PASSWORD -alias \"$DNS\"
-mv \"$DNS\".p12 /web/cert.p12
+mv \"$DNS\".jks /web/cert.jks
 "
 
 function set_project() {
