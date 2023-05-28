@@ -30,7 +30,7 @@ const filterOnSubTheme = async (event) => {
         }
     }
     //console.log(options)
-    const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas/sub-theme/${subThemeIdea}`, options);
+    const response = await fetch(`/api/ideas/sub-theme/${subThemeIdea}`, options);
     ideaContainer.innerHTML = ''
     response.json().then((ideas) => {
         for (let idea of ideas) {
