@@ -10,14 +10,12 @@ import be.kdg.finalproject.controller.authority.YouthCouncilAdmin;
 import be.kdg.finalproject.domain.idea.CallForIdeas;
 import be.kdg.finalproject.domain.idea.Idea;
 import be.kdg.finalproject.domain.report.ReportReason;
-import be.kdg.finalproject.domain.security.Role;
-import be.kdg.finalproject.domain.user.Membership;
+import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.municipalities.MunicipalityId;
 import be.kdg.finalproject.service.callforidea.CallForIdeasService;
 import be.kdg.finalproject.service.callforidea.IdeaService;
 import be.kdg.finalproject.service.report.ReportService;
-import be.kdg.finalproject.service.user.UserService;
 import be.kdg.finalproject.util.ValidationUtils;
 import org.modelmapper.ModelMapper;
 import org.slf4j.Logger;
@@ -37,15 +35,13 @@ import java.util.Optional;
 @RequestMapping ("/api/call-for-ideas")
 public class CallForIdeasRestController {
 	private final CallForIdeasService callForIdeasService;
-	private final UserService userService;
 	private final IdeaService ideaService;
 	private final ReportService reportService;
 	private final ModelMapper modelMapper = new ModelMapper();
 	private final Logger logger = org.slf4j.LoggerFactory.getLogger(CallForIdeasRestController.class);
 
-	public CallForIdeasRestController(CallForIdeasService callForIdeasService, UserService userService, IdeaService ideaService, ReportService reportService) {
+	public CallForIdeasRestController(CallForIdeasService callForIdeasService, IdeaService ideaService, ReportService reportService) {
 		this.callForIdeasService = callForIdeasService;
-		this.userService = userService;
 		this.ideaService = ideaService;
 		this.reportService = reportService;
 	}
@@ -83,7 +79,7 @@ public class CallForIdeasRestController {
 	@PostMapping ("/{callForIdeasId}/ideas")
 	public ResponseEntity<?> addIdea(@PathVariable long callForIdeasId,
 	                                 @ModelAttribute @Valid NewIdeaDTO newIdeaDTO, BindingResult errors, @MunicipalityId Long municipalityId,
-	                                 @ModelAttribute ("currentMembership") Membership membership) throws IOException {
+	                                 @ModelAttribute ("authUser") User authUser) throws IOException {
 		// for now image is not implemented yet, so empty string is passed
 		if (municipalityId == null) {
 			logger.debug("No municipality ID found");
@@ -94,12 +90,7 @@ public class CallForIdeasRestController {
 			Map<String, String> errorMap = ValidationUtils.getErrorsMap(errors);
 			return ResponseEntity.badRequest().body(errorMap);
 		}
-		Idea idea = new Idea();
-		if (membership.getRole() == Role.YOUTH_COUNCIL_ADMINISTRATOR) {
-			idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, userService.getUserByUsernameOrEmail("offline_idea"));
-		} else {
-			idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, membership.getUser());
-		}
+		Idea idea = ideaService.createIdea(newIdeaDTO, callForIdeasId, authUser);
 		String s;
 		String param = idea.getContent();
 		Process p = Runtime.getRuntime().exec("python src\\pythonModule\\python\\input.py \"" + param + "\"");
