@@ -1,7 +1,8 @@
 import {csrfToken} from "../cookie.js";
+
 const submitButton = document.getElementById('submitIdea');
 const modal = document.getElementById('callForIdeaModal');
-const callForIdeaId= document.getElementById('callForIdeaId').innerText;
+const callForIdeaId = document.getElementById('callForIdeaId').innerText;
 
 
 const errorToast = document.querySelector('.error-toast');
@@ -10,11 +11,11 @@ const errorToastBody = errorToast.querySelector('.toast-body');
 const successToast = document.querySelector('.success-toast');
 const successToastBody = successToast.querySelector('.toast-body');
 
-const ideaContainer=document.querySelector('.ideaContainer')
+const ideaContainer = document.querySelector('.ideaContainer')
 const images = document.querySelector('#images');
 
 const filterSelect = document.getElementById('subThemeFilter')
-const maxLength=100;
+const maxLength = 100;
 
 const reportModal = document.getElementById('reportModal');
 let reportIdeaId;
@@ -30,20 +31,20 @@ const filterOnSubTheme = async (event) => {
     }
     //console.log(options)
     const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas/sub-theme/${subThemeIdea}`, options);
-    ideaContainer.innerHTML=''
+    ideaContainer.innerHTML = ''
     response.json().then((ideas) => {
-        for (let idea of ideas){
+        for (let idea of ideas) {
             const date = new Date(idea.dateCreated)
             console.log(idea)
-            const dateValues =[
+            const dateValues = [
                 date.getDate(),
-                (date.getMonth()+1),
+                (date.getMonth() + 1),
                 date.getFullYear(),
                 date.getHours(),
                 date.getMinutes()
             ]
-            if (idea.content.length>maxLength){
-                ideaContainer.innerHTML+=`
+            if (idea.content.length > maxLength) {
+                ideaContainer.innerHTML += `
     <div class="row mb-2">
         <div class="col-md-12 col-lg-5 ms-4 me-auto">
             <div class="card shadow-sm">
@@ -70,7 +71,7 @@ const filterOnSubTheme = async (event) => {
                 </div>
                 <div class="card-footer">
                     <p class="card-text"
-                    >${idea.content.substring( 0, maxLength) + '...'}</p>
+                    >${idea.content.substring(0, maxLength) + '...'}</p>
                     <img class="d-block w-100" alt="ideaImage"
                          src="${idea.image}"
                     />
@@ -79,9 +80,8 @@ const filterOnSubTheme = async (event) => {
         </div>
     </div>
 `
-            }
-            else {
-                ideaContainer.innerHTML+=`
+            } else {
+                ideaContainer.innerHTML += `
     <div class="row mb-2">
         <div class="col-md-12 col-lg-5 ms-4 me-auto">
             <div class="card shadow-sm">
@@ -120,10 +120,10 @@ const filterOnSubTheme = async (event) => {
             }
         }
         addEventListeners()
-        for (let child of ideaContainer.children){
+        for (let child of ideaContainer.children) {
             const likeButton = child.querySelector('.like-btn');
             const liked = likeButton.dataset.liked
-            if (liked==='true'){
+            if (liked === 'true') {
                 likeButton.classList.add('btn-primary')
             }
         }
@@ -132,7 +132,7 @@ const filterOnSubTheme = async (event) => {
 filterSelect.addEventListener('change', filterOnSubTheme)
 
 const removeIdea = async (event) => {
-    let button =event.target;
+    let button = event.target;
 
     const id = button.dataset.ideaId
     const options = {
@@ -142,10 +142,9 @@ const removeIdea = async (event) => {
             ...csrfToken()
         }
     }
-    console.log(options)
 
-    const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas/${id}/delete`, options);
-    if (response.status===204){
+    const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas/${id}`, options);
+    if (response.status === 204) {
         button.parentElement.parentElement.parentElement.parentElement.remove()
     }
 }
@@ -168,7 +167,7 @@ const reportIdea = async (event) => {
     console.log(options)
 
     const response = await fetch(`/api/reports/${reportIdeaId}/idea`, options);
-    if (response.status===204){
+    if (response.status === 204) {
         hideAllErrors();
         const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
         bootstrapErrorToast.hide();
@@ -202,8 +201,8 @@ const reportIdea = async (event) => {
     }
 }
 
-function updateReportIdeaId(event){
-    reportIdeaId=event.target.dataset.ideaId;
+function updateReportIdeaId(event) {
+    reportIdeaId = event.target.dataset.ideaId;
     console.log('report idea id updated');
     console.log(reportIdeaId);
     addEventListeners();
@@ -211,20 +210,20 @@ function updateReportIdeaId(event){
 
 addEventListeners()
 
-function addEventListeners(){
+function addEventListeners() {
     const removeButtons = document.querySelectorAll('.removeButton');
     const reportModalButtons = document.querySelectorAll('.reportModalButton');
     const reportButtons = document.querySelectorAll('.reportButton');
 
-    for (let removeButton of removeButtons){
+    for (let removeButton of removeButtons) {
         removeButton.addEventListener('click', removeIdea);
     }
 
-    for (let reportModalButton of reportModalButtons){
+    for (let reportModalButton of reportModalButtons) {
         reportModalButton.addEventListener('click', updateReportIdeaId);
     }
 
-    for (let reportButton of reportButtons){
+    for (let reportButton of reportButtons) {
         reportButton.addEventListener('click', reportIdea);
     }
 
@@ -253,8 +252,7 @@ function hideAllErrors() {
 }
 
 
-
-const submitIdea= async (event) =>{
+const submitIdea = async (event) => {
     const descriptionIdea = document.getElementById('description').value;
     const subThemeIdea = document.getElementById('subTheme').value;
     const formData = new FormData();
@@ -275,12 +273,12 @@ const submitIdea= async (event) =>{
     }
     console.log(options)
     // alert(callForIdeaId)
-    submitButton.innerHTML=`
+    submitButton.innerHTML = `
   <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
   Loading...
 `
     const response = await fetch(`/api/call-for-ideas/${callForIdeaId}/ideas`, options);
-    submitButton.innerHTML=`Submit`
+    submitButton.innerHTML = `Submit`
     if (response.status === 201) {
         hideAllErrors();
         const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
@@ -321,15 +319,16 @@ const submitIdea= async (event) =>{
 
 
 }
-function handleAddedIdea(idea){
+
+function handleAddedIdea(idea) {
     const username = idea.creator.username;
     let ideaDate = new Date();
     // console.log(ideaDate.toLocaleString("en-BE"));
     // console.log(ideaContainer);
     // console.log(idea.content);
     // console.log(idea.subTheme.subThemeName);
-    if (idea.content.length>maxLength){
-        ideaContainer.innerHTML+=`
+    if (idea.content.length > maxLength) {
+        ideaContainer.innerHTML += `
     <div class="row mb-2">
         <div class="col-md-12 col-lg-5 ms-4 me-auto">
             <div class="card shadow-sm">
@@ -353,7 +352,7 @@ function handleAddedIdea(idea){
                 </div>
                 <div class="card-footer">
                     <p class="card-text"
-                    >${idea.content.substring( 0, maxLength) + '...'}</p>
+                    >${idea.content.substring(0, maxLength) + '...'}</p>
                     <img class="d-block w-100" alt="ideaImage"
                         src="${idea.image}"
                     />
@@ -362,9 +361,8 @@ function handleAddedIdea(idea){
         </div>
     </div>
 `
-    }
-    else {
-        ideaContainer.innerHTML+=`
+    } else {
+        ideaContainer.innerHTML += `
     <div class="row mb-2">
         <div class="col-md-12 col-lg-5 ms-4 me-auto">
             <div class="card shadow-sm">
@@ -399,7 +397,8 @@ function handleAddedIdea(idea){
 `
     }
 
-    document.getElementById('description').value='';
+    document.getElementById('description').value = '';
     addEventListeners()
 }
+
 submitButton.addEventListener('click', submitIdea);
