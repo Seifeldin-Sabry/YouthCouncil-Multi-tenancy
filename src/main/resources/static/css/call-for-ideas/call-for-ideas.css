@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+body {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
 
 h2 {
     font-family: 'Bungee';
@@ -14,6 +19,10 @@ h2 {
  i, span, .btn {
     font-family: "Open Sans";
 }
+
+ .btn{
+     padding: 5px;
+ }
 
  h4 , p{
      font-family: 'Bungee';

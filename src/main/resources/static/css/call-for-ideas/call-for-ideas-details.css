@@ -1,0 +1,76 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+body {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 80%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+h3, p, body > div:nth-child(4) > label {
+    font-family: 'Bungee';
+}
+
+body > div:nth-child(4) > label {
+    color: white;
+}
+
+div, input {
+    font-family: 'Open Sans';
+}
+
+option{
+    font-size: 16px;
+}
+
+.card-title {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.like-count {
+    margin-bottom: 5px
+}
+
+div.row{
+    margin-bottom: 10px;
+}
+
+.card-header {
+    background-color: #f8f9fa;
+    border-bottom: none;
+}
+
+.card-footer {
+    background-color: #f8f9fa;
+    border-top: none;
+}
+
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0069d9;
+    border-color: #0069d9;
+}
+
+td {
+    height: 50px;
+}
+
+#goBack {
+    position: relative;
+    bottom: 80px;
+    left: 20px;
+}

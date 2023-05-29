@@ -1,13 +1,16 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+body {
+  background: linear-gradient(to bottom, #476ff4, #954588)
+}
 
 h2 {
   font-family: 'Bungee';
   background-color: yellow;
   width: 60%;
   margin: 0 auto;
-  border: 3px solid #333; /* Add a border with 2px width and #333 color */
-  padding: 10px; /* Add some padding for better spacing */
+  border: 3px solid #333;
+  padding: 10px;
   border-radius: 4px;
 }
 
@@ -37,4 +40,11 @@ label , p {
 
 .btn {
   margin-top: 10px;
+}
+
+.toast {
+  position: fixed;
+  top: 80%;
+  right: 5%;
+  z-index: 1000;
 }

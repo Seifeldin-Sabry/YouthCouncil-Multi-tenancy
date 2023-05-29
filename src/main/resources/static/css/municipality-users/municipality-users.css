@@ -1,13 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
-
 body {
-    background-image: url(../../../static/images/platform/backgroundWhite.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+    background: linear-gradient(to bottom, #476ff4, #954588)
 }
-
 
 h2 {
     font-family: 'Bungee';
@@ -23,6 +18,10 @@ div, p {
     font-family: 'Open Sans';
 }
 
+th, tr{
+    color: white;
+}
+
 .table tbody tr:hover {
-    background-color: #64c1f3;
+    background-color: #4562f4;
 }

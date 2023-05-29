@@ -11,19 +11,23 @@
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
 
-
-
-
-<div class="container my-2 ideaContainer">
-	<div class="row">
-		<div class="col">
-			<h2 th:if="${ideas==null}" class="text-center mt-4 mb-4" >You have no liked ideas!</h2>
+<div class="container-fluid my-2">
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<h2 class="text-center mb-3">Liked ideas</h2>
 		</div>
 	</div>
-<!--	<h2 th:if="${ideas==null}" >You have no liked ideas!</h2>-->
+</div>
+
+<div class="container my-2 ideaContainer">
+	<div class="row justify-content-center">
+		<div class="col">
+			<h2 th:if="${ideas==null}" class="text-center mt-4 mb-4">You have no liked ideas!</h2>
+		</div>
+	</div>
 	<th:block th:each="idea : ${ideas}">
 		<div class="row mb-2" th:data-call-id="${idea.callForIdeasId}">
-			<div class="col-md-12 col-lg-5 ms-4 me-auto">
+			<div class="col-md-12 col-lg-5 mx-auto">
 				<div class="card shadow-sm" id="cardIdeas">
 					<div class="card-header">
 						<div class="d-flex justify-content-start">
@@ -39,8 +43,7 @@
 								>👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
 							</div>
 							<div th:if="${currentMembership == null}">
-								<button class="btn btn-outline-secondary text-danger"
-								>👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
+								<button class="btn btn-outline-secondary text-danger">👍 <span class="like-count" th:text="${idea.likers.size()}"></span></button>
 							</div>
 						</div>
 						<div class="d-flex justify-content-between">
@@ -50,14 +53,10 @@
 							</div>
 						</div>
 					</div>
-					<div class="card-footer" th:with="maxLength=100" th:if="${idea.getContent!=null}">
-						<p class="card-text"
-						   th:text="${#strings.length(idea.getContent) > maxLength ? #strings.substring(idea.getContent, 0, maxLength) + '...' : idea.getContent}"
-						></p>
-						<img class="d-block w-100" alt="ideaImage"
-							 th:src="${idea.image}"
-						/>
-						<br sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" >
+					<div class="card-footer text-center" th:with="maxLength=100" th:if="${idea.getContent!=null}">
+						<p class="card-text" th:text="${#strings.length(idea.getContent) > maxLength ? #strings.substring(idea.getContent, 0, maxLength) + '...' : idea.getContent}"></p>
+						<img class="d-block w-100" alt="ideaImage" th:src="${idea.image}" />
+						<br sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')">
 						<button sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" th:data-idea-id="${idea.id}" class="btn btn-danger removeButton">remove post</button>
 					</div>
 				</div>
@@ -72,9 +71,6 @@
 		<button class="btn btn-primary" id="goBack"> Go Back</button>
 	</a>
 </div>
-
-
-
 
 
 <div th:insert="~{fragments/fragments::footer}">Footer</div>

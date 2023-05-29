@@ -43,10 +43,10 @@ const filterOnSubTheme = async (event) => {
                 date.getHours(),
                 date.getMinutes()
             ]
-            if (idea.content.length > maxLength) {
-                ideaContainer.innerHTML += `
-    <div class="row mb-2">
-        <div class="col-md-12 col-lg-5 ms-4 me-auto">
+            if (idea.content.length>maxLength){
+                ideaContainer.innerHTML+=`
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-5">
             <div class="card shadow-sm">
                 <div class="card-header">
                     <div class="d-flex justify-content-start">
@@ -66,7 +66,7 @@ const filterOnSubTheme = async (event) => {
                             <i class="bi bi-tag"></i>
                             <span >${idea.subTheme.subThemeName}</span>
                         </div>
-                        <button data-idea-id="${idea.id}" class="btn btn-outline-danger text-dark btn-sm reportButton">report post</button>
+                        <button data-idea-id="${idea.id}" class="btn btn-outline-danger text-dark btn-sm reportButton">Report Post</button>
                     </div>
                 </div>
                 <div class="card-footer">

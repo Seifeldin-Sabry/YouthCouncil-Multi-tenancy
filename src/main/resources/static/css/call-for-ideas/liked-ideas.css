@@ -1,5 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+body {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
 
 h2 {
     font-family: 'Bungee';
@@ -9,6 +14,10 @@ h2 {
     border: 3px solid #333; /* Add a border with 2px width and #333 color */
     padding: 10px; /* Add some padding for better spacing */
     border-radius: 4px;
+}
+
+.card-text{
+    font-family: 'Bungee';
 }
 
 p, i, span, tr, td{

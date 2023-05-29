@@ -9,19 +9,18 @@
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
-<div class="row">
-	<div class="col">
-		<h2 class="text-center mt-4 mb-4">Become a member</h2>
-	</div>
-</div>
 <div class="container py-5">
 	<div class="row justify-content-center">
 		<div class="col-lg-5 col-md-7">
 			<div class="panel border bg-white shadow-sm rounded">
 				<div class="panel-body p-3">
-					<form class="my-3 d-flex flex-column align-items-start gap-3" method="post" th:action="@{/register}"
-						  th:object="${user}"
-					>
+					<form class="my-3 d-flex flex-column gap-3" method="post" th:action="@{/register}"
+						  th:object="${user}">
+						<div class="row justify-content-center">
+							<div class="col">
+								<h5 class="text-center mt-4 mb-4">Become a member</h5>
+							</div>
+						</div>
 						<div class="input-group has-validation">
 							<div th:class="${#fields.hasErrors('firstName')?'form-floating is-invalid':'form-floating'}">
 								<input placeholder="Jeff" th:class="${#fields.hasErrors('firstName')?

@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+body {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
 
 h2 {
     font-family: 'Bungee';
@@ -11,10 +15,19 @@ h2 {
     border-radius: 4px;
 }
 
-p, i, span,.title a, .btn , tr, td{
+p, i, span, tr, #\31  > td.description,#\31  > td.theme{
+    font-family: "Open Sans";
+    color: white;
+}
+
+.btn{
     font-family: "Open Sans";
 }
 
+.title a{
+    color: #f6cf31;
+}
+
 #create-call{
-    margin: 10px;
+    margin-top: 10px;
 }

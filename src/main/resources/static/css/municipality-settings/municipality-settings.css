@@ -1,11 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
-
 body {
-    background-image: url(../../../static/images/platform/backgroundWhite.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
+    background: linear-gradient(to bottom, #476ff4, #954588)
 }
 
 
@@ -21,4 +17,17 @@ h2 {
 
 div, p, input {
     font-family: 'Open Sans';
+}
+
+.text-muted{
+    color: white !important;
+}
+
+label{
+    color: white;
+    font-family: 'Bungee';
+}
+
+#submitLogo{
+    margin-top: 10px;
 }

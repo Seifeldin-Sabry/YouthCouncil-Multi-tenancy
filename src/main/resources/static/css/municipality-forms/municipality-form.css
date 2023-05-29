@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+body {
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+div, p, input, h6 {
+    font-family: 'Open Sans';
+    color: white;
+}
+
+h6 {
+    padding: 5px;
+    font-family: 'Bungee';
+}
+
+.container {
+    margin-top: 20px;
+    border: 2px solid #ffffff;
+    border-radius: 4px;
+    padding: 15px;
+}
+
+.row:hover {
+    background-color: #5e81ef;
+}
+
+.button-container {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.goBack-button-container {
+    margin: 10px;
+    text-align: center;
+}
+
+.row {
+    border-bottom: 1px solid #ddd;
+}
+
+.row:last-child {
+    border-bottom: none;
+}
+
+.row > div {
+    border-right: 1px solid #ddd;
+    padding: 5px;
+}
+
+.row > div:last-child {
+    border-right: none;
+}

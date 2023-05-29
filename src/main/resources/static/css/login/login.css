@@ -2,11 +2,14 @@
 
 
 body {
-    background-image: url(static/images/platform/backgroundWhite.jpg);
+    background-image: url("/images/platform/backgroundMagenta.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 }
+/*body {*/
+/*    background: linear-gradient(to bottom, #476ff4, #954588)*/
+/*}*/
 
 
 h5 {
@@ -14,8 +17,8 @@ h5 {
     background-color: yellow;
     width: 80%;
     margin: 0 auto;
-    border: 3px solid #333; /* Add a border with 2px width and #333 color */
-    padding: 10px; /* Add some padding for better spacing */
+    border: 3px solid #333;
+    padding: 10px;
     border-radius: 4px;
 }
 
