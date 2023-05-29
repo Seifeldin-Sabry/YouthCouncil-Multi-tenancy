@@ -5,39 +5,7 @@
 	<title>Form</title>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer src="/js/form/user-form.js" type="module"></script>
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
-
-
-		body {
-			background-image: url("images/platform/backgroundWhite.jpg");
-			background-repeat: no-repeat;
-			background-attachment: fixed;
-			background-size: cover;
-		}
-
-
-		h2 {
-			font-family: 'Bungee';
-			background-color: yellow;
-			width: 80%;
-			margin: 0 auto;
-			border: 3px solid #333; /* Add a border with 2px width and #333 color */
-			padding: 10px; /* Add some padding for better spacing */
-			border-radius: 4px;
-		}
-
-		div, p, input {
-			font-family: 'Open Sans';
-		}
-
-		.col {
-			border:1px solid gray;
-		}
-		.checkbox {
-			height: 45px;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/municipality-forms/municipality-user-form.css}">
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
@@ -67,8 +35,12 @@
 				<div class="col questionRequired invisible" th:text="${radioQuestion.required}" />
 				<div class="col questionId invisible" th:text="${radioQuestion.id}" />
 				<h6 class="text" th:text="${radioQuestion.questionText}" />
-				<input name="choices" type="radio" th:each="choice : ${radioQuestion.choices}" th:id="${choice}" th:text="${choice}"  class="">
-				<br>
+				<div class="radio-options">
+					<label th:each="choice, i : ${radioQuestion.choices}" class="radio-option">
+						<input name="choices" type="radio" th:id="${choice}" th:value="${choice}" class="radio-input">
+						<span class="radio-label" th:text="${choice}"></span>
+					</label>
+				</div>
 			</div>
 			<div class="row" th:each="choiceQuestion: ${choiceQuestions}">
 				<div class="col questionOrder invisible" th:text="${choiceQuestion.questionOrder}" />
@@ -79,7 +51,7 @@
 				<br>
 			</div>
 			<br>
-			<button type="button" class="btn btn-success submit">submit</button>
+			<button type="button" class="btn btn-success submit">Submit</button>
 		</form>
 	</div>
 <br>

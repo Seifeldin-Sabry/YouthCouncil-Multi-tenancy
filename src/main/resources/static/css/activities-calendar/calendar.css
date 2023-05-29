@@ -1,12 +1,32 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
-/*BACKGROUND NOT SHOWING UP ON PAGE*/
-/*body {*/
-/*    background-image: url(static/images/platform/backgroundBlue.jpg);*/
-/*    background-repeat: no-repeat;*/
-/*    background-attachment: fixed;*/
-/*    background-size: cover;*/
+body {
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+#content > ul{
+    background: linear-gradient(to bottom, #e6e6e6, #ffffff)
+}
+
+/*#add-activity-button{*/
+/*    font-family: 'Bungee';*/
+/*    background-color: yellow;*/
+/*    color: black;*/
 /*}*/
+
+#add-activity-button {
+    font-family: 'Bungee';
+    background-color: transparent;
+    color: yellow;
+    border: 2px solid black;
+}
+
+#add-activity-button:hover {
+    color: black;
+    background-color: yellow;
+    border-color: black;
+}
+
 
 h2{
     font-family: 'Bungee';
@@ -16,6 +36,10 @@ h2{
     border: 3px solid #333; /* Add a border with 2px width and #333 color */
     padding: 10px; /* Add some padding for better spacing */
     border-radius: 4px;
+}
+
+.btn{
+    font-family: 'Bungee';
 }
 
 h4 {
@@ -32,7 +56,7 @@ label, p, span{
 }
 
 .timeline-1 {
-    border-left: 3px solid #b565a7;
+    border-left: 3px solid #0c0c0c;
     border-bottom-right-radius: 4px;
     border-top-right-radius: 4px;
     background: rgba(177, 99, 163, 0.09);

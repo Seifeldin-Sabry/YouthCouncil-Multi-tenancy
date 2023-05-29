@@ -5,12 +5,21 @@
 <head>
 	<th:block th:replace="~{fragments/fragments :: meta_script_link}"></th:block>
 	<title>Action Point</title>
-	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
+	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}" th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}" />
+	<link rel="stylesheet" th:href="@{/css/action-points/action-point-not-yca.css}" th:unless="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}" />
+	<!--second link is when not yca-->
 	<script defer src="/js/action-points/actionPoints.js" type="module"></script>
 	<script defer src="/js/action-points/updateActionPoint.js" type="module"></script>
 </head>
 <body>
 <header th:replace="~{fragments/fragments :: nav}"></header>
+
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Action Point Details</h2>
+	</div>
+</div>
+
 <!--error toast-->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
 	<div aria-atomic="true" aria-live="assertive"
@@ -42,106 +51,109 @@
 <p class="visually-hidden" id="role" th:data-role="${currentMembership != null ? currentMembership.role : null}"></p>
 <div class="container my-4">
 	<div class="container my-5 action-points">
-		<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">
-			<p class="card-text" th:text="${actionPoint.dateCreated}">Date</p>
-			<div class="d-flex justify-content-between">
-				<div class="bg-info rounded-3 p-1">
-					<i class="bi bi-tag"></i>
-					<span th:text="${actionPoint.subTheme.subThemeName}"></span>
-				</div>
-				<div>
-					<i class="bi bi-people-fill"></i>
-					<span class="follow-count" th:text="${actionPoint.followCount}">0</span>
-				</div>
-			</div>
-			<h3 class="card-title mb-0" th:text="${actionPoint.title}">Action Point Title</h3>
-			<p class="card-text my-2" th:text="${actionPoint.description}"></p>
-			<div class="carousel" data-interval="false" id="carouselIndicator">
-				<div class="carousel-inner">
-					<th:block th:each="image,iter : ${actionPoint.images}">
-						<div class="carousel-item" th:classappend="${iter.index == 0} ? 'active'">
-							<img class="d-block w-100" th:alt="'Picture ' + ${iter.index + 1}"
-								 th:src="${image}"
-							/>
-						</div>
-					</th:block>
-				</div>
-				<a class="carousel-control-prev" data-bs-slide="prev"
-				   href="#carouselIndicator"
-				   role="button"
-				>
-					<span aria-hidden="true" class="carousel-control-prev-icon"></span>
-					<span class="visually-hidden">Previous</span>
-				</a>
-				<a class="carousel-control-next" data-bs-slide="next"
-				   href="#carouselIndicator"
-				   role="button"
-				>
-					<span aria-hidden="true" class="carousel-control-next-icon"></span>
-					<span class="visually-hidden">Next</span>
-				</a>
-			</div>
-			<div class="container" th:with="maxLength=50">
-				<th:block th:if="${actionPoint.getLinkedIdeas().isEmpty()}">
-					<p>No Linked Ideas</p>
-				</th:block>
-				<th:block th:each="linkedIdea,iter: ${actionPoint.getLinkedIdeas()}"
-						  th:if="${!actionPoint.getLinkedIdeas().isEmpty()}"
-				>
-					<p style="text-align: left">Inspired By:</p>
-					<div class="col my-2 d-flex justify-content-evenly">
-						<div>
-							<p class="idea-text collapse show d-inline-block mr-2" id="idea-text"
-							   th:text="${#strings.length(linkedIdea.content) > maxLength ? #strings.substring(linkedIdea.content, 0, maxLength) + '...' : linkedIdea.content}"
-							></p>
-							<a class="see-more d-inline-block" data-bs-toggle="modal"
-							   th:attr="data-bs-target=${'#idea-modal-'+iter.index}"
-							   th:if="${#strings.length(linkedIdea.content) > maxLength}"
-							>See more</a>
-						</div>
-						<div class="ml-3">
-							<p th:text="'By '+${linkedIdea.getCreator().username}"></p>
-						</div>
+		<div class="card p-3 bg-light">
+			<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">
+				<p class="card-text" th:text="${actionPoint.dateCreated}">Date</p>
+				<div class="d-flex justify-content-between">
+					<div class="bg-info rounded-3 p-1">
+						<i class="bi bi-tag"></i>
+						<span th:text="${actionPoint.subTheme.subThemeName}"></span>
 					</div>
-
-					<div aria-hidden="true" class="modal fade" tabindex="-1"
-						 th:attr="aria-labelledby=${'#idea-modal-'+iter.index}, id=${'idea-modal-'+iter.index}"
+					<div>
+						<i class="bi bi-people-fill"></i>
+						<span class="follow-count" th:text="${actionPoint.followCount}">0</span>
+					</div>
+				</div>
+				<h3 class="card-title mb-0" th:text="${actionPoint.title}">Action Point Title</h3>
+				<p class="card-text my-2" th:text="${actionPoint.description}"></p>
+				<div class="carousel" data-interval="false" id="carouselIndicator">
+					<div class="carousel-inner">
+						<th:block th:each="image,iter : ${actionPoint.images}">
+							<div class="carousel-item" th:classappend="${iter.index == 0} ? 'active'">
+								<img class="d-block w-100" th:alt="'Picture ' + ${iter.index + 1}"
+									 th:src="${image}"
+								/>
+							</div>
+						</th:block>
+					</div>
+					<a class="carousel-control-prev" data-bs-slide="prev"
+					   href="#carouselIndicator"
+					   role="button"
 					>
-						<div class="modal-dialog">
-							<div class="modal-content">
-								<div class="modal-header">
-									<button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"
-									></button>
-								</div>
-								<div class="modal-body">
-									<p th:text="${linkedIdea.content}"></p>
-								</div>
-								<div class="modal-footer">
-									<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
-									</button>
+						<span aria-hidden="true" class="carousel-control-prev-icon"></span>
+						<span class="visually-hidden">Previous</span>
+					</a>
+					<a class="carousel-control-next" data-bs-slide="next"
+					   href="#carouselIndicator"
+					   role="button"
+					>
+						<span aria-hidden="true" class="carousel-control-next-icon"></span>
+						<span class="visually-hidden">Next</span>
+					</a>
+				</div>
+				<div class="container" th:with="maxLength=50">
+					<th:block th:if="${actionPoint.getLinkedIdeas().isEmpty()}">
+						<p>No Linked Ideas</p>
+					</th:block>
+					<th:block th:each="linkedIdea,iter: ${actionPoint.getLinkedIdeas()}"
+							  th:if="${!actionPoint.getLinkedIdeas().isEmpty()}"
+					>
+						<p style="text-align: left">Inspired By:</p>
+						<div class="col my-2 d-flex justify-content-evenly">
+							<div>
+								<p class="idea-text collapse show d-inline-block mr-2" id="idea-text"
+								   th:text="${#strings.length(linkedIdea.content) > maxLength ? #strings.substring(linkedIdea.content, 0, maxLength) + '...' : linkedIdea.content}"
+								></p>
+								<a class="see-more d-inline-block" data-bs-toggle="modal"
+								   th:attr="data-bs-target=${'#idea-modal-'+iter.index}"
+								   th:if="${#strings.length(linkedIdea.content) > maxLength}"
+								>See more</a>
+							</div>
+							<div class="ml-3">
+								<p th:text="'By '+${linkedIdea.getCreator().username}"></p>
+							</div>
+						</div>
+
+						<div aria-hidden="true" class="modal fade" tabindex="-1"
+							 th:attr="aria-labelledby=${'#idea-modal-'+iter.index}, id=${'idea-modal-'+iter.index}"
+						>
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button aria-label="Close" class="btn-close" data-bs-dismiss="modal"
+												type="button"
+										></button>
+									</div>
+									<div class="modal-body">
+										<p th:text="${linkedIdea.content}"></p>
+									</div>
+									<div class="modal-footer">
+										<button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close
+										</button>
+									</div>
 								</div>
 							</div>
 						</div>
-					</div>
-				</th:block>
-			</div>
-			<hr>
-			<div class="d-flex justify-content-between">
-				<div>
-					<button class="btn follow-btn"
-							th:classappend="${actionPoint.followed ? 'btn-danger' : 'btn-outline-primary'}"
-							th:data-action-point-id="${actionPoint.id}"
-							th:data-followed="${actionPoint.followed}"
-							th:text="${!actionPoint.followed ? 'Follow' : 'Unfollow'}"
-					>Follow
-					</button>
+					</th:block>
 				</div>
-				<div>
-					<button class="btn btn-outline-secondary text-danger like-btn"
-							th:classappend="${actionPoint.liked ? 'btn-primary' : ''}"
-							th:data-action-point-id="${actionPoint.id}"
-							th:data-liked="${actionPoint.liked}"
-					>👍 <span class="like-count" th:text="${actionPoint.likeCount}"></span></button>
+				<hr>
+				<div class="d-flex justify-content-between">
+					<div>
+						<button class="btn follow-btn"
+								th:classappend="${actionPoint.followed ? 'btn-danger' : 'btn-outline-primary'}"
+								th:data-action-point-id="${actionPoint.id}"
+								th:data-followed="${actionPoint.followed}"
+								th:text="${!actionPoint.followed ? 'Follow' : 'Unfollow'}"
+						>Follow
+						</button>
+					</div>
+					<div>
+						<button class="btn btn-outline-secondary text-danger like-btn"
+								th:classappend="${actionPoint.liked ? 'btn-primary' : ''}"
+								th:data-action-point-id="${actionPoint.id}"
+								th:data-liked="${actionPoint.liked}"
+						>👍 <span class="like-count" th:text="${actionPoint.likeCount}"></span></button>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -149,15 +161,11 @@
 			 th:unless="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
 		>
 			<div class="row">
-				<div class="col-md-8">
-					<div class="card p-3">
-						<h2>Proposal</h2>
-					</div>
+				<div class="col-md-8 mx-auto">
+						<h2 class="text-center" id="proposal-title">Proposal</h2>
 				</div>
-				<div class="col-md-4" th:if="${currentMunicipality.getElectionPhase().toString() == 'AFTER_ELECTION'}">
-					<div class="card p-3">
+				<div class="col-md-4  mx-auto" th:if="${currentMunicipality.getElectionPhase().toString() == 'AFTER_ELECTION'}">
 						<h2>Proposal Status</h2>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -166,7 +174,7 @@
 		>
 			<div class="container">
 				<div class="row my-2">
-					<div class="col-md-8">
+					<div class="col-md-8 mx-auto">
 						<div class="card p-3" th:with="maxLength=100">
 							<p class="proposal-text collapse show" id="proposal-text"
 							   th:text="${#strings.length(proposal.proposal) > maxLength ? #strings.substring(proposal.proposal, 0, maxLength) + '...' : proposal.proposal}"
@@ -207,8 +215,14 @@
 		<table class="table"
 			   th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_ADMINISTRATOR}"
 		>
-			<h3 class="fw-bold" th:text="'Current Election State: '+${currentMunicipality.getElectionPhase()}"></h3>
-			Proposals
+			<h3 class="fw-bold text-center" th:text="'Current Election State: '+${currentMunicipality.getElectionPhase()}"></h3>
+			<br>
+			<div>
+				<div>
+					<h5 class="text-center mt-4 mb-4">Proposals</h5>
+				</div>
+			</div>
+
 			<thead>
 			<tr>
 				<th scope="col">Description</th>
@@ -234,11 +248,14 @@
 			</th:block>
 		</table>
 	</div>
-	<div class="fixed-bottom d-flex justify-content-end m-3">
-		<button class="btn btn-primary save-btn" type="button">
-			<i class="bi bi-save"></i>
-		</button>
-	</div>
 </div>
+
+<div class="cntr">
+	<button class="btn btn-primary save-btn" type="button">
+		<i class="bi bi-save"></i>
+	</button>
+</div>
+
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

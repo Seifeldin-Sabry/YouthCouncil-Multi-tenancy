@@ -1,0 +1,82 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 80%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+div, p, input {
+    font-family: 'Open Sans';
+}
+
+.col {
+    border:1px solid gray;
+}
+.checkbox {
+    height: 45px;
+}
+
+.container {
+    margin-top: 10px;
+    padding-bottom: 30px;
+    background-color: #c8c7c7;
+    border: 1px solid #171717;
+    border-radius: 5px;
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+.submit {
+    margin-top: 10px;
+}
+
+
+h6 {
+    font-family: 'Bungee';
+}
+
+.form-control {
+    margin-bottom: 10px;
+}
+
+
+.questionText {
+    width: 60%;
+    height: 100px;
+    padding: 10px;
+    resize: vertical;
+}
+
+
+.radio-container {
+    display: flex;
+    align-items: center;
+}
+
+.radio-option {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.radio-number {
+    display: inline-block;
+    width: 20px;
+    text-align: center;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+}
+
+.radio-input {
+    margin-right: 5px;
+}

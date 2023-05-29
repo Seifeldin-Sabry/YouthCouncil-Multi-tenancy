@@ -7,7 +7,7 @@
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Action Points</title>
-	<link rel="stylesheet" th:href="@{/css/action-points/action-point.css}">
+	<link rel="stylesheet" th:href="@{/css/action-points/action-points.css}">
 	<script defer th:src="@{js/action-points/actionPoints.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/addActionPoint.js}" type="module"></script>
 	<script defer th:src="@{/js/action-points/filterActionPoints.js}" type="module"></script>
@@ -15,6 +15,12 @@
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Action Points</h2>
+	</div>
+</div>
+
 <!--error toast-->
 <div class="toast-container position-fixed bottom-0 end-0 p-3">
 	<div aria-atomic="true" aria-live="assertive"
@@ -51,14 +57,14 @@
 		<div class="col-md-8 col-lg-6 mx-auto">
 			<div class="input-group">
 				<input class="form-control" id="search" placeholder="Search for title" type="text" />
-				<button class="btn btn-primary" id="search-btn" type="button">Search</button>
+				<button class="btn btn-success" id="search-btn" type="button">Search</button>
 			</div>
 		</div>
 	</div>
 	<div class="row mt-1">
 		<div class="col-md-8 col-lg-6 mx-auto">
 			<div class="d-flex justify-content-end">
-				<button class="btn btn-primary" data-bs-target="#addActionPointModal" data-bs-toggle="modal"
+				<button class="btn btn-success" data-bs-target="#addActionPointModal" data-bs-toggle="modal"
 						id="add-action-point-btn"
 						type="button"
 				>
@@ -86,11 +92,7 @@
 		</div>
 	</div>
 </div>
-<div class="row">
-	<div class="col">
-		<h2 class="text-center mt-4 mb-4">Action Points</h2>
-	</div>
-</div>
+
 <div class="container my-5 action-points">
 	<th:block th:each="actionPoint, iter : ${actionPoints}">
 		<div class="row mb-4 action-point" th:data-action-point-id="${actionPoint.id}">

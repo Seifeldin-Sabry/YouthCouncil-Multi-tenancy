@@ -125,7 +125,7 @@ i, span, .btn, textarea {
 }
 
 .emoji:hover {
-    transform: scale(1.2); /* Increase the size of the emoji on hover */
+    transform: scale(1.2);
 }
 
 .like-btn:hover {
@@ -143,11 +143,6 @@ i, span, .btn, textarea {
     right: 20px; /* Adjust the distance from the right as needed */
 }
 
-.fw-bold{
-    color: white;
-    margin-top: 10px;
-}
-
-th{
-    color:white;
+div .card{
+    margin-bottom: 10px;
 }

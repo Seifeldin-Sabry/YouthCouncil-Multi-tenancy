@@ -1,0 +1,71 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+body {
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+h2 {
+        font-family: 'Bungee';
+        background-color: yellow;
+        width: 60%;
+        margin: 0 auto;
+        border: 3px solid #333;
+        padding: 10px;
+        border-radius: 4px;
+}
+
+
+.container {
+    margin: 20px auto;
+    max-width: 800px;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+    background-color: #f5f5f5;
+    font-weight: bold;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+    padding: 10px;
+}
+
+.row:hover {
+    background-color: #cec8c8;
+}
+
+.col {
+    font-family: 'Bungee';
+}
+
+body > div.container > div.rows > div > div{
+    color: #007bff;
+}
+
+.row a.ID {
+    text-decoration: none;
+    color: #007bff;
+    transition: color 0.3s;
+}
+
+.row a.ID:hover {
+    color: magenta;
+}
+
+.row .title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    flex-grow: 1;
+    margin-left: 10px;
+}
+
+.btn.create {
+    margin-top: 20px;
+    font-family: 'Open Sans';
+}
+
+.btn.create:hover {
+    background-color: #007bff;
+    border-color: #007bff;
+}

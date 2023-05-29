@@ -1,7 +1,81 @@
+<!--<!DOCTYPE html>-->
+<!--<html lang="en"-->
+<!--	  xmlns:th="http://www.thymeleaf.org"-->
+<!--	  style="min-height: 100%; position: relative">-->
+<!--<head>-->
+<!--	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>-->
+<!--	<title>Customise Municipality</title>-->
+<!--	<script defer src="/js/municipality/changeElectionPhase.js" type="module"></script>-->
+<!--	<script defer src="/js/municipality/submit-logo.js" type="module"></script>-->
+<!--	<link rel="stylesheet" th:href="@{/css/municipality-settings/municipality-settings.css}">-->
+<!--</head>-->
+<!--<body>-->
+<!--<th:block th:insert="~{fragments/fragments::nav}"></th:block>-->
+<!--<div class="container">-->
+<!--	<div class="row">-->
+<!--		<h2 class="text-center mb-5">Municipality Settings</h2>-->
+<!--		<div class="col-md-6">-->
+<!--			<div class="mb-3">-->
+<!--				<form class="p-3" enctype="multipart/form-data">-->
+<!--					<label class="form-label" for="image">Change Logo Image</label>-->
+<!--					<div class="input-group has-validation">-->
+<!--						<div class="validation-container form-floating image-err">-->
+<!--							<input accept="image/*" class="validation form-control form-control-lg image-field-err"-->
+<!--								   id="image" name="image" type="file">-->
+<!--						</div>-->
+<!--						<div class="invalid-feedback image-invalid-feedback"-->
+<!--						></div>-->
+<!--					</div>-->
+<!--				</form>-->
+<!--				<button type="button" class="btn btn-primary" id="submitLogo">Submit</button>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--		<div class="col-md-6">-->
+<!--			<div class="d-flex align-items-center justify-content-center" id="preview"-->
+<!--				 style="height: 200px; max-height: 200px;"-->
+<!--			>-->
+<!--				<img alt="Municipality Logo" class="img-fluid" id="logo" src="https://via.placeholder.com/200x200"-->
+<!--					 th:if="${currentMunicipality.getLogo()==null}"-->
+<!--					 style="-->
+<!--						 display: inline-block;-->
+<!--						 max-width:300px;-->
+<!--						 max-height:200px;-->
+<!--						 width: auto;-->
+<!--						 height: auto;">-->
+<!--				<img alt="Municipality Logo" class="img-fluid" id="logo" th:src="${currentMunicipality.getLogo()}"-->
+<!--				th:if="${currentMunicipality.getLogo()!=null}"-->
+<!--					 style="-->
+<!--						 display: inline-block;-->
+<!--						 max-width:300px;-->
+<!--						 max-height:200px;-->
+<!--						 width: auto;-->
+<!--						 height: auto;">-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--	<div class="row">-->
+<!--		<div class="col-md-6">-->
+<!--			<div class="mb-3">-->
+<!--				<div class="text-muted">If this switch is off, the election state is BEFORE_ELECTION-->
+<!--					<br>If this switch is on, the election state is AFTER_ELECTION</div>-->
+<!--				<div class="form-check form-switch">-->
+<!--					<input class="form-check-input" type="checkbox" id="changeMunicipality"-->
+<!--						   th:if="${currentMunicipality.getElectionPhase().toString() == 'BEFORE_ELECTION'}">-->
+<!--					<input class="form-check-input" type="checkbox" id="changeMunicipality"-->
+<!--						   th:if="${currentMunicipality.getElectionPhase().toString() == 'AFTER_ELECTION'}" checked>-->
+<!--					<label class="form-check-label" for="changeMunicipality">Change Election Phase</label>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+<!--</div>-->
+<!--<th:block th:insert="~{fragments/fragments::footer}">Footer</th:block>-->
+<!--</body>-->
+<!--</html>-->
+
+
 <!DOCTYPE html>
-<html lang="en"
-	  xmlns:th="http://www.thymeleaf.org"
-	  style="min-height: 100%; position: relative">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" style="min-height: 100%; position: relative">
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}"></th:block>
 	<title>Customise Municipality</title>
@@ -11,11 +85,15 @@
 </head>
 <body>
 <th:block th:insert="~{fragments/fragments::nav}"></th:block>
-<div class="container">
+<div class="row">
+	<div class="col">
+		<h2 class="text-center mt-4 mb-4">Municipality Settings</h2>
+	</div>
+</div>
+<div class="container mt-5 mb-5">
 	<div class="row">
-		<h2 class="text-center mb-5">Municipality Settings</h2>
 		<div class="col-md-6">
-			<div class="mb-3">
+			<div class="mb-3 form-container">
 				<form class="p-3" enctype="multipart/form-data">
 					<label class="form-label" for="image">Change Logo Image</label>
 					<div class="input-group has-validation">
@@ -23,33 +101,31 @@
 							<input accept="image/*" class="validation form-control form-control-lg image-field-err"
 								   id="image" name="image" type="file">
 						</div>
-						<div class="invalid-feedback image-invalid-feedback"
-						></div>
+						<div class="invalid-feedback image-invalid-feedback"></div>
 					</div>
+					<button type="button" class="btn btn-primary" id="submitLogo">Submit</button>
 				</form>
-				<button type="button" class="btn btn-primary" id="submitLogo">Submit</button>
 			</div>
 		</div>
 		<div class="col-md-6">
 			<div class="d-flex align-items-center justify-content-center" id="preview"
-				 style="height: 200px; max-height: 200px;"
-			>
+				 style="height: 200px; max-height: 200px;">
 				<img alt="Municipality Logo" class="img-fluid" id="logo" src="https://via.placeholder.com/200x200"
 					 th:if="${currentMunicipality.getLogo()==null}"
 					 style="
-						 display: inline-block;
-						 max-width:300px;
-						 max-height:200px;
-						 width: auto;
-						 height: auto;">
+							 display: inline-block;
+							 max-width:300px;
+							 max-height:200px;
+							 width: auto;
+							 height: auto;">
 				<img alt="Municipality Logo" class="img-fluid" id="logo" th:src="${currentMunicipality.getLogo()}"
-				th:if="${currentMunicipality.getLogo()!=null}"
+					 th:if="${currentMunicipality.getLogo()!=null}"
 					 style="
-						 display: inline-block;
-						 max-width:300px;
-						 max-height:200px;
-						 width: auto;
-						 height: auto;">
+							 display: inline-block;
+							 max-width:300px;
+							 max-height:200px;
+							 width: auto;
+							 height: auto;">
 			</div>
 		</div>
 	</div>

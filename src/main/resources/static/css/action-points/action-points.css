@@ -4,12 +4,7 @@ body {
     background: linear-gradient(to bottom, #476ff4, #954588)
 }
 
-.card{
-    max-width: 680px;
-    margin: 0 auto;
-}
-
-h2, h5 {
+h2 {
     font-family: 'Bungee';
     background-color: yellow;
     width: 60%;
@@ -19,11 +14,12 @@ h2, h5 {
     border-radius: 4px;
 }
 
-h3,p,select,th {
+h3,p {
     font-family: 'Bungee';
+    font-weight: lighter;
 }
 
-i, span, .btn, textarea {
+ i, span, .btn {
     font-family: "Open Sans";
 }
 
@@ -131,23 +127,4 @@ i, span, .btn, textarea {
 .like-btn:hover {
     background-color: inherit;
     color: inherit;
-}
-
-.cntr {
-    position: relative;
-}
-
-.save-btn {
-    position: absolute;
-    bottom: 40px; /* Adjust the distance from the bottom as needed */
-    right: 20px; /* Adjust the distance from the right as needed */
-}
-
-.fw-bold{
-    color: white;
-    margin-top: 10px;
-}
-
-th{
-    color:white;
 }

@@ -1,17 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
-	  style="min-height: 100%; position: relative">
+	  style="min-height: 100%; position: relative"
+>
 <head>
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<title>Call for ideas details</title>
 	<script defer src="/js/call-for-ideas/ideas.js" type="module"></script>
 	<script defer src="/js/call-for-ideas/like-idea.js" type="module"></script>
-	<style>
-		td{
-			height: 50px;
-		}
-	</style>
+	<link rel="stylesheet" th:href="@{/css/call-for-ideas/call-for-ideas-details.css}">
 </head>
 <body>
 <div th:if="${call != null}" th:text="${call.id}" id="callForIdeaId" hidden />
@@ -28,7 +25,9 @@
 						</div>
 						<br>
 						<div class="d-flex justify-content-between">
-							<p class="card-text text-muted" th:text="${#dates.format(call.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							<p class="card-text text-muted"
+							   th:text="${#dates.format(call.dateCreated, 'dd/MM/yyyy, HH:mm')}"
+							>Date</p>
 							<div class="bg-info rounded-3 p-1">
 								<i class="bi bi-tag"></i>
 								<span th:text="${call.theme.themeName}"></span>
@@ -40,7 +39,9 @@
 						   th:text="${#strings.length(call.description) > maxLength ? #strings.substring(call.description, 0, maxLength) + '...' : call.description}"
 						></p>
 						<!--call for idea modal trigger-->
-						<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#callForIdeaModal" th:if="${currentMembership != null}">
+						<button type="button" class="btn btn-primary" data-bs-toggle="modal"
+								data-bs-target="#callForIdeaModal" th:if="${currentMembership != null}"
+						>
 							Click to post an idea
 						</button>
 					</div>
@@ -50,30 +51,33 @@
 	</th:block>
 </div>
 
-<div class="container">
+
+<div class="container text-center">
 	<label class="form-label" for="subThemeFilter">Filter on Sub-Themes</label>
-	<div class="col-md-3">
-		<select name="subThemeFilter" id="subThemeFilter"  class="form-select form-select-lg" style="font-size: small">
+	<div class="col-md-3 mx-auto">
+		<select name="subThemeFilter" id="subThemeFilter" class="form-select form-select-lg" style="font-size: small">
 			<option value="0">All</option>
-			<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}" th:value="${subTheme.id}">
+			<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}"
+					th:value="${subTheme.id}"
+			>
 			</option>
 		</select>
 	</div>
 </div>
 
-
-
-<div class="container my-2 ideaContainer">
+<div class="container my-2 ideaContainer text-center">
 	<th:block th:if="${call.isActive()}" th:each="idea : ${ideas}">
-		<div class="row mb-2" th:data-call-id="${idea.callForIdeasId}">
-			<div class="col-md-12 col-lg-5 ms-4 me-auto">
+		<div class="row justify-content-center" th:data-call-id="${idea.callForIdeasId}">
+			<div class="col-md-12 col-lg-5">
 				<div class="card shadow-sm" id="cardIdeas">
 					<div class="card-header">
 						<div class="d-flex justify-content-start">
 							<p class="card-text h5" th:text="${idea.creator.username}"></p>
 						</div>
 						<div class="d-flex justify-content-between">
-							<p class="card-text text-muted" th:text="${#dates.format(idea.dateCreated, 'dd/MM/yyyy, HH:mm')}">Date</p>
+							<p class="card-text text-muted"
+							   th:text="${#dates.format(idea.dateCreated, 'dd/MM/yyyy, HH:mm')}"
+							>Date</p>
 							<div th:if="${currentMembership != null}">
 								<button class="btn btn-outline-secondary text-danger like-btn"
 										th:data-idea-id="${idea.id}"
@@ -91,8 +95,12 @@
 								<i class="bi bi-tag"></i>
 								<span th:text="${idea.subTheme.subThemeName}"></span>
 							</div>
-							<button th:if="${currentMembership != null}" th:data-idea-id="${idea.id}" data-bs-toggle="modal"
-									data-bs-target="#reportModal" class="btn btn-outline-danger text-dark btn-sm reportModalButton">report post</button>
+							<button th:if="${currentMembership != null}" th:data-idea-id="${idea.id}"
+									data-bs-toggle="modal"
+									data-bs-target="#reportModal"
+									class="btn btn-outline-danger text-dark btn-sm reportButton"
+							>Report Post
+							</button>
 						</div>
 					</div>
 					<div class="card-footer" th:with="maxLength=100" th:if="${idea.getContent!=null}">
@@ -102,14 +110,18 @@
 						<img class="d-block w-100" alt="ideaImage"
 							 th:src="${idea.image}"
 						/>
-						<br sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" >
-						<button sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" th:data-idea-id="${idea.id}" class="btn btn-danger removeButton">remove post</button>
+						<br sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')">
+						<button sec:authorize="hasRole('YOUTH_COUNCIL_MODERATOR')" th:data-idea-id="${idea.id}"
+								class="btn btn-danger removeButton"
+						>remove post
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</th:block>
 </div>
+
 
 <!--report modal-->
 <div class="modal fade" id="reportModal" tabindex="-1" aria-labelledby="reportModalLabel" aria-hidden="true">
@@ -120,7 +132,7 @@
 				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
 			</div>
 			<div class="modal-body">
-				<h2>Reporting an idea</h2>
+				<h3 class="text-center">Reporting an idea</h3>
 				<form class="p-3" enctype="multipart/form-data">
 					<div class="input-group has-validation my-3">
 						<div class="validation-container reportDescription-err form-floating">
@@ -136,7 +148,10 @@
 					</div>
 					<div class="input-group has-validation my-3">
 						<div class="validation-container form-floating reportReason-err">
-							<select name="reportReason" id="reportReason"  class="validation form-select form-select-lg reportReason-field-err" style="font-size: small">
+							<select name="reportReason" id="reportReason"
+									class="validation form-select form-select-lg reportReason-field-err"
+									style="font-size: small"
+							>
 								<option th:each="reportReason : ${reportReasons}" th:text="${reportReason}">
 								</option>
 							</select>
@@ -163,9 +178,10 @@
 </div>
 
 
-
 <!-- call for idea modal -->
-<div class="modal fade" id="callForIdeaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="callForIdeaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+	 aria-hidden="true"
+>
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -191,8 +207,13 @@
 					</div>
 					<div class="input-group has-validation my-3">
 						<div class="validation-container form-floating subTheme-err">
-							<select name="subTheme" id="subTheme"  class="validation form-select form-select-lg subTheme-field-err" style="font-size: small">
-								<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}" th:value="${subTheme.id}">
+							<select name="subTheme" id="subTheme"
+									class="validation form-select form-select-lg subTheme-field-err"
+									style="font-size: small"
+							>
+								<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}"
+										th:value="${subTheme.id}"
+								>
 								</option>
 							</select>
 							<label class="form-label" for="subTheme">Sub-Theme</label>
@@ -250,10 +271,10 @@
 	</div>
 </div>
 
-
-
 <div th:insert="~{fragments/fragments::footer}">Footer</div>
 
 </body>
 </html>
+
+
 

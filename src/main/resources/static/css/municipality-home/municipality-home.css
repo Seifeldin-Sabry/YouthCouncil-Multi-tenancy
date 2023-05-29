@@ -1,16 +1,170 @@
-body{
-    background-image: url(static/images/platform/backgroundBlue.jpg);
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    /* Add a border with 2px width and #333 color */
+    padding: 10px;
+    /* Add some padding for better spacing */
+    border-radius: 4px;
+}
+
+.welcome-message {
+    font-family: 'Bungee';
+    color: #00f;
+    background-color: rgba(255, 255, 255, 0.8);
+    padding: 20px;
+    text-align: left;
+}
+
+
+h3{
+    font-family: 'Bungee';
+}
+
+p, label {
+    font-family: 'Open Sans';
+}
+
+body {
+    background-image: url("/images/platform/backgroundWhite.jpg");
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-size: cover;
 }
 
-h1 {
-    font-family: 'Bungee';
-    background-color: yellow;
-    width: 60%;
+.container {
+    max-width: 800px;
     margin: 0 auto;
-    border: 3px solid #333; /* Add a border with 2px width and #333 color */
-    padding: 10px; /* Add some padding for better spacing */
+    padding: 20px;
+    text-align: center;
+}
+
+.card-container {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.card {
+    width: calc(25% - 10px);
+    height: 300px;
+    perspective: 1000px;
+    transition: transform 0.5s;
+    border: 1px solid #212121;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: #f2f2f2; /* Light gray background */
     border-radius: 4px;
+    overflow: hidden;
+}
+
+.card:hover .card-inner {
+    transform: rotateY(180deg);
+}
+
+.card-inner {
+    width: 100%;
+    height: 100%;
+    transition: transform 0.5s;
+    transform-style: preserve-3d;
+    position: relative;
+}
+
+.card-front,
+.card-back {
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.card-front {
+    background-color: #ededa0;
+    z-index: 1;
+}
+
+.card-back {
+    background-color: #e0e0e0;
+    transform: rotateY(180deg);
+    color: #333;
+}
+
+.card-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.card-content {
+    font-size: 16px;
+    color: #777;
+}
+
+.card-link {
+    color: #333;
+    text-decoration: none;
+}
+
+.contact-us {
+    background-color: #000;
+    color: #fff;
+    padding: 30px;
+    margin-top: 50px;
+}
+
+.contact-title {
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.contact-text {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.contact-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.contact-list li {
+    margin-bottom: 10px;
+}
+
+.contact-list li a {
+    color: #fff;
+    text-decoration: none;
+}
+
+.speak-out {
+    font-family: 'Bungee';
+    font-size: 24px;
+    color: magenta;
+    font-weight: bold;
+    transform: rotate(-5deg);
+    margin-top: 40px;
+    margin-bottom: 20px;
+    position: absolute;
+}
+
+.left-speak-out {
+    top: 160px;
+    left: 10px;
+}
+
+.right-speak-out {
+    transform: rotate(5deg);
+    top: 160px;
+    right: 10px;
 }

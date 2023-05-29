@@ -1,5 +1,12 @@
 @import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
 
+body {
+    background-image: url("/images/platform/backgroundMagenta.jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 h1{
     font-family: 'Bungee';
     background-color: yellow;
@@ -18,13 +25,6 @@ p{
     font-family: 'Open Sans';
 }
 
-/*BACKGROUND NOT SHOWING UP ON PAGE*/
-body {
-    background-image: url(static/images/platform/backgroundBlue.jpg);
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    background-size: cover;
-}
 
 .card {
     border: none;
@@ -36,7 +36,7 @@ body {
 }
 .card:hover {
     box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    transform: translateY(-2px);
+    transform: translateY(-5px);
 }
 .card-title {
     font-size: 1.5rem;
