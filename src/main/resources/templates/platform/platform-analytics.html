@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      style="min-height: 100%; position: relative">
+<head>
+    <th:block th:insert="~{fragments/fragments::meta_script_link}"/>
+    <title>Dashboard</title>
+</head>
+<body>
+<div th:insert="~{fragments/fragments::nav}">My navbar</div>
+<script defer th:src="@{/js/dwh-chart/dwh_chart.js}" type="module"></script>
+
+<div class="container mt-5">
+
+    <div class='tableauPlaceholder' id='viz1685338968561' style='position: relative'>
+        <noscript><a href='#'><img alt='Dashboard 1 '
+                                   src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;wo&#47;workbook-final&#47;Dashboard1&#47;1_rss.png'
+                                   style='border: none'/></a></noscript>
+        <object class='tableauViz' style='display:none;'>
+            <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F'/>
+            <param name='embed_code_version' value='3'/>
+            <param name='site_root' value=''/>
+            <param name='name' value='workbook-final&#47;Dashboard1'/>
+            <param name='tabs' value='no'/>
+            <param name='toolbar' value='yes'/>
+            <param name='static_image'
+                   value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;wo&#47;workbook-final&#47;Dashboard1&#47;1.png'/>
+            <param name='animate_transition' value='yes'/>
+            <param name='display_static_image' value='yes'/>
+            <param name='display_spinner' value='yes'/>
+            <param name='display_overlay' value='yes'/>
+            <param name='display_count' value='yes'/>
+            <param name='language' value='en-GB'/>
+            <param name='filter' value='publish=yes'/>
+        </object>
+    </div>
+</div>
+
+
+</body>
+</html>

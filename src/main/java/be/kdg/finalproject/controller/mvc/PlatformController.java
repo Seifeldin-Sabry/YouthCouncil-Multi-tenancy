@@ -14,21 +14,31 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class PlatformController {
 
-	Logger logger = LoggerFactory.getLogger(PlatformController.class);
+    Logger logger = LoggerFactory.getLogger(PlatformController.class);
 
-	@GeneralAdminOnly
-	@GetMapping ("/dashboard")
-	public ModelAndView showPlatformDashboard() {
-		return new ModelAndView("platform/platform-dashboard");
-	}
+    @GeneralAdminOnly
+    @GetMapping("/dashboard")
+    public ModelAndView showPlatformDashboard() {
+        return new ModelAndView("platform/platform-dashboard");
+    }
 
-	@GetMapping ("/youth-council-dashboard")
-	@YouthCouncilAdmin
-	public ModelAndView showYouthCouncilDashboard(@MunicipalityId Long municipalityId) {
-		if (municipalityId == null) {
-			logger.debug("No municipality ID found");
-			throw new EntityNotFoundException("Not found");
-		}
-		return new ModelAndView("municipality/municipality-dashboard");
-	}
+    @GetMapping("/youth-council-dashboard")
+    @YouthCouncilAdmin
+    public ModelAndView showYouthCouncilDashboard(@MunicipalityId Long municipalityId) {
+        if (municipalityId == null) {
+            logger.debug("No municipality ID found");
+            throw new EntityNotFoundException("Not found");
+        }
+        return new ModelAndView("municipality/municipality-dashboard");
+    }
+
+    @GetMapping("/dashboard/analytics")
+    @GeneralAdminOnly
+    public ModelAndView showDwhChart(@MunicipalityId Long muid) {
+        if (muid != null) {
+            throw new EntityNotFoundException("Page not found");
+        }
+        return new ModelAndView("platform/platform-analytics");
+
+    }
 }
