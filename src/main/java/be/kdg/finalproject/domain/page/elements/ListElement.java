@@ -26,9 +26,11 @@ public class ListElement extends PageElement {
 
 	public ListElement(List<String> list) {
 		this.list = list;
+		setElementType("LIST");
 	}
 
 	public void addListItem(String listItem) {
 		list.add(listItem);
+		setElementType("LIST");
 	}
 }

@@ -22,8 +22,17 @@ public class InformativePageService {
 		return informativePageRepository.findByMunicipalityId(municipalityId);
 	}
 
+	public List<InformativePage> getAllActivePages(Long municipalityId) {
+		return informativePageRepository.findActiveByMunicipalityId(municipalityId);
+	}
+
 	public InformativePage getPageByName(Long muid, String pageName) {
 		return informativePageRepository.findByMunicipalityIdAndPageName(muid, pageName)
+		                                .orElseThrow(() -> new EntityNotFoundException("Page not found"));
+	}
+
+	public InformativePage getActivePageByName(Long muid, String pageName) {
+		return informativePageRepository.findActivePageByMunicipalityIdAndPageName(muid, pageName)
 		                                .orElseThrow(() -> new EntityNotFoundException("Page not found"));
 	}
 

@@ -21,7 +21,7 @@ public class InformativePage {
 	@Column (name = "title", nullable = false)
 	private String title;
 
-	@OneToMany (cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@OneToMany (mappedBy = "page", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<PageElement> elements;
 
 	private boolean active = false;

@@ -2,6 +2,7 @@ package be.kdg.finalproject.controller.mvc;
 
 import be.kdg.finalproject.config.security.CustomOAuth2User;
 import be.kdg.finalproject.config.security.CustomUserDetails;
+import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.user.User;
 import be.kdg.finalproject.exceptions.EntityNotFoundException;
 import be.kdg.finalproject.exceptions.NoPlatformException;
@@ -10,6 +11,7 @@ import be.kdg.finalproject.municipalities.MunicipalityContext;
 import be.kdg.finalproject.service.SessionService;
 import be.kdg.finalproject.service.membership.MembershipService;
 import be.kdg.finalproject.service.municipality.MunicipalityService;
+import be.kdg.finalproject.service.page.InformativePageService;
 import be.kdg.finalproject.service.user.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,15 +33,17 @@ public class GlobalControllerAdvisor {
 	private final MembershipService membershipService;
 	private final MunicipalityService municipalityService;
 	private final SessionService sessionService;
+	private final InformativePageService pageService;
 	private boolean isFirstTimeMembershipFlag = true;
 	private boolean isFirstTimeMunicipalityFlag = true;
 	private Object currentPrincipal;
 
-	public GlobalControllerAdvisor(UserService userService, MembershipService membershipService, MunicipalityService municipalityService, SessionService sessionService) {
+	public GlobalControllerAdvisor(UserService userService, MembershipService membershipService, MunicipalityService municipalityService, SessionService sessionService, InformativePageService pageService) {
 		this.userService = userService;
 		this.membershipService = membershipService;
 		this.municipalityService = municipalityService;
 		this.sessionService = sessionService;
+		this.pageService = pageService;
 	}
 
 	@ModelAttribute
@@ -48,6 +52,12 @@ public class GlobalControllerAdvisor {
 		boolean isMunicipalityChanged = sessionService.isMunicipalityChanged(session, currentMunicipalityId);
 		model.addAttribute("currentMunicipality", MunicipalityContext.getCurrentMunicipality());
 		model.addAttribute("munName", MunicipalityContext.getCurrentMunicipalityName());
+		if (pageService.getAllActivePages(currentMunicipalityId).isEmpty()){
+			model.addAttribute("pagesNav", null);
+		}
+		else {
+			model.addAttribute("pagesNav", pageService.getAllActivePages(currentMunicipalityId));
+		}
 		if (authentication == null) return;
 		boolean isInSession = sessionService.isUserInSession();
 		User user;
@@ -63,6 +73,14 @@ public class GlobalControllerAdvisor {
 		}
 		user = sessionService.getUser(session);
 		model.addAttribute("authUser", user);
+		if (user.getRole()== Role.YOUTH_COUNCIL_ADMINISTRATOR){
+			if (pageService.getAllPages(currentMunicipalityId).isEmpty()){
+				model.addAttribute("pagesNav", null);
+			}
+			else {
+				model.addAttribute("pagesNav", pageService.getAllPages(currentMunicipalityId));
+			}
+		}
 		if (isMunicipalityChanged || isFirstTimeMembershipFlag || credentialsChanged) {
 			sessionService.setCurrentMunicipalityId(session, currentMunicipalityId);
 			sessionService.setCurrentMembership(session, membershipService.getMembershipByUserAndMunicipalityName(user, MunicipalityContext.getCurrentMunicipalityName()));

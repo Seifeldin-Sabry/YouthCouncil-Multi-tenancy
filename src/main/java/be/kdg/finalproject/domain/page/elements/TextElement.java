@@ -15,9 +15,9 @@ import javax.persistence.Transient;
 public class TextElement extends PageElement {
 
 	@Transient
-	private final int DEFAULT_FONT_SIZE = 12;
+	private final int DEFAULT_FONT_SIZE = 30;
 
-	@Column (name = "text", nullable = false)
+	@Column (name = "text")
 	private String text;
 
 	@Column (name = "font_size")
@@ -25,10 +25,12 @@ public class TextElement extends PageElement {
 
 	public TextElement() {
 		super();
+		setElementType("TEXT");
 	}
 
 	public TextElement(String text) {
 		this.text = text;
+		setElementType("TEXT");
 	}
 
 	public TextElement(String text, int fontSize) {

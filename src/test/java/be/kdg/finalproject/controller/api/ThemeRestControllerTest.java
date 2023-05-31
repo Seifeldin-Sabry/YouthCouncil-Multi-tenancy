@@ -1,32 +1,25 @@
 package be.kdg.finalproject.controller.api;
 
-import be.kdg.finalproject.config.security.CustomUserDetails;
-import be.kdg.finalproject.domain.security.Role;
 import be.kdg.finalproject.domain.theme.SubTheme;
 import be.kdg.finalproject.domain.theme.Theme;
 import be.kdg.finalproject.repository.theme.ThemeRepository;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
 
 import static org.hamcrest.Matchers.containsInAnyOrder;
 import static org.hamcrest.Matchers.equalTo;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc
+@TestInstance (TestInstance.Lifecycle.PER_CLASS)
 class ThemeRestControllerTest {
 
 	@Autowired
@@ -34,6 +27,12 @@ class ThemeRestControllerTest {
 	@Autowired
 	private ThemeRepository themeRepository;
 	private Long themeId;
+
+
+	@BeforeAll
+	void beforeAll() {
+		themeRepository.deleteAll();
+	}
 
 	@BeforeEach
 	void setUp() {
@@ -51,14 +50,11 @@ class ThemeRestControllerTest {
 	}
 
 	@Test
+	@WithUserDetails (value = "admin", userDetailsServiceBeanName = "customUserDetailsService")
 	void getSubthemesWithCorrectThemeIdShouldReturnOkAndReturnSubthemes() throws Exception {
-		var authorities = new ArrayList<GrantedAuthority>();
-		authorities.add(new SimpleGrantedAuthority(Role.ADMINISTRATOR.getAuthority()));
-		var user = new CustomUserDetails(1L, "test", "test@mail", "test", authorities);
 		// Act
 		mockMvc.perform(get("/api/themes/{themeId}/subthemes", themeId)
-				       .with(csrf())
-				       .with(user(user)))
+				       .with(csrf()))
 		       // Assert
 		       .andExpect(status().isOk())
 		       .andExpect(content().contentType(MediaType.APPLICATION_JSON))
