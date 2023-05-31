@@ -13,4 +13,5 @@ public class InformativePageListItemDTO {
 	private Long id;
 	private String title;
 	private boolean active;
+	private String pageName;
 }

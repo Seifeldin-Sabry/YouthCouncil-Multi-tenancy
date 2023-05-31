@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+	<title>Page Builder</title>
+	<!-- Include Bootstrap CSS -->
+	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
+	<!-- Include JavaScript logic -->
+	<script defer th:src="@{/js/pages/pageBuilder.js}" type="module"></script>
+	<script defer th:src="@{/js/pages/pageOrder.js}"></script>
+</head>
+<body class="container">
+<th:block th:insert="~{fragments/fragments::nav}" />
+<h1 th:text="${page.pageName}"></h1>
+<div class="my-3">
+	<!-- Element type selection -->
+	<select class="form-control" id="elementSelect">
+		<option value="heading">Heading</option>
+		<option value="list">List</option>
+		<option value="paragraph">Paragraph</option>
+		<option value="image">Image</option>
+	</select>
+</div>
+
+<!-- Customization options -->
+<div class="my-3" id="textInputContainer">
+	<input class="form-control" id="elementText" placeholder="Text content" type="text">
+</div>
+<div class="my-3" id="imageInputContainer" hidden>
+	<input accept="image/*" class="form-control"
+		   id="image" name="image" type="file"
+	>
+	<label class="form-label" for="image">Image</label>
+</div>
+<div class="my-3">
+	<button class="btn btn-primary" id="addButton">Add</button>
+</div>
+
+<!-- The content container -->
+<div class="mt-5" id="content">
+	<th:block th:each="element: ${page.elements}">
+		<p th:if="${element.elementType=='TEXT'}" th:id="${element.id}" th:data-order="${element.pageOrder}"
+		   th:data-type="${element.elementType}">
+			<span  th:text="${element.text}" th:style="'font-size: '+${element.fontSize}+'px;'"></span>
+			<button class="up">Move Up</button>
+			<button class="down">Move Down</button>
+		</p>
+		<div th:if="${element.elementType=='LIST'}" th:id="${element.id}" th:data-order="${element.pageOrder}"
+			 th:data-type="${element.elementType}">
+			<ul>
+				<li th:each="item: ${element.list}" th:text="${item}"></li>
+			</ul>
+			<button class="up">Move Up</button>
+			<button class="down">Move Down</button>
+			<div>
+				<button class="btn btn-secondary addListItem">Add list item</button>
+				<button class="btn btn-secondary removeListItem">Remove last list item</button>
+			</div>
+
+		</div>
+		<div th:if="${element.elementType=='IMAGE'}" th:id="${element.id}" th:data-order="${element.pageOrder}"
+			 th:data-type="${element.elementType}">
+			<img th:src="${element.src}" style="display: inline-block; max-width: 300px; max-height: 200px; width: auto; height: auto;">
+			<button class="up">Move Up</button>
+			<button class="down">Move Down</button>
+		</div>
+	</th:block>
+</div>
+
+</body>
+</html>

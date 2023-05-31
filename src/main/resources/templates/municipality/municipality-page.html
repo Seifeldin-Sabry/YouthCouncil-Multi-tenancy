@@ -1,43 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
-	<title>Page Builder</title>
+	<title th:text="${page.pageName}"></title>
 	<!-- Include Bootstrap CSS -->
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
-	<!-- Include JavaScript logic -->
-	<script th:src="@{/js/pages/pageBuilder.js}"></script>
+	<script defer th:src="@{/js/pages/pageOrder.js}"></script>
 </head>
 <body class="container">
 <th:block th:insert="~{fragments/fragments::nav}" />
-<div class="my-3">
-	<!-- Element type selection -->
-	<select class="form-control" id="elementSelect">
-		<option value="heading">Heading</option>
-		<option value="list">List</option>
-		<option value="paragraph">Paragraph</option>
-		<option value="image">Image</option>
-	</select>
-</div>
-
-<!-- Customization options -->
-<div class="my-3">
-	<input class="form-control" id="elementText" placeholder="Text content" type="text">
-</div>
-<div class="my-3">
-	<input class="form-control" id="elementSrc" placeholder="Image source" type="text">
-</div>
-<div class="my-3">
-	<button class="btn btn-primary" id="addButton">Add</button>
-</div>
-
-<!-- List manipulation -->
-<div class="my-3" id="listManipulation" style="display: none;">
-	<button class="btn btn-secondary" id="addListItem">Add list item</button>
-	<button class="btn btn-secondary" id="removeListItem">Remove last list item</button>
-</div>
+<h1 th:text="${page.pageName}"></h1>
 
 <!-- The content container -->
-<div class="mt-5" id="content"></div>
+<div class="mt-5" id="content">
+	<th:block th:each="element: ${page.elements}">
+		<p th:if="${element.elementType=='TEXT'}" th:data-order="${element.pageOrder}">
+			<span  th:text="${element.text}" th:style="'font-size: '+${element.fontSize}+'px;'"></span>
+		</p>
+		<div th:if="${element.elementType=='LIST'}" th:data-order="${element.pageOrder}">
+			<ul>
+				<li th:each="item: ${element.list}" th:text="${item}"></li>
+			</ul>
+
+		</div>
+		<div th:if="${element.elementType=='IMAGE'}"th:data-order="${element.pageOrder}">
+			<img th:src="${element.src}" style="display: inline-block; max-width: 300px; max-height: 200px; width: auto; height: auto;">
+		</div>
+	</th:block>
+</div>
 
 </body>
 </html>

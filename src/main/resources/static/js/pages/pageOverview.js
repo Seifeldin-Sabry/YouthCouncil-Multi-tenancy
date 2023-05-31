@@ -6,12 +6,12 @@ const editPageBtns = document.querySelectorAll('.edit-btn')
 const activePageInputs = document.querySelectorAll('.active-page-input')
 
 editPageBtns.forEach(btn => {
-    currentPageId = btn.dataset.pageId
+    currentPageId = btn.dataset.id
 })
 
 activePageInputs.forEach(input => {
     input.addEventListener('change', event => {
-        toggleActive(event.target.dataset.pageId, event.target.checked);
+        toggleActive(event.target.dataset.id, event.target.checked);
     })
 })
 
@@ -82,32 +82,34 @@ document.getElementById("createPage").onclick = function () {
 				</div>
 				<div class="col-2">
 					<div class="form-check form-switch">
-						<input class="form-check-input active-page-input" checked="${data.active}"
+						<input class="form-check-input active-page-input"
 							   data-id="${data.id}" type="checkbox"
 						>
 					</div>
 				</div>
 				<div class="col-2">
-					<button class="btn btn-primary edit-btn"
-							data-id="${data.id}" type="button"
-					>Edit
-					</button>
+				    <a href="/builder/${data.pageName}">
+                        <button class="btn btn-primary edit-btn"
+                                data-id="${data.id}" type="button"
+                                
+                        >Edit</button></a>
 					<button class="btn btn-danger delete-page-btn" data-id="${data.id}" type="button">Delete
 					</button>
 				</div>
 			</div>
     `;
             pageEntry.querySelector('.edit-btn').addEventListener('click', event => {
-                currentPageId = event.target.getAttribute('data-id');
+                currentPageId = event.target.dataset.id;
             })
             pageEntry.querySelector('.delete-page-btn').addEventListener('click', event => {
-                deletePage(+event.target.getAttribute('data-id'))
+                deletePage(event.target.dataset.id)
             })
             pageEntry.querySelector('.active-page-input').addEventListener('change', event => {
-                toggleActive(event.target.getAttribute('data-id'), event.target.checked);
+                toggleActive(event.target.dataset.id, event.target.checked);
             })
             pageList.appendChild(pageEntry);
-            bootstrap.Modal.getOrCreateInstance(document.getElementById("createPageModal")).hide();
+            document.getElementById("newPageTitle").value=""
+            bootstrap.Modal.getOrCreateInstance(document.getElementById("newPageModal")).hide();
         })
         .catch(error => {
             console.error('Error:', error);
@@ -138,6 +140,6 @@ function toggleActive(pageId, isActive) {
 
 document.querySelectorAll('.delete-page-btn').forEach(item => {
     item.addEventListener('click', event => {
-        deletePage(+item.getAttribute('data-id'));
+        deletePage(item.dataset.id);
     })
 })

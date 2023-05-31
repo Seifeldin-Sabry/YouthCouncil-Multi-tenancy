@@ -113,6 +113,18 @@
 				<li class="nav-item" th:if="${currentMunicipality!= null}">
 					<a aria-current="page" class="nav-link active" href="/join-youth-council">Join a Youth Council</a>
 				</li>
+				<li class="nav-item dropdown" th:if="${currentMunicipality != null && pagesNav!= null}">
+					<a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+					   id="pagesNavDropdown" role="button"
+					>Pages</a>
+					<ul aria-labelledby="manageNavDropdown" class="dropdown-menu">
+						<li class="nav-item" th:each="page: ${pagesNav}" th:id="${page.id}"
+						>
+							<a aria-current="page" class="nav-link active"
+							   th:href="@{'/'+${page.pageName}}" th:text="${page.pageName}"></a>
+						</li>
+					</ul>
+				</li>
 				<li class="nav-item"
 					th:if="${currentMembership != null && currentMembership.role == T(be.kdg.finalproject.domain.security.Role).YOUTH_COUNCIL_MODERATOR}"
 				>

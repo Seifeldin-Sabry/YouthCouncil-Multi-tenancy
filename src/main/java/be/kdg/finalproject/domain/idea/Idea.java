@@ -70,6 +70,7 @@ public class Idea {
 		this.subTheme = subTheme;
 		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
 		this.isFlagged = false;
+		this.title = content.substring(0, content.length() / 2);
 	}
 
 	public Idea(String content, String image, boolean isFlagged, SubTheme subTheme) {
@@ -88,6 +89,11 @@ public class Idea {
 		this.image = image;
 		this.dateCreated = Timestamp.valueOf(LocalDateTime.now());
 		this.isFlagged = false;
+		this.title = content.substring(0, content.length() / 2);
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 		this.title = content.substring(0, content.length() / 2);
 	}
 

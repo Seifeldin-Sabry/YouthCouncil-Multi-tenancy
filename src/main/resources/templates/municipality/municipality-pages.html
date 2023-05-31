@@ -25,10 +25,12 @@
 					</div>
 				</div>
 				<div class="col-2">
-					<button class="btn btn-primary edit-btn"
-							th:data-id="${page.id}" type="button"
-					>Edit
-					</button>
+					<a th:href="@{'/builder/'+${page.pageName}}">
+						<button class="btn btn-primary edit-btn"
+								th:data-id="${page.id}" type="button"
+						>Edit
+						</button>
+					</a>
 					<button class="btn btn-danger delete-page-btn" th:data-id="${page.id}" type="button">Delete
 					</button>
 				</div>

@@ -3,37 +3,5 @@ spring:
     gcp:
       sql:
         enabled: false
-  mail:
-    #    host: smtp.gmail.com
-    #    port: ${DEV_EMAIL_PORT}
-    #    username: ${DEV_EMAIL_USERNAME}
-    #    password: ${DEV_EMAIL_PASSWORD}
-    properties:
-      mail:
-        smtp:
-          auth: true
-          starttls:
-            enable: true
-            required: true
-  jpa:
-    open-in-view: false
-    hibernate:
-      ddl-auto: create-drop
-    properties:
-      hibernate:
-    database: H2
-    show-sql: true
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:finalproject
-    username: "sa"
-    password: "sa"
   profiles:
-    active: test # prod, test
-  security:
-    user:
-      name: "admin"
-      password: "admin"
-      roles: "MEMBER"
-images:
-  placeholderDir: /images/placeholders/
+    active: test

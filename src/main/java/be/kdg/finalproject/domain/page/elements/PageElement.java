@@ -1,5 +1,6 @@
 package be.kdg.finalproject.domain.page.elements;
 
+import be.kdg.finalproject.domain.page.InformativePage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -20,4 +21,10 @@ public abstract class PageElement {
 
 	@Column (name = "element_type", insertable = false, updatable = false)
 	private String elementType;
+	@ManyToOne (fetch = FetchType.LAZY)
+	@JoinColumn(name = "page_name", nullable = false)
+	private InformativePage page;
+
+	@Column(name = "page_order", nullable = false)
+	private int pageOrder;
 }
