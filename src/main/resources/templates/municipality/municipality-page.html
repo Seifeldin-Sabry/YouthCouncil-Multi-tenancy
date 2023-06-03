@@ -1,15 +1,24 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  style="min-height: 100%; position: relative">
 <head>
 	<title th:text="${page.pageName}"></title>
 	<!-- Include Bootstrap CSS -->
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer th:src="@{/js/pages/pageOrder.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/municipality-pages/page.css}">
 </head>
-<body class="container">
-<th:block th:insert="~{fragments/fragments::nav}" />
-<h1 th:text="${page.pageName}"></h1>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<body>
+<br>
+<div class="container-fluid">
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<h2 class="text-center mb-3" th:text="${page.pageName}"></h2>
+		</div>
+	</div>
+</div>
 
 <!-- The content container -->
 <div class="mt-5" id="content">
@@ -21,13 +30,12 @@
 			<ul>
 				<li th:each="item: ${element.list}" th:text="${item}"></li>
 			</ul>
-
 		</div>
-		<div th:if="${element.elementType=='IMAGE'}"th:data-order="${element.pageOrder}">
-			<img th:src="${element.src}" style="display: inline-block; max-width: 300px; max-height: 200px; width: auto; height: auto;">
+		<div th:if="${element.elementType=='IMAGE'}" th:data-order="${element.pageOrder}">
+			<img th:src="${element.src}">
 		</div>
 	</th:block>
 </div>
-
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>

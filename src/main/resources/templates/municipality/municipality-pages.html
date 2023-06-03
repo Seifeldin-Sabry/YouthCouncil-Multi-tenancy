@@ -1,14 +1,23 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  style="min-height: 100%; position: relative">
 <head>
 	<title>Pages Overview</title>
 	<!-- Include Bootstrap CSS -->
 	<th:block th:insert="~{fragments/fragments::meta_script_link}" />
 	<script defer th:src="@{/js/pages/pageOverview.js}" type="module"></script>
+	<link rel="stylesheet" th:href="@{/css/municipality-pages/pages.css}">
 </head>
-<body class="container">
-<th:block th:insert="~{fragments/fragments::nav}" />
-<h1 class="mt-4 mb-4">Pages Overview</h1>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<body>
+<div class="container-fluid my-2">
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<h2 class="text-center mb-3">Pages Overview</h2>
+		</div>
+	</div>
+</div>
 
 <div class="container">
 	<div class="page-list" id="pageList">
@@ -39,8 +48,10 @@
 	</div>
 </div>
 
-<button class="btn btn-primary mt-4" data-bs-target="#newPageModal" data-bs-toggle="modal" type="button">New Page
-</button>
+<div class="text-center">
+	<button class="btn btn-primary mt-4" data-bs-target="#newPageModal" data-bs-toggle="modal" type="button">New Page</button>
+</div>
+
 
 <!-- New Page Modal -->
 <div class="modal" id="newPageModal" tabindex="-1">
@@ -83,6 +94,6 @@
 		</div>
 	</div>
 </div>
-
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>
