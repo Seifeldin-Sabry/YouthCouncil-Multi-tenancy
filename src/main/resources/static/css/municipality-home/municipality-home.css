@@ -21,7 +21,7 @@ h2 {
 }
 
 
-h3{
+h3,span{
     font-family: 'Bungee';
 }
 
@@ -167,4 +167,37 @@ body {
     transform: rotate(5deg);
     top: 160px;
     right: 10px;
+}
+
+
+
+
+@media (max-width: 1000px) {
+    .speak-out {
+        font-size: 0.6rem;
+    }
+
+    .left-speak-out, .right-speak-out {
+        top: 100px;
+    }
+}
+
+@media (max-width: 735px) {
+    .speak-out {
+        font-size: 0.4rem;
+    }
+
+    .left-speak-out, .right-speak-out {
+        top: 80px;
+    }
+}
+
+@media (max-width: 490px) {
+    .speak-out {
+        font-size: 0.3rem;
+    }
+
+    .left-speak-out, .right-speak-out {
+        top: 80px;
+    }
 }

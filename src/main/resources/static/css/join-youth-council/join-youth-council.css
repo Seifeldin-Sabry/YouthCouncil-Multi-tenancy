@@ -40,5 +40,6 @@ input[type="number"] {
     width: 350px;
 }
 
-
-
+#searchContainer {
+   padding-left: 50px;
+}

@@ -74,3 +74,29 @@ td {
     bottom: 80px;
     left: 20px;
 }
+
+
+#goBack {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+}
+
+
+@media screen and (min-width: 768px) {
+    #goBack {
+        bottom: 80px;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    #goBack {
+        bottom: 100px;
+    }
+}
+
+@media screen and (min-width: 1200px) {
+    #goBack {
+        bottom: 120px;
+    }
+}

@@ -1,0 +1,65 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+body {
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+h4{
+    color: black;
+    font-family: 'Bungee';
+}
+
+
+div, p, .btn {
+    font-family: 'Open Sans';
+}
+
+th, tr{
+    color: white;
+}
+
+#elementSelect,
+#elementText, #image {
+    width: 50%;
+    margin: 0 auto;
+}
+
+#addButton {
+    display: block;
+    margin: 0 auto;
+}
+
+
+button {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+button:hover {
+    background-color: #0069d9;
+    border-color: #0062cc;
+}
+
+.my-3 {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.mt-5 {
+    margin-top: 3rem;
+}
+
+#content {
+    margin-bottom: 3rem;
+}

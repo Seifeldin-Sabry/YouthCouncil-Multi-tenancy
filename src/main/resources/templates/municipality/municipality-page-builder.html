@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	  xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+	  style="min-height: 100%; position: relative">
 <head>
 	<title>Page Builder</title>
 	<!-- Include Bootstrap CSS -->
@@ -8,10 +9,18 @@
 	<!-- Include JavaScript logic -->
 	<script defer th:src="@{/js/pages/pageBuilder.js}" type="module"></script>
 	<script defer th:src="@{/js/pages/pageOrder.js}"></script>
+	<link rel="stylesheet" th:href="@{/css/municipality-pages/page-builder.css}">
 </head>
-<body class="container">
-<th:block th:insert="~{fragments/fragments::nav}" />
-<h1 th:text="${page.pageName}"></h1>
+<th:block th:insert="~{fragments/fragments::nav}"></th:block>
+<body>
+<div class="container-fluid my-2">
+	<div class="row justify-content-center">
+		<div class="col-lg-8">
+			<h2 class="text-center mb-3" th:text="${page.pageName}"></h2>
+		</div>
+	</div>
+</div>
+<!--<h1 th:text="${page.pageName}"></h1>-->
 <div class="my-3">
 	<!-- Element type selection -->
 	<select class="form-control" id="elementSelect">
@@ -28,16 +37,14 @@
 </div>
 <div class="my-3" id="imageInputContainer" hidden>
 	<input accept="image/*" class="form-control"
-		   id="image" name="image" type="file"
-	>
-	<label class="form-label" for="image">Image</label>
+		   id="image" name="image" type="file">
 </div>
 <div class="my-3">
 	<button class="btn btn-primary" id="addButton">Add</button>
 </div>
 
 <!-- The content container -->
-<div class="mt-5" id="content">
+<div class="mt-5 text-center" id="content">
 	<th:block th:each="element: ${page.elements}">
 		<p th:if="${element.elementType=='TEXT'}" th:id="${element.id}" th:data-order="${element.pageOrder}"
 		   th:data-type="${element.elementType}">
@@ -66,6 +73,6 @@
 		</div>
 	</th:block>
 </div>
-
+<div th:insert="~{fragments/fragments::footer}">Footer</div>
 </body>
 </html>
