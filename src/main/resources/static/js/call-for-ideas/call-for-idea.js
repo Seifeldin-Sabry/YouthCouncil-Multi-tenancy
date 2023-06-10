@@ -125,7 +125,7 @@ const postCall = async (event) => {
         let bootstrapModal = bootstrap.Modal.getInstance(modal);
         bootstrapModal.hide();
         const bootstrapSuccessToast = bootstrap.Toast.getOrCreateInstance(successToast);
-        successToastBody.textContent = 'Action point created successfully';
+        successToastBody.textContent = 'Call for idea created successfully';
         bootstrapSuccessToast.show();
         response.json().then(handleAddedCall)
         return;

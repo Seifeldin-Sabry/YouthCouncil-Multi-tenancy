@@ -95,10 +95,10 @@
 					<th:block th:if="${actionPoint.getLinkedIdeas().isEmpty()}">
 						<p>No Linked Ideas</p>
 					</th:block>
+					<p th:if="${!actionPoint.getLinkedIdeas().isEmpty()}" style="text-align: left">Inspired By:</p>
 					<th:block th:each="linkedIdea,iter: ${actionPoint.getLinkedIdeas()}"
 							  th:if="${!actionPoint.getLinkedIdeas().isEmpty()}"
 					>
-						<p style="text-align: left">Inspired By:</p>
 						<div class="col my-2 d-flex justify-content-evenly">
 							<div>
 								<p class="idea-text collapse show d-inline-block mr-2" id="idea-text"

@@ -1,6 +1,7 @@
 package be.kdg.finalproject.database;
 
 import be.kdg.finalproject.domain.actionpoint.ActionPoint;
+import be.kdg.finalproject.domain.actionpoint.ActionPointProposal;
 import be.kdg.finalproject.domain.activities.CalendarActivity;
 import be.kdg.finalproject.domain.form.Form;
 import be.kdg.finalproject.domain.form.RadioQuestion;
@@ -124,11 +125,53 @@ public class DatabaseSeeder {
 		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Maintenance"));
 		randomThemeWithSubThemes1.addSubTheme(new SubTheme("Competition"));
 		themeRepository.save(randomThemeWithSubThemes1);
+		Theme randomThemeWithSubThemes2 = new Theme("Park");
+		randomThemeWithSubThemes2.addSubTheme(new SubTheme("Gardening"));
+		randomThemeWithSubThemes2.addSubTheme(new SubTheme("Maintenance"));
+		themeRepository.save(randomThemeWithSubThemes2);
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 		themeRepository.save(entityFactory.createRandomThemeWithSubThemes(3));
 
 
 		// ACTION POINTS
+		// real data
+		ActionPoint realActionPoint1 = new ActionPoint("Park: Improvements",
+				"We are going to improve our park");
+		realActionPoint1.setMunicipalityId(antwerpen.getId());
+		Set<ActionPointProposal> proposals1 = new HashSet<>();
+		proposals1.add(new ActionPointProposal(
+				"Build new fences around the park with the help of Fencing Inc"));
+		proposals1.add(new ActionPointProposal(
+				"Clean up the fountain"));
+		realActionPoint1.setActionPointProposals(proposals1);
+		Set<String> images = new HashSet<>();
+		images.add("https://weknowyourdreams.com/images/park/park-07.jpg");
+		realActionPoint1.setImages(images);
+		realActionPoint1.getFollowers().add(new UserActionPointFollow(user, realActionPoint1));
+		realActionPoint1.getLikers().add(new UserActionPointLike(moderator, realActionPoint1));
+		realActionPoint1.getLikers().add(new UserActionPointLike(user, realActionPoint1));
+		realActionPoint1.setLikeCount(2);
+		realActionPoint1.setFollowCount(1);
+		realActionPoint1.setSubTheme(randomThemeWithSubThemes2.getSubThemes().get(1));
+
+		ActionPoint realActionPoint2 = new ActionPoint("Football: Gardening",
+				"We are going to improve our park");
+		realActionPoint2.setMunicipalityId(antwerpen.getId());
+		Set<ActionPointProposal> proposals2 = new HashSet<>();
+		proposals2.add(new ActionPointProposal(
+				"We want to remove weeds"));
+		proposals2.add(new ActionPointProposal(
+				"We want to reseed the grass"));
+		realActionPoint2.setActionPointProposals(proposals2);
+		Set<String> images2 = new HashSet<>();
+		images2.add("https://images.creativemarket.com/0.1.0/ps/188356/1360/904/m1/fpnw/wm1/xetxnae2sxzwataywnc6jqs2gugal7vscbcpb7jobuxaf6zgi3bs5nwwju8nswr8-.jpg?1411184917&s=296af144e0402cf50f29ced1afcced13");
+		realActionPoint2.setImages(images2);
+		realActionPoint2.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(0));
+
+		actionPointRepository.save(realActionPoint1);
+		actionPointRepository.save(realActionPoint2);
+
+		// random data
 		ActionPoint randomActionPoint1 = entityFactory.createRandomActionPoint();
 		randomActionPoint1.setMunicipalityId(antwerpen.getId());
 		randomActionPoint1.getFollowers().add(new UserActionPointFollow(user, randomActionPoint1));
@@ -152,10 +195,10 @@ public class DatabaseSeeder {
 		randomActionPoint4.setSubTheme(randomThemeWithSubThemes1.getSubThemes().get(2));
 		randomActionPoint4.setMunicipalityId(antwerpen.getId());
 
-		actionPointRepository.save(randomActionPoint1);
-		actionPointRepository.save(randomActionPoint2);
-		actionPointRepository.save(randomActionPoint3);
-		actionPointRepository.save(randomActionPoint4);
+//		actionPointRepository.save(randomActionPoint1);
+//		actionPointRepository.save(randomActionPoint2);
+//		actionPointRepository.save(randomActionPoint3);
+//		actionPointRepository.save(randomActionPoint4);
 
 		//FORMS AND QUESTIONS
 		//		formRepository.save(entityFactory.createRandomFormWithQuestions());
@@ -255,6 +298,10 @@ public class DatabaseSeeder {
 
 		callForIdeasRepository.save(callForIdeas1);
 		callForIdeasRepository.save(callForIdeas2);
+
+		realActionPoint2.setLinkedIdeas(ideas.stream().toList());
+
+		actionPointRepository.save(realActionPoint2);
 
 		Report report1 = entityFactory.createRandomReport();
 		Report report2 = entityFactory.createRandomReport();
