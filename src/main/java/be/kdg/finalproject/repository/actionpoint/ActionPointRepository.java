@@ -17,7 +17,6 @@ public interface ActionPointRepository extends CrudRepository<ActionPoint, Long>
 			SELECT ap
 			FROM ACTION_POINTS ap
 			left join fetch ap.actionPointProposals
-			left join fetch ap.linkedIdeas
 			WHERE ap.uuid = :uuid
 			AND ap.municipalityId = :municipalityId
 			""")
