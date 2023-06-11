@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @Service
@@ -103,10 +104,10 @@ public class MembershipService {
 	public boolean updateBanStatus(Long membershipId, boolean ban) {
 		Membership membership = membershipRepository.findById(membershipId)
 		                                            .orElseThrow(() -> new EntityNotFoundException("Membership not found"));
-		if(!(membership.getUser().getRole()==Role.USER)){
-			logger.debug("Moderator can only ban users, ban did not go through");
-			return false;
-		}
+//		if(!(membership.getUser().getRole()==Role.USER)){
+//			logger.debug("Moderator can only ban users, ban did not go through");
+//			return false;
+//		}
 		membership.setBanned(ban);
 		membershipRepository.save(membership);
 		return true;
