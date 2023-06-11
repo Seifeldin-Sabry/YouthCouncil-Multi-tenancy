@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css2?family=Bungee&display=swap');
+
+body {
+    overflow-x: hidden;
+    background: linear-gradient(to bottom, #476ff4, #954588)
+}
+
+
+h2 {
+    font-family: 'Bungee';
+    background-color: yellow;
+    width: 60%;
+    margin: 0 auto;
+    border: 3px solid #333;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+p, td {
+    font-family: "Open Sans";
+    color: white;
+}
+
+#dtVerticalScroll1 > tbody > tr:nth-child(1) > td.title{
+    font-family: "Open Sans";
+    color: white;
+}
+
+#dtVerticalScroll1 > tbody > tr:nth-child(1) > td.description{
+    font-family: "Open Sans";
+    color: white;
+}
+
+
+#dtVerticalScroll1 > thead > tr > th:nth-child(1), #dtVerticalScroll1 > thead > tr > th:nth-child(2) {
+    font-family: "Bungee";
+    color: white;
+}
