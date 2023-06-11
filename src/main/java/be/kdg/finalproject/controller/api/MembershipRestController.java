@@ -16,6 +16,7 @@ public class MembershipRestController {
 
 	public MembershipRestController(MembershipService membershipService) {this.membershipService = membershipService;}
 
+	@YouthCouncilAdmin
 	@Moderator
 	@PatchMapping ("/{membershipId}/ban")
 	public ResponseEntity<?> banOrUnbanMembership(@PathVariable Long membershipId, @RequestBody BanDTO banDTO) {

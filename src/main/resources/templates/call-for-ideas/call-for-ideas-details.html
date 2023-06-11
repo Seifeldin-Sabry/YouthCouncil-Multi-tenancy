@@ -212,7 +212,7 @@
 									style="font-size: small"
 							>
 								<option th:each="subTheme : ${call.theme.subThemes}" th:text="${subTheme.subThemeName}"
-										th:value="${subTheme.id}"
+										th:value="${subTheme.id}" th:if="${subTheme.active==true}"
 								>
 								</option>
 							</select>

@@ -52,7 +52,7 @@ public class CallForIdeasController {
 	public ModelAndView getCallForIdeasDashboard() {
 		ModelAndView mav = new ModelAndView("call-for-ideas/call-for-ideas-dashboard");
 		mav.addObject("calls", callForIdeasService.getCallForIdeasByMunicipalityId(MunicipalityContext.getCurrentMunicipalityId()));
-		mav.addObject("themes", themeService.getAllThemes());
+		mav.addObject("themes", themeService.getActiveThemes());
 		return mav;
 	}
 

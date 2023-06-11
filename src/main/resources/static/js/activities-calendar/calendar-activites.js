@@ -113,17 +113,22 @@ async function updateActivity(event) {
             return
         }
         dateToday = new Date()
-        if (Number(splitStart[0])<=Number(dateToday.getHours().toString())){
-            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
-            if (Number(splitStart[0])<Number(dateToday.getHours().toString())){
-                errorToastBody.textContent = 'Hour of start time has to be in the present or future';
-                bootstrapErrorToast.show();
-                return;
-            }
-            if (Number(splitStart[1])<=Number(dateToday.getMinutes().toString())){
-                errorToastBody.textContent = 'Minutes of start time has to be in the future';
-                bootstrapErrorToast.show();
-                return;
+        const dateCompare = dateToday
+        dateCompare.setHours(0,0,0,0)
+        console.log(dateCompare, 'date formatted', dateFormatted)
+        if (dateCompare.getTime()===dateFormatted.getTime()) {
+            if (Number(splitStart[0]) <= Number(dateToday.getHours().toString())) {
+                const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+                if (Number(splitStart[0]) < Number(dateToday.getHours().toString())) {
+                    errorToastBody.textContent = 'Hour of start time has to be in the present or future';
+                    bootstrapErrorToast.show();
+                    return;
+                }
+                if (Number(splitStart[1]) <= Number(dateToday.getMinutes().toString())) {
+                    errorToastBody.textContent = 'Minutes of start time has to be in the future';
+                    bootstrapErrorToast.show();
+                    return;
+                }
             }
         }
         if (Number(splitStart[0])>=Number(splitEnd[0])){
@@ -211,19 +216,25 @@ async function addActivity() {
         return
     }
     dateToday = new Date()
-    if (Number(splitStart[0])<=Number(dateToday.getHours().toString())){
-        const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
-        if (Number(splitStart[0])<Number(dateToday.getHours().toString())){
-            errorToastBody.textContent = 'Hour of start time has to be in the present or future';
-            bootstrapErrorToast.show();
-            return;
-        }
-        if (Number(splitStart[1])<=Number(dateToday.getMinutes().toString())){
-            errorToastBody.textContent = 'Minutes of start time has to be in the future';
-            bootstrapErrorToast.show();
-            return;
+    const dateCompare = dateToday
+    dateCompare.setHours(0,0,0,0)
+    console.log(dateCompare, 'date formatted', dateFormatted)
+    if (dateCompare.getTime()===dateFormatted.getTime()){
+        if (Number(splitStart[0])<=Number(dateToday.getHours().toString())){
+            const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
+            if (Number(splitStart[0])<Number(dateToday.getHours().toString())){
+                errorToastBody.textContent = 'Hour of start time has to be in the present or future';
+                bootstrapErrorToast.show();
+                return;
+            }
+            if (Number(splitStart[1])<=Number(dateToday.getMinutes().toString())){
+                errorToastBody.textContent = 'Minutes of start time has to be in the future';
+                bootstrapErrorToast.show();
+                return;
+            }
         }
     }
+
     if (Number(splitStart[0])>=Number(splitEnd[0])){
         const bootstrapErrorToast = bootstrap.Toast.getOrCreateInstance(errorToast);
         if (Number(splitStart[0])>Number(splitEnd[0])){
@@ -269,42 +280,6 @@ async function addActivity() {
     }
 
 }
-
-// function handleAddedActivity(activity) {
-//     console.log("ACTIVITY ADDED!")
-//     // Update the activity with the new data
-//     // Get the reference to the ul element
-//     const activityList = document.querySelector('.timeline-1');
-//
-//     // Set the innerHTML of the new activity
-//     activityList.innerHTML += `
-//    <li class="event" id="${activity.id}">
-//     <div class="d-flex gap-3">
-//         <button type="button" class="btn btn-outline-primary editButton" id="edit-activity-${activity.id}" data-activity-id="${activity.id}">Edit</button>
-//         <button type="button" class="btn btn-outline-danger deleteButtonModal" data-bs-toggle="modal"
-//           data-bs-target="#deleteModal" id="delete-activity-${activity.id}" data-activity-id="${activity.id}">Delete
-//         </button>
-//     </div>
-//     <div class="d-flex justify-content-between mb-3">
-//         <h4 class="mb-3" id="title">${activity.title}</h4>
-//     </div>
-//     <p class="time">
-//         <span class="date" id="date">${activity.date}</span>
-//         <br />
-//         <div class="form-group start-time">
-//             <label for="start-time">From:</label>
-//             <span id="start-time">${activity.startTime}</span>
-//         </div>
-//         <div class="form-group end-time">
-//             <label for="end-time">Till:</label>
-//             <span id="end-time">${activity.endTime}</span>
-//         </div>
-//     </p>
-//     <p id="description">${activity.description}</p>
-//    </li>
-// `;
-//     addEventListeners()
-// }
 
 
 function handleAddedActivity(activity) {
